@@ -1,8 +1,9 @@
+/* ------DEFAULT APP CONSTANTS------ */
 export const DRAWER_WIDTH = 430;
 export const DEFAULT_THEME_DIRECTION = 'rtl';
 export const FORM_CONTROL_MIN_WIDTH = 120;
 export const LOGO_SIZE = '48px';
-export const DEFAULT_HEADER_VISIBLE = true;
+export const DEFAULT_HEADER_VISIBLE = false;
 export const MAXIMUM_Z_INDEX = 999999;
 
 export const RADIATION_MODES = {
@@ -45,3 +46,25 @@ export const CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE = 1000;
 export const METHANE_CONCENTRATION_MAX_VALUE = 10;
 export const WATER_CONCENTRATION_MAX_VALUE = 100;
 export const GREENHOUSE_TOTAL_EFFECT_MAX_VALUE = 100;
+export const BACKGROUND_COLOR = 'lightgrey';
+
+export const ATMOSPHERE = {
+  height: 0.2,
+  width: 1,
+  colorRange: [0, '#303030', 1, '#444444'],
+};
+export const SKY = {
+  height: 0.65,
+  width: 1,
+  colorRange: [0, '#A4C8EA', 1, '#C8DEF2'],
+};
+export const SEA = {
+  height: 0.15,
+  width: 0.4,
+  colorRange: [0, '#406bca', 1, '#6688D4'],
+};
+export const GROUND = {
+  height: 0.15,
+  width: 0.6,
+  colorRange: [0, '#50A032', 1, '#84BC6F'],
+};
