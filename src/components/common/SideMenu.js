@@ -67,16 +67,6 @@ class SideMenu extends React.Component {
     );
   };
 
-  renderDescription = () => {
-    const { t } = this.props;
-    return (
-      <>
-        <Typography variant="h6">{t('Description')}</Typography>
-        {t('Welcome to the Graasp App Starter Lab Kit')}
-      </>
-    );
-  };
-
   render() {
     const { classes, showSideMenu } = this.props;
 
@@ -92,9 +82,7 @@ class SideMenu extends React.Component {
           }}
         >
           {this.renderDrawerHeader()}
-          <div className={classes.contentWrapper}>
-            {this.renderDescription()}
-          </div>
+          <div className={classes.contentWrapper} />
         </Drawer>
       </>
     );
