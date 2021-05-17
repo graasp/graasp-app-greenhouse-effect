@@ -7,20 +7,35 @@ const Sea = () => {
   const { height: stageHeight, width: stageWidth } = useSelector(
     ({ layout }) => layout.lab.stageDimensions,
   );
-  const { height: atmosphereHeight } = ATMOSPHERE;
-  const { height: skyHeight } = SKY;
-  const { height: seaHeight, width: seaWidth, colorRange: seaColorRange } = SEA;
+
+  // sea dimensions in /constants.js are stated as a percentage of canvas dimensions
+  const {
+    height: seaHeightPercentage,
+    width: seaWidthPercentage,
+    colorRange: seaColorRange,
+  } = SEA;
+
+  // pixel dimensions of sea
+  const seaWidth = stageWidth * seaWidthPercentage;
+  const seaHeight = stageHeight * seaHeightPercentage;
+
+  // dimensions of atmosphere and sky required to position sea
+  const { height: atmosphereHeightPercentage } = ATMOSPHERE;
+  const { height: skyHeightPercentage } = SKY;
+  const atmosphereHeight = stageHeight * atmosphereHeightPercentage;
+  const skyHeight = stageHeight * skyHeightPercentage;
+  const atmosphereAndSkyHeight = atmosphereHeight + skyHeight;
 
   return (
     <Rect
       x={0}
-      y={stageHeight * (atmosphereHeight + skyHeight)}
-      height={stageHeight * seaHeight}
-      width={stageWidth * seaWidth}
+      y={atmosphereAndSkyHeight}
+      height={seaHeight}
+      width={seaWidth}
       fillLinearGradientStartPoint={{ x: 0, y: 0 }}
       fillLinearGradientEndPoint={{
         x: 0,
-        y: stageHeight * seaHeight,
+        y: seaHeight,
       }}
       fillLinearGradientColorStops={seaColorRange}
     />
