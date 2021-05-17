@@ -7,26 +7,38 @@ const Ground = () => {
   const { height: stageHeight, width: stageWidth } = useSelector(
     ({ layout }) => layout.lab.stageDimensions,
   );
-  const { height: atmosphereHeight } = ATMOSPHERE;
-  const { height: skyHeight } = SKY;
-  const { width: seaWidth } = SEA;
+
+  // ground dimensions in /constants.js are stated as a percentage of canvas dimensions
   const {
-    height: groundHeight,
-    width: groundWidth,
+    height: groundHeightPercentage,
+    width: groundWidthPercentage,
     colorRange: groundColorRange,
   } = GROUND;
 
+  // pixel dimensions of ground
+  const groundHeight = stageHeight * groundHeightPercentage;
+  const groundWidth = stageWidth * groundWidthPercentage;
+
+  // dimensions of other canvas elements required to position ground
+  const { height: atmosphereHeightPercentage } = ATMOSPHERE;
+  const { height: skyHeightPercentage } = SKY;
+  const { width: seaWidthPercentage } = SEA;
+  const atmosphereHeight = stageHeight * atmosphereHeightPercentage;
+  const skyHeight = stageHeight * skyHeightPercentage;
+  const atmosphereAndSkyHeight = atmosphereHeight + skyHeight;
+  const seaWidth = stageWidth * seaWidthPercentage;
+
   return (
     <Rect
-      x={stageWidth * seaWidth}
-      y={stageHeight * (atmosphereHeight + skyHeight)}
-      height={stageHeight * groundHeight}
-      width={stageWidth * groundWidth}
+      x={seaWidth}
+      y={atmosphereAndSkyHeight}
+      height={groundHeight}
+      width={groundWidth}
       fillLinearGradientStartPoint={{
         x: 0,
         y: 0,
       }}
-      fillLinearGradientEndPoint={{ x: 0, y: stageHeight * groundHeight }}
+      fillLinearGradientEndPoint={{ x: 0, y: groundHeight }}
       fillLinearGradientColorStops={groundColorRange}
     />
   );

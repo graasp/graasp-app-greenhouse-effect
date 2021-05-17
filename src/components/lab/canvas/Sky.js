@@ -8,17 +8,29 @@ const Sky = () => {
     ({ layout }) => layout.lab.stageDimensions,
   );
 
-  const { height: atmosphereHeight } = ATMOSPHERE;
-  const { height: skyHeight, width: skyWidth, colorRange: skyColorRange } = SKY;
+  // sky dimensions in /constants.js are stated as a percentage of canvas dimensions
+  const {
+    height: skyHeightPercentage,
+    width: skyWidthPercentage,
+    colorRange: skyColorRange,
+  } = SKY;
+
+  // pixel dimensions of sky
+  const skyHeight = stageHeight * skyHeightPercentage;
+  const skyWidth = stageWidth * skyWidthPercentage;
+
+  // atmosphere height is required to begin the sky where the atmosphere ends
+  const { height: atmosphereHeightPercentage } = ATMOSPHERE;
+  const atmosphereHeight = stageHeight * atmosphereHeightPercentage;
 
   return (
     <Rect
       x={0}
-      y={stageHeight * atmosphereHeight}
-      width={stageWidth * skyWidth}
-      height={stageHeight * skyHeight}
+      y={atmosphereHeight}
+      height={skyHeight}
+      width={skyWidth}
       fillLinearGradientStartPoint={{ x: 0, y: 0 }}
-      fillLinearGradientEndPoint={{ x: 0, y: stageHeight * skyHeight }}
+      fillLinearGradientEndPoint={{ x: 0, y: skyHeight }}
       fillLinearGradientColorStops={skyColorRange}
     />
   );

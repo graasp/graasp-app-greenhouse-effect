@@ -68,3 +68,11 @@ export const GROUND = {
   width: 0.6,
   colorRange: [0, '#50A032', 1, '#84BC6F'],
 };
+
+export const SUN_CENTER_X = 0.25;
+export const SUN_RAYS_RADIUS = 0.4;
+export const SUN_RAYS_NUMBER_OF_RAYS = 10;
+export const SUN_RADIUS = 0.25;
+export const SUN_FILL = 'yellow';
+export const SUN_BORDER = 2;
+export const SUN_BORDER_COLOR = '#444444';
