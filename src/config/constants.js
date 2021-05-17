@@ -69,7 +69,7 @@ export const GROUND = {
   colorRange: [0, '#50A032', 1, '#84BC6F'],
 };
 
-export const SUN_CENTER_X = 0.25;
+export const SUN_CENTER_X = 0.3;
 export const SUN_RAYS_RADIUS = 0.4;
 export const SUN_RAYS_NUMBER_OF_RAYS = 10;
 export const SUN_RADIUS = 0.25;
@@ -92,3 +92,13 @@ export const ICE_CAP_ROW_INDENTS = [
 export const ICE_CAP_FILL = 'whitesmoke';
 export const ICE_CAP_BORDER_COLOR = 'darkblue';
 export const ICE_CAP_BORDER_WIDTH = 0.5;
+
+export const CLOUD_CENTRAL_CIRCLE_RADIUS = 0.1;
+export const CLOUD_RESPONSIVE_ADJUSTMENT_FACTOR = 3;
+export const CLOUD_CENTRAL_CIRCLE_X = 0.3;
+export const CLOUD_CENTRAL_CIRCLE_Y = 0.3;
+export const CLOUD_ELLIPSE_RADIUS_X = 2;
+export const CLOUD_ELLIPSE_RADIUS_Y = 0.75;
+export const CLOUD_FILL = 'white';
+export const CLOUD_BORDER_COLOR = 'black';
+export const CLOUD_BORDER_WIDTH = 0.5;
