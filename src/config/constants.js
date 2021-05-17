@@ -76,3 +76,19 @@ export const SUN_RADIUS = 0.25;
 export const SUN_FILL = 'yellow';
 export const SUN_BORDER = 2;
 export const SUN_BORDER_COLOR = '#444444';
+
+// **TODO**: Add some explanations of these constants
+export const NUMBER_OF_ICE_CAPS_IN_ROW = 3;
+export const NUMBER_OF_ICE_CAP_ROWS = 2;
+export const ICE_CAP_BASE = 0.15;
+export const ICE_CAP_HEIGHT = 0.5;
+export const ICE_CAP_TRAPEZIUM_INDENT = 0.15;
+export const X_DISTANCE_BETWEEN_ICE_CAPS = 0.05;
+export const Y_DISTANCE_BETWEEN_ICE_CAPS = 0.075;
+export const ICE_CAP_ROW_INDENTS = [
+  { x: 0.3, y: 0.05 },
+  { x: 0.35, y: 0.7 },
+];
+export const ICE_CAP_FILL = 'whitesmoke';
+export const ICE_CAP_BORDER_COLOR = 'darkblue';
+export const ICE_CAP_BORDER_WIDTH = 0.5;
