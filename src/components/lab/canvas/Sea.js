@@ -1,7 +1,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Rect } from 'react-konva';
+import { Rect, Group } from 'react-konva';
 import { ATMOSPHERE, SKY, SEA } from '../../../config/constants';
+import IceCaps from './IceCaps';
 
 const Sea = () => {
   const { height: stageHeight, width: stageWidth } = useSelector(
@@ -27,18 +28,25 @@ const Sea = () => {
   const atmosphereAndSkyHeight = atmosphereHeight + skyHeight;
 
   return (
-    <Rect
-      x={0}
-      y={atmosphereAndSkyHeight}
-      height={seaHeight}
-      width={seaWidth}
-      fillLinearGradientStartPoint={{ x: 0, y: 0 }}
-      fillLinearGradientEndPoint={{
-        x: 0,
-        y: seaHeight,
-      }}
-      fillLinearGradientColorStops={seaColorRange}
-    />
+    <Group>
+      <Rect
+        x={0}
+        y={atmosphereAndSkyHeight}
+        height={seaHeight}
+        width={seaWidth}
+        fillLinearGradientStartPoint={{ x: 0, y: 0 }}
+        fillLinearGradientEndPoint={{
+          x: 0,
+          y: seaHeight,
+        }}
+        fillLinearGradientColorStops={seaColorRange}
+      />
+      <IceCaps
+        seaHeight={seaHeight}
+        seaWidth={seaWidth}
+        seaBeginsY={atmosphereAndSkyHeight}
+      />
+    </Group>
   );
 };
 
