@@ -1,7 +1,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Rect } from 'react-konva';
+import { Rect, Group } from 'react-konva';
 import { ATMOSPHERE, SKY } from '../../../config/constants';
+import Cloud from './Cloud';
 
 const Sky = () => {
   const { height: stageHeight, width: stageWidth } = useSelector(
@@ -24,15 +25,22 @@ const Sky = () => {
   const atmosphereHeight = stageHeight * atmosphereHeightPercentage;
 
   return (
-    <Rect
-      x={0}
-      y={atmosphereHeight}
-      height={skyHeight}
-      width={skyWidth}
-      fillLinearGradientStartPoint={{ x: 0, y: 0 }}
-      fillLinearGradientEndPoint={{ x: 0, y: skyHeight }}
-      fillLinearGradientColorStops={skyColorRange}
-    />
+    <Group>
+      <Rect
+        x={0}
+        y={atmosphereHeight}
+        height={skyHeight}
+        width={skyWidth}
+        fillLinearGradientStartPoint={{ x: 0, y: 0 }}
+        fillLinearGradientEndPoint={{ x: 0, y: skyHeight }}
+        fillLinearGradientColorStops={skyColorRange}
+      />
+      <Cloud
+        skyHeight={skyHeight}
+        skyWidth={skyWidth}
+        skyBeginsY={atmosphereHeight}
+      />
+    </Group>
   );
 };
 

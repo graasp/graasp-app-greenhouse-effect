@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 import { ICE_CAP_TRAPEZIUM_INDENT } from '../config/constants';
 
 // ice caps are trapezium-shaped, but there is no native trapezium in konva
@@ -26,4 +25,36 @@ export const generateIceCapPoints = (iceCapBaseWidth, iceCapHeight) => {
     ...trapeziumPointTwo,
     ...trapeziumPointThree,
   ];
+};
+
+export const generateCloudCircles = (centralCircleRadius, centralCircleX) => {
+  const adjacentCircleRadius = centralCircleRadius * 0.85;
+  const peripheralCircleRadius = centralCircleRadius * 0.5;
+
+  const circleOne = {
+    radius: peripheralCircleRadius,
+    x: centralCircleX - centralCircleRadius - adjacentCircleRadius,
+  };
+
+  const circleTwo = {
+    radius: adjacentCircleRadius,
+    x: centralCircleX - centralCircleRadius,
+  };
+
+  const circleThree = {
+    radius: centralCircleRadius,
+    x: centralCircleX,
+  };
+
+  const circleFour = {
+    radius: adjacentCircleRadius,
+    x: centralCircleX + centralCircleRadius,
+  };
+
+  const circleFive = {
+    radius: peripheralCircleRadius,
+    x: centralCircleX + centralCircleRadius + adjacentCircleRadius,
+  };
+
+  return [circleOne, circleTwo, circleThree, circleFour, circleFive];
 };
