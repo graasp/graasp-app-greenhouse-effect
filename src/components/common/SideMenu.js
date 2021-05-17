@@ -11,6 +11,11 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import { toggleSideMenu } from '../../actions';
 import { DRAWER_WIDTH, DEFAULT_THEME_DIRECTION } from '../../config/constants';
+import RadiationModeSwitch from './RadiationModeSwitch';
+import FeedbacksSettings from './FeedbacksSettings';
+import GreenhouseEffectSettings from './GreenhouseEffectSettings';
+import AlbedoSlider from './AlbedoSlider';
+import SimulationMode from './SimulationMode';
 
 const styles = (theme) => ({
   drawerPaper: {
@@ -93,7 +98,11 @@ class SideMenu extends React.Component {
         >
           {this.renderDrawerHeader()}
           <div className={classes.contentWrapper}>
-            {this.renderDescription()}
+            <RadiationModeSwitch />
+            <SimulationMode />
+            <AlbedoSlider />
+            <GreenhouseEffectSettings />
+            <FeedbacksSettings />
           </div>
         </Drawer>
       </>
