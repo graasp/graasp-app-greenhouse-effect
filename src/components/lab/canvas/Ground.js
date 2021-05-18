@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { Rect, Group } from 'react-konva';
 import { ATMOSPHERE, SKY, SEA, GROUND } from '../../../config/constants';
 import Road from './Road';
+import HouseholdRow from './household/HouseholdRow';
 
 const Ground = () => {
   const { height: stageHeight, width: stageWidth } = useSelector(
@@ -44,6 +45,12 @@ const Ground = () => {
         fillLinearGradientColorStops={groundColorRange}
       />
       <Road
+        groundHeight={groundHeight}
+        groundWidth={groundWidth}
+        groundBeginsX={seaWidth}
+        groundBeginsY={atmosphereAndSkyHeight}
+      />
+      <HouseholdRow
         groundHeight={groundHeight}
         groundWidth={groundWidth}
         groundBeginsX={seaWidth}

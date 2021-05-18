@@ -109,3 +109,21 @@ export const ROAD_HEIGHT = 0.3;
 export const ROAD_FILL = 'grey';
 export const ROAD_LINE_COLOR = 'white';
 export const ROAD_LINE_DASH = [10, 10];
+
+// **TODO**: Add some explanations
+export const DEFAULT_NUMBER_OF_HOUSEHOLDS_IN_ROW = 3;
+export const HOUSEHOLD_FRONT_WIDTH = 0.035;
+export const HOUSEHOLD_SIDE_WIDTH = 0.065;
+export const HOUSEHOLD_HEIGHT = 0.25;
+export const HOUSEHOLD_ROOF_HEIGHT = 0.12;
+export const HOUSEHOLD_FRONT_COLOR = '#505050';
+export const HOUSEHOLD_SIDE_COLOR = '#808080';
+export const HOUSEHOLD_FRONT_ROOF_COLOR = '#8B8000';
+export const HOUSEHOLD_SIDE_ROOF_COLOR = '#C2B280';
+export const HOUSEHOLD_DOOR_WIDTH = 0.2;
+export const HOUSEHOLD_DOOR_HEIGHT = 0.5;
+export const HOUSEHOLD_DOOR_FILL = '#4B371C';
+export const HOUSEHOLD_ROW_BEGINS_Y = 0.25;
+export const HOUSEHOLD_ROW_BEGINS_X = 0.625;
+export const X_DISTANCE_BETWEEN_HOUSEHOLDS = 0.025;
+export const HOUSEHOLD_DOOR_BEGINS_X = 0.15;
