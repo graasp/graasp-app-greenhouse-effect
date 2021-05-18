@@ -1,7 +1,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Rect } from 'react-konva';
+import { Rect, Group } from 'react-konva';
 import { ATMOSPHERE, SKY, SEA, GROUND } from '../../../config/constants';
+import Road from './Road';
 
 const Ground = () => {
   const { height: stageHeight, width: stageWidth } = useSelector(
@@ -29,18 +30,26 @@ const Ground = () => {
   const seaWidth = stageWidth * seaWidthPercentage;
 
   return (
-    <Rect
-      x={seaWidth}
-      y={atmosphereAndSkyHeight}
-      height={groundHeight}
-      width={groundWidth}
-      fillLinearGradientStartPoint={{
-        x: 0,
-        y: 0,
-      }}
-      fillLinearGradientEndPoint={{ x: 0, y: groundHeight }}
-      fillLinearGradientColorStops={groundColorRange}
-    />
+    <Group>
+      <Rect
+        x={seaWidth}
+        y={atmosphereAndSkyHeight}
+        height={groundHeight}
+        width={groundWidth}
+        fillLinearGradientStartPoint={{
+          x: 0,
+          y: 0,
+        }}
+        fillLinearGradientEndPoint={{ x: 0, y: groundHeight }}
+        fillLinearGradientColorStops={groundColorRange}
+      />
+      <Road
+        groundHeight={groundHeight}
+        groundWidth={groundWidth}
+        groundBeginsX={seaWidth}
+        groundBeginsY={atmosphereAndSkyHeight}
+      />
+    </Group>
   );
 };
 
