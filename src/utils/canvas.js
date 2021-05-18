@@ -58,3 +58,33 @@ export const generateCloudCircles = (centralCircleRadius, centralCircleX) => {
 
   return [circleOne, circleTwo, circleThree, circleFour, circleFive];
 };
+
+// **TODO**: Add some explanations of how this works
+export const generateHouseholdFrontRoofPoints = (
+  householdFrontWidth,
+  roofHeight,
+) => {
+  const frontRoofPointOne = [0, 0];
+  const frontRoofPointTwo = [householdFrontWidth, 0];
+  const frontRoofPointThree = [householdFrontWidth / 2, -roofHeight];
+  return [...frontRoofPointOne, ...frontRoofPointTwo, ...frontRoofPointThree];
+};
+
+// **TODO**: Add some explanations of how this works
+export const generateHouseholdSideRoofPoints = (
+  householdFrontWidth,
+  householdSideWidth,
+  roofHeight,
+) => {
+  const sideRoofIndent = householdFrontWidth / 2;
+  const sideRoofPointOne = [0, 0];
+  const sideRoofPointTwo = [householdSideWidth, 0];
+  const sideRoofPointThree = [householdSideWidth - sideRoofIndent, -roofHeight];
+  const sideRoofPointFour = [-sideRoofIndent, -roofHeight];
+  return [
+    ...sideRoofPointOne,
+    ...sideRoofPointTwo,
+    ...sideRoofPointThree,
+    ...sideRoofPointFour,
+  ];
+};
