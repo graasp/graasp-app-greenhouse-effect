@@ -102,3 +102,10 @@ export const CLOUD_ELLIPSE_RADIUS_Y = 0.75;
 export const CLOUD_FILL = 'white';
 export const CLOUD_BORDER_COLOR = 'black';
 export const CLOUD_BORDER_WIDTH = 0.5;
+
+export const ROAD_BEGINS_X = 0.1;
+export const ROAD_BEGINS_Y = 0.6;
+export const ROAD_HEIGHT = 0.3;
+export const ROAD_FILL = 'grey';
+export const ROAD_LINE_COLOR = 'white';
+export const ROAD_LINE_DASH = [10, 10];
