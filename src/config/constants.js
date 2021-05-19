@@ -51,6 +51,7 @@ export const ICE_CAP_ROW_INDENTS = [
 export const ICE_CAP_FILL = 'whitesmoke';
 export const ICE_CAP_BORDER_COLOR = 'darkblue';
 export const ICE_CAP_BORDER_WIDTH = 0.5;
+export const ICE_CAP_LINES_TENSION = 0.1;
 
 export const CLOUD_CENTRAL_CIRCLE_RADIUS = 0.1;
 export const CLOUD_RESPONSIVE_ADJUSTMENT_FACTOR = 3;
@@ -112,3 +113,13 @@ export const FACTORY_CHIMNEY_BEGINS_X = 0.75;
 export const SMOKE_CIRCLE_RADIUS = 1.25;
 export const SMOKE_INDENT_Y = 0.05;
 export const SMOKE_FILL = 'grey';
+
+export const MOUNTAIN_FILL = '#9A7B4F';
+export const MOUNTAIN_LINES_TENSION = 0.3;
+export const MOUNTAIN_RANGE_BEGINS_X = 0.6;
+export const FULL_MOUNTAIN_WIDTH = 0.3;
+export const FULL_MOUNTAIN_HEIGHT = 0.75;
+export const HALF_MOUNTAIN_WIDTH = 0.15;
+export const HALF_MOUNTAIN_HEIGHT = 1.35;
+export const MOUNTAINS_INDENT_Y = 0.075;
+export const FULL_MOUNTAIN_X_INDENT = 0.8;

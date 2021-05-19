@@ -5,6 +5,7 @@ import {
   ICE_CAP_BORDER_COLOR,
   ICE_CAP_BORDER_WIDTH,
   ICE_CAP_FILL,
+  ICE_CAP_LINES_TENSION,
 } from '../../../config/constants';
 
 const IceCap = ({ x, y, iceCapPoints }) => {
@@ -17,6 +18,7 @@ const IceCap = ({ x, y, iceCapPoints }) => {
       fill={ICE_CAP_FILL}
       stroke={ICE_CAP_BORDER_COLOR}
       strokeWidth={ICE_CAP_BORDER_WIDTH}
+      tension={ICE_CAP_LINES_TENSION}
     />
   );
 };

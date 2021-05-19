@@ -120,3 +120,24 @@ export const generateSmokeCirclePoints = (
 
   return [...rowOne, ...rowTwo, ...rowThree];
 };
+
+export const generateFullMountainPoints = (mountainWidth, mountainHeight) => {
+  const mountainPointOne = [0, 0];
+  const mountainPointTwo = [mountainWidth / 2, -mountainHeight];
+  const mountainPointThree = [mountainWidth, 0];
+  return [...mountainPointOne, ...mountainPointTwo, ...mountainPointThree];
+};
+
+export const generateHalfMountainPoints = (
+  halfMountainWidth,
+  halfMountainHeight,
+) => {
+  const halfMountainPointOne = [0, 0];
+  const halfMountainPointTwo = [halfMountainWidth, 0];
+  const halfMountainPointThree = [halfMountainWidth, -halfMountainHeight];
+  return [
+    ...halfMountainPointOne,
+    ...halfMountainPointTwo,
+    ...halfMountainPointThree,
+  ];
+};
