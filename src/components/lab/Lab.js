@@ -6,6 +6,7 @@ import { Stage, Layer } from 'react-konva';
 import { BACKGROUND_COLOR } from '../../config/constants';
 import { setStageDimensions } from '../../actions';
 import CanvasLayout from './canvas/CanvasLayout';
+import Radiations from '../common/RadiationManager';
 
 const styles = () => ({
   container: {
@@ -74,6 +75,9 @@ class Lab extends Component {
               <Provider store={store}>
                 <Layer>
                   <CanvasLayout />
+                </Layer>
+                <Layer>
+                  <Radiations />
                 </Layer>
               </Provider>
             </Stage>
