@@ -4,6 +4,7 @@ import { Rect, Group } from 'react-konva';
 import { ATMOSPHERE, SKY, SEA, GROUND } from '../../../config/constants';
 import Road from './Road';
 import HouseholdRow from './household/HouseholdRow';
+import FactoryRow from './factory/FactoryRow';
 
 const Ground = () => {
   const { height: stageHeight, width: stageWidth } = useSelector(
@@ -45,6 +46,12 @@ const Ground = () => {
         fillLinearGradientColorStops={groundColorRange}
       />
       <Road
+        groundHeight={groundHeight}
+        groundWidth={groundWidth}
+        groundBeginsX={seaWidth}
+        groundBeginsY={atmosphereAndSkyHeight}
+      />
+      <FactoryRow
         groundHeight={groundHeight}
         groundWidth={groundWidth}
         groundBeginsX={seaWidth}
