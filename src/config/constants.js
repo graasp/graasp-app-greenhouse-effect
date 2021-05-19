@@ -164,3 +164,12 @@ export const HALF_MOUNTAIN_WIDTH = 0.15;
 export const HALF_MOUNTAIN_HEIGHT = 1.35;
 export const MOUNTAINS_INDENT_Y = 0.075;
 export const FULL_MOUNTAIN_X_INDENT = 0.8;
+
+export const NUMBER_OF_TREES_IN_ROW = 7;
+export const TREE_WIDTH = 0.01;
+export const TREE_HEIGHT = 0.125;
+export const TREE_CIRCLE_RADIUS = 1;
+export const TREE_ROW_BEGINS_X = 0.05;
+export const X_DISTANCE_BETWEEN_TREES = 0.025;
+export const TREE_FILL = '#432616';
+export const TREE_CIRCLES_FILL = '#4F7942';

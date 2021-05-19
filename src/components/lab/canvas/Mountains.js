@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Line, Group } from 'react-konva';
@@ -21,7 +20,6 @@ const Mountains = ({
   stageWidth,
   groundHeight,
   groundWidth,
-  groundBeginsX,
   groundBeginsY,
 }) => {
   const fullMountainWidth = FULL_MOUNTAIN_WIDTH * groundWidth;
@@ -70,7 +68,6 @@ Mountains.propTypes = {
   stageWidth: PropTypes.number.isRequired,
   groundHeight: PropTypes.number.isRequired,
   groundWidth: PropTypes.number.isRequired,
-  groundBeginsX: PropTypes.number.isRequired,
   groundBeginsY: PropTypes.number.isRequired,
 };
 

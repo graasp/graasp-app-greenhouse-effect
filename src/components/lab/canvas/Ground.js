@@ -6,6 +6,7 @@ import Road from './Road';
 import HouseholdRow from './household/HouseholdRow';
 import FactoryRow from './factory/FactoryRow';
 import Mountains from './Mountains';
+import TreeRow from './TreeRow';
 
 const Ground = () => {
   const { height: stageHeight, width: stageWidth } = useSelector(
@@ -37,9 +38,14 @@ const Ground = () => {
       <Mountains
         groundHeight={groundHeight}
         groundWidth={groundWidth}
-        groundBeginsX={seaWidth}
         groundBeginsY={atmosphereAndSkyHeight}
         stageWidth={stageWidth}
+      />
+      <TreeRow
+        groundHeight={groundHeight}
+        groundWidth={groundWidth}
+        groundBeginsX={seaWidth}
+        groundBeginsY={atmosphereAndSkyHeight}
       />
       <Rect
         x={seaWidth}
