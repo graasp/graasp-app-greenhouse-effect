@@ -5,6 +5,7 @@ import { ATMOSPHERE, SKY, SEA, GROUND } from '../../../config/constants';
 import Road from './Road';
 import HouseholdRow from './household/HouseholdRow';
 import FactoryRow from './factory/FactoryRow';
+import Mountains from './Mountains';
 
 const Ground = () => {
   const { height: stageHeight, width: stageWidth } = useSelector(
@@ -33,6 +34,13 @@ const Ground = () => {
 
   return (
     <Group>
+      <Mountains
+        groundHeight={groundHeight}
+        groundWidth={groundWidth}
+        groundBeginsX={seaWidth}
+        groundBeginsY={atmosphereAndSkyHeight}
+        stageWidth={stageWidth}
+      />
       <Rect
         x={seaWidth}
         y={atmosphereAndSkyHeight}
