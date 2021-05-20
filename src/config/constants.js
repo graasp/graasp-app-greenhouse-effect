@@ -104,7 +104,7 @@ export const CLOUD_FILL = 'white';
 export const CLOUD_BORDER_COLOR = 'black';
 export const CLOUD_BORDER_WIDTH = 0.5;
 
-export const ROAD_BEGINS_X = 0.1;
+export const ROAD_BEGINS_X = 0.18;
 export const ROAD_BEGINS_Y = 0.6;
 export const ROAD_HEIGHT = 0.3;
 export const ROAD_FILL = 'grey';
@@ -180,3 +180,7 @@ export const TREE_CIRCLES_FILL = '#4F7942';
 export const DEFAULT_ICE_COVER = 0.5;
 export const ICE_COVER_FILL = '#F5F5F5';
 export const ICE_COVER_LINES_TENSION = 0.1;
+
+export const PERMAFROST_WIDTH = 0.125;
+export const PERMAFROST_HEIGHT = 0.7;
+export const PERMAFROST_FILL = '#F5F5F5';

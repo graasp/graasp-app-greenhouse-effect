@@ -7,6 +7,7 @@ import HouseholdRow from './household/HouseholdRow';
 import FactoryRow from './factory/FactoryRow';
 import Mountains from './Mountains';
 import TreeRow from './TreeRow';
+import Permafrost from './Permafrost';
 
 const Ground = () => {
   const { height: stageHeight, width: stageWidth } = useSelector(
@@ -72,6 +73,12 @@ const Ground = () => {
         groundBeginsY={atmosphereAndSkyHeight}
       />
       <HouseholdRow
+        groundHeight={groundHeight}
+        groundWidth={groundWidth}
+        groundBeginsX={seaWidth}
+        groundBeginsY={atmosphereAndSkyHeight}
+      />
+      <Permafrost
         groundHeight={groundHeight}
         groundWidth={groundWidth}
         groundBeginsX={seaWidth}

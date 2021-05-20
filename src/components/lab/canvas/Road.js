@@ -11,7 +11,7 @@ import {
 } from '../../../config/constants';
 
 const Road = ({ groundHeight, groundWidth, groundBeginsX, groundBeginsY }) => {
-  const roadBeginsX = groundBeginsX + ROAD_BEGINS_X * groundBeginsX;
+  const roadBeginsX = groundBeginsX + ROAD_BEGINS_X * groundWidth;
   const roadBeginsY = groundBeginsY + ROAD_BEGINS_Y * groundHeight;
   const roadHeight = ROAD_HEIGHT * groundHeight;
   const roadWidth = groundWidth;
