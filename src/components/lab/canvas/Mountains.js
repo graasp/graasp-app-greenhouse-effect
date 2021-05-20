@@ -6,15 +6,19 @@ import {
   generateHalfMountainPoints,
 } from '../../../utils/canvas';
 import {
+  DEFAULT_ICE_COVER,
   FULL_MOUNTAIN_HEIGHT,
+  FULL_MOUNTAIN,
   FULL_MOUNTAIN_WIDTH,
   FULL_MOUNTAIN_X_INDENT,
   HALF_MOUNTAIN_HEIGHT,
+  HALF_MOUNTAIN,
   HALF_MOUNTAIN_WIDTH,
   MOUNTAINS_INDENT_Y,
   MOUNTAIN_FILL,
   MOUNTAIN_LINES_TENSION,
 } from '../../../config/constants';
+import IceCover from './IceCover';
 
 const Mountains = ({
   stageWidth,
@@ -33,6 +37,12 @@ const Mountains = ({
     fullMountainBeginsX + FULL_MOUNTAIN_X_INDENT * fullMountainWidth;
   const mountainsBeginY = groundBeginsY + MOUNTAINS_INDENT_Y * groundHeight;
 
+  const fullMountainPeakX = fullMountainBeginsX + fullMountainWidth / 2;
+  const fullMountainPeakY = mountainsBeginY - fullMountainHeight;
+
+  const halfMountainPeakX = halfMountainBeginsX + halfMountainWidth;
+  const halfMountainPeakY = mountainsBeginY - halfMountainHeight;
+
   const fullMountainPoints = generateFullMountainPoints(
     fullMountainWidth,
     fullMountainHeight,
@@ -44,6 +54,8 @@ const Mountains = ({
 
   return (
     <Group>
+      {/* TODO: Separate the Lines out into a separate Mountain component so this component is cleaner */}
+      {/* Full mountain + ice cover */}
       <Line
         x={fullMountainBeginsX}
         y={mountainsBeginY}
@@ -51,7 +63,17 @@ const Mountains = ({
         fill={MOUNTAIN_FILL}
         tension={MOUNTAIN_LINES_TENSION}
         closed
+        draggable
       />
+      <IceCover
+        mountainType={FULL_MOUNTAIN}
+        mountainWidth={fullMountainWidth}
+        mountainHeight={fullMountainHeight}
+        iceCover={DEFAULT_ICE_COVER}
+        mountainPeakX={fullMountainPeakX}
+        mountainPeakY={fullMountainPeakY}
+      />
+      {/* Half mountain + ice cover */}
       <Line
         x={halfMountainBeginsX}
         y={mountainsBeginY}
@@ -59,6 +81,14 @@ const Mountains = ({
         fill={MOUNTAIN_FILL}
         tension={MOUNTAIN_LINES_TENSION}
         closed
+      />
+      <IceCover
+        mountainType={HALF_MOUNTAIN}
+        mountainWidth={halfMountainWidth}
+        mountainHeight={halfMountainHeight}
+        iceCover={DEFAULT_ICE_COVER}
+        mountainPeakX={halfMountainPeakX}
+        mountainPeakY={halfMountainPeakY}
       />
     </Group>
   );

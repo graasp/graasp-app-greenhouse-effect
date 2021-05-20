@@ -156,7 +156,7 @@ export const SMOKE_INDENT_Y = 0.05;
 export const SMOKE_FILL = 'grey';
 
 export const MOUNTAIN_FILL = '#9A7B4F';
-export const MOUNTAIN_LINES_TENSION = 0.3;
+export const MOUNTAIN_LINES_TENSION = 0;
 export const MOUNTAIN_RANGE_BEGINS_X = 0.6;
 export const FULL_MOUNTAIN_WIDTH = 0.3;
 export const FULL_MOUNTAIN_HEIGHT = 0.75;
@@ -164,6 +164,8 @@ export const HALF_MOUNTAIN_WIDTH = 0.15;
 export const HALF_MOUNTAIN_HEIGHT = 1.35;
 export const MOUNTAINS_INDENT_Y = 0.075;
 export const FULL_MOUNTAIN_X_INDENT = 0.8;
+export const FULL_MOUNTAIN = 'FULL_MOUNTAIN';
+export const HALF_MOUNTAIN = 'HALF_MOUNTAIN';
 
 export const NUMBER_OF_TREES_IN_ROW = 7;
 export const TREE_WIDTH = 0.01;
@@ -173,3 +175,8 @@ export const TREE_ROW_BEGINS_X = 0.05;
 export const X_DISTANCE_BETWEEN_TREES = 0.025;
 export const TREE_FILL = '#432616';
 export const TREE_CIRCLES_FILL = '#4F7942';
+
+// ice cover as a percentage of the mountain (can be adjusted in state/redux later)
+export const DEFAULT_ICE_COVER = 0.5;
+export const ICE_COVER_FILL = '#F5F5F5';
+export const ICE_COVER_LINES_TENSION = 0.1;
