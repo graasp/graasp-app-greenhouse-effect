@@ -8,7 +8,7 @@ export const MAXIMUM_Z_INDEX = 999999;
 
 export const RADIATION_MODES = {
   WAVES: 'waves',
-  FLUX: 'flux',
+  FLUXES: 'fluxes',
 };
 
 export const BACKGROUND_COLOR = 'lightgrey';
@@ -219,7 +219,6 @@ export const DEFAULT_TENSION = 0.3;
 
 export const NUMBER_OF_LINES = 5;
 export const LINE_STEP = 5;
-export const LINE_AMPLITUDE = 30;
 export const LINE_ANGLE = Math.PI / 2;
 export const LINE_STARTING_POSITION_Y = 550;
 
@@ -237,6 +236,7 @@ export const RADIATION_STATES = {
   CLOUD_RADIATION: 'CLOUD_RADIATION',
   GASES_RADIATION: 'GASES_RADIATION',
   EARTH_RADIATION: 'EARTH_RADIATION',
+  ICE_RADIATION: 'ICE_RADIATION',
 };
 
 export const DEFAULT_ALBEDO = 30;
@@ -246,3 +246,9 @@ export const CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE = 1000;
 export const METHANE_CONCENTRATION_MAX_VALUE = 10;
 export const WATER_CONCENTRATION_MAX_VALUE = 100;
 export const GREENHOUSE_TOTAL_EFFECT_MAX_VALUE = 100;
+export const INFRARED_AMPLITUDE = 50;
+export const ULTRAVIOLET_AMPLITUDE = 30;
+export const INFRARED_WAVELENGTH = 10;
+export const ULTRAVIOLET_WAVELENGTH = 30;
+
+export const FLUX_TEXT_COLOR = 'black';

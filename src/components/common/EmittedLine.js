@@ -6,7 +6,6 @@ import {
   DEFAULT_TENSION,
   SET_INTERVAL_TIME,
   LINE_STEP,
-  LINE_AMPLITUDE,
   LINE_ANGLE,
 } from '../../config/constants';
 
@@ -22,6 +21,8 @@ class EmittedLine extends Component {
     show: PropTypes.bool.isRequired,
     color: PropTypes.string.isRequired,
     onEnd: PropTypes.func,
+    amplitude: PropTypes.number.isRequired,
+    wavelength: PropTypes.number.isRequired,
   };
 
   static defaultProps = {
@@ -38,12 +39,7 @@ class EmittedLine extends Component {
     };
   })();
 
-  componentDidMount() {
-    const { show } = this.props;
-    if (show) {
-      this.beginLineInterval();
-    }
-  }
+  emittedLineInterval = null;
 
   componentDidUpdate(
     { isPaused: prevIsPaused, show: prevShow },
@@ -53,22 +49,12 @@ class EmittedLine extends Component {
     const { points } = this.state;
     if (isPaused !== prevIsPaused && isPaused) {
       clearInterval(this.emittedLineInterval);
-    } else if (isPaused !== prevIsPaused && !isPaused) {
+    } else if (isPaused !== prevIsPaused && !isPaused && show) {
+      this.beginLineInterval();
+    } else if (!isPaused && show !== prevShow && show) {
       this.beginLineInterval();
     }
 
-    if (show !== prevShow && show) {
-      this.beginLineInterval();
-    }
-
-    // // reset line on show/hide emitted lines
-    // if (
-    //   prevShowEmittedLines !== showEmittedLines &&
-    //   !_.isEqual(prevPoints, [0, 0])
-    // ) {
-    //   // eslint-disable-next-line react/no-did-update-set-state
-    //   this.setState({ points: [origin.x, origin.y] });
-    // }
     // alerts when the line is fully drawn
     if (
       points.length === maxPointsForLine &&
@@ -81,10 +67,10 @@ class EmittedLine extends Component {
   beginLineInterval = () => {
     this.emittedLineInterval = setInterval(() => {
       const { points, t } = this.state;
-      const { maxPointsForLine } = this.props;
+      const { maxPointsForLine, amplitude, wavelength } = this.props;
 
-      const y = 0; // originY + Math.sin(t) * LINE_AMPLITUDE;
-      const x = Math.cos(t) * LINE_AMPLITUDE;
+      const y = 0;
+      const x = Math.cos(t) * amplitude;
 
       // add points in respective direction
       const newPoints = points
@@ -97,7 +83,7 @@ class EmittedLine extends Component {
 
       this.setState({
         points: [x, y, x, y, ...newPoints].slice(0, maxPointsForLine),
-        t: t + 0.5,
+        t: t + wavelength / 50,
       });
     }, SET_INTERVAL_TIME);
   };
@@ -106,14 +92,15 @@ class EmittedLine extends Component {
     const {
       origin: { x, y },
       angle,
-      show,
       color,
+      show,
     } = this.props;
     const { points } = this.state;
 
     if (!show) {
       return null;
     }
+
     return (
       <Line
         x={x}
@@ -127,9 +114,8 @@ class EmittedLine extends Component {
   }
 }
 
-const mapStateToProps = () => ({
-  isPaused: false,
-  showEmittedLines: true,
+const mapStateToProps = ({ lab }) => ({
+  isPaused: lab.isPaused,
 });
 
 const ConnectedComponent = connect(mapStateToProps)(EmittedLine);

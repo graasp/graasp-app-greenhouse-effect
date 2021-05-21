@@ -16,6 +16,7 @@ import FeedbacksSettings from './FeedbacksSettings';
 import GreenhouseEffectSettings from './GreenhouseEffectSettings';
 import AlbedoSlider from './AlbedoSlider';
 import SimulationMode from './SimulationMode';
+import AnimationControls from './AnimationControls';
 
 const styles = (theme) => ({
   drawerPaper: {
@@ -88,6 +89,7 @@ class SideMenu extends React.Component {
         >
           {this.renderDrawerHeader()}
           <div className={classes.contentWrapper}>
+            <AnimationControls />
             <RadiationModeSwitch />
             <SimulationMode />
             <AlbedoSlider />

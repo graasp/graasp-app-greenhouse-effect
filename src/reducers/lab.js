@@ -10,9 +10,11 @@ import {
   SET_GREENHOUSE_GASES_VALUES,
   SET_NEXT_STATE,
   SET_RADIATION_MODE,
+  SET_IS_PAUSED,
 } from '../types';
 
 const INITIAL_STATE = {
+  isPaused: true,
   settings: {
     open: false,
   },
@@ -62,6 +64,11 @@ export default (state = INITIAL_STATE, { type, payload }) => {
           ...state.radiations,
           ...payload.radiations,
         },
+      };
+    case SET_IS_PAUSED:
+      return {
+        ...state,
+        isPaused: payload,
       };
     default:
       return state;
