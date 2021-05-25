@@ -154,25 +154,3 @@ export const generateHalfMountainPoints = (
     ...halfMountainPointThree,
   ];
 };
-
-export const generateTreeCirclePoints = (
-  treeX,
-  treeY,
-  treeHeight,
-  treeWidth,
-  circleRadius,
-) => {
-  const treeBaseMidpoint = treeX + treeWidth / 2;
-  const halfRadius = circleRadius / 2;
-
-  const rowOneY = treeY - treeHeight;
-  const rowTwoY = rowOneY - circleRadius;
-
-  const rowOne = [
-    { x: treeBaseMidpoint + halfRadius, y: rowOneY },
-    { x: treeBaseMidpoint - halfRadius, y: rowOneY },
-  ];
-  const rowTwo = [{ x: treeBaseMidpoint, y: rowTwoY }];
-
-  return [...rowOne, ...rowTwo];
-};

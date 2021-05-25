@@ -7,7 +7,6 @@ import Road from './ground/road/Road';
 import HouseRow from './ground/houses/HouseRow';
 import FactoryRow from './ground/factories/FactoryRow';
 import MountainRange from './ground/mountains/MountainRange';
-import TreeRow from './ground/trees/TreeRow';
 import Permafrost from './ground/permafrost/Permafrost';
 
 const Ground = ({ stageHeight, stageWidth }) => {
@@ -39,12 +38,6 @@ const Ground = ({ stageHeight, stageWidth }) => {
         groundWidth={groundWidth}
         groundBeginsY={groundBeginsY}
         stageWidth={stageWidth}
-      />
-      <TreeRow
-        groundHeight={groundHeight}
-        groundWidth={groundWidth}
-        groundBeginsX={groundBeginsX}
-        groundBeginsY={groundBeginsY}
       />
       <GroundBackground
         groundHeight={groundHeight}

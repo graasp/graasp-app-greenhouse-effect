@@ -200,16 +200,6 @@ export const DEFAULT_ICE_COVER = 0.5;
 export const ICE_COVER_FILL = '#F5F5F5';
 export const ICE_COVER_LINES_TENSION = 0.1;
 
-/* ------TREE CONSTANTS------ */
-export const NUMBER_OF_TREES_IN_ROW = 7;
-export const TREE_WIDTH = 0.01;
-export const TREE_HEIGHT = 0.125;
-export const TREE_CIRCLE_RADIUS = 1;
-export const TREE_ROW_BEGINS_X = 0.05;
-export const X_DISTANCE_BETWEEN_TREES = 0.025;
-export const TREE_FILL = '#432616';
-export const TREE_CIRCLES_FILL = '#4F7942';
-
 /* ------PERMAFROST CONSTANTS------ */
 export const PERMAFROST_WIDTH = 0.125;
 export const PERMAFROST_HEIGHT = 0.7;
