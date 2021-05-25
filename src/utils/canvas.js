@@ -272,3 +272,47 @@ export const distributeMoleculesRandomly = (moleculeDistribution) => {
   });
   return randomDistribution;
 };
+
+export const generateThermometerRectanglePoints = (
+  baseWidth,
+  thermometerHeight,
+) => {
+  const pointOne = [0, 0];
+  const pointTwo = [0, -thermometerHeight];
+  const pointThree = [baseWidth, -thermometerHeight];
+  const pointFour = [baseWidth, 0];
+  return [...pointOne, ...pointTwo, ...pointThree, ...pointFour];
+};
+
+export const determineBulbCoordinates = (
+  thermometerBeginsX,
+  thermometerBeginsY,
+  thermometerBaseWidth,
+  thermometerBulbRadius,
+) => {
+  const halfBaseWidth = thermometerBaseWidth / 2;
+  const yIndent = Math.sqrt(
+    thermometerBulbRadius ** 2 - (thermometerBaseWidth / 2) ** 2,
+  );
+  return {
+    x: thermometerBeginsX + halfBaseWidth,
+    y: thermometerBeginsY + yIndent,
+  };
+};
+
+export const determineThermometerScalePoints = (
+  thermometerBeginsY,
+  thermometerBodyHeight,
+  numberOfGradations,
+) => {
+  const distanceBetweenGradations = thermometerBodyHeight / numberOfGradations;
+
+  const gradationCoordinates = new Array(numberOfGradations)
+    .fill()
+    .map(
+      (emptyElement, index) =>
+        thermometerBeginsY - index * distanceBetweenGradations,
+    );
+
+  return gradationCoordinates;
+};

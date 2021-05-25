@@ -230,3 +230,17 @@ export const HYDROGEN = {
   atomColor: 'gray',
   size: 'small',
 };
+
+/* ------THERMOMETER CONSTANTS------ */
+export const THERMOMETER_BEGINS_X = 0.95;
+export const THERMOMETER_BEGINS_Y = 0.45;
+export const THERMOMETER_BASE_WIDTH = 0.015;
+export const THERMOMETER_HEIGHT = 0.4;
+export const THERMOMETER_BORDER_COLOR = '#282828';
+export const THERMOMETER_BORDER_WIDTH = 0.75;
+export const THERMOMETER_BULB_RADIUS = 0.015;
+export const THERMOMETER_FILL = '#CD4646';
+export const DEFAULT_THERMOMETER_PERCENTAGE_FULL = 0.4;
+export const THERMOMETER_NUMBER_OF_GRADATIONS = 10;
+export const THERMOMETER_GRADATION_WIDTH = 0.25;
+export const THERMOMETER_GRADATION_STROKE = 1;
