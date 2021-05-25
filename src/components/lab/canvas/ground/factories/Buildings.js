@@ -4,30 +4,30 @@ import { Group, Rect } from 'react-konva';
 import {
   FACTORY_MAIN_BUILDING_COLOR,
   FACTORY_SIDE_BUILDING_COLOR,
-} from '../../../../config/constants';
+} from '../../../../../config/constants';
 
 const Buildings = ({
   mainBuildingWidth,
   mainBuildingHeight,
   sideBuildingWidth,
   sideBuildingHeight,
-  x,
-  y,
+  buildingsBeginX,
+  buildingsBeginY,
 }) => {
-  const mainBuildingX = x + sideBuildingWidth;
+  const mainBuildingX = buildingsBeginX + sideBuildingWidth;
 
   return (
     <Group>
       <Rect
-        x={x}
-        y={y}
+        x={buildingsBeginX}
+        y={buildingsBeginY}
         width={sideBuildingWidth}
         height={-sideBuildingHeight}
         fill={FACTORY_SIDE_BUILDING_COLOR}
       />
       <Rect
         x={mainBuildingX}
-        y={y}
+        y={buildingsBeginY}
         width={mainBuildingWidth}
         height={-mainBuildingHeight}
         fill={FACTORY_MAIN_BUILDING_COLOR}
@@ -41,8 +41,8 @@ Buildings.propTypes = {
   mainBuildingHeight: PropTypes.number.isRequired,
   sideBuildingWidth: PropTypes.number.isRequired,
   sideBuildingHeight: PropTypes.number.isRequired,
-  x: PropTypes.number.isRequired,
-  y: PropTypes.number.isRequired,
+  buildingsBeginX: PropTypes.number.isRequired,
+  buildingsBeginY: PropTypes.number.isRequired,
 };
 
 export default Buildings;

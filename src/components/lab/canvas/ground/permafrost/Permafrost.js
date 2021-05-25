@@ -5,7 +5,7 @@ import {
   PERMAFROST_FILL,
   PERMAFROST_HEIGHT,
   PERMAFROST_WIDTH,
-} from '../../../config/constants';
+} from '../../../../../config/constants';
 
 const Permafrost = ({
   groundHeight,
@@ -13,8 +13,11 @@ const Permafrost = ({
   groundBeginsX,
   groundBeginsY,
 }) => {
+  // permafrost dimensions
   const permafrostWidth = PERMAFROST_WIDTH * groundWidth;
   const permafrostHeight = PERMAFROST_HEIGHT * groundHeight;
+
+  // permafrost positioning
   const permafrostBeginsX = groundBeginsX;
   const permafrostBeginsY = groundBeginsY + groundHeight;
 

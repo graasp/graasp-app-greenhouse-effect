@@ -1,20 +1,13 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { Rect, Group } from 'react-konva';
+import PropTypes from 'prop-types';
+import { Group } from 'react-konva';
 import { ATMOSPHERE, SKY } from '../../../config/constants';
-import Cloud from './Cloud';
+import Cloud from './sky/Cloud';
+import SkyBackground from './sky/SkyBackground';
 
-const Sky = () => {
-  const { height: stageHeight, width: stageWidth } = useSelector(
-    ({ layout }) => layout.lab.stageDimensions,
-  );
-
+const Sky = ({ stageHeight, stageWidth }) => {
   // sky dimensions in /constants.js are stated as a percentage of canvas dimensions
-  const {
-    height: skyHeightPercentage,
-    width: skyWidthPercentage,
-    colorRange: skyColorRange,
-  } = SKY;
+  const { height: skyHeightPercentage, width: skyWidthPercentage } = SKY;
 
   // pixel dimensions of sky
   const skyHeight = stageHeight * skyHeightPercentage;
@@ -23,25 +16,29 @@ const Sky = () => {
   // atmosphere height is required to begin the sky where the atmosphere ends
   const { height: atmosphereHeightPercentage } = ATMOSPHERE;
   const atmosphereHeight = stageHeight * atmosphereHeightPercentage;
+  const skyBeginsX = 0;
+  const skyBeginsY = atmosphereHeight;
 
   return (
     <Group>
-      <Rect
-        x={0}
-        y={atmosphereHeight}
-        height={skyHeight}
-        width={skyWidth}
-        fillLinearGradientStartPoint={{ x: 0, y: 0 }}
-        fillLinearGradientEndPoint={{ x: 0, y: skyHeight }}
-        fillLinearGradientColorStops={skyColorRange}
+      <SkyBackground
+        skyHeight={skyHeight}
+        skyWidth={skyWidth}
+        skyBeginsX={skyBeginsX}
+        skyBeginsY={skyBeginsY}
       />
       <Cloud
         skyHeight={skyHeight}
         skyWidth={skyWidth}
-        skyBeginsY={atmosphereHeight}
+        skyBeginsY={skyBeginsY}
       />
     </Group>
   );
+};
+
+Sky.propTypes = {
+  stageHeight: PropTypes.number.isRequired,
+  stageWidth: PropTypes.number.isRequired,
 };
 
 export default Sky;

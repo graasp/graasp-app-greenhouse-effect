@@ -1,20 +1,13 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { Rect, Group } from 'react-konva';
+import PropTypes from 'prop-types';
+import { Group } from 'react-konva';
 import { ATMOSPHERE, SKY, SEA } from '../../../config/constants';
-import IceCaps from './IceCaps';
+import IceCaps from './sea/ice-caps/IceCaps';
+import SeaBackground from './sea/SeaBackground';
 
-const Sea = () => {
-  const { height: stageHeight, width: stageWidth } = useSelector(
-    ({ layout }) => layout.lab.stageDimensions,
-  );
-
+const Sea = ({ stageHeight, stageWidth }) => {
   // sea dimensions in /constants.js are stated as a percentage of canvas dimensions
-  const {
-    height: seaHeightPercentage,
-    width: seaWidthPercentage,
-    colorRange: seaColorRange,
-  } = SEA;
+  const { height: seaHeightPercentage, width: seaWidthPercentage } = SEA;
 
   // pixel dimensions of sea
   const seaWidth = stageWidth * seaWidthPercentage;
@@ -26,28 +19,29 @@ const Sea = () => {
   const atmosphereHeight = stageHeight * atmosphereHeightPercentage;
   const skyHeight = stageHeight * skyHeightPercentage;
   const atmosphereAndSkyHeight = atmosphereHeight + skyHeight;
+  const seaBeginsX = 0;
+  const seaBeginsY = atmosphereAndSkyHeight;
 
   return (
     <Group>
-      <Rect
-        x={0}
-        y={atmosphereAndSkyHeight}
-        height={seaHeight}
-        width={seaWidth}
-        fillLinearGradientStartPoint={{ x: 0, y: 0 }}
-        fillLinearGradientEndPoint={{
-          x: 0,
-          y: seaHeight,
-        }}
-        fillLinearGradientColorStops={seaColorRange}
+      <SeaBackground
+        seaHeight={seaHeight}
+        seaWidth={seaWidth}
+        seaBeginsX={seaBeginsX}
+        seaBeginsY={seaBeginsY}
       />
       <IceCaps
         seaHeight={seaHeight}
         seaWidth={seaWidth}
-        seaBeginsY={atmosphereAndSkyHeight}
+        seaBeginsY={seaBeginsY}
       />
     </Group>
   );
+};
+
+Sea.propTypes = {
+  stageHeight: PropTypes.number.isRequired,
+  stageWidth: PropTypes.number.isRequired,
 };
 
 export default Sea;

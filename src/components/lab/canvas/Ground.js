@@ -1,24 +1,20 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { Rect, Group } from 'react-konva';
+import PropTypes from 'prop-types';
+import { Group } from 'react-konva';
 import { ATMOSPHERE, SKY, SEA, GROUND } from '../../../config/constants';
-import Road from './Road';
-import HouseholdRow from './household/HouseholdRow';
-import FactoryRow from './factory/FactoryRow';
-import Mountains from './Mountains';
-import TreeRow from './TreeRow';
-import Permafrost from './Permafrost';
+import GroundBackground from './ground/GroundBackground';
+import Road from './ground/road/Road';
+import HouseRow from './ground/houses/HouseRow';
+import FactoryRow from './ground/factories/FactoryRow';
+import MountainRange from './ground/mountains/MountainRange';
+import TreeRow from './ground/trees/TreeRow';
+import Permafrost from './ground/permafrost/Permafrost';
 
-const Ground = () => {
-  const { height: stageHeight, width: stageWidth } = useSelector(
-    ({ layout }) => layout.lab.stageDimensions,
-  );
-
+const Ground = ({ stageHeight, stageWidth }) => {
   // ground dimensions in /constants.js are stated as a percentage of canvas dimensions
   const {
     height: groundHeightPercentage,
     width: groundWidthPercentage,
-    colorRange: groundColorRange,
   } = GROUND;
 
   // pixel dimensions of ground
@@ -33,59 +29,60 @@ const Ground = () => {
   const skyHeight = stageHeight * skyHeightPercentage;
   const atmosphereAndSkyHeight = atmosphereHeight + skyHeight;
   const seaWidth = stageWidth * seaWidthPercentage;
+  const groundBeginsX = seaWidth;
+  const groundBeginsY = atmosphereAndSkyHeight;
 
   return (
     <Group>
-      <Mountains
+      <MountainRange
         groundHeight={groundHeight}
         groundWidth={groundWidth}
-        groundBeginsY={atmosphereAndSkyHeight}
+        groundBeginsY={groundBeginsY}
         stageWidth={stageWidth}
       />
       <TreeRow
         groundHeight={groundHeight}
         groundWidth={groundWidth}
-        groundBeginsX={seaWidth}
-        groundBeginsY={atmosphereAndSkyHeight}
+        groundBeginsX={groundBeginsX}
+        groundBeginsY={groundBeginsY}
       />
-      <Rect
-        x={seaWidth}
-        y={atmosphereAndSkyHeight}
-        height={groundHeight}
-        width={groundWidth}
-        fillLinearGradientStartPoint={{
-          x: 0,
-          y: 0,
-        }}
-        fillLinearGradientEndPoint={{ x: 0, y: groundHeight }}
-        fillLinearGradientColorStops={groundColorRange}
+      <GroundBackground
+        groundHeight={groundHeight}
+        groundWidth={groundWidth}
+        groundBeginsX={groundBeginsX}
+        groundBeginsY={groundBeginsY}
       />
       <Road
         groundHeight={groundHeight}
         groundWidth={groundWidth}
-        groundBeginsX={seaWidth}
-        groundBeginsY={atmosphereAndSkyHeight}
+        groundBeginsX={groundBeginsX}
+        groundBeginsY={groundBeginsY}
       />
       <FactoryRow
         groundHeight={groundHeight}
         groundWidth={groundWidth}
-        groundBeginsX={seaWidth}
-        groundBeginsY={atmosphereAndSkyHeight}
+        groundBeginsX={groundBeginsX}
+        groundBeginsY={groundBeginsY}
       />
-      <HouseholdRow
+      <HouseRow
         groundHeight={groundHeight}
         groundWidth={groundWidth}
-        groundBeginsX={seaWidth}
-        groundBeginsY={atmosphereAndSkyHeight}
+        groundBeginsX={groundBeginsX}
+        groundBeginsY={groundBeginsY}
       />
       <Permafrost
         groundHeight={groundHeight}
         groundWidth={groundWidth}
-        groundBeginsX={seaWidth}
-        groundBeginsY={atmosphereAndSkyHeight}
+        groundBeginsX={groundBeginsX}
+        groundBeginsY={groundBeginsY}
       />
     </Group>
   );
+};
+
+Ground.propTypes = {
+  stageHeight: PropTypes.number.isRequired,
+  stageWidth: PropTypes.number.isRequired,
 };
 
 export default Ground;

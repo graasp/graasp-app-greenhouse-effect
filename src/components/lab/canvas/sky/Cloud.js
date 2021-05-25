@@ -11,12 +11,17 @@ import {
   CLOUD_ELLIPSE_RADIUS_Y,
   CLOUD_FILL,
   CLOUD_RESPONSIVE_ADJUSTMENT_FACTOR,
-} from '../../../config/constants';
-import { generateCloudCircles } from '../../../utils/canvas';
+} from '../../../../config/constants';
+import { generateCloudCircles } from '../../../../utils/canvas';
 
+// a Cloud is five Konva circles, the central one being the largest, flanked on each side by two circles
+// since the circles have borders, we draw an ellipse in the middle, with the same color as the cloud, to conceal parts of the borders
 const Cloud = ({ skyHeight, skyWidth, skyBeginsY }) => {
+  // we determine the size of the circles of the cloud from a central circle we define (using generateCloudCircles below)
   const centralCircleRadius =
     CLOUD_CENTRAL_CIRCLE_RADIUS *
+    // use some combination of skyHeight and skyWidth to determine cloud radius...
+    // ...so that cloud is responsive to vertical and horizontal screen size changes
     ((skyHeight + skyWidth) / CLOUD_RESPONSIVE_ADJUSTMENT_FACTOR);
   const centralCircleX = CLOUD_CENTRAL_CIRCLE_X * skyWidth;
   const centralCircleY = skyBeginsY + CLOUD_CENTRAL_CIRCLE_Y * skyHeight;
@@ -27,7 +32,7 @@ const Cloud = ({ skyHeight, skyWidth, skyBeginsY }) => {
   return (
     <Group>
       {generateCloudCircles(centralCircleRadius, centralCircleX).map(
-        ({ x, radius }) => (
+        ({ x, radius }, index) => (
           <Circle
             x={x}
             y={centralCircleY}
@@ -35,6 +40,8 @@ const Cloud = ({ skyHeight, skyWidth, skyBeginsY }) => {
             fill={CLOUD_FILL}
             stroke={CLOUD_BORDER_COLOR}
             strokeWidth={CLOUD_BORDER_WIDTH}
+            // eslint-disable-next-line react/no-array-index-key
+            key={index}
           />
         ),
       )}

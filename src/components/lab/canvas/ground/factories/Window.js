@@ -5,28 +5,30 @@ import {
   FACTORY_WINDOW_FILL,
   WINDOW_LINES_COLOR,
   WINDOW_LINES_WIDTH,
-} from '../../../../config/constants';
+} from '../../../../../config/constants';
 
-const Window = ({ x, y, windowWidth, windowHeight }) => {
+const Window = ({ windowWidth, windowHeight, windowX, windowY }) => {
   return (
     <Group>
       <Rect
-        x={x}
-        y={y}
+        x={windowX}
+        y={windowY}
         width={windowWidth}
         height={windowHeight}
         fill={FACTORY_WINDOW_FILL}
       />
+      {/* Line from top to bottom */}
       <Line
-        x={x + windowWidth / 2}
-        y={y}
+        x={windowX + windowWidth / 2}
+        y={windowY}
         points={[0, 0, 0, windowHeight]}
         stroke={WINDOW_LINES_COLOR}
         strokeWidth={WINDOW_LINES_WIDTH}
       />
+      {/* Line from left to right */}
       <Line
-        x={x}
-        y={y + windowHeight / 2}
+        x={windowX}
+        y={windowY + windowHeight / 2}
         points={[0, 0, windowWidth, 0]}
         stroke={WINDOW_LINES_COLOR}
         strokeWidth={WINDOW_LINES_WIDTH}
@@ -36,10 +38,10 @@ const Window = ({ x, y, windowWidth, windowHeight }) => {
 };
 
 Window.propTypes = {
-  x: PropTypes.number.isRequired,
-  y: PropTypes.number.isRequired,
   windowWidth: PropTypes.number.isRequired,
   windowHeight: PropTypes.number.isRequired,
+  windowX: PropTypes.number.isRequired,
+  windowY: PropTypes.number.isRequired,
 };
 
 export default Window;

@@ -8,18 +8,18 @@ import {
   ROAD_HEIGHT,
   ROAD_LINE_COLOR,
   ROAD_LINE_DASH,
-} from '../../../config/constants';
+} from '../../../../../config/constants';
 
 const Road = ({ groundHeight, groundWidth, groundBeginsX, groundBeginsY }) => {
   const roadBeginsX = groundBeginsX + ROAD_BEGINS_X * groundWidth;
   const roadBeginsY = groundBeginsY + ROAD_BEGINS_Y * groundHeight;
   const roadHeight = ROAD_HEIGHT * groundHeight;
-  const roadWidth = groundWidth;
+  const roadWidth = groundWidth - (roadBeginsX - groundBeginsX);
 
   // lineBeginsY is stated relative to roadBeginsY given that they are grouped and group is positioned
   // lineBeginsY = roadHeight / 2 => begin line in the middle of the road
   const lineBeginsY = roadHeight / 2;
-  const lineWidth = groundWidth;
+  const lineWidth = roadWidth;
 
   return (
     <Group x={roadBeginsX} y={roadBeginsY}>

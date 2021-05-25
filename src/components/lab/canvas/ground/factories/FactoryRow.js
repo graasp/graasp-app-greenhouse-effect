@@ -10,7 +10,7 @@ import {
   FACTORY_ROW_BEGINS_X,
   X_DISTANCE_BETWEEN_FACTORIES,
   DEFAULT_NUMBER_OF_FACTORIES_IN_ROW,
-} from '../../../../config/constants';
+} from '../../../../../config/constants';
 
 const FactoryRow = ({
   groundHeight,
@@ -38,17 +38,17 @@ const FactoryRow = ({
         mainBuildingHeight={mainBuildingHeight}
         sideBuildingWidth={sideBuildingWidth}
         sideBuildingHeight={sideBuildingHeight}
-        x={
+        factoryBeginsX={
           factoryRowBeginsX +
           index * (xDistanceBetweenFactories + totalBuildingsWidth)
         }
-        y={factoryRowBeginsY}
+        factoryBeginsY={factoryRowBeginsY}
         // eslint-disable-next-line react/no-array-index-key
         key={index}
       />
     ));
 
-  return <>{factories}</>;
+  return factories;
 };
 
 FactoryRow.propTypes = {

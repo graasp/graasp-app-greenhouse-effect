@@ -1,8 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Group, Circle } from 'react-konva';
-import { generateSmokeCirclePoints } from '../../../../utils/canvas';
-import { SMOKE_CIRCLE_RADIUS, SMOKE_FILL } from '../../../../config/constants';
+import { generateSmokeCirclePoints } from '../../../../../utils/canvas';
+import {
+  SMOKE_CIRCLE_RADIUS,
+  SMOKE_FILL,
+} from '../../../../../config/constants';
 
 const Smoke = ({ chimneyWidth, chimneyHeight, chimneyX, chimneyY }) => {
   // SMOKE_CIRCLE_RADIUS can be increased if we want factories to emit more pollution
@@ -16,8 +19,15 @@ const Smoke = ({ chimneyWidth, chimneyHeight, chimneyX, chimneyY }) => {
         chimneyWidth,
         chimneyHeight,
         smokeCircleRadius,
-      ).map(({ x, y }) => (
-        <Circle x={x} y={y} radius={smokeCircleRadius} fill={SMOKE_FILL} />
+      ).map(({ x, y }, index) => (
+        <Circle
+          x={x}
+          y={y}
+          radius={smokeCircleRadius}
+          fill={SMOKE_FILL}
+          // eslint-disable-next-line react/no-array-index-key
+          key={index}
+        />
       ))}
     </Group>
   );

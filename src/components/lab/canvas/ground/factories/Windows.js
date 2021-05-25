@@ -7,20 +7,25 @@ import {
   FACTORY_WINDOW_LENGTH,
   FACTORY_WINDOW_WIDTH,
   X_DISTANCE_BETWEEN_FACTORY_WINDOWS,
-} from '../../../../config/constants';
+} from '../../../../../config/constants';
 import Window from './Window';
 
-const Windows = ({ x, y, buildingWidth, buildingHeight }) => {
+const Windows = ({
+  buildingWidth,
+  buildingHeight,
+  windowsBeginX,
+  windowsBeginY,
+}) => {
   const windowWidth = FACTORY_WINDOW_WIDTH * buildingWidth;
   const windowHeight = FACTORY_WINDOW_LENGTH * buildingHeight;
 
   // first window coordinates
-  const firstWindowX = x + FACTORY_WINDOW_BEGINS_X * buildingWidth;
-  const firstWindowY = y - FACTORY_WINDOW_BEGINS_Y * buildingHeight;
+  const firstWindowX = windowsBeginX + FACTORY_WINDOW_BEGINS_X * buildingWidth;
+  const firstWindowY = windowsBeginY - FACTORY_WINDOW_BEGINS_Y * buildingHeight;
 
   // second window coordinates
   const secondWindowX =
-    x +
+    windowsBeginX +
     FACTORY_WINDOW_BEGINS_X * buildingWidth +
     windowWidth +
     X_DISTANCE_BETWEEN_FACTORY_WINDOWS * buildingWidth;
@@ -29,14 +34,14 @@ const Windows = ({ x, y, buildingWidth, buildingHeight }) => {
   return (
     <Group>
       <Window
-        x={firstWindowX}
-        y={firstWindowY}
+        windowX={firstWindowX}
+        windowY={firstWindowY}
         windowWidth={windowWidth}
         windowHeight={windowHeight}
       />
       <Window
-        x={secondWindowX}
-        y={secondWindowY}
+        windowX={secondWindowX}
+        windowY={secondWindowY}
         windowWidth={windowWidth}
         windowHeight={windowHeight}
       />
@@ -45,8 +50,8 @@ const Windows = ({ x, y, buildingWidth, buildingHeight }) => {
 };
 
 Windows.propTypes = {
-  x: PropTypes.number.isRequired,
-  y: PropTypes.number.isRequired,
+  windowsBeginX: PropTypes.number.isRequired,
+  windowsBeginY: PropTypes.number.isRequired,
   buildingWidth: PropTypes.number.isRequired,
   buildingHeight: PropTypes.number.isRequired,
 };

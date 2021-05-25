@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Group, Rect, Circle } from 'react-konva';
-import { TREE_CIRCLES_FILL, TREE_FILL } from '../../../config/constants';
-import { generateTreeCirclePoints } from '../../../utils/canvas';
+import { TREE_CIRCLES_FILL, TREE_FILL } from '../../../../../config/constants';
+import { generateTreeCirclePoints } from '../../../../../utils/canvas';
 
 const Tree = ({ x, y, treeWidth, treeHeight, treeCircleRadius }) => {
   return (
@@ -20,12 +20,14 @@ const Tree = ({ x, y, treeWidth, treeHeight, treeCircleRadius }) => {
         treeHeight,
         treeWidth,
         treeCircleRadius,
-      ).map(({ x: circleX, y: circleY }) => (
+      ).map(({ x: circleX, y: circleY }, index) => (
         <Circle
           x={circleX}
           y={circleY}
           fill={TREE_CIRCLES_FILL}
           radius={treeCircleRadius}
+          // eslint-disable-next-line react/no-array-index-key
+          key={index}
         />
       ))}
     </Group>

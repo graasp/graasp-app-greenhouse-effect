@@ -10,30 +10,30 @@ const Factory = ({
   mainBuildingHeight,
   sideBuildingWidth,
   sideBuildingHeight,
-  x,
-  y,
+  factoryBeginsX,
+  factoryBeginsY,
 }) => {
-  const mainBuildingX = x + sideBuildingWidth;
+  const mainBuildingX = factoryBeginsX + sideBuildingWidth;
 
   return (
     <Group>
       <Buildings
-        x={x}
-        y={y}
+        buildingsBeginX={factoryBeginsX}
+        buildingsBeginY={factoryBeginsY}
         sideBuildingWidth={sideBuildingWidth}
         sideBuildingHeight={sideBuildingHeight}
         mainBuildingWidth={mainBuildingWidth}
         mainBuildingHeight={mainBuildingHeight}
       />
       <Windows
-        x={mainBuildingX}
-        y={y}
+        windowsBeginX={mainBuildingX}
+        windowsBeginY={factoryBeginsY}
         buildingWidth={mainBuildingWidth}
         buildingHeight={mainBuildingHeight}
       />
       <Chimney
-        x={mainBuildingX}
-        y={y}
+        chimneyBeginsX={mainBuildingX}
+        chimneyBeginsY={factoryBeginsY}
         buildingWidth={mainBuildingWidth}
         buildingHeight={mainBuildingHeight}
       />
@@ -46,8 +46,8 @@ Factory.propTypes = {
   mainBuildingHeight: PropTypes.number.isRequired,
   sideBuildingWidth: PropTypes.number.isRequired,
   sideBuildingHeight: PropTypes.number.isRequired,
-  x: PropTypes.number.isRequired,
-  y: PropTypes.number.isRequired,
+  factoryBeginsX: PropTypes.number.isRequired,
+  factoryBeginsY: PropTypes.number.isRequired,
 };
 
 export default Factory;

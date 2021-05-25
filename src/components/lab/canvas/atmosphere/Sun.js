@@ -9,15 +9,17 @@ import {
   SUN_RAYS_NUMBER_OF_RAYS,
   SUN_BORDER_COLOR,
   SUN_BORDER,
-} from '../../../config/constants';
+} from '../../../../config/constants';
 
-const Sun = ({ atmosphereHeight, atmosphereWidth, atmosphereCenterY }) => {
+const Sun = ({ atmosphereHeight, atmosphereWidth }) => {
   const sunRaysOuterRadius = atmosphereHeight * SUN_RAYS_RADIUS;
   const sunRaysInnerRadius = sunRaysOuterRadius / 2;
   const sunRadius = atmosphereHeight * SUN_RADIUS;
+  const sunCenterX = atmosphereWidth * SUN_CENTER_X;
+  const sunCenterY = atmosphereHeight / 2;
 
   return (
-    <Group x={atmosphereWidth * SUN_CENTER_X} y={atmosphereCenterY}>
+    <Group x={sunCenterX} y={sunCenterY}>
       <Star
         x={0}
         y={0}
@@ -41,7 +43,6 @@ const Sun = ({ atmosphereHeight, atmosphereWidth, atmosphereCenterY }) => {
 Sun.propTypes = {
   atmosphereHeight: PropTypes.number.isRequired,
   atmosphereWidth: PropTypes.number.isRequired,
-  atmosphereCenterY: PropTypes.number.isRequired,
 };
 
 export default Sun;

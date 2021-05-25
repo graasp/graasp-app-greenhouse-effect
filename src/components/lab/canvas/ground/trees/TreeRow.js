@@ -8,7 +8,7 @@ import {
   TREE_ROW_BEGINS_X,
   TREE_WIDTH,
   X_DISTANCE_BETWEEN_TREES,
-} from '../../../config/constants';
+} from '../../../../../config/constants';
 
 const TreeRow = ({
   groundHeight,
@@ -32,10 +32,12 @@ const TreeRow = ({
         treeWidth={treeWidth}
         treeHeight={treeHeight}
         treeCircleRadius={treeCircleRadius}
+        // eslint-disable-next-line react/no-array-index-key
+        key={index}
       />
     ));
 
-  return <>{trees}</>;
+  return trees;
 };
 
 TreeRow.propTypes = {

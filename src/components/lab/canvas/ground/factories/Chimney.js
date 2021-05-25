@@ -6,12 +6,17 @@ import {
   FACTORY_CHIMNEY_WIDTH,
   FACTORY_CHIMNEY_FILL,
   FACTORY_CHIMNEY_BEGINS_X,
-} from '../../../../config/constants';
+} from '../../../../../config/constants';
 import Smoke from './Smoke';
 
-const Chimney = ({ x, y, buildingWidth, buildingHeight }) => {
-  const chimneyX = x + FACTORY_CHIMNEY_BEGINS_X * buildingWidth;
-  const chimneyY = y - buildingHeight;
+const Chimney = ({
+  buildingWidth,
+  buildingHeight,
+  chimneyBeginsX,
+  chimneyBeginsY,
+}) => {
+  const chimneyX = chimneyBeginsX + FACTORY_CHIMNEY_BEGINS_X * buildingWidth;
+  const chimneyY = chimneyBeginsY - buildingHeight;
   const chimneyWidth = FACTORY_CHIMNEY_WIDTH * buildingWidth;
   const chimneyHeight = FACTORY_CHIMNEY_HEIGHT * buildingHeight;
 
@@ -35,8 +40,8 @@ const Chimney = ({ x, y, buildingWidth, buildingHeight }) => {
 };
 
 Chimney.propTypes = {
-  x: PropTypes.number.isRequired,
-  y: PropTypes.number.isRequired,
+  chimneyBeginsX: PropTypes.number.isRequired,
+  chimneyBeginsY: PropTypes.number.isRequired,
   buildingWidth: PropTypes.number.isRequired,
   buildingHeight: PropTypes.number.isRequired,
 };

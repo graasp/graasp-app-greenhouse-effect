@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import IceCap from './IceCap';
-import { generateIceCapPoints } from '../../../utils/canvas';
+import { generateIceCapPoints } from '../../../../../utils/canvas';
 
 const IceCapRow = ({
   iceCapBaseWidth,
@@ -12,8 +12,10 @@ const IceCapRow = ({
   iceCapRowBeginsY,
   numberOfIceCaps,
 }) => {
-  // **TODO**: Add some explanations of how this component works
+  // generateIceCapPoints creates a trapezium given a base and height
+  // the trapezium is an array of points passed as a prop to a Konva Line (with a prop of closed={true})
   const iceCapPoints = generateIceCapPoints(iceCapBaseWidth, iceCapHeight);
+
   const iceCaps = new Array(numberOfIceCaps)
     .fill()
     .map((emptyElement, index) => {
@@ -24,7 +26,7 @@ const IceCapRow = ({
       return <IceCap x={x} y={y} iceCapPoints={iceCapPoints} key={index} />;
     });
 
-  return <>{iceCaps}</>;
+  return iceCaps;
 };
 
 IceCapRow.propTypes = {
