@@ -154,3 +154,121 @@ export const generateHalfMountainPoints = (
     ...halfMountainPointThree,
   ];
 };
+
+export const determineCarbonDioxideAtomsCoordinates = (
+  moleculeCenter,
+  carbonRadius,
+  oxygenRadius,
+) => {
+  const { x: moleculeCenterX, y: moleculeCenterY } = moleculeCenter;
+  return {
+    topOxygen: {
+      x: moleculeCenterX,
+      y: moleculeCenterY - carbonRadius - oxygenRadius,
+    },
+    carbon: { x: moleculeCenterX, y: moleculeCenterY },
+    bottomOxygen: {
+      x: moleculeCenterX,
+      y: moleculeCenterY + carbonRadius + oxygenRadius,
+    },
+  };
+};
+
+export const determineWaterAtomsCoordinates = (
+  moleculeCenter,
+  oxygenRadius,
+  hydrogenRadius,
+) => {
+  const { x: moleculeCenterX, y: moleculeCenterY } = moleculeCenter;
+  const hydrogenXOffset = Math.sin((45 * Math.PI) / 180) * oxygenRadius;
+  const hydrogenYOffset =
+    Math.cos((45 * Math.PI) / 180) * oxygenRadius + hydrogenRadius;
+  return {
+    topHydrogen: {
+      x: moleculeCenterX - hydrogenXOffset,
+      y: moleculeCenterY - hydrogenYOffset,
+    },
+    oxygen: { x: moleculeCenterX, y: moleculeCenterY },
+    bottomHydrogen: {
+      x: moleculeCenterX - hydrogenXOffset,
+      y: moleculeCenterY + hydrogenYOffset,
+    },
+  };
+};
+
+export const determineMethaneAtomsCoordinates = (
+  moleculeCenter,
+  carbonRadius,
+  hydrogenRadius,
+) => {
+  const { x: moleculeCenterX, y: moleculeCenterY } = moleculeCenter;
+
+  const leftHydrogensXOffset = Math.cos((30 * Math.PI) / 180) * carbonRadius;
+  const leftHydrogensYOffset =
+    Math.sin((30 * Math.PI) / 180) * carbonRadius + hydrogenRadius;
+  const rightHydrogensXOffset = Math.cos((40 * Math.PI) / 180) * carbonRadius;
+  const rightHydrogensYOffset =
+    Math.sin((40 * Math.PI) / 180) * carbonRadius + hydrogenRadius;
+
+  return {
+    carbon: { x: moleculeCenterX, y: moleculeCenterY },
+    topLeftHydrogen: {
+      x: moleculeCenterX - leftHydrogensXOffset,
+      y: moleculeCenterY - leftHydrogensYOffset,
+    },
+    topRightHydrogen: {
+      x: moleculeCenterX + rightHydrogensXOffset,
+      y: moleculeCenterY - rightHydrogensYOffset,
+    },
+    bottomRightHydrogen: {
+      x: moleculeCenterX + rightHydrogensXOffset,
+      y: moleculeCenterY + rightHydrogensYOffset,
+    },
+    bottomLeftHydrogen: {
+      x: moleculeCenterX - leftHydrogensXOffset,
+      y: moleculeCenterY + leftHydrogensYOffset,
+    },
+  };
+};
+
+const determineNumberOfMolecules = (moleculeDistribution) => {
+  return Object.values(moleculeDistribution).reduce(
+    (accumulator, currentValue) => accumulator + currentValue,
+    0,
+  );
+};
+
+export const determineMoleculeCenterXs = (
+  moleculeRowBeginsX,
+  centralAtomRadius,
+  spaceBetweenMolecules,
+  moleculeDistribution,
+) => {
+  const numberOfMolecules = determineNumberOfMolecules(moleculeDistribution);
+  const centerXs = new Array(numberOfMolecules)
+    .fill()
+    .map(
+      (emptyElement, index) =>
+        moleculeRowBeginsX +
+        (2 * index + 1) * centralAtomRadius +
+        index * spaceBetweenMolecules,
+    );
+  return centerXs;
+};
+
+export const distributeMoleculesRandomly = (moleculeDistribution) => {
+  const numberOfMolecules = determineNumberOfMolecules(moleculeDistribution);
+  const randomDistribution = new Array(numberOfMolecules);
+  const moleculeDistributionArray = Object.entries(moleculeDistribution);
+  moleculeDistributionArray.forEach(([moleculeName, moleculeNumber]) => {
+    let counter = moleculeNumber;
+    while (counter > 0) {
+      const randomIndex = Math.floor(numberOfMolecules * Math.random());
+      if (!randomDistribution[randomIndex]) {
+        randomDistribution[randomIndex] = moleculeName;
+        counter -= 1;
+      }
+    }
+  });
+  return randomDistribution;
+};

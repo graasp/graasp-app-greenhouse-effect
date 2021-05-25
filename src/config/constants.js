@@ -204,3 +204,29 @@ export const ICE_COVER_LINES_TENSION = 0.1;
 export const PERMAFROST_WIDTH = 0.125;
 export const PERMAFROST_HEIGHT = 0.7;
 export const PERMAFROST_FILL = '#F5F5F5';
+
+/* ------GREENHOUSE GAS MOLECULES CONSTANTS------ */
+export const MOLECULE_DISTRIBUTION = {
+  CARBON_DIOXIDE: 4,
+  WATER: 2,
+  METHANE: 2,
+};
+export const CARBON_DIOXIDE = 'CARBON_DIOXIDE';
+export const WATER = 'WATER';
+export const METHANE = 'METHANE';
+export const MOLECULE_ROW_BEGINS_X = 0.45;
+export const MOLECULE_ROW_BEGINS_Y = 0.5;
+export const X_DISTANCE_BETWEEN_MOLECULES_IN_ROW = 0.025;
+export const ATOM_DIMENSIONS = { small: 0.003, medium: 0.006 };
+export const CARBON = {
+  atomColor: 'black',
+  size: 'medium',
+};
+export const OXYGEN = {
+  atomColor: 'indianred',
+  size: 'medium',
+};
+export const HYDROGEN = {
+  atomColor: 'gray',
+  size: 'small',
+};
