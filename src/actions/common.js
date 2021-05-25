@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import {
   MISSING_API_HOST_MESSAGE,
   MISSING_APP_INSTANCE_ID_MESSAGE,
