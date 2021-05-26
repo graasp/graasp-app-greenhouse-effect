@@ -23,13 +23,15 @@ const ThermometerScale = ({
     THERMOMETER_NUMBER_OF_GRADATIONS,
   );
 
-  const thermometerScale = thermometerScalePoints.map((yPoint) => (
+  const thermometerScale = thermometerScalePoints.map((yPoint, index) => (
     <Line
       x={thermometerBeginsX}
       y={yPoint}
       points={[0, 0, gradationWidth, 0]}
       stroke={THERMOMETER_BORDER_COLOR}
       strokeWidth={THERMOMETER_GRADATION_STROKE}
+      // eslint-disable-next-line react/no-array-index-key
+      key={index}
     />
   ));
 

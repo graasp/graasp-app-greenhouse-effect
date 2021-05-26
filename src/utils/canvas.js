@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { ICE_CAP_TRAPEZIUM_INDENT, SMOKE_INDENT_Y } from '../config/constants';
 
 // ice caps are trapezium-shaped, but there is no native trapezium in konva
@@ -257,20 +258,17 @@ export const determineMoleculeCenterXs = (
 };
 
 export const distributeMoleculesRandomly = (moleculeDistribution) => {
-  const numberOfMolecules = determineNumberOfMolecules(moleculeDistribution);
-  const randomDistribution = new Array(numberOfMolecules);
+  const arrayOfMolecules = [];
   const moleculeDistributionArray = Object.entries(moleculeDistribution);
+  // moleculeDistributionArray is of the form [['Water', 5],['Methane', 10],...]
   moleculeDistributionArray.forEach(([moleculeName, moleculeNumber]) => {
     let counter = moleculeNumber;
     while (counter > 0) {
-      const randomIndex = Math.floor(numberOfMolecules * Math.random());
-      if (!randomDistribution[randomIndex]) {
-        randomDistribution[randomIndex] = moleculeName;
-        counter -= 1;
-      }
+      arrayOfMolecules.push(moleculeName);
+      counter -= 1;
     }
   });
-  return randomDistribution;
+  return _.shuffle(arrayOfMolecules);
 };
 
 export const generateThermometerRectanglePoints = (
