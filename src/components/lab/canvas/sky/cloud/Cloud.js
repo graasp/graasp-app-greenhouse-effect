@@ -11,8 +11,8 @@ import {
   CLOUD_ELLIPSE_RADIUS_Y,
   CLOUD_FILL,
   CLOUD_RESPONSIVE_ADJUSTMENT_FACTOR,
-} from '../../../../config/constants';
-import { generateCloudCircles } from '../../../../utils/canvas';
+} from '../../../../../config/constants';
+import { generateCloudCircles } from '../../../../../utils/canvas';
 
 // a Cloud is five Konva circles, the central one being the largest, flanked on each side by two circles
 // since the circles have borders, we draw an ellipse in the middle, with the same color as the cloud, to conceal parts of the borders

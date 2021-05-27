@@ -200,17 +200,47 @@ export const DEFAULT_ICE_COVER = 0.5;
 export const ICE_COVER_FILL = '#F5F5F5';
 export const ICE_COVER_LINES_TENSION = 0.1;
 
-/* ------TREE CONSTANTS------ */
-export const NUMBER_OF_TREES_IN_ROW = 7;
-export const TREE_WIDTH = 0.01;
-export const TREE_HEIGHT = 0.125;
-export const TREE_CIRCLE_RADIUS = 1;
-export const TREE_ROW_BEGINS_X = 0.05;
-export const X_DISTANCE_BETWEEN_TREES = 0.025;
-export const TREE_FILL = '#432616';
-export const TREE_CIRCLES_FILL = '#4F7942';
-
 /* ------PERMAFROST CONSTANTS------ */
 export const PERMAFROST_WIDTH = 0.125;
 export const PERMAFROST_HEIGHT = 0.7;
 export const PERMAFROST_FILL = '#F5F5F5';
+
+/* ------GREENHOUSE GAS MOLECULES CONSTANTS------ */
+export const MOLECULE_DISTRIBUTION = {
+  CARBON_DIOXIDE: 4,
+  WATER: 2,
+  METHANE: 2,
+};
+export const CARBON_DIOXIDE = 'CARBON_DIOXIDE';
+export const WATER = 'WATER';
+export const METHANE = 'METHANE';
+export const MOLECULE_ROW_BEGINS_X = 0.45;
+export const MOLECULE_ROW_BEGINS_Y = 0.5;
+export const X_DISTANCE_BETWEEN_MOLECULES_IN_ROW = 0.025;
+export const ATOM_DIMENSIONS = { small: 0.003, medium: 0.006 };
+export const CARBON = {
+  atomColor: 'black',
+  size: 'medium',
+};
+export const OXYGEN = {
+  atomColor: 'indianred',
+  size: 'medium',
+};
+export const HYDROGEN = {
+  atomColor: 'gray',
+  size: 'small',
+};
+
+/* ------THERMOMETER CONSTANTS------ */
+export const THERMOMETER_BEGINS_X = 0.95;
+export const THERMOMETER_BEGINS_Y = 0.45;
+export const THERMOMETER_BASE_WIDTH = 0.015;
+export const THERMOMETER_HEIGHT = 0.4;
+export const THERMOMETER_BORDER_COLOR = '#282828';
+export const THERMOMETER_BORDER_WIDTH = 0.75;
+export const THERMOMETER_BULB_RADIUS = 0.015;
+export const THERMOMETER_FILL = '#CD4646';
+export const DEFAULT_THERMOMETER_PERCENTAGE_FULL = 0.4;
+export const THERMOMETER_NUMBER_OF_GRADATIONS = 10;
+export const THERMOMETER_GRADATION_WIDTH = 0.25;
+export const THERMOMETER_GRADATION_STROKE = 1;

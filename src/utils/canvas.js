@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { ICE_CAP_TRAPEZIUM_INDENT, SMOKE_INDENT_Y } from '../config/constants';
 
 // ice caps are trapezium-shaped, but there is no native trapezium in konva
@@ -155,24 +156,161 @@ export const generateHalfMountainPoints = (
   ];
 };
 
-export const generateTreeCirclePoints = (
-  treeX,
-  treeY,
-  treeHeight,
-  treeWidth,
-  circleRadius,
+export const determineCarbonDioxideAtomsCoordinates = (
+  moleculeCenter,
+  carbonRadius,
+  oxygenRadius,
 ) => {
-  const treeBaseMidpoint = treeX + treeWidth / 2;
-  const halfRadius = circleRadius / 2;
+  const { x: moleculeCenterX, y: moleculeCenterY } = moleculeCenter;
+  return {
+    topOxygen: {
+      x: moleculeCenterX,
+      y: moleculeCenterY - carbonRadius - oxygenRadius,
+    },
+    carbon: { x: moleculeCenterX, y: moleculeCenterY },
+    bottomOxygen: {
+      x: moleculeCenterX,
+      y: moleculeCenterY + carbonRadius + oxygenRadius,
+    },
+  };
+};
 
-  const rowOneY = treeY - treeHeight;
-  const rowTwoY = rowOneY - circleRadius;
+export const determineWaterAtomsCoordinates = (
+  moleculeCenter,
+  oxygenRadius,
+  hydrogenRadius,
+) => {
+  const { x: moleculeCenterX, y: moleculeCenterY } = moleculeCenter;
+  const hydrogenXOffset = Math.sin((45 * Math.PI) / 180) * oxygenRadius;
+  const hydrogenYOffset =
+    Math.cos((45 * Math.PI) / 180) * oxygenRadius + hydrogenRadius;
+  return {
+    topHydrogen: {
+      x: moleculeCenterX - hydrogenXOffset,
+      y: moleculeCenterY - hydrogenYOffset,
+    },
+    oxygen: { x: moleculeCenterX, y: moleculeCenterY },
+    bottomHydrogen: {
+      x: moleculeCenterX - hydrogenXOffset,
+      y: moleculeCenterY + hydrogenYOffset,
+    },
+  };
+};
 
-  const rowOne = [
-    { x: treeBaseMidpoint + halfRadius, y: rowOneY },
-    { x: treeBaseMidpoint - halfRadius, y: rowOneY },
-  ];
-  const rowTwo = [{ x: treeBaseMidpoint, y: rowTwoY }];
+export const determineMethaneAtomsCoordinates = (
+  moleculeCenter,
+  carbonRadius,
+  hydrogenRadius,
+) => {
+  const { x: moleculeCenterX, y: moleculeCenterY } = moleculeCenter;
 
-  return [...rowOne, ...rowTwo];
+  const leftHydrogensXOffset = Math.cos((30 * Math.PI) / 180) * carbonRadius;
+  const leftHydrogensYOffset =
+    Math.sin((30 * Math.PI) / 180) * carbonRadius + hydrogenRadius;
+  const rightHydrogensXOffset = Math.cos((40 * Math.PI) / 180) * carbonRadius;
+  const rightHydrogensYOffset =
+    Math.sin((40 * Math.PI) / 180) * carbonRadius + hydrogenRadius;
+
+  return {
+    carbon: { x: moleculeCenterX, y: moleculeCenterY },
+    topLeftHydrogen: {
+      x: moleculeCenterX - leftHydrogensXOffset,
+      y: moleculeCenterY - leftHydrogensYOffset,
+    },
+    topRightHydrogen: {
+      x: moleculeCenterX + rightHydrogensXOffset,
+      y: moleculeCenterY - rightHydrogensYOffset,
+    },
+    bottomRightHydrogen: {
+      x: moleculeCenterX + rightHydrogensXOffset,
+      y: moleculeCenterY + rightHydrogensYOffset,
+    },
+    bottomLeftHydrogen: {
+      x: moleculeCenterX - leftHydrogensXOffset,
+      y: moleculeCenterY + leftHydrogensYOffset,
+    },
+  };
+};
+
+const determineNumberOfMolecules = (moleculeDistribution) => {
+  return Object.values(moleculeDistribution).reduce(
+    (accumulator, currentValue) => accumulator + currentValue,
+    0,
+  );
+};
+
+export const determineMoleculeCenterXs = (
+  moleculeRowBeginsX,
+  centralAtomRadius,
+  spaceBetweenMolecules,
+  moleculeDistribution,
+) => {
+  const numberOfMolecules = determineNumberOfMolecules(moleculeDistribution);
+  const centerXs = new Array(numberOfMolecules)
+    .fill()
+    .map(
+      (emptyElement, index) =>
+        moleculeRowBeginsX +
+        (2 * index + 1) * centralAtomRadius +
+        index * spaceBetweenMolecules,
+    );
+  return centerXs;
+};
+
+export const distributeMoleculesRandomly = (moleculeDistribution) => {
+  const arrayOfMolecules = [];
+  const moleculeDistributionArray = Object.entries(moleculeDistribution);
+  // moleculeDistributionArray is of the form [['Water', 5],['Methane', 10],...]
+  moleculeDistributionArray.forEach(([moleculeName, moleculeNumber]) => {
+    let counter = moleculeNumber;
+    while (counter > 0) {
+      arrayOfMolecules.push(moleculeName);
+      counter -= 1;
+    }
+  });
+  return _.shuffle(arrayOfMolecules);
+};
+
+export const generateThermometerRectanglePoints = (
+  baseWidth,
+  thermometerHeight,
+) => {
+  const pointOne = [0, 0];
+  const pointTwo = [0, -thermometerHeight];
+  const pointThree = [baseWidth, -thermometerHeight];
+  const pointFour = [baseWidth, 0];
+  return [...pointOne, ...pointTwo, ...pointThree, ...pointFour];
+};
+
+export const determineBulbCoordinates = (
+  thermometerBeginsX,
+  thermometerBeginsY,
+  thermometerBaseWidth,
+  thermometerBulbRadius,
+) => {
+  const halfBaseWidth = thermometerBaseWidth / 2;
+  const yIndent = Math.sqrt(
+    thermometerBulbRadius ** 2 - (thermometerBaseWidth / 2) ** 2,
+  );
+  return {
+    x: thermometerBeginsX + halfBaseWidth,
+    y: thermometerBeginsY + yIndent,
+  };
+};
+
+export const determineThermometerScalePoints = (
+  thermometerBeginsY,
+  thermometerBodyHeight,
+  numberOfGradations,
+) => {
+  const distanceBetweenGradations = thermometerBodyHeight / numberOfGradations;
+
+  const gradationCoordinates = new Array(numberOfGradations)
+    .fill()
+    .map(
+      (emptyElement, index) =>
+        thermometerBeginsY - index * distanceBetweenGradations,
+    );
+
+  return gradationCoordinates;
 };

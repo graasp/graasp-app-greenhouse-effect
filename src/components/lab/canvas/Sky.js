@@ -2,8 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Group } from 'react-konva';
 import { ATMOSPHERE, SKY } from '../../../config/constants';
-import Cloud from './sky/Cloud';
+import Cloud from './sky/cloud/Cloud';
 import SkyBackground from './sky/SkyBackground';
+import MoleculesRow from './sky/greenhouse-gases/MoleculesRow';
+import Thermometer from './sky/thermometer/Thermometer';
 
 const Sky = ({ stageHeight, stageWidth }) => {
   // sky dimensions in /constants.js are stated as a percentage of canvas dimensions
@@ -30,6 +32,18 @@ const Sky = ({ stageHeight, stageWidth }) => {
       <Cloud
         skyHeight={skyHeight}
         skyWidth={skyWidth}
+        skyBeginsY={skyBeginsY}
+      />
+      <MoleculesRow
+        skyHeight={skyHeight}
+        skyWidth={skyWidth}
+        skyBeginsX={skyBeginsX}
+        skyBeginsY={skyBeginsY}
+      />
+      <Thermometer
+        skyHeight={skyHeight}
+        skyWidth={skyWidth}
+        skyBeginsX={skyBeginsX}
         skyBeginsY={skyBeginsY}
       />
     </Group>
