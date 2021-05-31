@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Line } from 'react-konva';
 import {
-  DEFAULT_TENSION,
+  DEFAULT_RADIATION_LINE_TENSION,
   SET_INTERVAL_TIME,
   LINE_STEP,
   LINE_ANGLE,
@@ -107,7 +107,7 @@ class EmittedLine extends Component {
         y={y}
         rotation={angle}
         points={points}
-        tension={DEFAULT_TENSION}
+        tension={DEFAULT_RADIATION_LINE_TENSION}
         stroke={color}
       />
     );

@@ -211,11 +211,9 @@ export const THERMOMETER_GRADATION_WIDTH = 0.25;
 export const THERMOMETER_GRADATION_STROKE = 1;
 
 export const SET_INTERVAL_TIME = 80;
-export const STROKE_COLOR = 'black';
 export const DEFAULT_TIMER_COUNT = 1;
 
-export const LINE_STROKE_COLOR = 'black';
-export const DEFAULT_TENSION = 0.3;
+export const DEFAULT_RADIATION_LINE_TENSION = 0.3;
 
 export const NUMBER_OF_LINES = 5;
 export const LINE_STEP = 5;
