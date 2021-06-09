@@ -139,14 +139,9 @@ export const WINDOW_LINES_COLOR = FACTORY_MAIN_BUILDING_COLOR;
 export const WINDOW_LINES_WIDTH = 0.5;
 // Chimney
 export const FACTORY_CHIMNEY_WIDTH = 0.15;
-export const FACTORY_CHIMNEY_HEIGHT = 0.3;
+export const FACTORY_CHIMNEY_HEIGHT = 0.15;
 export const FACTORY_CHIMNEY_FILL = FACTORY_MAIN_BUILDING_COLOR;
 export const FACTORY_CHIMNEY_BEGINS_X = 0.75;
-// Smoke
-export const SMOKE_CIRCLE_RADIUS = 1.25;
-// INDENT_Y: space between chimney and the beginning of the smoke
-export const SMOKE_INDENT_Y = 0.05;
-export const SMOKE_FILL = 'grey';
 
 /* ------MOUNTAIN CONSTANTS------ */
 export const MOUNTAIN_FILL = '#9A7B4F';

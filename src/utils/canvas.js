@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { ICE_CAP_TRAPEZIUM_INDENT, SMOKE_INDENT_Y } from '../config/constants';
+import { ICE_CAP_TRAPEZIUM_INDENT } from '../config/constants';
 
 // ice caps are trapezium-shaped, but there is no native trapezium in konva
 // the approach used to create a trapezium is a line with a property of 'closed'
@@ -92,45 +92,6 @@ export const generateHouseSideRoofPoints = (
     ...sideRoofPointThree,
     ...sideRoofPointFour,
   ];
-};
-
-// function used to draw smoke coming out of factory chimney
-// the smoke is a stack of circles; from bottom, row one has one circle, row two two circles, etc.
-// this function returns the centers of these circles given the position of the chimney and the desired size of the smoke
-export const generateSmokeCirclePoints = (
-  chimneyX,
-  chimneyY,
-  chimneyWidth,
-  chimneyHeight,
-  smokeCircleRadius,
-) => {
-  const halfRadius = smokeCircleRadius / 2;
-
-  // circle on row one
-  const firstCircleX = chimneyX + chimneyWidth / 2;
-  const firstCircleY =
-    chimneyY -
-    chimneyHeight -
-    SMOKE_INDENT_Y * chimneyHeight -
-    smokeCircleRadius;
-  const rowOne = [{ x: firstCircleX, y: firstCircleY }];
-
-  // circles on row two
-  const secondRowY = firstCircleY - smokeCircleRadius;
-  const rowTwo = [
-    { x: firstCircleX - halfRadius, y: secondRowY },
-    { x: firstCircleX + halfRadius, y: secondRowY },
-  ];
-
-  // circles on row three
-  const thirdRowY = secondRowY - smokeCircleRadius;
-  const rowThree = [
-    { x: firstCircleX, y: thirdRowY },
-    { x: firstCircleX - smokeCircleRadius, y: thirdRowY },
-    { x: firstCircleX + smokeCircleRadius, y: thirdRowY },
-  ];
-
-  return [...rowOne, ...rowTwo, ...rowThree];
 };
 
 // 'full mountain': equilateral triangle
