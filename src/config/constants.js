@@ -186,8 +186,8 @@ export const WINDOW_HEIGHT = 0.4;
 export const WINDOW_FILL = '#D3D3D3';
 
 /* ------PERMAFROST CONSTANTS------ */
-export const PERMAFROST_WIDTH = 0.125;
-export const PERMAFROST_HEIGHT = 0.7;
+export const PERMAFROST_WIDTH = 1;
+export const PERMAFROST_HEIGHT = 0.05;
 export const PERMAFROST_FILL = '#F5F5F5';
 
 /* ------GREENHOUSE GAS MOLECULES CONSTANTS------ */

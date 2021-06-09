@@ -19,7 +19,7 @@ const Permafrost = ({
 
   // permafrost positioning
   const permafrostBeginsX = groundBeginsX;
-  const permafrostBeginsY = groundBeginsY + groundHeight;
+  const permafrostBeginsY = groundBeginsY;
 
   return (
     <Rect
