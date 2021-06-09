@@ -37,6 +37,7 @@ export const SKY = {
 export const SEA = {
   height: 0.15,
   width: 0.4,
+  indent: 0.06,
   colorRange: [0, '#406bca', 1, '#6688D4'],
 };
 export const GROUND = {

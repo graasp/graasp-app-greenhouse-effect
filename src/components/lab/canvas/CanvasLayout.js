@@ -15,8 +15,8 @@ const CanvasLayout = () => {
     <Group>
       <Atmosphere stageHeight={stageHeight} stageWidth={stageWidth} />
       <Sky stageHeight={stageHeight} stageWidth={stageWidth} />
-      <Sea stageHeight={stageHeight} stageWidth={stageWidth} />
       <Ground stageHeight={stageHeight} stageWidth={stageWidth} />
+      <Sea stageHeight={stageHeight} stageWidth={stageWidth} />
     </Group>
   );
 };
