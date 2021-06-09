@@ -165,6 +165,31 @@ export const DEFAULT_ICE_COVER = 0.5;
 export const ICE_COVER_FILL = '#F5F5F5';
 export const ICE_COVER_LINES_TENSION = 0.1;
 
+/* ------TRUCK CONSTANTS------ */
+export const TRUCK_FRONT_WIDTH = 0.05;
+export const TRUCK_FRONT_HEIGHT = 1.15;
+export const TRUCK_FRONT_CURVES = [0, 5, 5, 0];
+export const TRUCK_SIDE_WIDTH = 0.175;
+// next three variables should add up to 1 - these are stated as a percentage of TRUCK_FRONT_HEIGHT
+export const TRUCK_SIDE_HEIGHT = 0.15;
+export const TRUCK_CARGO_HEIGHT = 0.75;
+export const TRUCK_CARGO_GAP = 0.1;
+export const TRUCK_CARGO_WIDTH = TRUCK_SIDE_WIDTH;
+export const TRUCK_BEGINS_X = 0.15;
+export const TRUCK_BEGINS_Y = -0.5;
+export const TRUCK_WHEEL_RADIUS = 0.075;
+export const TRUCK_CARGO_FILL = '#C24641';
+export const TRUCK_BODY_FILL = '#990012';
+export const WHEEL_TIRE_FILL = '#282828';
+export const WHEEL_RIM_FILL = 'grey';
+export const WHEEL_ONE_BEGINS_X = 0.1;
+export const WHEEL_TWO_BEGINS_X = 0.3;
+export const WINDOW_BEGINS_X = 0.3;
+export const WINDOW_BEGINS_Y = 0.1;
+export const WINDOW_WIDTH = 0.5;
+export const WINDOW_HEIGHT = 0.4;
+export const WINDOW_FILL = '#D3D3D3';
+
 /* ------PERMAFROST CONSTANTS------ */
 export const PERMAFROST_WIDTH = 0.125;
 export const PERMAFROST_HEIGHT = 0.7;
