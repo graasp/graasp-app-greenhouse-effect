@@ -10,9 +10,9 @@ import {
 } from '../../../../../../config/constants';
 import { determineWaterAtomsCoordinates } from '../../../../../../utils/canvas';
 
-const Water = ({ moleculeCenter, skyWidth }) => {
-  const oxygenAtomRadius = ATOM_DIMENSIONS[OXYGEN.size] * skyWidth;
-  const hydrogenAtomRadius = ATOM_DIMENSIONS[HYDROGEN.size] * skyWidth;
+const Water = ({ moleculeCenter, skyHeight }) => {
+  const oxygenAtomRadius = ATOM_DIMENSIONS[OXYGEN.size] * skyHeight;
+  const hydrogenAtomRadius = ATOM_DIMENSIONS[HYDROGEN.size] * skyHeight;
 
   const {
     topHydrogen,
@@ -38,7 +38,7 @@ Water.propTypes = {
     x: PropTypes.number,
     y: PropTypes.number,
   }).isRequired,
-  skyWidth: PropTypes.number.isRequired,
+  skyHeight: PropTypes.number.isRequired,
 };
 
 export default Water;

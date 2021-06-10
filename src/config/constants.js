@@ -80,7 +80,6 @@ export const ICE_CAP_LINES_TENSION = 0.1;
 
 /* ------CLOUD CONSTANTS------ */
 export const CLOUD_CENTRAL_CIRCLE_RADIUS = 0.1;
-export const CLOUD_RESPONSIVE_ADJUSTMENT_FACTOR = 3;
 export const CLOUD_CENTRAL_CIRCLE_X = 0.3;
 export const CLOUD_CENTRAL_CIRCLE_Y = 0.3;
 export const CLOUD_ELLIPSE_RADIUS_X = 2;
@@ -88,6 +87,8 @@ export const CLOUD_ELLIPSE_RADIUS_Y = 0.75;
 export const CLOUD_FILL = 'white';
 export const CLOUD_BORDER_COLOR = 'black';
 export const CLOUD_BORDER_WIDTH = 0.5;
+export const CLOUD_ADJACENT_CIRCLE_RADIUS = 0.85;
+export const CLOUD_PERIPHERAL_CIRCLE_RADIUS = 0.5;
 
 /* ------ROAD CONSTANTS------ */
 export const ROAD_BEGINS_X = 0.18;
@@ -193,9 +194,9 @@ export const PERMAFROST_FILL = '#F5F5F5';
 
 /* ------GREENHOUSE GAS MOLECULES CONSTANTS------ */
 export const MOLECULE_DISTRIBUTION = {
-  CARBON_DIOXIDE: 4,
-  WATER: 2,
-  METHANE: 2,
+  CARBON_DIOXIDE: 6,
+  WATER: 5,
+  METHANE: 4,
 };
 export const CARBON_DIOXIDE = 'CARBON_DIOXIDE';
 export const WATER = 'WATER';
@@ -203,7 +204,7 @@ export const METHANE = 'METHANE';
 export const MOLECULE_ROW_BEGINS_X = 0.45;
 export const MOLECULE_ROW_BEGINS_Y = 0.5;
 export const X_DISTANCE_BETWEEN_MOLECULES_IN_ROW = 0.025;
-export const ATOM_DIMENSIONS = { small: 0.003, medium: 0.006 };
+export const ATOM_DIMENSIONS = { small: 0.006, medium: 0.012 };
 export const CARBON = {
   atomColor: 'black',
   size: 'medium',
@@ -216,6 +217,11 @@ export const HYDROGEN = {
   atomColor: 'gray',
   size: 'small',
 };
+export const MOLECULE_DISTRIBUTION_MIN_X = 0.01;
+// to avoid clashes with therometer, don't place molecules more than this constant from beginning of canvas
+export const MOLECULE_DISTRIBUTION_MAX_X = 0.9;
+// to avoid clashes with cloud, on rows whose y falls within cloud, place the molecules at least this constant from beginning of canvas
+export const MOLECULE_DISTRIBUTION_MIN_X_ON_CLOUD_ROWS = 0.5;
 
 /* ------THERMOMETER CONSTANTS------ */
 export const THERMOMETER_BEGINS_X = 0.95;

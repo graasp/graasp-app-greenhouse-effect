@@ -10,9 +10,9 @@ import {
   OXYGEN,
 } from '../../../../../../config/constants';
 
-const CarbonDioxide = ({ moleculeCenter, skyWidth }) => {
-  const carbonAtomRadius = ATOM_DIMENSIONS[CARBON.size] * skyWidth;
-  const oxygenAtomRadius = ATOM_DIMENSIONS[OXYGEN.size] * skyWidth;
+const CarbonDioxide = ({ moleculeCenter, skyHeight }) => {
+  const carbonAtomRadius = ATOM_DIMENSIONS[CARBON.size] * skyHeight;
+  const oxygenAtomRadius = ATOM_DIMENSIONS[OXYGEN.size] * skyHeight;
 
   const {
     topOxygen,
@@ -38,7 +38,7 @@ CarbonDioxide.propTypes = {
     x: PropTypes.number,
     y: PropTypes.number,
   }).isRequired,
-  skyWidth: PropTypes.number.isRequired,
+  skyHeight: PropTypes.number.isRequired,
 };
 
 export default CarbonDioxide;

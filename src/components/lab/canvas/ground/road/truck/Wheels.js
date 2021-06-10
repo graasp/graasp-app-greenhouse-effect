@@ -26,19 +26,23 @@ const Wheels = ({
     wheelThreeBeginsX,
   ];
 
-  return wheelsCenterXPoints.map((xPoint) => (
+  return wheelsCenterXPoints.map((xPoint, index) => (
     <Wheel
       wheelCenterX={xPoint}
       wheelCenterY={wheelsCenterY}
       wheelRadius={wheelRadius}
+      // eslint-disable-next-line react/no-array-index-key
+      key={index}
     />
   ));
 };
 
 Wheels.propTypes = {
-  wheelsCenterY: PropTypes.number.isRequired,
-  wheelsCenterXPoints: PropTypes.arrayOf(PropTypes.number).isRequired,
-  wheelRadius: PropTypes.number.isRequired,
+  truckBeginsX: PropTypes.number.isRequired,
+  truckBeginsY: PropTypes.number.isRequired,
+  truckTotalWidth: PropTypes.number.isRequired,
+  truckSideWidth: PropTypes.number.isRequired,
+  truckFrontHeight: PropTypes.number.isRequired,
 };
 
 export default Wheels;

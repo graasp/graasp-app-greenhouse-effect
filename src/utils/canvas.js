@@ -1,5 +1,17 @@
 import _ from 'lodash';
-import { ICE_CAP_TRAPEZIUM_INDENT } from '../config/constants';
+import {
+  CLOUD_ADJACENT_CIRCLE_RADIUS,
+  ATOM_DIMENSIONS,
+  CARBON,
+  CLOUD_CENTRAL_CIRCLE_RADIUS,
+  CLOUD_CENTRAL_CIRCLE_Y,
+  ICE_CAP_TRAPEZIUM_INDENT,
+  OXYGEN,
+  CLOUD_PERIPHERAL_CIRCLE_RADIUS,
+  MOLECULE_DISTRIBUTION_MAX_X,
+  MOLECULE_DISTRIBUTION_MIN_X,
+  MOLECULE_DISTRIBUTION_MIN_X_ON_CLOUD_ROWS,
+} from '../config/constants';
 
 // ice caps are trapezium-shaped, but there is no native trapezium in konva
 // the approach used to create a trapezium is a line with a property of 'closed'
@@ -30,8 +42,10 @@ export const generateIceCapPoints = (iceCapBaseWidth, iceCapHeight) => {
 
 // the cloud is five concentric circles - a large one in the center flanked by two smaller ones on each side
 export const generateCloudCircles = (centralCircleRadius, centralCircleX) => {
-  const adjacentCircleRadius = centralCircleRadius * 0.85;
-  const peripheralCircleRadius = centralCircleRadius * 0.5;
+  const adjacentCircleRadius =
+    centralCircleRadius * CLOUD_ADJACENT_CIRCLE_RADIUS;
+  const peripheralCircleRadius =
+    centralCircleRadius * CLOUD_PERIPHERAL_CIRCLE_RADIUS;
 
   const circleOne = {
     radius: peripheralCircleRadius,
@@ -193,45 +207,6 @@ export const determineMethaneAtomsCoordinates = (
   };
 };
 
-const determineNumberOfMolecules = (moleculeDistribution) => {
-  return Object.values(moleculeDistribution).reduce(
-    (accumulator, currentValue) => accumulator + currentValue,
-    0,
-  );
-};
-
-export const determineMoleculeCenterXs = (
-  moleculeRowBeginsX,
-  centralAtomRadius,
-  spaceBetweenMolecules,
-  moleculeDistribution,
-) => {
-  const numberOfMolecules = determineNumberOfMolecules(moleculeDistribution);
-  const centerXs = new Array(numberOfMolecules)
-    .fill()
-    .map(
-      (emptyElement, index) =>
-        moleculeRowBeginsX +
-        (2 * index + 1) * centralAtomRadius +
-        index * spaceBetweenMolecules,
-    );
-  return centerXs;
-};
-
-export const distributeMoleculesRandomly = (moleculeDistribution) => {
-  const arrayOfMolecules = [];
-  const moleculeDistributionArray = Object.entries(moleculeDistribution);
-  // moleculeDistributionArray is of the form [['Water', 5],['Methane', 10],...]
-  moleculeDistributionArray.forEach(([moleculeName, moleculeNumber]) => {
-    let counter = moleculeNumber;
-    while (counter > 0) {
-      arrayOfMolecules.push(moleculeName);
-      counter -= 1;
-    }
-  });
-  return _.shuffle(arrayOfMolecules);
-};
-
 export const generateThermometerRectanglePoints = (
   baseWidth,
   thermometerHeight,
@@ -287,4 +262,93 @@ export const generateSeaPoints = (seaBaseWidth, seaHeight, seaIndent) => {
   const seaPointThree = [0, seaHeight];
 
   return [...seaPointZero, ...seaPointOne, ...seaPointTwo, ...seaPointThree];
+};
+
+// given a moleculeDistribution of the form {CO2: N, H2O: M, CH4: K}, where N, M, K are integers (counts of each molecule)
+// return a flat array of the form [CO2, H2O, CO2, CH4, ...] where the molecules are distributed randomly
+const distributeMoleculesRandomly = (moleculeDistribution) => {
+  const arrayOfMolecules = [];
+  const moleculeDistributionArray = Object.entries(moleculeDistribution);
+  // moleculeDistributionArray is of the form [['Water', 5],['Methane', 10],...]
+  moleculeDistributionArray.forEach(([moleculeName, moleculeNumber]) => {
+    let counter = moleculeNumber;
+    while (counter > 0) {
+      arrayOfMolecules.push(moleculeName);
+      counter -= 1;
+    }
+  });
+  return _.shuffle(arrayOfMolecules);
+};
+
+// this function determines: (1) How many CO2 molecules can be veritcally placed on the sky?,
+// (2) What are the y-coordinates (as %s, to be multiplied in <Molecules> by skyHeight) of the center of these molecules?
+// (noting that the CO2 is the longest molecule in the application)
+export const determineMoleculeRowsCenterYs = () => {
+  const carbonRadius = ATOM_DIMENSIONS[CARBON.size];
+  const oxygenRadius = ATOM_DIMENSIONS[OXYGEN.size];
+  const carbonDiameter = 2 * carbonRadius;
+  const oxygenDiameter = 2 * oxygenRadius;
+  const carbonDioxideHeight = carbonDiameter + 2 * oxygenDiameter;
+
+  const numberOfRows = Math.floor(1 / carbonDioxideHeight);
+  const firstCarbonDioxideCenterY = oxygenDiameter + carbonRadius;
+
+  const centerYs = new Array(numberOfRows)
+    .fill()
+    .map(
+      (emptyElement, index) =>
+        firstCarbonDioxideCenterY + carbonDioxideHeight * index,
+    );
+
+  return centerYs;
+};
+
+// given a moleculeDistribution of the form {CO2: N, H2O: M, CH4: K}, where N, M, K are integers (counts of each molecule):
+// (1) use distributeMoleculesRandomly to get a flat array of the form [CO2, H2O, CO2, CH4, ...],
+// (2) return a chunked array where the molecules are distributed on the numberOfRows available
+export const chunkMolecules = (moleculeDistribution) => {
+  const centerYs = determineMoleculeRowsCenterYs();
+  const numberOfRows = centerYs.length;
+
+  const randomDistribution = distributeMoleculesRandomly(moleculeDistribution);
+
+  const chunkedDistribution = [];
+
+  for (let i = numberOfRows; i > 0; i -= 1) {
+    chunkedDistribution.push(
+      randomDistribution.splice(0, Math.ceil(randomDistribution.length / i)),
+    );
+  }
+
+  return chunkedDistribution;
+};
+
+// given a moleculeDistribution of the form {CO2: N, H2O: M, CH4: K}, where N, M, K are integers (counts of each molecule),
+// (1) find the chunked distribution of these molecules,
+// (2) return the x-coordinates (randomly determined) (as %s, to be multiplied in <Molecules> by skyWidth) of each molecule
+// (noting that in rows which clash with the cloud, we place the molecules at least MOLECULE_DISTRIBUTION_MIN_X_ON_CLOUD_ROWS from start of canvas)
+export const determineMoleculesWithinRowCenterXs = (moleculeDistribution) => {
+  const chunkedMolecules = chunkMolecules(moleculeDistribution);
+  const centerYs = determineMoleculeRowsCenterYs();
+  const cloudBeginsY = CLOUD_CENTRAL_CIRCLE_Y - CLOUD_CENTRAL_CIRCLE_RADIUS;
+  const cloudEndsY = CLOUD_CENTRAL_CIRCLE_Y + CLOUD_CENTRAL_CIRCLE_RADIUS;
+
+  const centerXs = chunkedMolecules.map((moleculeRow, index) => {
+    if (centerYs[index] >= cloudBeginsY && centerYs[index] <= cloudEndsY) {
+      return moleculeRow.map(
+        () =>
+          Math.random() *
+            (MOLECULE_DISTRIBUTION_MAX_X -
+              MOLECULE_DISTRIBUTION_MIN_X_ON_CLOUD_ROWS) +
+          MOLECULE_DISTRIBUTION_MIN_X_ON_CLOUD_ROWS,
+      );
+    }
+    return moleculeRow.map(
+      () =>
+        Math.random() *
+          (MOLECULE_DISTRIBUTION_MAX_X - MOLECULE_DISTRIBUTION_MIN_X) +
+        MOLECULE_DISTRIBUTION_MIN_X,
+    );
+  });
+  return centerXs;
 };

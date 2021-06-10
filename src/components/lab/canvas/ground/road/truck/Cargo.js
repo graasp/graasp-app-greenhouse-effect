@@ -16,6 +16,7 @@ const Cargo = ({
       width={truckCargoWidth}
       height={truckCargoHeight}
       fill={TRUCK_CARGO_FILL}
+      stroke={TRUCK_CARGO_FILL}
     />
   );
 };
