@@ -36,7 +36,8 @@ const SliderWithLabel = ({
   finalMarkText,
   onChange,
   indent,
-  labelClassName,
+  labelClassname,
+  valueLabelDisplay,
 }) => {
   const classes = useStyles();
 
@@ -56,11 +57,11 @@ const SliderWithLabel = ({
       classes={{ root: classes.slider }}
       min={0}
       max={max}
-      valueLabelDisplay="auto"
       value={value}
       marks={marks}
       disabled={disabled}
       onChange={onChange}
+      valueLabelDisplay={valueLabelDisplay}
     />
   );
 
@@ -95,14 +96,16 @@ SliderWithLabel.propTypes = {
   finalMarkText: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   indent: PropTypes.bool,
-  labelClassName: PropTypes.string,
+  labelClassname: PropTypes.string,
+  valueLabelDisplay: PropTypes.string,
 };
 
 SliderWithLabel.defaultProps = {
   disabled: false,
   finalMarkText: null,
   indent: false,
-  labelClassName: null,
+  labelClassname: null,
+  valueLabelDisplay: 'auto',
 };
 
 export default SliderWithLabel;

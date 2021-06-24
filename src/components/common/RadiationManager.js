@@ -20,11 +20,14 @@ import {
   X_DISTANCE_BETWEEN_ICE_CAPS,
   FLUX_HEAD_HEIGHT,
   ICE_TO_SKY_RADIATION_FLUX_OFFSET_X,
+  EARTH_EMITTED_INFRARED_VALUES,
+  SOLAR_FLUX,
 } from '../../config/constants';
 import EmittedLine from './EmittedLine';
 import { setNextState } from '../../actions/lab';
 import Flux from './Flux';
 import { computeCloudEllipseRadiuses } from '../../utils/canvas';
+import { computeGreenhouseEffect } from '../../utils/greenhouseEffect';
 
 const Radiations = () => {
   const sunRadiation = useSelector(({ lab }) => lab.radiations.sun);
@@ -33,9 +36,15 @@ const Radiations = () => {
   const gasesRadiation = useSelector(({ lab }) => lab.radiations.gases);
   const iceRadiation = useSelector(({ lab }) => lab.radiations.ice);
   const radiationMode = useSelector(({ lab }) => lab.radiationMode);
+  const { methane, carbonDioxide } = useSelector(
+    ({ lab }) => lab.greenhouseGasesValues,
+  );
+
   const { width, height } = useSelector(
     ({ layout }) => layout.lab.stageDimensions,
   );
+  const greenhouseEffect = computeGreenhouseEffect({ methane, carbonDioxide });
+
   const dispatch = useDispatch();
 
   const onEnd = (state) => {
@@ -86,6 +95,15 @@ const Radiations = () => {
 
   const gasesToSkyRadiation = {
     x: width * 0.85,
+  };
+
+  const AIR_TO_EARTH_INFRARED = {
+    width: Math.round(EARTH_EMITTED_INFRARED_VALUES.width * greenhouseEffect),
+    value: Math.round(EARTH_EMITTED_INFRARED_VALUES.value * greenhouseEffect),
+  };
+  const AIR_TO_SPACE_INFRARED = {
+    width: EARTH_EMITTED_INFRARED_VALUES.width - AIR_TO_EARTH_INFRARED.width,
+    value: EARTH_EMITTED_INFRARED_VALUES.value - AIR_TO_EARTH_INFRARED.value,
   };
 
   if (radiationMode === RADIATION_MODES.WAVES) {
@@ -141,7 +159,7 @@ const Radiations = () => {
             x: width * 0.6,
             y: height * 0.8,
           }}
-          amplitude={100}
+          amplitude={EARTH_EMITTED_INFRARED_VALUES.amplitude}
           wavelength={INFRARED_WAVELENGTH}
           onEnd={() => onEnd(RADIATION_STATES.GASES_RADIATION)}
         />
@@ -154,7 +172,7 @@ const Radiations = () => {
             x: width * 0.8,
             y: height * 0.55,
           }}
-          amplitude={30}
+          amplitude={EARTH_EMITTED_INFRARED_VALUES.amplitude * greenhouseEffect}
           wavelength={INFRARED_WAVELENGTH}
         />
         <EmittedLine
@@ -166,7 +184,9 @@ const Radiations = () => {
             x: width * 0.8,
             y: height * 0.45,
           }}
-          amplitude={60}
+          amplitude={
+            EARTH_EMITTED_INFRARED_VALUES.amplitude * (1 - greenhouseEffect)
+          }
           wavelength={INFRARED_WAVELENGTH}
         />
       </>
@@ -183,7 +203,7 @@ const Radiations = () => {
         height={80}
         scaleX={0.8}
         scaleY={0.4}
-        text="340"
+        text={`${SOLAR_FLUX}`}
         onEnd={() => onEnd(RADIATION_STATES.CLOUD_RADIATION)}
         show={sunRadiation}
       />
@@ -224,9 +244,9 @@ const Radiations = () => {
         x={earthToGasesRadiation.x}
         y={earthToGasesRadiation.y}
         color={EARTH_RADIATION_COLOR}
-        width={120}
+        width={EARTH_EMITTED_INFRARED_VALUES.width}
         height={140}
-        text="390"
+        text={EARTH_EMITTED_INFRARED_VALUES.value}
         angle={180}
         show={earthRadiation}
         onEnd={() => {
@@ -237,9 +257,9 @@ const Radiations = () => {
         x={gasesToSkyRadiation.x}
         y={sunToCloudRadiation.y}
         color={EARTH_RADIATION_COLOR}
-        width={60}
+        width={AIR_TO_SPACE_INFRARED.width}
         height={200}
-        text="240"
+        text={AIR_TO_SPACE_INFRARED.value}
         angle={200}
         show={gasesRadiation}
       />
@@ -247,9 +267,9 @@ const Radiations = () => {
         x={gasesToEarthRadiation.x}
         y={iceToSkyRadiation.y}
         color={EARTH_RADIATION_COLOR}
-        width={50}
         height={200}
-        text="150"
+        width={AIR_TO_EARTH_INFRARED.width}
+        text={AIR_TO_EARTH_INFRARED.value}
         angle={-10}
         show={gasesRadiation}
       />

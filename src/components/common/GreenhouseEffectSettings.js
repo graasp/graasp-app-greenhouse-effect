@@ -11,6 +11,7 @@ import {
   CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE,
   ALBEDO_MAX_VALUE,
 } from '../../config/constants';
+import { computeGreenhouseEffect } from '../../utils/greenhouseEffect';
 
 const useStyles = makeStyles(() => ({
   title: {
@@ -34,6 +35,8 @@ const GreenhouseEffectSettings = () => {
   const onAlbedoChange = (e, v) => {
     dispatch(setAlbedo(v));
   };
+  const totalEffectValue =
+    computeGreenhouseEffect({ methane, carbonDioxide }) * 100;
 
   return (
     <>
@@ -48,8 +51,9 @@ const GreenhouseEffectSettings = () => {
         disabled
         text={t('Greenhouse Effect (%)')}
         max={GREENHOUSE_TOTAL_EFFECT_MAX_VALUE}
-        value={50}
-        labelClassName={classes.title}
+        value={totalEffectValue.toFixed(1)}
+        valueLabelDisplay="on"
+        labelClassname={classes.title}
       />
       <SliderWithLabel
         text={t('CO_2 (ppm)', { escapeInterpolation: true })}

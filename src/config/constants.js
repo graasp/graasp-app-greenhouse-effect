@@ -267,7 +267,7 @@ export const RADIATION_STATES = {
 export const DEFAULT_ALBEDO = 30;
 
 export const ALBEDO_MAX_VALUE = 100;
-export const CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE = 1000;
+export const CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE = 5000;
 export const METHANE_CONCENTRATION_MAX_VALUE = 10;
 export const WATER_CONCENTRATION_MAX_VALUE = 100;
 export const GREENHOUSE_TOTAL_EFFECT_MAX_VALUE = 100;
@@ -289,3 +289,12 @@ export const FLUX_PROGRESS_INTERVAL_DELTA = 10;
 export const ZOOM_IN_CURSOR = 'zoom-in';
 export const ZOOM_OUT_CURSOR = 'zoom-out';
 export const DEFAULT_CURSOR = 'default';
+
+export const EARTH_EMITTED_INFRARED_VALUES = {
+  width: 80, // use for flux
+  amplitude: 100, // use for wave
+  value: 390,
+};
+
+export const SOLAR_FLUX = 340;
+export const STEFAN_BOLTZMANN_CONSTANT = 5.670367e-8;
