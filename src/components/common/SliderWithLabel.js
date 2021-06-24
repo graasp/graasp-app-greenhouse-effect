@@ -6,6 +6,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
+import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -22,6 +23,9 @@ const useStyles = makeStyles((theme) => ({
   slider: {
     width: '50%',
   },
+  indent: {
+    paddingLeft: theme.spacing(3),
+  },
 }));
 
 const SliderWithLabel = ({
@@ -31,6 +35,8 @@ const SliderWithLabel = ({
   text,
   finalMarkText,
   onChange,
+  indent,
+  labelClassname,
 }) => {
   const classes = useStyles();
 
@@ -59,7 +65,12 @@ const SliderWithLabel = ({
   );
 
   const Label = (
-    <Typography variant="body2" className={classes.label}>
+    <Typography
+      variant="body2"
+      className={clsx(classes.label, labelClassname, {
+        [classes.indent]: indent,
+      })}
+    >
       {/* set in inner html to allow subscript tags */}
       {/* eslint-disable-next-line react/no-danger */}
       <span dangerouslySetInnerHTML={{ __html: text }} />
@@ -83,11 +94,15 @@ SliderWithLabel.propTypes = {
   text: PropTypes.string.isRequired,
   finalMarkText: PropTypes.string,
   onChange: PropTypes.func.isRequired,
+  indent: PropTypes.bool,
+  labelClassname: PropTypes.string,
 };
 
 SliderWithLabel.defaultProps = {
   disabled: false,
   finalMarkText: null,
+  indent: false,
+  labelClassname: null,
 };
 
 export default SliderWithLabel;

@@ -18,10 +18,12 @@ import {
   ICE_CAP_HEIGHT,
   ICE_CAP_ROWS_BEGIN,
   X_DISTANCE_BETWEEN_ICE_CAPS,
+  FLUX_HEAD_HEIGHT,
 } from '../../config/constants';
 import EmittedLine from './EmittedLine';
 import { setNextState } from '../../actions/lab';
 import Flux from './Flux';
+import { computeCloudEllipseRadiuses } from '../../utils/canvas';
 
 const Radiations = () => {
   const sunRadiation = useSelector(({ lab }) => lab.radiations.sun);
@@ -65,6 +67,24 @@ const Radiations = () => {
     y: height * (1 - SEA.height * (1 + ICE_CAP_HEIGHT)),
   };
 
+  const earthToGasesRadiation = {
+    x: width * 0.75,
+    y: height * 0.6,
+  };
+
+  const gasesToEarthRadiation = {
+    x: width * 0.9,
+  };
+
+  const gasesToSkyRadiation = {
+    x: width * 0.85,
+  };
+
+  const { cloudEllipseRadiusX: cloudHeight } = computeCloudEllipseRadiuses({
+    skyHeight: height * SKY.height,
+    skyWidth: width * SKY.width,
+  });
+
   if (radiationMode === RADIATION_MODES.WAVES) {
     return (
       <>
@@ -83,7 +103,7 @@ const Radiations = () => {
           show={cloudRadiation}
           maxPointsForLine={110}
           angle={0}
-          origin={cloudToGroundRadiation}
+          origin={{ y: cloudToGroundRadiation.y, x: sunToCloudRadiation.x }}
           amplitude={70}
           onEnd={() => {
             onEnd(RADIATION_STATES.ICE_RADIATION);
@@ -154,68 +174,81 @@ const Radiations = () => {
     <>
       <Flux
         x={sunToCloudRadiation.x}
-        y={sunToCloudRadiation.y}
+        y={cloudToSkyRadiation.y - FLUX_HEAD_HEIGHT}
         color={SUN_LIGHT_COLOR}
-        width={80}
+        width={110}
         height={80}
         scaleX={0.8}
         scaleY={0.4}
         text="340"
-        angle={Math.PI / 2}
+        onEnd={() => onEnd(RADIATION_STATES.CLOUD_RADIATION)}
+        show={sunRadiation}
       />
       <Flux
-        x={cloudToGroundRadiation.x}
-        y={cloudToGroundRadiation.y + 20}
+        x={sunToCloudRadiation.x}
+        y={cloudToGroundRadiation.y + cloudHeight * 2}
         color={SUN_LIGHT_COLOR}
-        width={50}
+        width={70}
         height={200}
         text="290"
-        angle={Math.PI / 2}
-      />
-      <Flux
-        x={iceToSkyRadiation.x}
-        y={iceToSkyRadiation.y}
-        color={SUN_LIGHT_COLOR}
-        width={20}
-        height={700}
-        text="50"
-        angle={(Math.PI * 5) / 4}
+        show={cloudRadiation}
+        onEnd={() => {
+          onEnd(RADIATION_STATES.EARTH_RADIATION);
+          onEnd(RADIATION_STATES.ICE_RADIATION);
+        }}
       />
       <Flux
         x={cloudToSkyRadiation.x}
-        y={cloudToSkyRadiation.y}
+        y={sunToCloudRadiation.y}
         color={SUN_LIGHT_COLOR}
-        width={20}
-        height={230}
+        width={30}
+        height={120}
         text="50"
-        angle={(Math.PI * 5) / 4}
+        show={cloudRadiation}
+        angle={160}
       />
       <Flux
-        x={width * 0.75}
-        y={height * 0.8}
+        x={iceToSkyRadiation.x - 50}
+        y={sunToCloudRadiation.y}
+        color={SUN_LIGHT_COLOR}
+        width={30}
+        height={470}
+        text="50"
+        angle={170}
+        show={iceRadiation}
+      />
+      <Flux
+        x={earthToGasesRadiation.x}
+        y={earthToGasesRadiation.y}
         color={EARTH_RADIATION_COLOR}
-        width={80}
+        width={120}
         height={140}
         text="390"
-        angle={(3 * Math.PI) / 2}
+        angle={180}
+        show={earthRadiation}
+        onEnd={() => {
+          onEnd(RADIATION_STATES.GASES_RADIATION);
+        }}
       />
       <Flux
-        x={width * 0.75}
-        y={height * 0.45}
+        x={gasesToSkyRadiation.x}
+        y={sunToCloudRadiation.y}
         color={EARTH_RADIATION_COLOR}
         width={60}
         height={200}
         text="240"
-        angle={(3 * Math.PI) / 2}
+        angle={200}
+        show={gasesRadiation}
       />
       <Flux
-        x={width * 0.85}
-        y={height * 0.55}
+        x={gasesToEarthRadiation.x}
+        y={iceToSkyRadiation.y}
         color={EARTH_RADIATION_COLOR}
-        width={30}
-        height={500}
+        width={50}
+        height={200}
         text="150"
-        angle={Math.PI / 2 - 1}
+        angle={-10}
+        show={gasesRadiation}
       />
     </>
   );

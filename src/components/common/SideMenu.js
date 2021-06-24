@@ -14,7 +14,6 @@ import { DRAWER_WIDTH, DEFAULT_THEME_DIRECTION } from '../../config/constants';
 import RadiationModeSwitch from './RadiationModeSwitch';
 import FeedbacksSettings from './FeedbacksSettings';
 import GreenhouseEffectSettings from './GreenhouseEffectSettings';
-import AlbedoSlider from './AlbedoSlider';
 import SimulationMode from './SimulationMode';
 import AnimationControls from './AnimationControls';
 
@@ -32,6 +31,9 @@ const styles = (theme) => ({
   contentWrapper: {
     margin: theme.spacing(2),
   },
+  divider: {
+    marginBottom: theme.spacing(2),
+  },
 });
 
 class SideMenu extends React.Component {
@@ -40,6 +42,7 @@ class SideMenu extends React.Component {
       drawerHeader: PropTypes.string.isRequired,
       drawerPaper: PropTypes.string.isRequired,
       contentWrapper: PropTypes.string.isRequired,
+      divider: PropTypes.string.isRequired,
     }).isRequired,
     theme: PropTypes.shape({
       direction: PropTypes.string.isRequired,
@@ -91,8 +94,8 @@ class SideMenu extends React.Component {
           <div className={classes.contentWrapper}>
             <AnimationControls />
             <RadiationModeSwitch />
+            <Divider className={classes.divider} />
             <SimulationMode />
-            <AlbedoSlider />
             <GreenhouseEffectSettings />
             <FeedbacksSettings />
           </div>
