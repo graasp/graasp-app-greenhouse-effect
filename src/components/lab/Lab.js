@@ -11,8 +11,8 @@ import {
 } from '../../config/constants';
 import { setStageDimensions } from '../../actions';
 import CanvasLayout from './canvas/CanvasLayout';
-import Radiations from '../common/RadiationManager';
 import MoleculesView from './canvas/MoleculesView';
+import Radiations from '../radiations/RadiationManager';
 
 const styles = () => ({
   container: {

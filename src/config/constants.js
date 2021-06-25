@@ -225,7 +225,7 @@ export const MOLECULE_DISTRIBUTION_MIN_X_ON_CLOUD_ROWS = 0.5;
 
 /* ------THERMOMETER CONSTANTS------ */
 export const THERMOMETER_BEGINS_X = 0.95;
-export const THERMOMETER_BEGINS_Y = 0.45;
+export const THERMOMETER_BEGINS_Y = 0.48;
 export const THERMOMETER_BASE_WIDTH = 0.015;
 export const THERMOMETER_HEIGHT = 0.4;
 export const THERMOMETER_BORDER_COLOR = '#282828';
@@ -234,6 +234,8 @@ export const THERMOMETER_BULB_RADIUS = 0.015;
 export const THERMOMETER_FILL = '#CD4646';
 export const DEFAULT_THERMOMETER_PERCENTAGE_FULL = 0.4;
 export const THERMOMETER_NUMBER_OF_GRADATIONS = 10;
+export const THERMOMETER_MIN_VALUE = 250; // Kelvin
+export const THERMOMETER_MAX_VALUE = 305; // Kelvin
 export const THERMOMETER_GRADATION_WIDTH = 0.25;
 export const THERMOMETER_GRADATION_STROKE = 1;
 
@@ -290,11 +292,30 @@ export const ZOOM_IN_CURSOR = 'zoom-in';
 export const ZOOM_OUT_CURSOR = 'zoom-out';
 export const DEFAULT_CURSOR = 'default';
 
-export const EARTH_EMITTED_INFRARED_VALUES = {
-  width: 80, // use for flux
-  amplitude: 100, // use for wave
-  value: 390,
-};
-
 export const SOLAR_FLUX = 340;
 export const STEFAN_BOLTZMANN_CONSTANT = 5.670367e-8;
+
+export const SCALE_WIDTH = 7;
+export const SCALE_FONT_SIZE = 13;
+export const SCALE_PADDING_LEFT = 7;
+export const SCALE_PADDING_RIGHT = 15;
+export const SCALE_LINE_HEIGHT = 1.5;
+export const SCALE_HEIGHT = 17;
+// approximatively the width of the scale text
+export const SCALE_TEXT_WIDTH_FACTOR = SCALE_FONT_SIZE;
+// the actual number of displayed ticks might vary due to number rounding
+export const SCALE_MAX_NUMBER_TICKS = 6;
+export const SCALE_LEGEND_PADDING_BOTTOM = 30;
+export const SCALE_TICKS_STROKE_COLOR = 'black';
+export const INITIAL_TEMPERATURE = 289;
+// apply dashed stroke that is 6px long and 2 pixels apart
+export const SCALE_LABELS_LINE_DASH = [6, 2];
+
+export const THERMOMETER_HEIGHT_FACTOR = 0.5;
+export const SCALE_UNITS = {
+  KELVIN: { name: 'kelvin', unit: 'K' },
+  CELSIUS: { name: 'celsius', unit: '°C' },
+};
+export const THERMOMETER_CURRENT_TEMPERATURE_FONT_SIZE = 20;
+export const THERMOMETER_CURRENT_TEMPERATURE_WIDTH = 20;
+export const THERMOMETER_CURRENT_TEMPERATURE_MARGIN_BOTTOM = 10;

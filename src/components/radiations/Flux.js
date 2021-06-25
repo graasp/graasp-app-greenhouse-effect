@@ -45,13 +45,25 @@ class Flux extends Component {
     { isPaused: prevIsPaused, show: prevShow },
     { progress: prevProgress },
   ) {
-    const { isPaused, show, onEnd } = this.props;
+    // eslint-disable-next-line react/prop-types
+    const { isPaused, show, onEnd, log } = this.props;
     const { progress } = this.state;
+
+    if (log) {
+      console.log(isPaused, prevIsPaused, show, prevShow);
+    }
+
     if (isPaused !== prevIsPaused && isPaused) {
       clearInterval(this.interval);
-    } else if (isPaused !== prevIsPaused && !isPaused && show) {
+    }
+    // continue progress on play
+    else if (isPaused !== prevIsPaused && !isPaused && show) {
       this.beginLineInterval();
-    } else if (!isPaused && show !== prevShow && show) {
+    }
+    // continue animation
+    else if (!isPaused && show !== prevShow && show) {
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState({ progress: 0 });
       this.beginLineInterval();
     }
 

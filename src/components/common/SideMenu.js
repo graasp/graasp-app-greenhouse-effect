@@ -16,6 +16,7 @@ import FeedbacksSettings from './FeedbacksSettings';
 import GreenhouseEffectSettings from './GreenhouseEffectSettings';
 import SimulationMode from './SimulationMode';
 import AnimationControls from './AnimationControls';
+import ScaleUnitSwitch from './ScaleUnitSwitch';
 
 const styles = (theme) => ({
   drawerPaper: {
@@ -94,6 +95,7 @@ class SideMenu extends React.Component {
           <div className={classes.contentWrapper}>
             <AnimationControls />
             <RadiationModeSwitch />
+            <ScaleUnitSwitch />
             <Divider className={classes.divider} />
             <SimulationMode />
             <GreenhouseEffectSettings />

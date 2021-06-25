@@ -3,6 +3,7 @@ import {
   DEFAULT_ALBEDO,
   GREENHOUSE_GASES_VALUES,
   RADIATION_MODES,
+  SCALE_UNITS,
 } from '../config/constants';
 import {
   SET_ALBEDO,
@@ -11,18 +12,13 @@ import {
   SET_NEXT_STATE,
   SET_RADIATION_MODE,
   SET_IS_PAUSED,
+  SET_SCALE_UNIT,
 } from '../types';
 
 const INITIAL_STATE = {
   isPaused: true,
   settings: {
     open: false,
-  },
-  radiations: {
-    sun: true,
-    cloud: false,
-    earth: false,
-    gases: false,
   },
   radiationMode: RADIATION_MODES.WAVES,
   greenhouseGasesValues: {
@@ -38,12 +34,15 @@ const INITIAL_STATE = {
   },
   showLoader: true,
   showSideMenu: true,
+  scaleUnit: SCALE_UNITS.CELSIUS,
 };
 
 export default (state = INITIAL_STATE, { type, payload }) => {
   switch (type) {
     case SET_RADIATION_MODE:
       return { ...state, radiationMode: payload };
+    case SET_SCALE_UNIT:
+      return { ...state, scaleUnit: payload };
     case SET_GREENHOUSE_GASES_VALUES:
       return {
         ...state,
@@ -62,7 +61,7 @@ export default (state = INITIAL_STATE, { type, payload }) => {
         ...state,
         radiations: {
           ...state.radiations,
-          ...payload.radiations,
+          ...payload,
         },
       };
     case SET_IS_PAUSED:

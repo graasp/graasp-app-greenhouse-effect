@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Group } from 'react-konva';
@@ -15,14 +16,14 @@ import {
   determineBulbCoordinates,
   generateThermometerRectanglePoints,
 } from '../../../../../utils/canvas';
-import ThermometerFill from './ThermometerFill';
 import ThermometerBody from './ThermometerBody';
 import ThermometerBulb from './ThermometerBulb';
 import ThermometerScale from './ThermometerScale';
 import {
+  computeCurrentTemperature,
   computeGreenhouseEffect,
-  kelvinToCelsius,
 } from '../../../../../utils/greenhouseEffect';
+import CurrentTemperature from './CurrentTemperature';
 
 const Thermometer = ({
   skyHeight,
@@ -62,11 +63,7 @@ const Thermometer = ({
   );
 
   const greenhouseEffect = computeGreenhouseEffect(greenhouseEffectGases);
-  const temperature = kelvinToCelsius(
-    ((SOLAR_FLUX * (1 - albedo / 100.0)) /
-      (STEFAN_BOLTZMANN_CONSTANT * (1 - greenhouseEffect))) **
-      0.25,
-  );
+  const temperature = computeCurrentTemperature({ greenhouseEffect, albedo });
 
   return (
     <Group
@@ -78,12 +75,6 @@ const Thermometer = ({
         thermometerBulbBeginsY={thermometerBulbBeginsY}
         thermometerBulbRadius={thermometerBulbRadius}
       />
-      <ThermometerFill
-        thermometerBeginsX={thermometerBeginsX}
-        thermometerBeginsY={thermometerBeginsY}
-        thermometerRectanglePoints={thermometerRectanglePoints}
-        thermometerPercentageFull={temperature / 100}
-      />
       <ThermometerBody
         thermometerBeginsX={thermometerBeginsX}
         thermometerBeginsY={thermometerBeginsY}
@@ -94,6 +85,14 @@ const Thermometer = ({
         thermometerBeginsY={thermometerBeginsY}
         thermometerBaseWidth={thermometerBaseWidth}
         thermometerBodyHeight={thermometerBodyHeight}
+        currentTemperature={temperature}
+      />
+      <CurrentTemperature
+        thermometerBeginsX={thermometerBeginsX}
+        thermometerBeginsY={thermometerBeginsY}
+        thermometerBodyHeight={thermometerBodyHeight}
+        thermometerBaseWidth={thermometerBaseWidth}
+        temperature={temperature}
       />
     </Group>
   );

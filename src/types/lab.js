@@ -4,3 +4,4 @@ export const SET_ALBEDO = 'SET_ALBEDO';
 export const SET_FEEDBACK_VALUES = 'SET_FEEDBACK_VALUES';
 export const SET_RADIATION_MODE = 'SET_RADIATION_MODE';
 export const SET_IS_PAUSED = 'SET_IS_PAUSED';
+export const SET_SCALE_UNIT = 'SET_SCALE_UNIT';
