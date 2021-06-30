@@ -4,7 +4,7 @@ import { Group } from 'react-konva';
 import { ATMOSPHERE, SKY } from '../../../config/constants';
 import Cloud from './sky/cloud/Cloud';
 import SkyBackground from './sky/SkyBackground';
-import MoleculesRow from './sky/greenhouse-gases/MoleculesRow';
+import Molecules from './sky/greenhouse-gases/Molecules';
 import Thermometer from './sky/thermometer/Thermometer';
 
 const Sky = ({ stageHeight, stageWidth }) => {
@@ -34,7 +34,7 @@ const Sky = ({ stageHeight, stageWidth }) => {
         skyWidth={skyWidth}
         skyBeginsY={skyBeginsY}
       />
-      <MoleculesRow
+      <Molecules
         skyHeight={skyHeight}
         skyWidth={skyWidth}
         skyBeginsX={skyBeginsX}

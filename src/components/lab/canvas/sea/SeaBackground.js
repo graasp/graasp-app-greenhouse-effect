@@ -1,23 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Rect } from 'react-konva';
+import { Line } from 'react-konva';
 import { SEA } from '../../../../config/constants';
+import { generateSeaPoints } from '../../../../utils/canvas';
 
-const SeaBackground = ({ seaHeight, seaWidth, seaBeginsX, seaBeginsY }) => {
+const SeaBackground = ({
+  seaHeight,
+  seaWidth,
+  seaIndent,
+  seaBeginsX,
+  seaBeginsY,
+}) => {
   const { colorRange: seaColorRange } = SEA;
 
   return (
-    <Rect
+    <Line
       x={seaBeginsX}
       y={seaBeginsY}
-      height={seaHeight}
-      width={seaWidth}
+      points={generateSeaPoints(seaWidth, seaHeight, seaIndent)}
       fillLinearGradientStartPoint={{ x: 0, y: 0 }}
       fillLinearGradientEndPoint={{
         x: 0,
         y: seaHeight,
       }}
       fillLinearGradientColorStops={seaColorRange}
+      closed
     />
   );
 };
@@ -25,6 +32,7 @@ const SeaBackground = ({ seaHeight, seaWidth, seaBeginsX, seaBeginsY }) => {
 SeaBackground.propTypes = {
   seaHeight: PropTypes.number.isRequired,
   seaWidth: PropTypes.number.isRequired,
+  seaIndent: PropTypes.number.isRequired,
   seaBeginsX: PropTypes.number.isRequired,
   seaBeginsY: PropTypes.number.isRequired,
 };

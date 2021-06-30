@@ -7,7 +7,6 @@ import {
   FACTORY_CHIMNEY_FILL,
   FACTORY_CHIMNEY_BEGINS_X,
 } from '../../../../../config/constants';
-import Smoke from './Smoke';
 
 const Chimney = ({
   buildingWidth,
@@ -28,12 +27,6 @@ const Chimney = ({
         fill={FACTORY_CHIMNEY_FILL}
         x={chimneyX}
         y={chimneyY}
-      />
-      <Smoke
-        chimneyWidth={chimneyWidth}
-        chimneyHeight={chimneyHeight}
-        chimneyX={chimneyX}
-        chimneyY={chimneyY}
       />
     </Group>
   );

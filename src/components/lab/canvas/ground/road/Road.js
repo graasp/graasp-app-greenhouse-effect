@@ -9,6 +9,7 @@ import {
   ROAD_LINE_COLOR,
   ROAD_LINE_DASH,
 } from '../../../../../config/constants';
+import Truck from './Truck';
 
 const Road = ({ groundHeight, groundWidth, groundBeginsX, groundBeginsY }) => {
   const roadBeginsX = groundBeginsX + ROAD_BEGINS_X * groundWidth;
@@ -36,6 +37,12 @@ const Road = ({ groundHeight, groundWidth, groundBeginsX, groundBeginsY }) => {
         stroke={ROAD_LINE_COLOR}
         points={[0, 0, lineWidth, 0]}
         dash={ROAD_LINE_DASH}
+      />
+      <Truck
+        roadHeight={roadHeight}
+        roadWidth={roadWidth}
+        roadBeginsX={roadBeginsX}
+        roadBeginsY={roadBeginsY}
       />
     </Group>
   );

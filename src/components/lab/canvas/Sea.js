@@ -7,11 +7,17 @@ import SeaBackground from './sea/SeaBackground';
 
 const Sea = ({ stageHeight, stageWidth }) => {
   // sea dimensions in /constants.js are stated as a percentage of canvas dimensions
-  const { height: seaHeightPercentage, width: seaWidthPercentage } = SEA;
+  const {
+    height: seaHeightPercentage,
+    width: seaWidthPercentage,
+    indent: seaIndentPercentage,
+  } = SEA;
 
   // pixel dimensions of sea
   const seaWidth = stageWidth * seaWidthPercentage;
   const seaHeight = stageHeight * seaHeightPercentage;
+  // 'seaIndent' = to make the see slanted
+  const seaIndent = stageWidth * seaIndentPercentage;
 
   // dimensions of atmosphere and sky required to position sea
   const { height: atmosphereHeightPercentage } = ATMOSPHERE;
@@ -27,6 +33,7 @@ const Sea = ({ stageHeight, stageWidth }) => {
       <SeaBackground
         seaHeight={seaHeight}
         seaWidth={seaWidth}
+        seaIndent={seaIndent}
         seaBeginsX={seaBeginsX}
         seaBeginsY={seaBeginsY}
       />

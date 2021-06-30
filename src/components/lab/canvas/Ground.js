@@ -33,6 +33,12 @@ const Ground = ({ stageHeight, stageWidth }) => {
 
   return (
     <Group>
+      <Permafrost
+        groundHeight={groundHeight}
+        groundWidth={groundWidth}
+        groundBeginsX={groundBeginsX}
+        groundBeginsY={groundBeginsY}
+      />
       <MountainRange
         groundHeight={groundHeight}
         groundWidth={groundWidth}
@@ -58,12 +64,6 @@ const Ground = ({ stageHeight, stageWidth }) => {
         groundBeginsY={groundBeginsY}
       />
       <HouseRow
-        groundHeight={groundHeight}
-        groundWidth={groundWidth}
-        groundBeginsX={groundBeginsX}
-        groundBeginsY={groundBeginsY}
-      />
-      <Permafrost
         groundHeight={groundHeight}
         groundWidth={groundWidth}
         groundBeginsX={groundBeginsX}

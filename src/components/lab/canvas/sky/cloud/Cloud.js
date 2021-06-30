@@ -10,7 +10,6 @@ import {
   CLOUD_ELLIPSE_RADIUS_X,
   CLOUD_ELLIPSE_RADIUS_Y,
   CLOUD_FILL,
-  CLOUD_RESPONSIVE_ADJUSTMENT_FACTOR,
 } from '../../../../../config/constants';
 import { generateCloudCircles } from '../../../../../utils/canvas';
 
@@ -18,11 +17,7 @@ import { generateCloudCircles } from '../../../../../utils/canvas';
 // since the circles have borders, we draw an ellipse in the middle, with the same color as the cloud, to conceal parts of the borders
 const Cloud = ({ skyHeight, skyWidth, skyBeginsY }) => {
   // we determine the size of the circles of the cloud from a central circle we define (using generateCloudCircles below)
-  const centralCircleRadius =
-    CLOUD_CENTRAL_CIRCLE_RADIUS *
-    // use some combination of skyHeight and skyWidth to determine cloud radius...
-    // ...so that cloud is responsive to vertical and horizontal screen size changes
-    ((skyHeight + skyWidth) / CLOUD_RESPONSIVE_ADJUSTMENT_FACTOR);
+  const centralCircleRadius = CLOUD_CENTRAL_CIRCLE_RADIUS * skyHeight;
   const centralCircleX = CLOUD_CENTRAL_CIRCLE_X * skyWidth;
   const centralCircleY = skyBeginsY + CLOUD_CENTRAL_CIRCLE_Y * skyHeight;
 
