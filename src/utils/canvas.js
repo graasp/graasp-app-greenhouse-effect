@@ -267,15 +267,15 @@ export const generateSeaPoints = (seaBaseWidth, seaHeight, seaIndent) => {
 // given a moleculeDistribution of the form {CO2: N, H2O: M, CH4: K}, where N, M, K are integers (counts of each molecule)
 // return a flat array of the form [CO2, H2O, CO2, CH4, ...] where the molecules are distributed randomly
 const distributeMoleculesRandomly = (moleculeDistribution) => {
-  const arrayOfMolecules = [];
+  let arrayOfMolecules = [];
   const moleculeDistributionArray = Object.entries(moleculeDistribution);
   // moleculeDistributionArray is of the form [['Water', 5],['Methane', 10],...]
   moleculeDistributionArray.forEach(([moleculeName, moleculeNumber]) => {
-    let counter = moleculeNumber;
-    while (counter > 0) {
-      arrayOfMolecules.push(moleculeName);
-      counter -= 1;
-    }
+    const moleculeArray = Array.from(
+      { length: moleculeNumber },
+      () => moleculeName,
+    );
+    arrayOfMolecules = [...arrayOfMolecules, ...moleculeArray];
   });
   return _.shuffle(arrayOfMolecules);
 };
