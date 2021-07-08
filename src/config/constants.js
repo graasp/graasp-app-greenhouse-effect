@@ -48,7 +48,7 @@ export const GROUND = {
 
 /* ------SUN CONSTANTS------ */
 // SUN_CENTER_X: how far from the left of the canvas the sun is positioned
-export const SUN_CENTER_X = 0.3;
+export const SUN_CENTER_X = 0.4;
 export const SUN_RAYS_NUMBER_OF_RAYS = 10;
 // note that the sun is a combination of a Konva Star (SUN_RAYS_RADIUS) and Konva Circle (SUN_RADIUS)
 export const SUN_RAYS_RADIUS = 0.4;
@@ -277,3 +277,11 @@ export const INFRARED_WAVELENGTH = 10;
 export const ULTRAVIOLET_WAVELENGTH = 30;
 
 export const FLUX_TEXT_COLOR = 'black';
+export const FLUX_MARGIN = 25;
+export const FLUX_HEAD_HEIGHT = 40;
+export const FLUX_BODY_AMPLITUDE = 0;
+export const FLUX_TEXT_WIDTH = 40;
+export const FLUX_WAVELENGTH = 70;
+export const FLUX_PROGRESS_MAX_VALUE = 100;
+export const ICE_TO_SKY_RADIATION_FLUX_OFFSET_X = 50;
+export const FLUX_PROGRESS_INTERVAL_DELTA = 10;

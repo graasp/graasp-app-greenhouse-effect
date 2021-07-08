@@ -4,25 +4,23 @@ import { Group, Circle, Ellipse } from 'react-konva';
 import {
   CLOUD_BORDER_COLOR,
   CLOUD_BORDER_WIDTH,
-  CLOUD_CENTRAL_CIRCLE_RADIUS,
-  CLOUD_CENTRAL_CIRCLE_X,
-  CLOUD_CENTRAL_CIRCLE_Y,
-  CLOUD_ELLIPSE_RADIUS_X,
-  CLOUD_ELLIPSE_RADIUS_Y,
   CLOUD_FILL,
 } from '../../../../../config/constants';
-import { generateCloudCircles } from '../../../../../utils/canvas';
+import {
+  computeCloudEllipseRadiuses,
+  generateCloudCircles,
+} from '../../../../../utils/canvas';
 
 // a Cloud is five Konva circles, the central one being the largest, flanked on each side by two circles
 // since the circles have borders, we draw an ellipse in the middle, with the same color as the cloud, to conceal parts of the borders
 const Cloud = ({ skyHeight, skyWidth, skyBeginsY }) => {
-  // we determine the size of the circles of the cloud from a central circle we define (using generateCloudCircles below)
-  const centralCircleRadius = CLOUD_CENTRAL_CIRCLE_RADIUS * skyHeight;
-  const centralCircleX = CLOUD_CENTRAL_CIRCLE_X * skyWidth;
-  const centralCircleY = skyBeginsY + CLOUD_CENTRAL_CIRCLE_Y * skyHeight;
-
-  const cloudEllipseRadiusX = centralCircleRadius * CLOUD_ELLIPSE_RADIUS_X;
-  const cloudEllipseRadiusY = centralCircleRadius * CLOUD_ELLIPSE_RADIUS_Y;
+  const {
+    cloudEllipseRadiusX,
+    cloudEllipseRadiusY,
+    centralCircleY,
+    centralCircleX,
+    centralCircleRadius,
+  } = computeCloudEllipseRadiuses({ skyHeight, skyWidth, skyBeginsY });
 
   return (
     <Group>

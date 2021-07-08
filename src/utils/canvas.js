@@ -11,6 +11,9 @@ import {
   MOLECULE_DISTRIBUTION_MAX_X,
   MOLECULE_DISTRIBUTION_MIN_X,
   MOLECULE_DISTRIBUTION_MIN_X_ON_CLOUD_ROWS,
+  CLOUD_ELLIPSE_RADIUS_X,
+  CLOUD_ELLIPSE_RADIUS_Y,
+  CLOUD_CENTRAL_CIRCLE_X,
 } from '../config/constants';
 
 // ice caps are trapezium-shaped, but there is no native trapezium in konva
@@ -351,4 +354,26 @@ export const determineMoleculesWithinRowCenterXs = (moleculeDistribution) => {
     );
   });
   return centerXs;
+};
+
+export const computeCloudEllipseRadiuses = ({
+  skyHeight,
+  skyWidth,
+  skyBeginsY = 0,
+}) => {
+  // we determine the size of the circles of the cloud from a central circle we define (using generateCloudCircles below)
+  const centralCircleRadius = CLOUD_CENTRAL_CIRCLE_RADIUS * skyHeight;
+  const centralCircleX = CLOUD_CENTRAL_CIRCLE_X * skyWidth;
+  const centralCircleY = skyBeginsY + CLOUD_CENTRAL_CIRCLE_Y * skyHeight;
+
+  const cloudEllipseRadiusX = centralCircleRadius * CLOUD_ELLIPSE_RADIUS_X;
+  const cloudEllipseRadiusY = centralCircleRadius * CLOUD_ELLIPSE_RADIUS_Y;
+
+  return {
+    centralCircleRadius,
+    cloudEllipseRadiusX,
+    cloudEllipseRadiusY,
+    centralCircleX,
+    centralCircleY,
+  };
 };
