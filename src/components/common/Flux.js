@@ -7,6 +7,7 @@ import {
   FLUX_BODY_AMPLITUDE,
   FLUX_HEAD_HEIGHT,
   FLUX_MARGIN,
+  FLUX_PROGRESS_INTERVAL_DELTA,
   FLUX_PROGRESS_MAX_VALUE,
   FLUX_TEXT_COLOR,
   FLUX_TEXT_WIDTH,
@@ -70,7 +71,10 @@ class Flux extends Component {
         clearInterval(this.interval);
       } else {
         this.setState({
-          progress: Math.min(FLUX_PROGRESS_MAX_VALUE, progress + 10),
+          progress: Math.min(
+            FLUX_PROGRESS_MAX_VALUE,
+            progress + FLUX_PROGRESS_INTERVAL_DELTA,
+          ),
         });
       }
     }, SET_INTERVAL_TIME);
@@ -98,16 +102,9 @@ class Flux extends Component {
         height * (Math.abs(angle) > 90)) *
       Math.sin(convertedAngle);
 
-    // const marginX =
-    //   -2 *
-    //   Math.sign(Math.cos((convertedAngle * Math.PI) / 180)) *
-    //   (FLUX_TEXT_WIDTH / 2) *
-    //   Math.cos((convertedAngle * Math.PI) / 180);
-
     return (
       <Text
         x={x - progressiveX}
-        // y={y + height + (height - progressiveY)}
         y={y - progressiveY}
         text={text}
         fontSize={20}

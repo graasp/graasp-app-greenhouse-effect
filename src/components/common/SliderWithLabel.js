@@ -36,7 +36,7 @@ const SliderWithLabel = ({
   finalMarkText,
   onChange,
   indent,
-  labelClassname,
+  labelClassName,
 }) => {
   const classes = useStyles();
 
@@ -67,7 +67,7 @@ const SliderWithLabel = ({
   const Label = (
     <Typography
       variant="body2"
-      className={clsx(classes.label, labelClassname, {
+      className={clsx(classes.label, labelClassName, {
         [classes.indent]: indent,
       })}
     >
@@ -95,14 +95,14 @@ SliderWithLabel.propTypes = {
   finalMarkText: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   indent: PropTypes.bool,
-  labelClassname: PropTypes.string,
+  labelClassName: PropTypes.string,
 };
 
 SliderWithLabel.defaultProps = {
   disabled: false,
   finalMarkText: null,
   indent: false,
-  labelClassname: null,
+  labelClassName: null,
 };
 
 export default SliderWithLabel;

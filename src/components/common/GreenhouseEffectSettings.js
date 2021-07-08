@@ -15,7 +15,7 @@ import {
 const useStyles = makeStyles(() => ({
   title: {
     fontWeight: 'bold',
-    color: 'black', // theme.palette.primary.main,
+    color: 'black',
   },
 }));
 
@@ -42,14 +42,14 @@ const GreenhouseEffectSettings = () => {
         max={ALBEDO_MAX_VALUE}
         value={albedo}
         onChange={onAlbedoChange}
-        labelClassname={classes.title}
+        labelClassName={classes.title}
       />
       <SliderWithLabel
         disabled
         text={t('Greenhouse Effect (%)')}
         max={GREENHOUSE_TOTAL_EFFECT_MAX_VALUE}
         value={50}
-        labelClassname={classes.title}
+        labelClassName={classes.title}
       />
       <SliderWithLabel
         text={t('CO_2 (ppm)', { escapeInterpolation: true })}

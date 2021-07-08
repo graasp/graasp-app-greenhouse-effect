@@ -19,6 +19,7 @@ import {
   ICE_CAP_ROWS_BEGIN,
   X_DISTANCE_BETWEEN_ICE_CAPS,
   FLUX_HEAD_HEIGHT,
+  ICE_TO_SKY_RADIATION_FLUX_OFFSET_X,
 } from '../../config/constants';
 import EmittedLine from './EmittedLine';
 import { setNextState } from '../../actions/lab';
@@ -46,6 +47,11 @@ const Radiations = () => {
     y: ATMOSPHERE.height * height - 20,
   };
 
+  const { cloudEllipseRadiusX: cloudHeight } = computeCloudEllipseRadiuses({
+    skyHeight: height * SKY.height,
+    skyWidth: width * SKY.width,
+  });
+
   const cloudToGroundRadiation = {
     x: CLOUD_CENTRAL_CIRCLE_X * width * ATMOSPHERE.width,
     y:
@@ -53,6 +59,8 @@ const Radiations = () => {
         (CLOUD_CENTRAL_CIRCLE_Y + CLOUD_CENTRAL_CIRCLE_RADIUS) * SKY.height) *
       height,
   };
+
+  const cloudToGroundRadiationFluxOffset = cloudHeight * 2;
 
   const cloudToSkyRadiation = {
     x: width * CLOUD_CENTRAL_CIRCLE_X - 100,
@@ -79,11 +87,6 @@ const Radiations = () => {
   const gasesToSkyRadiation = {
     x: width * 0.85,
   };
-
-  const { cloudEllipseRadiusX: cloudHeight } = computeCloudEllipseRadiuses({
-    skyHeight: height * SKY.height,
-    skyWidth: width * SKY.width,
-  });
 
   if (radiationMode === RADIATION_MODES.WAVES) {
     return (
@@ -186,7 +189,7 @@ const Radiations = () => {
       />
       <Flux
         x={sunToCloudRadiation.x}
-        y={cloudToGroundRadiation.y + cloudHeight * 2}
+        y={cloudToGroundRadiation.y + cloudToGroundRadiationFluxOffset}
         color={SUN_LIGHT_COLOR}
         width={70}
         height={200}
@@ -208,7 +211,7 @@ const Radiations = () => {
         angle={160}
       />
       <Flux
-        x={iceToSkyRadiation.x - 50}
+        x={iceToSkyRadiation.x - ICE_TO_SKY_RADIATION_FLUX_OFFSET_X}
         y={sunToCloudRadiation.y}
         color={SUN_LIGHT_COLOR}
         width={30}

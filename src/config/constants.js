@@ -283,3 +283,5 @@ export const FLUX_BODY_AMPLITUDE = 0;
 export const FLUX_TEXT_WIDTH = 40;
 export const FLUX_WAVELENGTH = 70;
 export const FLUX_PROGRESS_MAX_VALUE = 100;
+export const ICE_TO_SKY_RADIATION_FLUX_OFFSET_X = 50;
+export const FLUX_PROGRESS_INTERVAL_DELTA = 10;
