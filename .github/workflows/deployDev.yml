@@ -3,7 +3,7 @@ name: deploy dev build to aws
 on:
   push:
     branches:
-      - master
+      - main
 jobs:
   deploy-dev:
     runs-on: ubuntu-latest
