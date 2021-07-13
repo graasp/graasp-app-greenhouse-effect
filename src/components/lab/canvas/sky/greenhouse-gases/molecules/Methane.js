@@ -10,9 +10,9 @@ import {
 } from '../../../../../../config/constants';
 import { determineMethaneAtomsCoordinates } from '../../../../../../utils/canvas';
 
-const Methane = ({ moleculeCenter, skyHeight }) => {
-  const carbonAtomRadius = ATOM_DIMENSIONS[CARBON.size] * skyHeight;
-  const hydrogenAtomRadius = ATOM_DIMENSIONS[HYDROGEN.size] * skyHeight;
+const Methane = ({ moleculeCenter, stageHeight }) => {
+  const carbonAtomRadius = ATOM_DIMENSIONS[CARBON.size] * stageHeight;
+  const hydrogenAtomRadius = ATOM_DIMENSIONS[HYDROGEN.size] * stageHeight;
 
   const {
     carbon,
@@ -27,7 +27,16 @@ const Methane = ({ moleculeCenter, skyHeight }) => {
   );
 
   return (
-    <Group>
+    <Group
+      onMouseEnter={(event) => {
+        const container = event.target.getStage().container();
+        container.style.cursor = 'default';
+      }}
+      onMouseLeave={(event) => {
+        const container = event.target.getStage().container();
+        container.style.cursor = 'zoom-out';
+      }}
+    >
       <Carbon coordinates={carbon} atomRadius={carbonAtomRadius} />
       <Hydrogen coordinates={topLeftHydrogen} atomRadius={hydrogenAtomRadius} />
       <Hydrogen
@@ -51,7 +60,7 @@ Methane.propTypes = {
     x: PropTypes.number,
     y: PropTypes.number,
   }).isRequired,
-  skyHeight: PropTypes.number.isRequired,
+  stageHeight: PropTypes.number.isRequired,
 };
 
 export default Methane;

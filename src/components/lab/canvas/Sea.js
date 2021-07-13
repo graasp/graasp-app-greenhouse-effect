@@ -29,7 +29,12 @@ const Sea = ({ stageHeight, stageWidth }) => {
   const seaBeginsY = atmosphereAndSkyHeight;
 
   return (
-    <Group>
+    <Group
+      onMouseEnter={(event) => {
+        const container = event.target.getStage().container();
+        container.style.cursor = 'default';
+      }}
+    >
       <SeaBackground
         seaHeight={seaHeight}
         seaWidth={seaWidth}

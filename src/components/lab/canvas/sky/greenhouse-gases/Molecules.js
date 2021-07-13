@@ -10,7 +10,7 @@ import {
   determineMoleculeRowsCenterYs,
 } from '../../../../../utils/canvas';
 
-const Molecules = ({ skyHeight, skyWidth, skyBeginsX, skyBeginsY }) => {
+const Molecules = ({ stageHeight, stageWidth }) => {
   const [yPoints, setYPoints] = useState([]);
   const [xPoints, setXPoints] = useState([]);
   const [moleculeDistribution, setMoleculeDistribution] = useState([]);
@@ -31,16 +31,16 @@ const Molecules = ({ skyHeight, skyWidth, skyBeginsX, skyBeginsY }) => {
     METHANE: Methane,
   };
 
-  const newMolecules = moleculeDistribution.map((moleculeRow, rowIndex) =>
+  const molecules = moleculeDistribution.map((moleculeRow, rowIndex) =>
     moleculeRow.map((moleculeName, index) => {
       const MoleculeToDisplay = moleculeMap[moleculeName];
       return (
         <MoleculeToDisplay
           moleculeCenter={{
-            x: skyBeginsX + xPoints[rowIndex][index] * skyWidth,
-            y: skyBeginsY + yPoints[rowIndex] * skyHeight,
+            x: xPoints[rowIndex][index] * stageWidth,
+            y: yPoints[rowIndex] * stageHeight,
           }}
-          skyHeight={skyHeight}
+          stageHeight={stageHeight}
           // eslint-disable-next-line react/no-array-index-key
           key={index}
         />
@@ -48,14 +48,12 @@ const Molecules = ({ skyHeight, skyWidth, skyBeginsX, skyBeginsY }) => {
     }),
   );
 
-  return newMolecules;
+  return molecules;
 };
 
 Molecules.propTypes = {
-  skyHeight: PropTypes.number.isRequired,
-  skyWidth: PropTypes.number.isRequired,
-  skyBeginsX: PropTypes.number.isRequired,
-  skyBeginsY: PropTypes.number.isRequired,
+  stageHeight: PropTypes.number.isRequired,
+  stageWidth: PropTypes.number.isRequired,
 };
 
 export default Molecules;

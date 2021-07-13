@@ -32,7 +32,12 @@ const Ground = ({ stageHeight, stageWidth }) => {
   const groundBeginsY = atmosphereAndSkyHeight;
 
   return (
-    <Group>
+    <Group
+      onMouseEnter={(event) => {
+        const container = event.target.getStage().container();
+        container.style.cursor = 'default';
+      }}
+    >
       <Permafrost
         groundHeight={groundHeight}
         groundWidth={groundWidth}

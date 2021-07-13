@@ -4,7 +4,6 @@ import { Group } from 'react-konva';
 import { ATMOSPHERE, SKY } from '../../../config/constants';
 import Cloud from './sky/cloud/Cloud';
 import SkyBackground from './sky/SkyBackground';
-import Molecules from './sky/greenhouse-gases/Molecules';
 import Thermometer from './sky/thermometer/Thermometer';
 
 const Sky = ({ stageHeight, stageWidth }) => {
@@ -22,7 +21,12 @@ const Sky = ({ stageHeight, stageWidth }) => {
   const skyBeginsY = atmosphereHeight;
 
   return (
-    <Group>
+    <Group
+      onMouseEnter={(event) => {
+        const container = event.target.getStage().container();
+        container.style.cursor = 'zoom-in';
+      }}
+    >
       <SkyBackground
         skyHeight={skyHeight}
         skyWidth={skyWidth}
@@ -32,12 +36,6 @@ const Sky = ({ stageHeight, stageWidth }) => {
       <Cloud
         skyHeight={skyHeight}
         skyWidth={skyWidth}
-        skyBeginsY={skyBeginsY}
-      />
-      <Molecules
-        skyHeight={skyHeight}
-        skyWidth={skyWidth}
-        skyBeginsX={skyBeginsX}
         skyBeginsY={skyBeginsY}
       />
       <Thermometer

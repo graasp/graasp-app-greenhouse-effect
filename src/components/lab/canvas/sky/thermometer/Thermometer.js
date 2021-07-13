@@ -44,7 +44,16 @@ const Thermometer = ({ skyHeight, skyWidth, skyBeginsX, skyBeginsY }) => {
   );
 
   return (
-    <Group>
+    <Group
+      onMouseEnter={(event) => {
+        const container = event.target.getStage().container();
+        container.style.cursor = 'default';
+      }}
+      onMouseLeave={(event) => {
+        const container = event.target.getStage().container();
+        container.style.cursor = 'zoom-in';
+      }}
+    >
       <ThermometerBulb
         thermometerBulbBeginsX={thermometerBulbBeginsX}
         thermometerBulbBeginsY={thermometerBulbBeginsY}

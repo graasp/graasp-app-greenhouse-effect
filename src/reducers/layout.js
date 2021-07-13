@@ -3,6 +3,7 @@ import {
   TOGGLE_LOADING_SCREEN,
   TOGGLE_SIDE_MENU,
   SET_STAGE_DIMENSIONS,
+  TOGGLE_ZOOM,
 } from '../types';
 
 const INITIAL_STATE = {
@@ -12,6 +13,7 @@ const INITIAL_STATE = {
   lab: { stageDimensions: { width: 0, height: 0 } },
   showLoader: true,
   showSideMenu: true,
+  zoomedIn: false,
 };
 
 export default (state = INITIAL_STATE, { type, payload }) => {
@@ -36,6 +38,9 @@ export default (state = INITIAL_STATE, { type, payload }) => {
       };
     case SET_STAGE_DIMENSIONS: {
       return { ...state, lab: { ...state.lab, stageDimensions: payload } };
+    }
+    case TOGGLE_ZOOM: {
+      return { ...state, zoomedIn: payload };
     }
     default:
       return state;

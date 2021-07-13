@@ -21,7 +21,12 @@ const Atmosphere = ({ stageHeight, stageWidth }) => {
   const atmosphereBeginsY = 0;
 
   return (
-    <Group>
+    <Group
+      onMouseEnter={(event) => {
+        const container = event.target.getStage().container();
+        container.style.cursor = 'default';
+      }}
+    >
       <AtmosphereBackground
         atmosphereWidth={atmosphereWidth}
         atmosphereHeight={atmosphereHeight}

@@ -7,6 +7,7 @@ import { BACKGROUND_COLOR } from '../../config/constants';
 import { setStageDimensions } from '../../actions';
 import CanvasLayout from './canvas/CanvasLayout';
 import Radiations from '../common/RadiationManager';
+import MoleculesView from './canvas/MoleculesView';
 
 const styles = () => ({
   container: {
@@ -31,6 +32,7 @@ class Lab extends Component {
       width: PropTypes.number.isRequired,
       height: PropTypes.number.isRequired,
     }).isRequired,
+    zoomedIn: PropTypes.bool.isRequired,
   };
 
   componentDidMount() {
@@ -52,7 +54,7 @@ class Lab extends Component {
   };
 
   render() {
-    const { classes, stageDimensions } = this.props;
+    const { classes, stageDimensions, zoomedIn } = this.props;
     const { height: stageHeight, width: stageWidth } = stageDimensions;
 
     return (
@@ -71,14 +73,24 @@ class Lab extends Component {
               className={classes.stage}
               width={stageWidth}
               height={stageHeight}
+              style={{ cursor: zoomedIn ? 'zoom-out' : 'zoom-in' }}
             >
               <Provider store={store}>
-                <Layer>
-                  <CanvasLayout />
-                </Layer>
-                <Layer>
-                  <Radiations />
-                </Layer>
+                {zoomedIn ? (
+                  <MoleculesView
+                    stageWidth={stageWidth}
+                    stageHeight={stageHeight}
+                  />
+                ) : (
+                  <>
+                    <Layer>
+                      <CanvasLayout />
+                    </Layer>
+                    <Layer>
+                      <Radiations />
+                    </Layer>
+                  </>
+                )}
               </Provider>
             </Stage>
           )}
@@ -90,6 +102,7 @@ class Lab extends Component {
 
 const mapStateToProps = ({ layout }) => ({
   stageDimensions: layout.lab.stageDimensions,
+  zoomedIn: layout.zoomedIn,
 });
 
 const mapDispatchToProps = { dispatchSetStageDimensions: setStageDimensions };
