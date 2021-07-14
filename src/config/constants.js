@@ -285,3 +285,7 @@ export const FLUX_WAVELENGTH = 70;
 export const FLUX_PROGRESS_MAX_VALUE = 100;
 export const ICE_TO_SKY_RADIATION_FLUX_OFFSET_X = 50;
 export const FLUX_PROGRESS_INTERVAL_DELTA = 10;
+
+export const ZOOM_IN_CURSOR = 'zoom-in';
+export const ZOOM_OUT_CURSOR = 'zoom-out';
+export const DEFAULT_CURSOR = 'default';

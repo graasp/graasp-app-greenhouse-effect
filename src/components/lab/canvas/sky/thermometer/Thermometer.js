@@ -18,7 +18,14 @@ import ThermometerBody from './ThermometerBody';
 import ThermometerBulb from './ThermometerBulb';
 import ThermometerScale from './ThermometerScale';
 
-const Thermometer = ({ skyHeight, skyWidth, skyBeginsX, skyBeginsY }) => {
+const Thermometer = ({
+  skyHeight,
+  skyWidth,
+  skyBeginsX,
+  skyBeginsY,
+  cursorBecomesDefault,
+  cursorBecomesZoomIn,
+}) => {
   const thermometerBeginsX = skyBeginsX + THERMOMETER_BEGINS_X * skyWidth;
   const thermometerBeginsY = skyBeginsY + THERMOMETER_BEGINS_Y * skyHeight;
   const thermometerBaseWidth = THERMOMETER_BASE_WIDTH * skyWidth;
@@ -44,7 +51,10 @@ const Thermometer = ({ skyHeight, skyWidth, skyBeginsX, skyBeginsY }) => {
   );
 
   return (
-    <Group>
+    <Group
+      onMouseEnter={cursorBecomesDefault}
+      onMouseLeave={cursorBecomesZoomIn}
+    >
       <ThermometerBulb
         thermometerBulbBeginsX={thermometerBulbBeginsX}
         thermometerBulbBeginsY={thermometerBulbBeginsY}
@@ -76,6 +86,8 @@ Thermometer.propTypes = {
   skyWidth: PropTypes.number.isRequired,
   skyBeginsX: PropTypes.number.isRequired,
   skyBeginsY: PropTypes.number.isRequired,
+  cursorBecomesDefault: PropTypes.func.isRequired,
+  cursorBecomesZoomIn: PropTypes.func.isRequired,
 };
 
 export default Thermometer;

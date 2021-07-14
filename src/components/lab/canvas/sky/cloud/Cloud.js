@@ -13,7 +13,13 @@ import {
 
 // a Cloud is five Konva circles, the central one being the largest, flanked on each side by two circles
 // since the circles have borders, we draw an ellipse in the middle, with the same color as the cloud, to conceal parts of the borders
-const Cloud = ({ skyHeight, skyWidth, skyBeginsY }) => {
+const Cloud = ({
+  skyHeight,
+  skyWidth,
+  skyBeginsY,
+  cursorBecomesDefault,
+  cursorBecomesZoomIn,
+}) => {
   const {
     cloudEllipseRadiusX,
     cloudEllipseRadiusY,
@@ -23,7 +29,10 @@ const Cloud = ({ skyHeight, skyWidth, skyBeginsY }) => {
   } = computeCloudEllipseRadiuses({ skyHeight, skyWidth, skyBeginsY });
 
   return (
-    <Group>
+    <Group
+      onMouseEnter={cursorBecomesDefault}
+      onMouseLeave={cursorBecomesZoomIn}
+    >
       {generateCloudCircles(centralCircleRadius, centralCircleX).map(
         ({ x, radius }, index) => (
           <Circle
@@ -53,6 +62,8 @@ Cloud.propTypes = {
   skyHeight: PropTypes.number.isRequired,
   skyWidth: PropTypes.number.isRequired,
   skyBeginsY: PropTypes.number.isRequired,
+  cursorBecomesDefault: PropTypes.func.isRequired,
+  cursorBecomesZoomIn: PropTypes.func.isRequired,
 };
 
 export default Cloud;

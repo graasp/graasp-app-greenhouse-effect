@@ -10,7 +10,6 @@ import {
   CLOUD_PERIPHERAL_CIRCLE_RADIUS,
   MOLECULE_DISTRIBUTION_MAX_X,
   MOLECULE_DISTRIBUTION_MIN_X,
-  MOLECULE_DISTRIBUTION_MIN_X_ON_CLOUD_ROWS,
   CLOUD_ELLIPSE_RADIUS_X,
   CLOUD_ELLIPSE_RADIUS_Y,
   CLOUD_CENTRAL_CIRCLE_X,
@@ -328,24 +327,11 @@ export const chunkMolecules = (moleculeDistribution) => {
 
 // given a moleculeDistribution of the form {CO2: N, H2O: M, CH4: K}, where N, M, K are integers (counts of each molecule),
 // (1) find the chunked distribution of these molecules,
-// (2) return the x-coordinates (randomly determined) (as %s, to be multiplied in <Molecules> by skyWidth) of each molecule
-// (noting that in rows which clash with the cloud, we place the molecules at least MOLECULE_DISTRIBUTION_MIN_X_ON_CLOUD_ROWS from start of canvas)
+// (2) return the x-coordinates (randomly determined) (as %s, to be multiplied in <Molecules> by stageWidth) of each molecule
 export const determineMoleculesWithinRowCenterXs = (moleculeDistribution) => {
   const chunkedMolecules = chunkMolecules(moleculeDistribution);
-  const centerYs = determineMoleculeRowsCenterYs();
-  const cloudBeginsY = CLOUD_CENTRAL_CIRCLE_Y - CLOUD_CENTRAL_CIRCLE_RADIUS;
-  const cloudEndsY = CLOUD_CENTRAL_CIRCLE_Y + CLOUD_CENTRAL_CIRCLE_RADIUS;
 
-  const centerXs = chunkedMolecules.map((moleculeRow, index) => {
-    if (centerYs[index] >= cloudBeginsY && centerYs[index] <= cloudEndsY) {
-      return moleculeRow.map(
-        () =>
-          Math.random() *
-            (MOLECULE_DISTRIBUTION_MAX_X -
-              MOLECULE_DISTRIBUTION_MIN_X_ON_CLOUD_ROWS) +
-          MOLECULE_DISTRIBUTION_MIN_X_ON_CLOUD_ROWS,
-      );
-    }
+  const centerXs = chunkedMolecules.map((moleculeRow) => {
     return moleculeRow.map(
       () =>
         Math.random() *

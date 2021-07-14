@@ -5,7 +5,7 @@ import Sun from './atmosphere/Sun';
 import AtmosphereBackground from './atmosphere/AtmosphereBackground';
 import { ATMOSPHERE } from '../../../config/constants';
 
-const Atmosphere = ({ stageHeight, stageWidth }) => {
+const Atmosphere = ({ stageHeight, stageWidth, cursorBecomesDefault }) => {
   // atmosphere dimensions in /constants.js are stated as a percentage of canvas dimensions
   const {
     height: atmosphereHeightPercentage,
@@ -21,7 +21,7 @@ const Atmosphere = ({ stageHeight, stageWidth }) => {
   const atmosphereBeginsY = 0;
 
   return (
-    <Group>
+    <Group onMouseEnter={cursorBecomesDefault}>
       <AtmosphereBackground
         atmosphereWidth={atmosphereWidth}
         atmosphereHeight={atmosphereHeight}
@@ -39,6 +39,7 @@ const Atmosphere = ({ stageHeight, stageWidth }) => {
 Atmosphere.propTypes = {
   stageHeight: PropTypes.number.isRequired,
   stageWidth: PropTypes.number.isRequired,
+  cursorBecomesDefault: PropTypes.func.isRequired,
 };
 
 export default Atmosphere;
