@@ -10,7 +10,12 @@ import {
   determineMoleculeRowsCenterYs,
 } from '../../../../../utils/canvas';
 
-const Molecules = ({ stageHeight, stageWidth }) => {
+const Molecules = ({
+  stageHeight,
+  stageWidth,
+  cursorBecomesDefault,
+  cursorBecomesZoomOut,
+}) => {
   const [yPoints, setYPoints] = useState([]);
   const [xPoints, setXPoints] = useState([]);
   const [moleculeDistribution, setMoleculeDistribution] = useState([]);
@@ -41,6 +46,8 @@ const Molecules = ({ stageHeight, stageWidth }) => {
             y: yPoints[rowIndex] * stageHeight,
           }}
           stageHeight={stageHeight}
+          cursorBecomesDefault={cursorBecomesDefault}
+          cursorBecomesZoomOut={cursorBecomesZoomOut}
           // eslint-disable-next-line react/no-array-index-key
           key={index}
         />
@@ -54,6 +61,8 @@ const Molecules = ({ stageHeight, stageWidth }) => {
 Molecules.propTypes = {
   stageHeight: PropTypes.number.isRequired,
   stageWidth: PropTypes.number.isRequired,
+  cursorBecomesDefault: PropTypes.func.isRequired,
+  cursorBecomesZoomOut: PropTypes.func.isRequired,
 };
 
 export default Molecules;

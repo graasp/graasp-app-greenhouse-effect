@@ -5,7 +5,7 @@ import { ATMOSPHERE, SKY, SEA } from '../../../config/constants';
 import IceCaps from './sea/ice-caps/IceCaps';
 import SeaBackground from './sea/SeaBackground';
 
-const Sea = ({ stageHeight, stageWidth }) => {
+const Sea = ({ stageHeight, stageWidth, cursorBecomesDefault }) => {
   // sea dimensions in /constants.js are stated as a percentage of canvas dimensions
   const {
     height: seaHeightPercentage,
@@ -29,12 +29,7 @@ const Sea = ({ stageHeight, stageWidth }) => {
   const seaBeginsY = atmosphereAndSkyHeight;
 
   return (
-    <Group
-      onMouseEnter={(event) => {
-        const container = event.target.getStage().container();
-        container.style.cursor = 'default';
-      }}
-    >
+    <Group onMouseEnter={cursorBecomesDefault}>
       <SeaBackground
         seaHeight={seaHeight}
         seaWidth={seaWidth}
@@ -54,6 +49,7 @@ const Sea = ({ stageHeight, stageWidth }) => {
 Sea.propTypes = {
   stageHeight: PropTypes.number.isRequired,
   stageWidth: PropTypes.number.isRequired,
+  cursorBecomesDefault: PropTypes.func.isRequired,
 };
 
 export default Sea;

@@ -10,7 +10,12 @@ import {
 } from '../../../../../../config/constants';
 import { determineWaterAtomsCoordinates } from '../../../../../../utils/canvas';
 
-const Water = ({ moleculeCenter, stageHeight }) => {
+const Water = ({
+  moleculeCenter,
+  stageHeight,
+  cursorBecomesDefault,
+  cursorBecomesZoomOut,
+}) => {
   const oxygenAtomRadius = ATOM_DIMENSIONS[OXYGEN.size] * stageHeight;
   const hydrogenAtomRadius = ATOM_DIMENSIONS[HYDROGEN.size] * stageHeight;
 
@@ -26,14 +31,8 @@ const Water = ({ moleculeCenter, stageHeight }) => {
 
   return (
     <Group
-      onMouseEnter={(event) => {
-        const container = event.target.getStage().container();
-        container.style.cursor = 'default';
-      }}
-      onMouseLeave={(event) => {
-        const container = event.target.getStage().container();
-        container.style.cursor = 'zoom-out';
-      }}
+      onMouseEnter={cursorBecomesDefault}
+      onMouseLeave={cursorBecomesZoomOut}
     >
       <Oxygen coordinates={oxygen} atomRadius={oxygenAtomRadius} />
       <Hydrogen coordinates={topHydrogen} atomRadius={hydrogenAtomRadius} />
@@ -48,6 +47,9 @@ Water.propTypes = {
     y: PropTypes.number,
   }).isRequired,
   stageHeight: PropTypes.number.isRequired,
+
+  cursorBecomesDefault: PropTypes.func.isRequired,
+  cursorBecomesZoomOut: PropTypes.func.isRequired,
 };
 
 export default Water;

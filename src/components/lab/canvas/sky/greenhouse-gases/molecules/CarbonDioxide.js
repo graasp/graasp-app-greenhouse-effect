@@ -10,7 +10,12 @@ import {
   OXYGEN,
 } from '../../../../../../config/constants';
 
-const CarbonDioxide = ({ moleculeCenter, stageHeight }) => {
+const CarbonDioxide = ({
+  moleculeCenter,
+  stageHeight,
+  cursorBecomesDefault,
+  cursorBecomesZoomOut,
+}) => {
   const carbonAtomRadius = ATOM_DIMENSIONS[CARBON.size] * stageHeight;
   const oxygenAtomRadius = ATOM_DIMENSIONS[OXYGEN.size] * stageHeight;
 
@@ -26,14 +31,8 @@ const CarbonDioxide = ({ moleculeCenter, stageHeight }) => {
 
   return (
     <Group
-      onMouseEnter={(event) => {
-        const container = event.target.getStage().container();
-        container.style.cursor = 'default';
-      }}
-      onMouseLeave={(event) => {
-        const container = event.target.getStage().container();
-        container.style.cursor = 'zoom-out';
-      }}
+      onMouseEnter={cursorBecomesDefault}
+      onMouseLeave={cursorBecomesZoomOut}
     >
       <Oxygen coordinates={topOxygen} atomRadius={oxygenAtomRadius} />
       <Carbon coordinates={carbon} atomRadius={carbonAtomRadius} />
@@ -48,6 +47,8 @@ CarbonDioxide.propTypes = {
     y: PropTypes.number,
   }).isRequired,
   stageHeight: PropTypes.number.isRequired,
+  cursorBecomesDefault: PropTypes.func.isRequired,
+  cursorBecomesZoomOut: PropTypes.func.isRequired,
 };
 
 export default CarbonDioxide;

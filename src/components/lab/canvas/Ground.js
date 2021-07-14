@@ -9,7 +9,7 @@ import FactoryRow from './ground/factories/FactoryRow';
 import MountainRange from './ground/mountains/MountainRange';
 import Permafrost from './ground/permafrost/Permafrost';
 
-const Ground = ({ stageHeight, stageWidth }) => {
+const Ground = ({ stageHeight, stageWidth, cursorBecomesDefault }) => {
   // ground dimensions in /constants.js are stated as a percentage of canvas dimensions
   const {
     height: groundHeightPercentage,
@@ -32,12 +32,7 @@ const Ground = ({ stageHeight, stageWidth }) => {
   const groundBeginsY = atmosphereAndSkyHeight;
 
   return (
-    <Group
-      onMouseEnter={(event) => {
-        const container = event.target.getStage().container();
-        container.style.cursor = 'default';
-      }}
-    >
+    <Group onMouseEnter={cursorBecomesDefault}>
       <Permafrost
         groundHeight={groundHeight}
         groundWidth={groundWidth}
@@ -81,6 +76,7 @@ const Ground = ({ stageHeight, stageWidth }) => {
 Ground.propTypes = {
   stageHeight: PropTypes.number.isRequired,
   stageWidth: PropTypes.number.isRequired,
+  cursorBecomesDefault: PropTypes.func.isRequired,
 };
 
 export default Ground;
