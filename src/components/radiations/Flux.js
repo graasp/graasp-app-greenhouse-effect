@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Shape, Text, Group } from 'react-konva';
 import {
+  BLINKING_SHADOW_COLOR,
+  DEFAULT_SHADOW_COLOR,
   FLUX_BODY_AMPLITUDE,
   FLUX_HEAD_HEIGHT,
   FLUX_MARGIN,
@@ -12,6 +14,7 @@ import {
   FLUX_TEXT_COLOR,
   FLUX_TEXT_WIDTH,
   FLUX_WAVELENGTH,
+  SET_INTERVAL_PAUSED_ANIMATION_TIME,
   SET_INTERVAL_TIME,
 } from '../../config/constants';
 
@@ -27,44 +30,53 @@ class Flux extends Component {
     isPaused: PropTypes.bool.isRequired,
     show: PropTypes.bool,
     onEnd: PropTypes.func,
+    progress: PropTypes.number.isRequired,
+    setProgress: PropTypes.func.isRequired,
+    enableBlinking: PropTypes.bool,
   };
 
   static defaultProps = {
     angle: 0,
     onEnd: null,
     show: false,
+    enableBlinking: false,
   };
 
   state = {
-    progress: 0,
+    shadowColor: DEFAULT_SHADOW_COLOR,
   };
 
   interval = null;
 
-  componentDidUpdate(
-    { isPaused: prevIsPaused, show: prevShow },
-    { progress: prevProgress },
-  ) {
-    // eslint-disable-next-line react/prop-types
-    const { isPaused, show, onEnd, log } = this.props;
-    const { progress } = this.state;
+  pausedAnimation = null;
 
-    if (log) {
-      console.log(isPaused, prevIsPaused, show, prevShow);
-    }
+  componentDidUpdate({
+    isPaused: prevIsPaused,
+    show: prevShow,
+    progress: prevProgress,
+  }) {
+    // eslint-disable-next-line react/prop-types
+    const {
+      isPaused,
+      show,
+      onEnd,
+      progress,
+      setProgress,
+      enableBlinking,
+    } = this.props;
 
     if (isPaused !== prevIsPaused && isPaused) {
-      clearInterval(this.interval);
+      clearInterval(this.animationInterval);
     }
     // continue progress on play
     else if (isPaused !== prevIsPaused && !isPaused && show) {
-      this.beginLineInterval();
+      this.beginLineIntervalForAnimation();
     }
     // continue animation
     else if (!isPaused && show !== prevShow && show) {
       // eslint-disable-next-line react/no-did-update-set-state
-      this.setState({ progress: 0 });
-      this.beginLineInterval();
+      setProgress(0);
+      this.beginLineIntervalForAnimation();
     }
 
     // alerts when the line is fully drawn
@@ -74,31 +86,54 @@ class Flux extends Component {
     ) {
       onEnd?.();
     }
+
+    // paused animation
+    if (enableBlinking && isPaused !== prevIsPaused) {
+      if (show && isPaused) {
+        this.beginPausedAnimation();
+      } else if (!isPaused) {
+        clearInterval(this.pausedAnimation);
+        // eslint-disable-next-line react/no-did-update-set-state
+        this.setState({ shadowColor: DEFAULT_SHADOW_COLOR });
+      }
+    }
   }
 
-  beginLineInterval = () => {
-    this.interval = setInterval(() => {
-      const { progress } = this.state;
+  beginLineIntervalForAnimation = () => {
+    this.animationInterval = setInterval(() => {
+      const { progress, setProgress } = this.props;
       if (progress >= FLUX_PROGRESS_MAX_VALUE) {
-        clearInterval(this.interval);
+        clearInterval(this.animationInterval);
       } else {
-        this.setState({
-          progress: Math.min(
+        setProgress(
+          Math.min(
             FLUX_PROGRESS_MAX_VALUE,
             progress + FLUX_PROGRESS_INTERVAL_DELTA,
           ),
-        });
+        );
       }
     }, SET_INTERVAL_TIME);
   };
 
+  beginPausedAnimation = () => {
+    this.pausedAnimation = setInterval(() => {
+      const { shadowColor } = this.state;
+      this.setState({
+        shadowColor:
+          shadowColor === BLINKING_SHADOW_COLOR
+            ? DEFAULT_SHADOW_COLOR
+            : BLINKING_SHADOW_COLOR,
+      });
+    }, SET_INTERVAL_PAUSED_ANIMATION_TIME);
+  };
+
   clearProgress = () => {
-    this.setState({ progress: 0 });
+    const { setProgress } = this.props;
+    setProgress(0);
   };
 
   renderText = () => {
-    const { x, y, text, height, angle, width } = this.props;
-    const { progress } = this.state;
+    const { x, y, text, height, angle, width, progress } = this.props;
     const currentBodyHeight = Math.min(
       (progress * height) / FLUX_PROGRESS_MAX_VALUE,
       height,
@@ -129,8 +164,8 @@ class Flux extends Component {
   };
 
   render() {
-    const { x, y, color, width, height, angle, show } = this.props;
-    const { progress } = this.state;
+    const { x, y, color, width, height, angle, show, progress } = this.props;
+    const { shadowColor } = this.state;
     const currentBodyHeight = Math.min(
       (progress * height) / FLUX_PROGRESS_MAX_VALUE,
       height,
@@ -256,6 +291,7 @@ class Flux extends Component {
           shadowBlur={2}
           fillPriority="shadow"
           rotation={angle}
+          shadowColor={shadowColor}
         />
         {this.renderText()}
       </Group>

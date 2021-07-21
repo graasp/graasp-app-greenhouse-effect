@@ -24,19 +24,41 @@ const EarthFluxes = ({ sunToCloudRadiation, earthRadiation }) => {
     ({ lab }) => lab.greenhouseGasesValues,
   );
 
+  // save progress in parent component
+  // for easier reset
+  const [
+    earthToGasesRadiationProgress,
+    setEarthToGasesRadiationProgress,
+  ] = useState(0);
+  const [
+    gasesToSkyRadiationProgress,
+    setGasesToSkyRadiationProgress,
+  ] = useState(0);
+  const [
+    gasesToEarthRadiationProgress,
+    setGasesToEarthRadiationProgress,
+  ] = useState(0);
+
+  // save values in state to create 2-step settings
+  // changing settings while in pause does not alter these values
   const [values, setValues] = useState({ methane, carbonDioxide, albedo });
 
   useEffect(() => {
     if (!isPaused) {
+      // reset progress if one value changed
+      if (
+        values.methane !== methane ||
+        values.albedo !== albedo ||
+        values.carbonDioxide !== carbonDioxide
+      ) {
+        setEarthToGasesRadiationProgress(0);
+        setGasesToSkyRadiationProgress(0);
+        setGasesToEarthRadiationProgress(0);
+        setGasesRadiation(false);
+      }
       setValues({ methane, carbonDioxide, albedo });
     }
   }, [methane, carbonDioxide, albedo, isPaused]);
-
-  //   useEffect(()=>{
-  //     if(!earthRadiation) {
-
-  //     }
-  //   }, [earthRadiation])
 
   const { width, height } = useSelector(
     ({ layout }) => layout.lab.stageDimensions,
@@ -112,7 +134,8 @@ const EarthFluxes = ({ sunToCloudRadiation, earthRadiation }) => {
         onEnd={() => {
           onEnd(RADIATION_STATES.GASES_RADIATION);
         }}
-        log
+        progress={earthToGasesRadiationProgress}
+        setProgress={setEarthToGasesRadiationProgress}
       />
       <Flux
         x={gasesToSkyRadiation.x}
@@ -123,6 +146,9 @@ const EarthFluxes = ({ sunToCloudRadiation, earthRadiation }) => {
         text={AIR_TO_SPACE_INFRARED.value}
         angle={200}
         show={gasesRadiation}
+        progress={gasesToSkyRadiationProgress}
+        setProgress={setGasesToSkyRadiationProgress}
+        enableBlinking
       />
       <Flux
         x={gasesToEarthRadiation.x}
@@ -133,6 +159,9 @@ const EarthFluxes = ({ sunToCloudRadiation, earthRadiation }) => {
         text={AIR_TO_EARTH_INFRARED.value}
         angle={-10}
         show={gasesRadiation}
+        progress={gasesToEarthRadiationProgress}
+        setProgress={setGasesToEarthRadiationProgress}
+        enableBlinking
       />
     </>
   );

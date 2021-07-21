@@ -22,6 +22,20 @@ const SunFluxes = ({
   const [iceRadiation, setIceRadiation] = useState(false);
   const [cloudRadiation, setCloudRadiation] = useState(false);
 
+  const [
+    sunToCloudRadiationProgress,
+    setSunToCloudRadiationProgress,
+  ] = useState(0);
+  const [
+    cloudToGroundRadiationProgress,
+    setCloudToGroundRadiationProgress,
+  ] = useState(0);
+  const [
+    cloudToSkyRadiationProgress,
+    setCloudToSkyRadiationProgress,
+  ] = useState(0);
+  const [iceToSkyRadiationProgress, setIceToSkyRadiationProgress] = useState(0);
+
   const { width, height } = useSelector(
     ({ layout }) => layout.lab.stageDimensions,
   );
@@ -56,6 +70,8 @@ const SunFluxes = ({
         text={`${SOLAR_FLUX}`}
         onEnd={() => onEnd(RADIATION_STATES.CLOUD_RADIATION)}
         show={sunRadiation}
+        progress={sunToCloudRadiationProgress}
+        setProgress={setSunToCloudRadiationProgress}
       />
       <Flux
         x={sunToCloudRadiation.x}
@@ -68,6 +84,8 @@ const SunFluxes = ({
         onEnd={() => {
           onEnd(RADIATION_STATES.ICE_RADIATION);
         }}
+        progress={cloudToGroundRadiationProgress}
+        setProgress={setCloudToGroundRadiationProgress}
       />
       <Flux
         x={cloudToSkyRadiation.x}
@@ -79,6 +97,8 @@ const SunFluxes = ({
         show={cloudRadiation}
         angle={160}
         onEnd={startEarthRadiations}
+        progress={cloudToSkyRadiationProgress}
+        setProgress={setCloudToSkyRadiationProgress}
       />
       <Flux
         x={iceToSkyRadiation.x - 50}
@@ -89,6 +109,8 @@ const SunFluxes = ({
         text="50"
         angle={170}
         show={iceRadiation}
+        progress={iceToSkyRadiationProgress}
+        setProgress={setIceToSkyRadiationProgress}
       />
     </>
   );

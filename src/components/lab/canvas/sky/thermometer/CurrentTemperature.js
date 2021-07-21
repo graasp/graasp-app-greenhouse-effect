@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { Text } from 'react-konva';
@@ -19,23 +19,15 @@ const CurrentTemperature = ({
   temperature,
 }) => {
   const scaleUnit = useSelector(({ lab }) => lab.scaleUnit);
-  const isPaused = useSelector(({ lab }) => lab.isPaused);
-  const [t, setT] = useState(temperature);
-
-  useEffect(() => {
-    if (!isPaused) {
-      setT(temperature);
-    }
-  }, [temperature, isPaused, t]);
 
   let text;
   switch (scaleUnit) {
     case SCALE_UNITS.CELSIUS:
-      text = Math.round(kelvinToCelsius(t)) + scaleUnit.unit;
+      text = Math.round(kelvinToCelsius(temperature)) + scaleUnit.unit;
       break;
     case SCALE_UNITS.KELVIN:
     default:
-      text = Math.round(t) + scaleUnit.unit;
+      text = Math.round(temperature) + scaleUnit.unit;
       break;
   }
 

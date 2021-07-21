@@ -1,11 +1,9 @@
-/* eslint-disable no-unused-vars */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Group } from 'react-konva';
 import { useSelector } from 'react-redux';
 import {
-  SOLAR_FLUX,
-  STEFAN_BOLTZMANN_CONSTANT,
+  CHANGING_TEMPERATURE_SPEED,
   THERMOMETER_BASE_WIDTH,
   THERMOMETER_BEGINS_X,
   THERMOMETER_BEGINS_Y,
@@ -37,6 +35,7 @@ const Thermometer = ({
   const greenhouseEffectGases = useSelector(
     ({ lab }) => lab.greenhouseGasesValues,
   );
+  const isPaused = useSelector(({ lab }) => lab.isPaused);
 
   const thermometerBeginsX = skyBeginsX + THERMOMETER_BEGINS_X * skyWidth;
   const thermometerBeginsY = skyBeginsY + THERMOMETER_BEGINS_Y * skyHeight;
@@ -63,7 +62,27 @@ const Thermometer = ({
   );
 
   const greenhouseEffect = computeGreenhouseEffect(greenhouseEffectGases);
-  const temperature = computeCurrentTemperature({ greenhouseEffect, albedo });
+
+  // temperature
+  const [temperature, setTemperature] = useState(
+    computeCurrentTemperature({ greenhouseEffect, albedo }),
+  );
+
+  // save temperature value
+  // changing settings while paused won't change the temperature
+  useEffect(() => {
+    if (!isPaused) {
+      // new temperature
+      const t = computeCurrentTemperature({ greenhouseEffect, albedo });
+
+      // slowly increase temperature
+      if (Math.abs(t - temperature) > CHANGING_TEMPERATURE_SPEED) {
+        setTemperature(
+          temperature + Math.sign(t - temperature) * CHANGING_TEMPERATURE_SPEED,
+        );
+      }
+    }
+  }, [temperature, isPaused]);
 
   return (
     <Group
