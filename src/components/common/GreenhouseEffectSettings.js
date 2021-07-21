@@ -25,6 +25,7 @@ const GreenhouseEffectSettings = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const albedo = useSelector(({ lab }) => lab.albedo);
+  const isPaused = useSelector(({ lab }) => lab.isPaused);
   const values = useSelector(({ lab }) => lab.greenhouseGasesValues);
   const { methane, carbonDioxide, water } = values;
 
@@ -38,6 +39,8 @@ const GreenhouseEffectSettings = () => {
   const totalEffectValue =
     computeGreenhouseEffect({ methane, carbonDioxide }) * 100;
 
+  const disabled = !isPaused;
+
   return (
     <>
       <SliderWithLabel
@@ -46,6 +49,7 @@ const GreenhouseEffectSettings = () => {
         value={albedo}
         onChange={onAlbedoChange}
         labelClassName={classes.title}
+        disabled={disabled}
       />
       <SliderWithLabel
         disabled
@@ -61,6 +65,7 @@ const GreenhouseEffectSettings = () => {
         value={carbonDioxide}
         onChange={(e, v) => onChange(v, 'carbonDioxide')}
         indent
+        disabled={disabled}
       />
       <SliderWithLabel
         text={t('CH_4 (ppm)', { escapeInterpolation: true })}
@@ -68,6 +73,7 @@ const GreenhouseEffectSettings = () => {
         value={methane}
         onChange={(e, v) => onChange(v, 'methane')}
         indent
+        disabled={disabled}
       />
       <SliderWithLabel
         disabled

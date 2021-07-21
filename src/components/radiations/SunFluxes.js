@@ -9,7 +9,7 @@ import {
   SOLAR_FLUX,
 } from '../../config/constants';
 import Flux from './Flux';
-import { computerCloudEllipseRadiuses } from '../../utils/canvas';
+import { computeCloudEllipseRadiuses } from '../../utils/canvas';
 
 const SunFluxes = ({
   sunToCloudRadiation,
@@ -52,7 +52,7 @@ const SunFluxes = ({
     }
   };
 
-  const { cloudEllipseRadiusX: cloudHeight } = computerCloudEllipseRadiuses({
+  const { cloudEllipseRadiusX: cloudHeight } = computeCloudEllipseRadiuses({
     skyHeight: height * SKY.height,
     skyWidth: width * SKY.width,
   });
