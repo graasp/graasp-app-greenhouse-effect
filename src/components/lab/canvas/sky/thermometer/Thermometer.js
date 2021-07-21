@@ -18,6 +18,7 @@ import ThermometerBody from './ThermometerBody';
 import ThermometerBulb from './ThermometerBulb';
 import ThermometerScale from './ThermometerScale';
 import {
+  computeAlbedo,
   computeCurrentTemperature,
   computeGreenhouseEffect,
 } from '../../../../../utils/greenhouseEffect';
@@ -31,12 +32,12 @@ const Thermometer = ({
   cursorBecomesDefault,
   cursorBecomesZoomIn,
 }) => {
-  const albedo = useSelector(({ lab }) => lab.albedo);
+  const albedoValues = useSelector(({ lab }) => lab.albedo);
+  const albedo = computeAlbedo(albedoValues);
   const greenhouseEffectGases = useSelector(
     ({ lab }) => lab.greenhouseGasesValues,
   );
   const isPaused = useSelector(({ lab }) => lab.isPaused);
-
   const thermometerBeginsX = skyBeginsX + THERMOMETER_BEGINS_X * skyWidth;
   const thermometerBeginsY = skyBeginsY + THERMOMETER_BEGINS_Y * skyHeight;
   const thermometerBaseWidth = THERMOMETER_BASE_WIDTH * skyWidth;

@@ -1,6 +1,6 @@
 import {
   SET_GREENHOUSE_GASES_VALUES,
-  SET_ALBEDO,
+  SET_ALBEDO_VALUES,
   SET_FEEDBACK_VALUES,
   SET_RADIATION_MODE,
   SET_NEXT_STATE,
@@ -12,8 +12,8 @@ export const setGreenhouseGasesValues = (payload) => (dispatch) => {
   dispatch({ type: SET_GREENHOUSE_GASES_VALUES, payload });
 };
 
-export const setAlbedo = (payload) => (dispatch) => {
-  dispatch({ type: SET_ALBEDO, payload });
+export const setAlbedoValues = (payload) => (dispatch) => {
+  dispatch({ type: SET_ALBEDO_VALUES, payload });
 };
 
 export const setFeedbackValues = (payload) => (dispatch) => {

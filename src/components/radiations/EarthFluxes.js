@@ -12,13 +12,14 @@ import {
 } from '../../config/constants';
 import Flux from './Flux';
 import {
+  computeAlbedo,
   computeCurrentTemperature,
   computeGreenhouseEffect,
 } from '../../utils/greenhouseEffect';
 
 const EarthFluxes = ({ sunToCloudRadiation, earthRadiation }) => {
   const [gasesRadiation, setGasesRadiation] = useState(false);
-  const albedo = useSelector(({ lab }) => lab.albedo);
+  const { iceCover, cloudCover } = useSelector(({ lab }) => lab.albedo);
   const isPaused = useSelector(({ lab }) => lab.isPaused);
   const { methane, carbonDioxide } = useSelector(
     ({ lab }) => lab.greenhouseGasesValues,
@@ -41,32 +42,42 @@ const EarthFluxes = ({ sunToCloudRadiation, earthRadiation }) => {
 
   // save values in state to create 2-step settings
   // changing settings while in pause does not alter these values
-  const [values, setValues] = useState({ methane, carbonDioxide, albedo });
+  const [values, setValues] = useState({
+    methane,
+    carbonDioxide,
+    iceCover,
+    cloudCover,
+  });
 
   useEffect(() => {
     if (!isPaused) {
       // reset progress if one value changed
       if (
         values.methane !== methane ||
-        values.albedo !== albedo ||
-        values.carbonDioxide !== carbonDioxide
+        values.carbonDioxide !== carbonDioxide ||
+        values.iceCover !== iceCover ||
+        values.cloudCover !== cloudCover
       ) {
         setEarthToGasesRadiationProgress(0);
         setGasesToSkyRadiationProgress(0);
         setGasesToEarthRadiationProgress(0);
         setGasesRadiation(false);
       }
-      setValues({ methane, carbonDioxide, albedo });
+      setValues({ methane, carbonDioxide, cloudCover, iceCover });
     }
-  }, [methane, carbonDioxide, albedo, isPaused]);
+  }, [methane, carbonDioxide, cloudCover, iceCover, isPaused]);
 
   const { width, height } = useSelector(
     ({ layout }) => layout.lab.stageDimensions,
   );
+  const albedo = computeAlbedo({
+    iceCover: values.iceCover,
+    cloudCover: values.cloudCover,
+  });
   const greenhouseEffect = computeGreenhouseEffect(values);
   const temperature = computeCurrentTemperature({
     greenhouseEffect,
-    albedo: values.albedo,
+    albedo,
   });
   const futureGreenhouseEffect = computeGreenhouseEffect({
     methane,

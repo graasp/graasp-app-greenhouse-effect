@@ -14,6 +14,13 @@ export const kelvinToCelsius = (k) => k - 273.15;
 export const celsiusToKelvin = (c) => c + 273.15;
 
 export const computeCurrentTemperature = ({ greenhouseEffect, albedo }) =>
-  ((SOLAR_FLUX * (1 - Math.min(albedo, 99.9) / 100.0)) /
+  ((SOLAR_FLUX * (1 - Math.min(albedo, 99.9))) /
     (STEFAN_BOLTZMANN_CONSTANT * (1 - greenhouseEffect))) **
   0.25;
+
+export const computeAlbedo = ({ iceCover, cloudCover }) => {
+  const ice = (iceCover / 100.0) * 0.7 + (1 - iceCover / 100.0) * 0.09;
+  const cloud = (0.48 * cloudCover) / 100.0;
+  const albedo = cloud + ((1 - cloud) ** 2 * ice) / (1 - ice * cloud);
+  return albedo;
+};
