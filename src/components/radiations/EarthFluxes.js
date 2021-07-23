@@ -9,6 +9,11 @@ import {
   ICE_CAP_ROWS_BEGIN,
   X_DISTANCE_BETWEEN_ICE_CAPS,
   STEFAN_BOLTZMANN_CONSTANT,
+  CHANGING_FLUX_CLOUD_COVER_SPEED,
+  CHANGING_FLUX_ICE_COVER_SPEED,
+  CHANGING_FLUX_METHANE_SPEED,
+  CHANGING_FLUX_CARBON_DIOXIDE_SPEED,
+  EARTH_FLUXES_DELTA_WIDTH,
 } from '../../config/constants';
 import Flux from './Flux';
 import {
@@ -49,28 +54,43 @@ const EarthFluxes = ({ sunToCloudRadiation, earthRadiation }) => {
     cloudCover,
   });
 
+  const slowUpdateValues = (value, key, speed) => {
+    const difference = value - values[key];
+    if (Math.abs(difference) > speed) {
+      setValues({
+        ...values,
+        [key]: values[key] + Math.sign(difference) * speed,
+      });
+    } else if (value !== values[key]) {
+      setValues({
+        ...values,
+        [key]: value,
+      });
+    }
+  };
+
   useEffect(() => {
     if (!isPaused) {
-      // reset progress if one value changed
-      if (
-        values.methane !== methane ||
-        values.carbonDioxide !== carbonDioxide ||
-        values.iceCover !== iceCover ||
-        values.cloudCover !== cloudCover
-      ) {
-        setEarthToGasesRadiationProgress(0);
-        setGasesToSkyRadiationProgress(0);
-        setGasesToEarthRadiationProgress(0);
-        setGasesRadiation(false);
-      }
-      setValues({ methane, carbonDioxide, cloudCover, iceCover });
+      // slowly increase fluxes values
+      slowUpdateValues(methane, 'methane', CHANGING_FLUX_METHANE_SPEED);
+      slowUpdateValues(
+        carbonDioxide,
+        'carbonDioxide',
+        CHANGING_FLUX_CARBON_DIOXIDE_SPEED,
+      );
+      slowUpdateValues(
+        cloudCover,
+        'cloudCover',
+        CHANGING_FLUX_CLOUD_COVER_SPEED,
+      );
+      slowUpdateValues(iceCover, 'iceCover', CHANGING_FLUX_ICE_COVER_SPEED);
     }
-  }, [methane, carbonDioxide, cloudCover, iceCover, isPaused]);
+  }, [methane, carbonDioxide, cloudCover, iceCover, isPaused, values]);
 
   const { width, height } = useSelector(
     ({ layout }) => layout.lab.stageDimensions,
   );
-  const albedo = computeAlbedo({
+  const { albedo } = computeAlbedo({
     iceCover: values.iceCover,
     cloudCover: values.cloudCover,
   });
@@ -112,9 +132,12 @@ const EarthFluxes = ({ sunToCloudRadiation, earthRadiation }) => {
     x: width * 0.85,
   };
 
+  const earthEmittedRadiationValue = Math.round(
+    STEFAN_BOLTZMANN_CONSTANT * temperature ** 4,
+  );
   const EARTH_EMITTED_INFRARED_VALUES = {
-    value: Math.round(STEFAN_BOLTZMANN_CONSTANT * temperature ** 4),
-    width: 80, // use for flux
+    value: earthEmittedRadiationValue,
+    width: earthEmittedRadiationValue * EARTH_FLUXES_DELTA_WIDTH, // use for flux
     amplitude: 100, // use for wave
   };
 

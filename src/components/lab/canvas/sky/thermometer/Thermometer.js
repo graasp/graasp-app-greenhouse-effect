@@ -33,7 +33,7 @@ const Thermometer = ({
   cursorBecomesZoomIn,
 }) => {
   const albedoValues = useSelector(({ lab }) => lab.albedo);
-  const albedo = computeAlbedo(albedoValues);
+  const { albedo } = computeAlbedo(albedoValues);
   const greenhouseEffectGases = useSelector(
     ({ lab }) => lab.greenhouseGasesValues,
   );

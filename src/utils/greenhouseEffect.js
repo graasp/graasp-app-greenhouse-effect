@@ -22,5 +22,5 @@ export const computeAlbedo = ({ iceCover, cloudCover }) => {
   const ice = (iceCover / 100.0) * 0.7 + (1 - iceCover / 100.0) * 0.09;
   const cloud = (0.48 * cloudCover) / 100.0;
   const albedo = cloud + ((1 - cloud) ** 2 * ice) / (1 - ice * cloud);
-  return albedo;
+  return { albedo, ice, cloud };
 };

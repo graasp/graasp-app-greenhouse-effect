@@ -7,9 +7,11 @@ import {
   SKY,
   FLUX_HEAD_HEIGHT,
   SOLAR_FLUX,
+  SUN_FLUXES_DELTA_WIDTH,
 } from '../../config/constants';
 import Flux from './Flux';
 import { computeCloudEllipseRadiuses } from '../../utils/canvas';
+import { computeAlbedo } from '../../utils/greenhouseEffect';
 
 const SunFluxes = ({
   sunToCloudRadiation,
@@ -21,6 +23,12 @@ const SunFluxes = ({
 }) => {
   const [iceRadiation, setIceRadiation] = useState(false);
   const [cloudRadiation, setCloudRadiation] = useState(false);
+  const { iceCover, cloudCover } = useSelector(({ lab }) => lab.albedo);
+
+  const { ice: iceAlbedo, cloud: cloudAlbedo } = computeAlbedo({
+    iceCover,
+    cloudCover,
+  });
 
   const [
     sunToCloudRadiationProgress,
@@ -57,6 +65,14 @@ const SunFluxes = ({
     skyWidth: width * SKY.width,
   });
 
+  const cloudToSkyRadiationValue = cloudAlbedo * SOLAR_FLUX;
+  const cloudToGroundRadiationValue = (
+    SOLAR_FLUX - cloudToSkyRadiationValue
+  ).toFixed(0);
+  const iceToSkyRadiationValue = (
+    cloudToGroundRadiationValue * iceAlbedo
+  ).toFixed(0);
+
   return (
     <>
       <Flux
@@ -77,40 +93,43 @@ const SunFluxes = ({
         x={sunToCloudRadiation.x}
         y={cloudToGroundRadiation.y + cloudHeight * 2}
         color={SUN_LIGHT_COLOR}
-        width={70}
+        width={cloudToGroundRadiationValue * SUN_FLUXES_DELTA_WIDTH}
         height={200}
-        text="290"
+        text={cloudToGroundRadiationValue}
         show={cloudRadiation}
         onEnd={() => {
           onEnd(RADIATION_STATES.ICE_RADIATION);
         }}
         progress={cloudToGroundRadiationProgress}
         setProgress={setCloudToGroundRadiationProgress}
+        enableBlinking
       />
       <Flux
         x={cloudToSkyRadiation.x}
         y={sunToCloudRadiation.y}
         color={SUN_LIGHT_COLOR}
-        width={30}
+        width={cloudToSkyRadiationValue * SUN_FLUXES_DELTA_WIDTH}
         height={120}
-        text="50"
+        text={cloudToSkyRadiationValue.toFixed(0)}
         show={cloudRadiation}
         angle={160}
         onEnd={startEarthRadiations}
         progress={cloudToSkyRadiationProgress}
         setProgress={setCloudToSkyRadiationProgress}
+        enableBlinking
       />
       <Flux
         x={iceToSkyRadiation.x - 50}
         y={sunToCloudRadiation.y}
         color={SUN_LIGHT_COLOR}
-        width={30}
+        width={iceToSkyRadiationValue * SUN_FLUXES_DELTA_WIDTH}
         height={470}
-        text="50"
+        text={iceToSkyRadiationValue}
         angle={170}
         show={iceRadiation}
         progress={iceToSkyRadiationProgress}
         setProgress={setIceToSkyRadiationProgress}
+        enableBlinking
       />
     </>
   );

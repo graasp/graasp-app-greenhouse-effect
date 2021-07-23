@@ -176,6 +176,10 @@ class Flux extends Component {
       return null;
     }
 
+    if (width === 0) {
+      return null;
+    }
+
     return (
       <Group>
         <Shape

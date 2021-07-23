@@ -41,7 +41,7 @@ const GreenhouseEffectSettings = () => {
   const totalEffectValue =
     computeGreenhouseEffect({ methane, carbonDioxide }) * 100;
 
-  const albedo = computeAlbedo(albedoValues) * 100;
+  const albedo = computeAlbedo(albedoValues).albedo * 100;
 
   const disabled = !isPaused;
 
