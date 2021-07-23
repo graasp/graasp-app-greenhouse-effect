@@ -122,6 +122,8 @@ const EarthFluxes = ({ sunToCloudRadiation, earthRadiation }) => {
   const earthToGasesRadiation = {
     x: width * 0.75,
     y: height * 0.6,
+    height: 140,
+    angle: 180,
   };
 
   const gasesToEarthRadiation = {
@@ -161,9 +163,9 @@ const EarthFluxes = ({ sunToCloudRadiation, earthRadiation }) => {
         y={earthToGasesRadiation.y}
         color={EARTH_RADIATION_COLOR}
         width={EARTH_EMITTED_INFRARED_VALUES.width}
-        height={140}
+        height={earthToGasesRadiation.height}
         text={EARTH_EMITTED_INFRARED_VALUES.value}
-        angle={180}
+        angle={earthToGasesRadiation.angle}
         show={earthRadiation}
         onEnd={() => {
           onEnd(RADIATION_STATES.GASES_RADIATION);

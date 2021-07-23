@@ -1,5 +1,10 @@
-import { SOLAR_FLUX, STEFAN_BOLTZMANN_CONSTANT } from '../config/constants';
+import {
+  SOLAR_FLUX,
+  STEFAN_BOLTZMANN_CONSTANT,
+  ZERO_KELVIN_IN_CELISUS,
+} from '../config/constants';
 
+// compute greenhouse effect based on formula given by teachers
 export const computeGreenhouseEffect = ({ carbonDioxide, methane }) => {
   const A = 0.0525;
   const a = 0.147;
@@ -9,12 +14,12 @@ export const computeGreenhouseEffect = ({ carbonDioxide, methane }) => {
   return A * carbonDioxide ** a + B * methane ** b + C;
 };
 
-export const kelvinToCelsius = (k) => k - 273.15;
+export const kelvinToCelsius = (k) => k - ZERO_KELVIN_IN_CELISUS;
 
-export const celsiusToKelvin = (c) => c + 273.15;
+export const celsiusToKelvin = (c) => c + ZERO_KELVIN_IN_CELISUS;
 
 export const computeCurrentTemperature = ({ greenhouseEffect, albedo }) =>
-  ((SOLAR_FLUX * (1 - Math.min(albedo, 99.9))) /
+  ((SOLAR_FLUX.value * (1 - Math.min(albedo, 99.9))) /
     (STEFAN_BOLTZMANN_CONSTANT * (1 - greenhouseEffect))) **
   0.25;
 

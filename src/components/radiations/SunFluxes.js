@@ -65,9 +65,9 @@ const SunFluxes = ({
     skyWidth: width * SKY.width,
   });
 
-  const cloudToSkyRadiationValue = cloudAlbedo * SOLAR_FLUX;
+  const cloudToSkyRadiationValue = cloudAlbedo * SOLAR_FLUX.value;
   const cloudToGroundRadiationValue = (
-    SOLAR_FLUX - cloudToSkyRadiationValue
+    SOLAR_FLUX.value - cloudToSkyRadiationValue
   ).toFixed(0);
   const iceToSkyRadiationValue = (
     cloudToGroundRadiationValue * iceAlbedo
@@ -79,11 +79,9 @@ const SunFluxes = ({
         x={sunToCloudRadiation.x}
         y={cloudToSkyRadiation.y - FLUX_HEAD_HEIGHT}
         color={SUN_LIGHT_COLOR}
-        width={110}
-        height={80}
-        scaleX={0.8}
-        scaleY={0.4}
-        text={`${SOLAR_FLUX}`}
+        width={SOLAR_FLUX.width}
+        height={SOLAR_FLUX.height}
+        text={`${SOLAR_FLUX.value}`}
         onEnd={() => onEnd(RADIATION_STATES.CLOUD_RADIATION)}
         show={sunRadiation}
         progress={sunToCloudRadiationProgress}
@@ -112,20 +110,20 @@ const SunFluxes = ({
         height={120}
         text={cloudToSkyRadiationValue.toFixed(0)}
         show={cloudRadiation}
-        angle={160}
+        angle={cloudToSkyRadiation.angle}
         onEnd={startEarthRadiations}
         progress={cloudToSkyRadiationProgress}
         setProgress={setCloudToSkyRadiationProgress}
         enableBlinking
       />
       <Flux
-        x={iceToSkyRadiation.x - 50}
+        x={iceToSkyRadiation.x}
         y={sunToCloudRadiation.y}
         color={SUN_LIGHT_COLOR}
         width={iceToSkyRadiationValue * SUN_FLUXES_DELTA_WIDTH}
         height={470}
         text={iceToSkyRadiationValue}
-        angle={170}
+        angle={iceToSkyRadiation.angle}
         show={iceRadiation}
         progress={iceToSkyRadiationProgress}
         setProgress={setIceToSkyRadiationProgress}
@@ -147,10 +145,12 @@ SunFluxes.propTypes = {
   cloudToSkyRadiation: PropTypes.shape({
     x: PropTypes.number.isRequired,
     y: PropTypes.number.isRequired,
+    angle: PropTypes.number.isRequired,
   }).isRequired,
   iceToSkyRadiation: PropTypes.shape({
     x: PropTypes.number.isRequired,
     y: PropTypes.number.isRequired,
+    angle: PropTypes.number.isRequired,
   }).isRequired,
   startEarthRadiations: PropTypes.func.isRequired,
   sunRadiation: PropTypes.bool.isRequired,

@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import {
-  GREENHOUSE_GASES_VALUES,
+  DEFAULT_GREENHOUSE_GASES_VALUES,
   RADIATION_MODES,
   SCALE_UNITS,
 } from '../config/constants';
@@ -21,9 +21,9 @@ const INITIAL_STATE = {
   },
   radiationMode: RADIATION_MODES.WAVES,
   greenhouseGasesValues: {
-    carbonDioxide: GREENHOUSE_GASES_VALUES.CARBON_DIOXIDE,
-    methane: GREENHOUSE_GASES_VALUES.METHANE,
-    water: GREENHOUSE_GASES_VALUES.WATER,
+    carbonDioxide: DEFAULT_GREENHOUSE_GASES_VALUES.CARBON_DIOXIDE,
+    methane: DEFAULT_GREENHOUSE_GASES_VALUES.METHANE,
+    water: DEFAULT_GREENHOUSE_GASES_VALUES.WATER,
   },
   albedo: {
     iceCover: 10,

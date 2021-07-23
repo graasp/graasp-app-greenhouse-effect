@@ -1,6 +1,5 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/prop-types */
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
   ATMOSPHERE,
@@ -21,16 +20,21 @@ import SunFluxes from './SunFluxes';
 import EarthFluxes from './EarthFluxes';
 
 class Radiations extends Component {
+  static propTypes = {
+    radiationMode: PropTypes.oneOf(RADIATION_MODES).isRequired,
+    stageDimensions: PropTypes.shape({
+      width: PropTypes.number.isRequired,
+      height: PropTypes.number.isRequired,
+    }).isRequired,
+  };
+
   state = {
     sunRadiation: true,
     earthRadiation: false,
   };
 
-  componentDidUpdate({
-    isPaused: prevIsPaused,
-    radiationMode: prevRadiationMode,
-  }) {
-    const { isPaused, radiationMode } = this.props;
+  componentDidUpdate({ radiationMode: prevRadiationMode }) {
+    const { radiationMode } = this.props;
 
     if (radiationMode !== prevRadiationMode) {
       // eslint-disable-next-line react/no-did-update-set-state
@@ -68,11 +72,15 @@ class Radiations extends Component {
         (ATMOSPHERE.height +
           (CLOUD_CENTRAL_CIRCLE_Y - CLOUD_CENTRAL_CIRCLE_RADIUS) * SKY.height) *
         height,
+      angle: 155,
     };
 
     const iceToSkyRadiation = {
-      x: width * (ICE_CAP_ROWS_BEGIN[0].x - X_DISTANCE_BETWEEN_ICE_CAPS * 3),
+      x:
+        width * (ICE_CAP_ROWS_BEGIN[0].x - X_DISTANCE_BETWEEN_ICE_CAPS * 3) -
+        40,
       y: height * (1 - SEA.height * (1 + ICE_CAP_HEIGHT)),
+      angle: 170,
     };
 
     if (radiationMode === RADIATION_MODES.WAVES) {
@@ -115,7 +123,6 @@ class Radiations extends Component {
 
 const mapStateToProps = ({ lab, layout }) => ({
   radiationMode: lab.radiationMode,
-  isPaused: lab.isPaused,
   stageDimensions: layout.lab.stageDimensions,
 });
 

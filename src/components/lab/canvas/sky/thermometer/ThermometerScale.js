@@ -13,8 +13,8 @@ import {
   SCALE_MAX_NUMBER_TICKS,
   SCALE_PADDING_RIGHT,
   SCALE_UNITS,
-  THERMOMETER_MIN_VALUE,
-  THERMOMETER_MAX_VALUE,
+  THERMOMETER_MIN_VALUE_IN_KELVIN,
+  THERMOMETER_MAX_VALUE_IN_KELVIN,
   SCALE_PADDING_LEFT,
 } from '../../../../../config/constants';
 import {
@@ -169,8 +169,8 @@ const ThermometerScale = ({
   thermometerBeginsY,
   thermometerBeginsX,
 }) => {
-  const from = THERMOMETER_MIN_VALUE;
-  const to = THERMOMETER_MAX_VALUE;
+  const from = THERMOMETER_MIN_VALUE_IN_KELVIN;
+  const to = THERMOMETER_MAX_VALUE_IN_KELVIN;
   const thermometerXPosition = thermometerBeginsX;
   const offsetY = thermometerBeginsY - thermometerBodyHeight;
 

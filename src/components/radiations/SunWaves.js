@@ -37,7 +37,6 @@ const SunWaves = ({
       <EmittedLine
         color={SUN_LIGHT_COLOR}
         show={sunRadiation}
-        angle={0}
         origin={sunToCloudRadiation}
         maxPointsForLine={50}
         amplitude={100}
@@ -48,7 +47,6 @@ const SunWaves = ({
         color={SUN_LIGHT_COLOR}
         show={cloudRadiation}
         maxPointsForLine={110}
-        angle={0}
         origin={{ y: cloudToGroundRadiation.y, x: sunToCloudRadiation.x }}
         amplitude={70}
         onEnd={() => {
@@ -61,7 +59,7 @@ const SunWaves = ({
         color={SUN_LIGHT_COLOR}
         show={cloudRadiation}
         maxPointsForLine={80}
-        angle={150}
+        angle={cloudToSkyRadiation.angle}
         origin={cloudToSkyRadiation}
         amplitude={ULTRAVIOLET_AMPLITUDE}
         wavelength={ULTRAVIOLET_WAVELENGTH}
@@ -71,7 +69,7 @@ const SunWaves = ({
         color={SUN_LIGHT_COLOR}
         show={iceRadiation}
         maxPointsForLine={220}
-        angle={170}
+        angle={iceToSkyRadiation.angle}
         origin={iceToSkyRadiation}
         amplitude={ULTRAVIOLET_AMPLITUDE}
         wavelength={ULTRAVIOLET_WAVELENGTH}
@@ -92,10 +90,12 @@ SunWaves.propTypes = {
   cloudToSkyRadiation: PropTypes.shape({
     x: PropTypes.number.isRequired,
     y: PropTypes.number.isRequired,
+    angle: PropTypes.number.isRequired,
   }).isRequired,
   iceToSkyRadiation: PropTypes.shape({
     x: PropTypes.number.isRequired,
     y: PropTypes.number.isRequired,
+    angle: PropTypes.number.isRequired,
   }).isRequired,
   sunRadiation: PropTypes.bool.isRequired,
   startEarthRadiations: PropTypes.func.isRequired,

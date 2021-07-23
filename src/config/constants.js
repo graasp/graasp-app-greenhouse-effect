@@ -234,8 +234,8 @@ export const THERMOMETER_BULB_RADIUS = 0.015;
 export const THERMOMETER_FILL = '#CD4646';
 export const DEFAULT_THERMOMETER_PERCENTAGE_FULL = 0.4;
 export const THERMOMETER_NUMBER_OF_GRADATIONS = 10;
-export const THERMOMETER_MIN_VALUE = 250; // Kelvin
-export const THERMOMETER_MAX_VALUE = 305; // Kelvin
+export const THERMOMETER_MIN_VALUE_IN_KELVIN = 250; // Kelvin
+export const THERMOMETER_MAX_VALUE_IN_KELVIN = 305; // Kelvin
 export const THERMOMETER_GRADATION_WIDTH = 0.25;
 export const THERMOMETER_GRADATION_STROKE = 1;
 
@@ -252,7 +252,7 @@ export const LINE_STARTING_POSITION_Y = 550;
 export const SUN_LIGHT_COLOR = 'yellow';
 export const EARTH_RADIATION_COLOR = 'red';
 
-export const GREENHOUSE_GASES_VALUES = {
+export const DEFAULT_GREENHOUSE_GASES_VALUES = {
   CARBON_DIOXIDE: 10,
   METHANE: 10,
   WATER: 10,
@@ -292,7 +292,7 @@ export const ZOOM_IN_CURSOR = 'zoom-in';
 export const ZOOM_OUT_CURSOR = 'zoom-out';
 export const DEFAULT_CURSOR = 'default';
 
-export const SOLAR_FLUX = 340;
+export const SOLAR_FLUX = { value: 340, width: 110, height: 80 };
 export const STEFAN_BOLTZMANN_CONSTANT = 5.670367e-8;
 
 export const SCALE_WIDTH = 7;
@@ -330,3 +330,5 @@ export const BLINKING_SHADOW_COLOR = 'yellow';
 export const DEFAULT_SHADOW_COLOR = 'black';
 export const SUN_FLUXES_DELTA_WIDTH = 0.35;
 export const EARTH_FLUXES_DELTA_WIDTH = 0.3;
+
+export const ZERO_KELVIN_IN_CELISUS = 273.15;

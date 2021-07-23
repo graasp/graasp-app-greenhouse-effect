@@ -58,6 +58,11 @@ const EarthWaves = ({ earthRadiation }) => {
     amplitude: 100, // use for wave
   };
 
+  const greenhouseGasesRadiationOrigin = {
+    x: width * 0.8,
+    y: height * 0.55,
+  };
+
   return (
     <>
       <EmittedLine
@@ -78,10 +83,7 @@ const EarthWaves = ({ earthRadiation }) => {
         show={gasesRadiation}
         maxPointsForLine={100}
         angle={-20}
-        origin={{
-          x: width * 0.8,
-          y: height * 0.55,
-        }}
+        origin={greenhouseGasesRadiationOrigin}
         amplitude={
           EARTH_EMITTED_INFRARED_VALUES.amplitude * futureGreenhouseEffect
         }
@@ -93,8 +95,8 @@ const EarthWaves = ({ earthRadiation }) => {
         maxPointsForLine={120}
         angle={180}
         origin={{
-          x: width * 0.8,
-          y: height * 0.45,
+          ...greenhouseGasesRadiationOrigin,
+          y: greenhouseGasesRadiationOrigin.y - 90,
         }}
         amplitude={
           EARTH_EMITTED_INFRARED_VALUES.amplitude * (1 - futureGreenhouseEffect)
