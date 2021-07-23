@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Group } from 'react-konva';
+import { useSelector } from 'react-redux';
 import {
-  DEFAULT_THERMOMETER_PERCENTAGE_FULL,
+  CHANGING_TEMPERATURE_SPEED,
   THERMOMETER_BASE_WIDTH,
   THERMOMETER_BEGINS_X,
   THERMOMETER_BEGINS_Y,
@@ -13,10 +14,15 @@ import {
   determineBulbCoordinates,
   generateThermometerRectanglePoints,
 } from '../../../../../utils/canvas';
-import ThermometerFill from './ThermometerFill';
 import ThermometerBody from './ThermometerBody';
 import ThermometerBulb from './ThermometerBulb';
 import ThermometerScale from './ThermometerScale';
+import {
+  computeAlbedo,
+  computeCurrentTemperature,
+  computeGreenhouseEffect,
+} from '../../../../../utils/greenhouseEffect';
+import CurrentTemperature from './CurrentTemperature';
 
 const Thermometer = ({
   skyHeight,
@@ -26,6 +32,12 @@ const Thermometer = ({
   cursorBecomesDefault,
   cursorBecomesZoomIn,
 }) => {
+  const albedoValues = useSelector(({ lab }) => lab.albedo);
+  const { albedo } = computeAlbedo(albedoValues);
+  const greenhouseEffectGases = useSelector(
+    ({ lab }) => lab.greenhouseGasesValues,
+  );
+  const isPaused = useSelector(({ lab }) => lab.isPaused);
   const thermometerBeginsX = skyBeginsX + THERMOMETER_BEGINS_X * skyWidth;
   const thermometerBeginsY = skyBeginsY + THERMOMETER_BEGINS_Y * skyHeight;
   const thermometerBaseWidth = THERMOMETER_BASE_WIDTH * skyWidth;
@@ -50,6 +62,29 @@ const Thermometer = ({
     thermometerBulbRadius,
   );
 
+  const greenhouseEffect = computeGreenhouseEffect(greenhouseEffectGases);
+
+  // temperature
+  const [temperature, setTemperature] = useState(
+    computeCurrentTemperature({ greenhouseEffect, albedo }),
+  );
+
+  // save temperature value
+  // changing settings while paused won't change the temperature
+  useEffect(() => {
+    if (!isPaused) {
+      // new temperature
+      const t = computeCurrentTemperature({ greenhouseEffect, albedo });
+
+      // slowly increase temperature
+      if (Math.abs(t - temperature) > CHANGING_TEMPERATURE_SPEED) {
+        setTemperature(
+          temperature + Math.sign(t - temperature) * CHANGING_TEMPERATURE_SPEED,
+        );
+      }
+    }
+  }, [temperature, isPaused]);
+
   return (
     <Group
       onMouseEnter={cursorBecomesDefault}
@@ -59,12 +94,6 @@ const Thermometer = ({
         thermometerBulbBeginsX={thermometerBulbBeginsX}
         thermometerBulbBeginsY={thermometerBulbBeginsY}
         thermometerBulbRadius={thermometerBulbRadius}
-      />
-      <ThermometerFill
-        thermometerBeginsX={thermometerBeginsX}
-        thermometerBeginsY={thermometerBeginsY}
-        thermometerRectanglePoints={thermometerRectanglePoints}
-        thermometerPercentageFull={DEFAULT_THERMOMETER_PERCENTAGE_FULL}
       />
       <ThermometerBody
         thermometerBeginsX={thermometerBeginsX}
@@ -76,6 +105,14 @@ const Thermometer = ({
         thermometerBeginsY={thermometerBeginsY}
         thermometerBaseWidth={thermometerBaseWidth}
         thermometerBodyHeight={thermometerBodyHeight}
+        currentTemperature={temperature}
+      />
+      <CurrentTemperature
+        thermometerBeginsX={thermometerBeginsX}
+        thermometerBeginsY={thermometerBeginsY}
+        thermometerBodyHeight={thermometerBodyHeight}
+        thermometerBaseWidth={thermometerBaseWidth}
+        temperature={temperature}
       />
     </Group>
   );

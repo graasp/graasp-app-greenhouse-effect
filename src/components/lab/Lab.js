@@ -11,8 +11,8 @@ import {
 } from '../../config/constants';
 import { setStageDimensions } from '../../actions';
 import CanvasLayout from './canvas/CanvasLayout';
-import Radiations from '../common/RadiationManager';
 import MoleculesView from './canvas/MoleculesView';
+import Radiations from '../radiations/RadiationManager';
 
 const styles = () => ({
   container: {
@@ -98,26 +98,25 @@ class Lab extends Component {
               style={{ cursor: zoomedIn ? 'zoom-out' : 'zoom-in' }}
             >
               <Provider store={store}>
-                {zoomedIn ? (
-                  <MoleculesView
-                    stageWidth={stageWidth}
-                    stageHeight={stageHeight}
-                    cursorBecomesDefault={this.cursorBecomesDefault}
-                    cursorBecomesZoomOut={this.cursorBecomesZoomOut}
-                  />
-                ) : (
-                  <>
-                    <Layer>
-                      <CanvasLayout
-                        cursorBecomesDefault={this.cursorBecomesDefault}
-                        cursorBecomesZoomIn={this.cursorBecomesZoomIn}
-                      />
-                    </Layer>
-                    <Layer>
-                      <Radiations />
-                    </Layer>
-                  </>
-                )}
+                <>
+                  <Layer>
+                    <CanvasLayout
+                      cursorBecomesDefault={this.cursorBecomesDefault}
+                      cursorBecomesZoomIn={this.cursorBecomesZoomIn}
+                    />
+                  </Layer>
+                  <Layer>
+                    <Radiations />
+                  </Layer>
+                  {zoomedIn && (
+                    <MoleculesView
+                      stageWidth={stageWidth}
+                      stageHeight={stageHeight}
+                      cursorBecomesDefault={this.cursorBecomesDefault}
+                      cursorBecomesZoomOut={this.cursorBecomesZoomOut}
+                    />
+                  )}
+                </>
               </Provider>
             </Stage>
           )}

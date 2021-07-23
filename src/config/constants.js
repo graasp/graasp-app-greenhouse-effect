@@ -225,7 +225,7 @@ export const MOLECULE_DISTRIBUTION_MIN_X_ON_CLOUD_ROWS = 0.5;
 
 /* ------THERMOMETER CONSTANTS------ */
 export const THERMOMETER_BEGINS_X = 0.95;
-export const THERMOMETER_BEGINS_Y = 0.45;
+export const THERMOMETER_BEGINS_Y = 0.48;
 export const THERMOMETER_BASE_WIDTH = 0.015;
 export const THERMOMETER_HEIGHT = 0.4;
 export const THERMOMETER_BORDER_COLOR = '#282828';
@@ -234,6 +234,8 @@ export const THERMOMETER_BULB_RADIUS = 0.015;
 export const THERMOMETER_FILL = '#CD4646';
 export const DEFAULT_THERMOMETER_PERCENTAGE_FULL = 0.4;
 export const THERMOMETER_NUMBER_OF_GRADATIONS = 10;
+export const THERMOMETER_MIN_VALUE_IN_KELVIN = 250; // Kelvin
+export const THERMOMETER_MAX_VALUE_IN_KELVIN = 305; // Kelvin
 export const THERMOMETER_GRADATION_WIDTH = 0.25;
 export const THERMOMETER_GRADATION_STROKE = 1;
 
@@ -250,7 +252,7 @@ export const LINE_STARTING_POSITION_Y = 550;
 export const SUN_LIGHT_COLOR = 'yellow';
 export const EARTH_RADIATION_COLOR = 'red';
 
-export const GREENHOUSE_GASES_VALUES = {
+export const DEFAULT_GREENHOUSE_GASES_VALUES = {
   CARBON_DIOXIDE: 10,
   METHANE: 10,
   WATER: 10,
@@ -267,7 +269,7 @@ export const RADIATION_STATES = {
 export const DEFAULT_ALBEDO = 30;
 
 export const ALBEDO_MAX_VALUE = 100;
-export const CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE = 1000;
+export const CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE = 5000;
 export const METHANE_CONCENTRATION_MAX_VALUE = 10;
 export const WATER_CONCENTRATION_MAX_VALUE = 100;
 export const GREENHOUSE_TOTAL_EFFECT_MAX_VALUE = 100;
@@ -289,3 +291,44 @@ export const FLUX_PROGRESS_INTERVAL_DELTA = 10;
 export const ZOOM_IN_CURSOR = 'zoom-in';
 export const ZOOM_OUT_CURSOR = 'zoom-out';
 export const DEFAULT_CURSOR = 'default';
+
+export const SOLAR_FLUX = { value: 340, width: 110, height: 80 };
+export const STEFAN_BOLTZMANN_CONSTANT = 5.670367e-8;
+
+export const SCALE_WIDTH = 7;
+export const SCALE_FONT_SIZE = 13;
+export const SCALE_PADDING_LEFT = 7;
+export const SCALE_PADDING_RIGHT = 15;
+export const SCALE_LINE_HEIGHT = 1.5;
+export const SCALE_HEIGHT = 17;
+// approximatively the width of the scale text
+export const SCALE_TEXT_WIDTH_FACTOR = SCALE_FONT_SIZE;
+// the actual number of displayed ticks might vary due to number rounding
+export const SCALE_MAX_NUMBER_TICKS = 6;
+export const SCALE_LEGEND_PADDING_BOTTOM = 30;
+export const SCALE_TICKS_STROKE_COLOR = 'black';
+export const INITIAL_TEMPERATURE = 289;
+// apply dashed stroke that is 6px long and 2 pixels apart
+export const SCALE_LABELS_LINE_DASH = [6, 2];
+
+export const THERMOMETER_HEIGHT_FACTOR = 0.5;
+export const SCALE_UNITS = {
+  KELVIN: { name: 'kelvin', unit: 'K' },
+  CELSIUS: { name: 'celsius', unit: '°C' },
+};
+export const THERMOMETER_CURRENT_TEMPERATURE_FONT_SIZE = 20;
+export const THERMOMETER_CURRENT_TEMPERATURE_WIDTH = 20;
+export const THERMOMETER_CURRENT_TEMPERATURE_MARGIN_BOTTOM = 10;
+
+export const CHANGING_TEMPERATURE_SPEED = 0.05;
+export const CHANGING_FLUX_CLOUD_COVER_SPEED = 0.05;
+export const CHANGING_FLUX_ICE_COVER_SPEED = 0.05;
+export const CHANGING_FLUX_METHANE_SPEED = 0.05;
+export const CHANGING_FLUX_CARBON_DIOXIDE_SPEED = 3;
+export const SET_INTERVAL_PAUSED_ANIMATION_TIME = 200;
+export const BLINKING_SHADOW_COLOR = 'yellow';
+export const DEFAULT_SHADOW_COLOR = 'black';
+export const SUN_FLUXES_DELTA_WIDTH = 0.35;
+export const EARTH_FLUXES_DELTA_WIDTH = 0.3;
+
+export const ZERO_KELVIN_IN_CELISUS = 273.15;

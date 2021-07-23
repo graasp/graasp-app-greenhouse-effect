@@ -23,7 +23,7 @@ const RadiationModeSwitch = () => {
     const { checked } = e.target;
     const mode = checked ? RADIATION_MODES.FLUXES : RADIATION_MODES.WAVES;
     dispatch(setRadationMode(mode));
-    dispatch(setNextState());
+    dispatch(setNextState({ sun: true, earth: false }));
   };
 
   return (
