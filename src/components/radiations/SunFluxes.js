@@ -4,13 +4,11 @@ import { useSelector } from 'react-redux';
 import {
   SUN_LIGHT_COLOR,
   RADIATION_STATES,
-  SKY,
   FLUX_HEAD_HEIGHT,
   SOLAR_FLUX,
   SUN_FLUXES_DELTA_WIDTH,
 } from '../../config/constants';
 import Flux from './Flux';
-import { computeCloudEllipseRadiuses } from '../../utils/canvas';
 import { computeAlbedo } from '../../utils/greenhouseEffect';
 
 const SunFluxes = ({
@@ -44,10 +42,6 @@ const SunFluxes = ({
   ] = useState(0);
   const [iceToSkyRadiationProgress, setIceToSkyRadiationProgress] = useState(0);
 
-  const { width, height } = useSelector(
-    ({ layout }) => layout.lab.stageDimensions,
-  );
-
   const onEnd = (state) => {
     switch (state) {
       case RADIATION_STATES.CLOUD_RADIATION:
@@ -59,11 +53,6 @@ const SunFluxes = ({
       default:
     }
   };
-
-  const { cloudEllipseRadiusX: cloudHeight } = computeCloudEllipseRadiuses({
-    skyHeight: height * SKY.height,
-    skyWidth: width * SKY.width,
-  });
 
   const cloudToSkyRadiationValue = cloudAlbedo * SOLAR_FLUX.value;
   const cloudToGroundRadiationValue = (
@@ -89,10 +78,10 @@ const SunFluxes = ({
       />
       <Flux
         x={sunToCloudRadiation.x}
-        y={cloudToGroundRadiation.y + cloudHeight * 2}
+        y={cloudToGroundRadiation.y + cloudToGroundRadiation.height}
         color={SUN_LIGHT_COLOR}
         width={cloudToGroundRadiationValue * SUN_FLUXES_DELTA_WIDTH}
-        height={200}
+        height={cloudToGroundRadiation.height}
         text={cloudToGroundRadiationValue}
         show={cloudRadiation}
         onEnd={() => {
@@ -141,6 +130,7 @@ SunFluxes.propTypes = {
   cloudToGroundRadiation: PropTypes.shape({
     x: PropTypes.number.isRequired,
     y: PropTypes.number.isRequired,
+    height: PropTypes.number.isRequired,
   }).isRequired,
   cloudToSkyRadiation: PropTypes.shape({
     x: PropTypes.number.isRequired,

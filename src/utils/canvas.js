@@ -3,7 +3,6 @@ import {
   CLOUD_ADJACENT_CIRCLE_RADIUS,
   ATOM_DIMENSIONS,
   CARBON,
-  CLOUD_CENTRAL_CIRCLE_RADIUS,
   CLOUD_CENTRAL_CIRCLE_Y,
   ICE_CAP_TRAPEZIUM_INDENT,
   OXYGEN,
@@ -343,12 +342,13 @@ export const determineMoleculesWithinRowCenterXs = (moleculeDistribution) => {
 };
 
 export const computeCloudEllipseRadiuses = ({
+  cloudCover,
   skyHeight,
   skyWidth,
   skyBeginsY = 0,
 }) => {
   // we determine the size of the circles of the cloud from a central circle we define (using generateCloudCircles below)
-  const centralCircleRadius = CLOUD_CENTRAL_CIRCLE_RADIUS * skyHeight;
+  const centralCircleRadius = (cloudCover / 500) * skyHeight;
   const centralCircleX = CLOUD_CENTRAL_CIRCLE_X * skyWidth;
   const centralCircleY = skyBeginsY + CLOUD_CENTRAL_CIRCLE_Y * skyHeight;
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { Group, Circle, Ellipse } from 'react-konva';
 import {
   CLOUD_BORDER_COLOR,
@@ -20,13 +21,19 @@ const Cloud = ({
   cursorBecomesDefault,
   cursorBecomesZoomIn,
 }) => {
+  const { cloudCover } = useSelector(({ lab }) => lab.albedo);
   const {
     cloudEllipseRadiusX,
     cloudEllipseRadiusY,
     centralCircleY,
     centralCircleX,
     centralCircleRadius,
-  } = computeCloudEllipseRadiuses({ skyHeight, skyWidth, skyBeginsY });
+  } = computeCloudEllipseRadiuses({
+    cloudCover,
+    skyHeight,
+    skyWidth,
+    skyBeginsY,
+  });
 
   return (
     <Group

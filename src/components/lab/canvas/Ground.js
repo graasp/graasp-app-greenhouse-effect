@@ -46,6 +46,7 @@ const Ground = ({ stageHeight, stageWidth, cursorBecomesDefault }) => {
         stageWidth={stageWidth}
       />
       <GroundBackground
+        stageWidth={stageWidth}
         groundHeight={groundHeight}
         groundWidth={groundWidth}
         groundBeginsX={groundBeginsX}

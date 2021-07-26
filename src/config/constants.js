@@ -161,6 +161,7 @@ export const HALF_MOUNTAIN = 'HALF_MOUNTAIN';
 export const DEFAULT_ICE_COVER = 0.5;
 export const ICE_COVER_FILL = '#F5F5F5';
 export const ICE_COVER_LINES_TENSION = 0.1;
+export const MOUNTAIN_ICE_COVER_MAXIMUM_PERCENT = 70;
 
 /* ------TRUCK CONSTANTS------ */
 export const TRUCK_FRONT_WIDTH = 0.05;

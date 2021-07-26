@@ -12,6 +12,22 @@
     "Fluxes [W/m^2]": "Fluxes [W/m<sup>2</sup>]",
     "CH_4 (ppm)": "CH<sub>4</sub> (ppm)",
     "CO_2 (ppm)": "CO<sub>2</sub> (ppm)",
-    "H_2O (ppm)": "H<sub>2</sub>O (ppm)"
+    "H_2O (ppm)": "H<sub>2</sub>O (ppm)",
+    "Greenhouse Effect (%)": "Greenhouse Effect (%)",
+    "Ice Cover Change": "Ice Cover Change",
+    "Water Vapor": "Water Vapor",
+    "Permafrost Melting": "Permafrost Melting",
+    "Cloud Cover (%)": "Cloud Cover (%)",
+    "Ice Cover (%)": "Ice Cover (%)",
+    "Albedo (%)": "Albedo (%)",
+    "Feedback": "Feedback",
+    "Today": "Today",
+    "Kelvin": "Kelvin",
+    "Celsius": "Celsius",
+    "Custom": "Custom",
+    "Values in": "Values in",
+    "Play": "Play",
+    "Reset": "Reset",
+    "Waves": "Waves"
   }
 }

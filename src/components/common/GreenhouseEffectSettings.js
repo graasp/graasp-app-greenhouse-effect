@@ -10,6 +10,7 @@ import {
   METHANE_CONCENTRATION_MAX_VALUE,
   CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE,
   ALBEDO_MAX_VALUE,
+  RADIATION_MODES,
 } from '../../config/constants';
 import {
   computeAlbedo,
@@ -27,6 +28,7 @@ const GreenhouseEffectSettings = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const classes = useStyles();
+  const radiationMode = useSelector(({ lab }) => lab.radiationMode);
   const albedoValues = useSelector(({ lab }) => lab.albedo);
   const isPaused = useSelector(({ lab }) => lab.isPaused);
   const values = useSelector(({ lab }) => lab.greenhouseGasesValues);
@@ -43,7 +45,7 @@ const GreenhouseEffectSettings = () => {
 
   const albedo = computeAlbedo(albedoValues).albedo * 100;
 
-  const disabled = !isPaused;
+  const disabled = !isPaused || radiationMode !== RADIATION_MODES.FLUXES;
 
   return (
     <>

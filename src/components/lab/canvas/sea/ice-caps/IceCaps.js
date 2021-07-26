@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import IceCapRow from './IceCapRow';
 import {
@@ -12,6 +13,7 @@ import {
 } from '../../../../../config/constants';
 
 const IceCaps = ({ seaHeight, seaWidth, seaBeginsY }) => {
+  const iceCover = useSelector(({ lab }) => lab.albedo.iceCover);
   // ice cap dimensions
   const iceCapBaseWidth = seaWidth * ICE_CAP_BASE;
   const iceCapHeight = seaHeight * ICE_CAP_HEIGHT;
@@ -26,6 +28,9 @@ const IceCaps = ({ seaHeight, seaWidth, seaBeginsY }) => {
       const iceCapRowsBegin = ICE_CAP_ROWS_BEGIN[index];
       const iceCapRowBeginsX = iceCapRowsBegin.x * seaWidth;
       const iceCapRowBeginsY = seaBeginsY + iceCapRowsBegin.y * seaHeight;
+      const numberOfIceCaps = Math.ceil(
+        (DEFAULT_NUMBER_OF_ICE_CAPS_PER_ROW[index] * iceCover) / 100,
+      );
 
       return (
         <IceCapRow
@@ -38,7 +43,7 @@ const IceCaps = ({ seaHeight, seaWidth, seaBeginsY }) => {
           xDistanceBetweenIceCaps={xDistanceBetweenIceCapsInRow}
           yDistanceBetweenIceCaps={yDistanceBetweenIceCapsInRow}
           // TODO: numberOfIceCaps in a row will be determined in global state (Albedo)
-          numberOfIceCaps={DEFAULT_NUMBER_OF_ICE_CAPS_PER_ROW[index]}
+          numberOfIceCaps={numberOfIceCaps}
         />
       );
     });

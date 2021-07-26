@@ -47,7 +47,6 @@ const MountainRange = ({
         mountainHeight={halfMountainHeight}
         mountainBeginsX={halfMountainBeginsX}
         mountainBeginsY={mountainsBeginY}
-        iceCover={DEFAULT_ICE_COVER}
       />
     </Group>
   );
