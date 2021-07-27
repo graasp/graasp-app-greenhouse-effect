@@ -45,6 +45,7 @@ const GreenhouseEffectSettings = () => {
 
   const albedo = computeAlbedo(albedoValues).albedo * 100;
 
+  // greenhouse effect settings should only affect the simulation on flux mode
   const disabled = !isPaused || radiationMode !== RADIATION_MODES.FLUXES;
 
   return (
