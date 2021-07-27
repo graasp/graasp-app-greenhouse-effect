@@ -15,7 +15,6 @@ const MountainWithIceCover = ({
   mountainHeight,
   mountainBeginsX,
   mountainBeginsY,
-  iceCover,
 }) => {
   const mountainPoints =
     mountainType === FULL_MOUNTAIN
@@ -34,7 +33,6 @@ const MountainWithIceCover = ({
         mountainWidth={mountainWidth}
         mountainHeight={mountainHeight}
         mountainPoints={mountainPoints}
-        iceCover={iceCover}
         mountainBeginsX={mountainBeginsX}
         mountainBeginsY={mountainBeginsY}
       />
@@ -48,7 +46,6 @@ MountainWithIceCover.propTypes = {
   mountainHeight: PropTypes.number.isRequired,
   mountainBeginsX: PropTypes.number.isRequired,
   mountainBeginsY: PropTypes.number.isRequired,
-  iceCover: PropTypes.number.isRequired,
 };
 
 export default MountainWithIceCover;

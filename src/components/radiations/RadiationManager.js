@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -13,11 +14,13 @@ import {
   ICE_CAP_HEIGHT,
   ICE_CAP_ROWS_BEGIN,
   X_DISTANCE_BETWEEN_ICE_CAPS,
+  SOLAR_FLUX,
 } from '../../config/constants';
 import EarthWaves from './EarthWaves';
 import SunWaves from './SunWaves';
 import SunFluxes from './SunFluxes';
 import EarthFluxes from './EarthFluxes';
+import { computeCloudEllipseRadiuses } from '../../utils/canvas';
 
 class Radiations extends Component {
   static propTypes = {
@@ -26,6 +29,7 @@ class Radiations extends Component {
       width: PropTypes.number.isRequired,
       height: PropTypes.number.isRequired,
     }).isRequired,
+    cloudCover: PropTypes.number.isRequired,
   };
 
   state = {
@@ -50,8 +54,15 @@ class Radiations extends Component {
     const {
       stageDimensions: { width, height },
       radiationMode,
+      cloudCover,
     } = this.props;
     const { sunRadiation, earthRadiation } = this.state;
+
+    const { cloudEllipseRadiusX: cloudHeight } = computeCloudEllipseRadiuses({
+      skyHeight: height * SKY.height,
+      skyWidth: width * SKY.width,
+      cloudCover,
+    });
 
     const sunToCloudRadiation = {
       x: SUN_CENTER_X * width * ATMOSPHERE.width,
@@ -60,10 +71,8 @@ class Radiations extends Component {
 
     const cloudToGroundRadiation = {
       x: CLOUD_CENTRAL_CIRCLE_X * width * ATMOSPHERE.width,
-      y:
-        (ATMOSPHERE.height +
-          (CLOUD_CENTRAL_CIRCLE_Y + CLOUD_CENTRAL_CIRCLE_RADIUS) * SKY.height) *
-        height,
+      y: ATMOSPHERE.height * height + SOLAR_FLUX.height + cloudHeight,
+      height: 250 - cloudCover,
     };
 
     const cloudToSkyRadiation = {
@@ -124,6 +133,7 @@ class Radiations extends Component {
 const mapStateToProps = ({ lab, layout }) => ({
   radiationMode: lab.radiationMode,
   stageDimensions: layout.lab.stageDimensions,
+  cloudCover: lab.albedo.cloudCover,
 });
 
 export default connect(mapStateToProps)(Radiations);
