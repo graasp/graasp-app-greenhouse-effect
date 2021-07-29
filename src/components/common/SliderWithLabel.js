@@ -31,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
 const SliderWithLabel = ({
   value,
   max,
+  min,
   disabled,
   text,
   finalMarkText,
@@ -38,13 +39,14 @@ const SliderWithLabel = ({
   indent,
   labelClassName,
   valueLabelDisplay,
+  step,
 }) => {
   const classes = useStyles();
 
   const marks = [
     {
-      value: 0,
-      label: '0',
+      value: min,
+      label: min,
     },
     {
       value: max,
@@ -55,13 +57,14 @@ const SliderWithLabel = ({
   const Control = (
     <Slider
       classes={{ root: classes.slider }}
-      min={0}
+      min={min}
       max={max}
       value={value}
       marks={marks}
       disabled={disabled}
       onChange={onChange}
       valueLabelDisplay={valueLabelDisplay}
+      step={step}
     />
   );
 
@@ -90,6 +93,7 @@ const SliderWithLabel = ({
 
 SliderWithLabel.propTypes = {
   value: PropTypes.number.isRequired,
+  min: PropTypes.number,
   max: PropTypes.number.isRequired,
   disabled: PropTypes.bool,
   text: PropTypes.string.isRequired,
@@ -98,6 +102,7 @@ SliderWithLabel.propTypes = {
   indent: PropTypes.bool,
   labelClassName: PropTypes.string,
   valueLabelDisplay: PropTypes.string,
+  step: PropTypes.number,
 };
 
 SliderWithLabel.defaultProps = {
@@ -106,6 +111,8 @@ SliderWithLabel.defaultProps = {
   indent: false,
   labelClassName: null,
   valueLabelDisplay: 'auto',
+  min: 0,
+  step: 1,
 };
 
 export default SliderWithLabel;
