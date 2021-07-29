@@ -10,7 +10,7 @@ export const computeGreenhouseEffect = ({ carbonDioxide, methane }) => {
   const a = 0.147;
   const B = 0.0234;
   const b = 0.225;
-  const C = 0.23;
+  const C = 0.231;
   return A * carbonDioxide ** a + B * methane ** b + C;
 };
 

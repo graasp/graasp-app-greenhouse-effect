@@ -33,17 +33,20 @@ export const SKY = {
   height: 0.65,
   width: 1,
   colorRange: [0, '#A4C8EA', 1, '#C8DEF2'],
+  colorRangePaused: [0, '#c1cdd9', 1, '#d3dbe3'],
 };
 export const SEA = {
   height: 0.15,
   width: 0.4,
   indent: 0.06,
   colorRange: [0, '#406bca', 1, '#6688D4'],
+  colorRangePaused: [0, '#6f8cc9', 1, '#92a6d4'],
 };
 export const GROUND = {
   height: 0.15,
   width: 0.6,
   colorRange: [0, '#50A032', 1, '#84BC6F'],
+  colorRangePaused: [0, '#6c9c5a', 1, '#9fba95'],
 };
 
 /* ------SUN CONSTANTS------ */
@@ -147,6 +150,7 @@ export const FACTORY_CHIMNEY_BEGINS_X = 0.75;
 
 /* ------MOUNTAIN CONSTANTS------ */
 export const MOUNTAIN_FILL = '#9A7B4F';
+export const MOUNTAIN_FILL_PAUSED = '#998871';
 export const MOUNTAIN_LINES_TENSION = 0;
 export const MOUNTAIN_RANGE_BEGINS_X = 0.6;
 export const FULL_MOUNTAIN_WIDTH = 0.3;

@@ -1,12 +1,13 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Rect } from 'react-konva';
 import { SKY } from '../../../../config/constants';
 import { toggleZoom } from '../../../../actions';
 
 const SkyBackground = ({ skyHeight, skyWidth, skyBeginsX, skyBeginsY }) => {
-  const { colorRange: skyColorRange } = SKY;
+  const isPaused = useSelector(({ lab }) => lab.isPaused);
+  const { colorRange, colorRangePaused } = SKY;
   const dispatch = useDispatch();
 
   return (
@@ -20,7 +21,7 @@ const SkyBackground = ({ skyHeight, skyWidth, skyBeginsX, skyBeginsY }) => {
         x: 0,
         y: skyHeight,
       }}
-      fillLinearGradientColorStops={skyColorRange}
+      fillLinearGradientColorStops={isPaused ? colorRangePaused : colorRange}
       onClick={() => {
         dispatch(toggleZoom(true));
       }}
