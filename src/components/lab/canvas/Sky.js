@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Group } from 'react-konva';
 import { ATMOSPHERE, SKY } from '../../../config/constants';
-import Cloud from './sky/cloud/Cloud';
 import SkyBackground from './sky/SkyBackground';
 import Thermometer from './sky/thermometer/Thermometer';
+import Clouds from './sky/cloud/Clouds';
 
 const Sky = ({
   stageHeight,
@@ -41,7 +41,7 @@ const Sky = ({
         skyBeginsX={skyBeginsX}
         skyBeginsY={skyBeginsY}
       />
-      <Cloud
+      <Clouds
         skyHeight={skyHeight}
         skyWidth={skyWidth}
         skyBeginsY={skyBeginsY}
