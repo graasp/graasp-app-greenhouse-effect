@@ -257,12 +257,6 @@ export const LINE_STARTING_POSITION_Y = 550;
 export const SUN_LIGHT_COLOR = 'yellow';
 export const EARTH_RADIATION_COLOR = 'red';
 
-export const DEFAULT_GREENHOUSE_GASES_VALUES = {
-  CARBON_DIOXIDE: 10,
-  METHANE: 10,
-  WATER: 8400,
-};
-
 export const RADIATION_STATES = {
   SUN_RADIATION: 'SUN_RADIATION',
   CLOUD_RADIATION: 'CLOUD_RADIATION',
@@ -275,7 +269,9 @@ export const DEFAULT_ALBEDO = 30;
 
 export const ALBEDO_MAX_VALUE = 100;
 export const CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE = 5000;
+export const CARBON_DIOXIDE_CONCENTRATION_MIN_VALUE = 50;
 export const METHANE_CONCENTRATION_MAX_VALUE = 10;
+export const METHANE_CONCENTRATION_MIN_VALUE = 0.1;
 export const WATER_CONCENTRATION_MIN_VALUE = 3000;
 export const WATER_CONCENTRATION_MAX_VALUE = 13000;
 export const GREENHOUSE_TOTAL_EFFECT_MAX_VALUE = 100;
@@ -338,3 +334,69 @@ export const SUN_FLUXES_DELTA_WIDTH = 0.35;
 export const EARTH_FLUXES_DELTA_WIDTH = 0.3;
 
 export const ZERO_KELVIN_IN_CELISUS = 273.15;
+
+export const SIMULATION_MODES = {
+  ICE_AGE: {
+    name: 'Ice Age',
+    greenhouseGasesValues: {
+      carbonDioxide: 200,
+      methane: 0.4,
+      water: 5600,
+    },
+    albedo: {
+      iceCover: 90,
+      cloudCover: 40,
+    },
+  },
+  TWENTIETH_CENTURY: {
+    name: '1990',
+    greenhouseGasesValues: {
+      carbonDioxide: 290,
+      methane: 1,
+      water: 7900,
+    },
+    albedo: {
+      iceCover: 10,
+      cloudCover: 40,
+    },
+  },
+  TODAY: {
+    name: 'Today',
+    greenhouseGasesValues: {
+      carbonDioxide: 410,
+      methane: 1.8,
+      water: 8400,
+    },
+    albedo: {
+      iceCover: 10,
+      cloudCover: 40,
+    },
+  },
+  MARS: {
+    name: 'Mars',
+    greenhouseGasesValues: {
+      carbonDioxide: 410,
+      methane: 1.8,
+      water: 8400,
+    },
+    albedo: {
+      iceCover: 10,
+      cloudCover: 40,
+    },
+  },
+  VENUS: {
+    name: 'Venus',
+    greenhouseGasesValues: {
+      carbonDioxide: 410,
+      methane: 1.8,
+      water: 8400,
+    },
+    albedo: {
+      iceCover: 10,
+      cloudCover: 40,
+    },
+  },
+  CUSTOM: {
+    name: 'Custom',
+  },
+};

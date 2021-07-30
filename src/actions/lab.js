@@ -6,6 +6,7 @@ import {
   SET_NEXT_STATE,
   SET_IS_PAUSED,
   SET_SCALE_UNIT,
+  SET_SIMULATION_MODE,
 } from '../types';
 
 export const setGreenhouseGasesValues = (payload) => (dispatch) => {
@@ -37,4 +38,8 @@ export const setIsPaused = (payload) => (dispatch) =>
 
 export const setNextState = (payload) => (dispatch) => {
   dispatch({ type: SET_NEXT_STATE, payload });
+};
+
+export const setSimulationMode = (payload) => (dispatch) => {
+  dispatch({ type: SET_SIMULATION_MODE, payload });
 };

@@ -12,6 +12,8 @@ import {
   ALBEDO_MAX_VALUE,
   RADIATION_MODES,
   WATER_CONCENTRATION_MIN_VALUE,
+  METHANE_CONCENTRATION_MIN_VALUE,
+  CARBON_DIOXIDE_CONCENTRATION_MIN_VALUE,
 } from '../../config/constants';
 import {
   computeAlbedo,
@@ -86,6 +88,7 @@ const GreenhouseEffectSettings = () => {
       <SliderWithLabel
         text={t('CO_2 (ppm)', { escapeInterpolation: true })}
         max={CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE}
+        min={CARBON_DIOXIDE_CONCENTRATION_MIN_VALUE}
         value={carbonDioxide}
         onChange={(e, v) => onChange(v, 'carbonDioxide')}
         indent
@@ -94,6 +97,7 @@ const GreenhouseEffectSettings = () => {
       <SliderWithLabel
         text={t('CH_4 (ppm)', { escapeInterpolation: true })}
         max={METHANE_CONCENTRATION_MAX_VALUE}
+        min={METHANE_CONCENTRATION_MIN_VALUE}
         value={methane}
         onChange={(e, v) => onChange(v, 'methane')}
         step={0.1}
