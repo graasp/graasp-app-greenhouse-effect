@@ -15,10 +15,10 @@ class EmittedLine extends Component {
       x: PropTypes.number.isRequired,
       y: PropTypes.number.isRequired,
     }).isRequired,
-    angle: PropTypes.number.isRequired,
+    angle: PropTypes.number,
     isPaused: PropTypes.bool.isRequired,
     maxPointsForLine: PropTypes.number.isRequired,
-    show: PropTypes.bool.isRequired,
+    show: PropTypes.bool,
     color: PropTypes.string.isRequired,
     onEnd: PropTypes.func,
     amplitude: PropTypes.number.isRequired,
@@ -27,6 +27,8 @@ class EmittedLine extends Component {
 
   static defaultProps = {
     onEnd: null,
+    show: false,
+    angle: 0,
   };
 
   state = (() => {

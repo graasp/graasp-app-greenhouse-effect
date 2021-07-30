@@ -80,7 +80,8 @@ SwitchWithTwoLabels.propTypes = {
   isChecked: PropTypes.bool.isRequired,
   onSwitchToggle: PropTypes.func.isRequired,
   leftLabel: PropTypes.string.isRequired,
-  rightLabel: PropTypes.string.isRequired,
+  rightLabel: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
+    .isRequired,
   disabled: PropTypes.bool,
 };
 

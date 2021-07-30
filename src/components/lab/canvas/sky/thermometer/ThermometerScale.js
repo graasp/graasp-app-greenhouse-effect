@@ -244,10 +244,6 @@ const ThermometerScale = ({
 
 ThermometerScale.propTypes = {
   currentTemperature: PropTypes.number.isRequired,
-  scales: PropTypes.shape({
-    from: PropTypes.number.isRequired,
-    to: PropTypes.number.isRequired,
-  }).isRequired,
   thermometerBodyHeight: PropTypes.number.isRequired,
   showKelvinScale: PropTypes.bool.isRequired,
   thermometerBaseWidth: PropTypes.number.isRequired,

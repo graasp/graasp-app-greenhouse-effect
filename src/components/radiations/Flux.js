@@ -25,7 +25,7 @@ class Flux extends Component {
     color: PropTypes.string.isRequired,
     width: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
-    text: PropTypes.string.isRequired,
+    text: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     angle: PropTypes.number,
     isPaused: PropTypes.bool.isRequired,
     show: PropTypes.bool,
@@ -54,6 +54,7 @@ class Flux extends Component {
     isPaused: prevIsPaused,
     show: prevShow,
     progress: prevProgress,
+    enableBlinking: prevEnableBlinking,
   }) {
     // eslint-disable-next-line react/prop-types
     const {
@@ -87,15 +88,16 @@ class Flux extends Component {
       onEnd?.();
     }
 
-    // paused animation
-    if (enableBlinking && isPaused !== prevIsPaused) {
-      if (show && isPaused) {
-        this.beginPausedAnimation();
-      } else if (!isPaused) {
-        clearInterval(this.pausedAnimation);
-        // eslint-disable-next-line react/no-did-update-set-state
-        this.setState({ shadowColor: DEFAULT_SHADOW_COLOR });
-      }
+    // enable settings when blinking is enabled
+    if (enableBlinking && enableBlinking !== prevEnableBlinking && show) {
+      this.beginPausedAnimation();
+    }
+    // disable blinking on play
+    if (this.pausedAnimation && !isPaused && isPaused !== prevIsPaused) {
+      clearInterval(this.pausedAnimation);
+      this.pausedAnimation = null;
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState({ shadowColor: DEFAULT_SHADOW_COLOR });
     }
   }
 
@@ -133,7 +135,7 @@ class Flux extends Component {
   };
 
   renderText = () => {
-    const { x, y, text, height, angle, width, progress } = this.props;
+    const { x, y, text, height, angle, color, progress } = this.props;
     const currentBodyHeight = Math.min(
       (progress * height) / FLUX_PROGRESS_MAX_VALUE,
       height,
@@ -151,6 +153,9 @@ class Flux extends Component {
 
     return (
       <Text
+        stroke={color}
+        strokeWidth={5}
+        fillAfterStrokeEnabled
         x={x - progressiveX}
         y={y - progressiveY}
         text={text}

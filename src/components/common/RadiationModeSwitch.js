@@ -11,7 +11,7 @@ const RadiationModeSwitch = () => {
   const radiationMode = useSelector(({ lab }) => lab.radiationMode);
 
   const rightLabel = (
-    <div
+    <span
       // eslint-disable-next-line react/no-danger
       dangerouslySetInnerHTML={{
         __html: t('Fluxes [W/m^2]', { escapeInterpolation: true }),
