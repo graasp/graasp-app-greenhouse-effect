@@ -81,6 +81,8 @@ const Thermometer = ({
         setTemperature(
           temperature + Math.sign(t - temperature) * CHANGING_TEMPERATURE_SPEED,
         );
+      } else if (temperature !== t) {
+        setTemperature(t);
       }
     }
   }, [temperature, isPaused]);

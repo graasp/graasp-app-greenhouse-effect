@@ -15,6 +15,8 @@ import {
   WATER_CONCENTRATION_MIN_VALUE,
   METHANE_CONCENTRATION_MIN_VALUE,
   CARBON_DIOXIDE_CONCENTRATION_MIN_VALUE,
+  ICE_COVER_MAX_VALUE,
+  CLOUD_COVER_MAX_VALUE,
 } from '../../config/constants';
 import {
   computeAlbedo,
@@ -64,7 +66,7 @@ const GreenhouseEffectSettings = () => {
       />
       <SliderWithLabel
         text={t('Ice Cover (%)')}
-        max={100}
+        max={ICE_COVER_MAX_VALUE}
         value={albedoValues.iceCover}
         onChange={(e, v) => onAlbedoChange(v, 'iceCover')}
         indent
@@ -72,7 +74,7 @@ const GreenhouseEffectSettings = () => {
       />
       <SliderWithLabel
         text={t('Cloud Cover (%)')}
-        max={100}
+        max={CLOUD_COVER_MAX_VALUE}
         value={albedoValues.cloudCover}
         onChange={(e, v) => onAlbedoChange(v, 'cloudCover')}
         indent

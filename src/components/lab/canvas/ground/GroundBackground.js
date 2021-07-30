@@ -2,7 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { Rect, Shape } from 'react-konva';
-import { GROUND, ICE_CAP_FILL, SEA } from '../../../../config/constants';
+import {
+  GROUND,
+  ICE_CAP_FILL,
+  ICE_COVER_MAX_VALUE,
+  SEA,
+} from '../../../../config/constants';
 
 const GroundBackground = ({
   stageWidth,
@@ -32,7 +37,7 @@ const GroundBackground = ({
       {iceCover > 0 && (
         <Shape
           sceneFunc={(context, shape) => {
-            const width = (groundWidth * iceCover) / 100;
+            const width = (groundWidth * iceCover) / ICE_COVER_MAX_VALUE;
             const { indent: seaIndentPercentage } = SEA;
             const seaIndent = stageWidth * seaIndentPercentage;
 
