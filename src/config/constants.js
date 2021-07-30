@@ -219,7 +219,7 @@ export const HYDROGEN = {
 };
 export const MOLECULE_DISTRIBUTION_MIN_X = 0.01;
 // to avoid clashes with therometer, don't place molecules more than this constant from beginning of canvas
-export const MOLECULE_DISTRIBUTION_MAX_X = 0.9;
+export const MOLECULE_DISTRIBUTION_MAX_X = 0.99;
 // to avoid clashes with cloud, on rows whose y falls within cloud, place the molecules at least this constant from beginning of canvas
 export const MOLECULE_DISTRIBUTION_MIN_X_ON_CLOUD_ROWS = 0.5;
 

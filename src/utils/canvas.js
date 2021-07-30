@@ -150,16 +150,17 @@ export const determineCarbonDioxideAtomsCoordinates = (
   moleculeCenter,
   carbonRadius,
   oxygenRadius,
+  rotation,
 ) => {
   const { x: moleculeCenterX, y: moleculeCenterY } = moleculeCenter;
   return {
     topOxygen: {
-      x: moleculeCenterX,
+      x: moleculeCenterX + carbonRadius * Math.cos(rotation),
       y: moleculeCenterY - carbonRadius - oxygenRadius,
     },
     carbon: { x: moleculeCenterX, y: moleculeCenterY },
     bottomOxygen: {
-      x: moleculeCenterX,
+      x: moleculeCenterX + carbonRadius * Math.cos(rotation),
       y: moleculeCenterY + carbonRadius + oxygenRadius,
     },
   };
@@ -169,6 +170,7 @@ export const determineWaterAtomsCoordinates = (
   moleculeCenter,
   oxygenRadius,
   hydrogenRadius,
+  rotation,
 ) => {
   const { x: moleculeCenterX, y: moleculeCenterY } = moleculeCenter;
   const hydrogenXOffset = Math.sin((45 * Math.PI) / 180) * oxygenRadius;
@@ -176,13 +178,13 @@ export const determineWaterAtomsCoordinates = (
     Math.cos((45 * Math.PI) / 180) * oxygenRadius + hydrogenRadius;
   return {
     topHydrogen: {
-      x: moleculeCenterX - hydrogenXOffset,
-      y: moleculeCenterY - hydrogenYOffset,
+      x: moleculeCenterX - hydrogenXOffset * Math.cos(rotation),
+      y: moleculeCenterY - hydrogenYOffset * Math.sin(rotation),
     },
     oxygen: { x: moleculeCenterX, y: moleculeCenterY },
     bottomHydrogen: {
-      x: moleculeCenterX - hydrogenXOffset,
-      y: moleculeCenterY + hydrogenYOffset,
+      x: moleculeCenterX - hydrogenXOffset * Math.cos(rotation),
+      y: moleculeCenterY + hydrogenYOffset * Math.sin(rotation),
     },
   };
 };
@@ -385,5 +387,5 @@ export const adjustGreenhouseGasesDistribution = ({
 }) => ({
   methane,
   carbonDioxide: carbonDioxide / 10,
-  water: water / 100,
+  water: water / 10,
 });

@@ -24,7 +24,6 @@ const Molecules = ({
   const adjustedGreenhouseGases = adjustGreenhouseGasesDistribution(
     greenhouseGases,
   );
-  console.log('adjustedGreenhouseGases: ', adjustedGreenhouseGases);
   const moleculeDistribution = chunkMolecules(adjustedGreenhouseGases);
   const xPoints = determineMoleculesWithinRowCenterXs(moleculeDistribution);
   const yPoints = determineMoleculeRowsCenterYs();

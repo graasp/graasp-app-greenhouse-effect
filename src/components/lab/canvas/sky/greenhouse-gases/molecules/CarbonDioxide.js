@@ -15,6 +15,7 @@ const CarbonDioxide = ({
   stageHeight,
   cursorBecomesDefault,
   cursorBecomesZoomOut,
+  rotation,
 }) => {
   const carbonAtomRadius = ATOM_DIMENSIONS[CARBON.size] * stageHeight;
   const oxygenAtomRadius = ATOM_DIMENSIONS[OXYGEN.size] * stageHeight;
@@ -27,6 +28,7 @@ const CarbonDioxide = ({
     moleculeCenter,
     carbonAtomRadius,
     oxygenAtomRadius,
+    rotation,
   );
 
   return (
@@ -46,6 +48,7 @@ CarbonDioxide.propTypes = {
     x: PropTypes.number,
     y: PropTypes.number,
   }).isRequired,
+  rotation: PropTypes.number.isRequired,
   stageHeight: PropTypes.number.isRequired,
   cursorBecomesDefault: PropTypes.func.isRequired,
   cursorBecomesZoomOut: PropTypes.func.isRequired,
