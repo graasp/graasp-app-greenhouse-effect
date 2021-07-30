@@ -9,8 +9,8 @@ import PauseCircleOutlineIcon from '@material-ui/icons/PauseCircleOutline';
 import RotateLeftIcon from '@material-ui/icons/RotateLeft';
 import { green, yellow, orange, blue, red } from '@material-ui/core/colors';
 import clsx from 'clsx';
-import { setIsPaused, setNextState } from '../../actions';
-import { RADIATION_STATES } from '../../config/constants';
+import { reset, setIsPaused, setRadiationMode } from '../../actions';
+import { RADIATION_MODES } from '../../config/constants';
 
 const useStyles = makeStyles(() => ({
   buttonContainer: {
@@ -39,10 +39,15 @@ const AnimationControls = () => {
 
   const onClickPause = () => {
     dispatch(setIsPaused(true));
-    dispatch(setNextState(RADIATION_STATES.SUN_RADIATION));
   };
 
-  const onClickReset = () => {};
+  const onClickReset = () => {
+    // to avoid complex data saving of animation data,
+    // we change the radiation mode to fluxes to reset waves animations
+    // being on flux mode will automatically reset the fluxes once we dispatch reset
+    dispatch(setRadiationMode(RADIATION_MODES.FLUXES));
+    dispatch(reset());
+  };
 
   return (
     <div className={classes.buttonContainer}>

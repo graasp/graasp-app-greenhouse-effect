@@ -21,6 +21,7 @@ function SimulationMode() {
   const isPaused = useSelector(({ lab }) => lab.isPaused);
   const dispatch = useDispatch();
   const { t } = useTranslation();
+  const simulationMode = useSelector(({ lab }) => lab.simulationMode);
 
   const handleChange = (e) => {
     const values = Object.values(SIMULATION_MODES).find(
@@ -36,6 +37,7 @@ function SimulationMode() {
         onChange={handleChange}
         defaultValue={SIMULATION_MODES.TODAY.name}
         aria-label={t('simulation mode')}
+        value={simulationMode}
         className={classes.radioGroup}
       >
         {Object.values(SIMULATION_MODES).map(({ name }) => (
