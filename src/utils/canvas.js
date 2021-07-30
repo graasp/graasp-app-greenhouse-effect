@@ -341,9 +341,7 @@ export const chunkMolecules = (moleculeDistribution) => {
 // given a moleculeDistribution of the form {CO2: N, H2O: M, CH4: K}, where N, M, K are integers (counts of each molecule),
 // (1) find the chunked distribution of these molecules,
 // (2) return the x-coordinates (randomly determined) (as %s, to be multiplied in <Molecules> by stageWidth) of each molecule
-export const determineMoleculesWithinRowCenterXs = (moleculeDistribution) => {
-  const chunkedMolecules = chunkMolecules(moleculeDistribution);
-
+export const determineMoleculesWithinRowCenterXs = (chunkedMolecules) => {
   const centerXs = chunkedMolecules.map((moleculeRow) => {
     return moleculeRow.map(
       () =>
@@ -379,3 +377,13 @@ export const computeCloudEllipseRadiuses = ({
     centralCircleY,
   };
 };
+
+export const adjustGreenhouseGasesDistribution = ({
+  carbonDioxide,
+  methane,
+  water,
+}) => ({
+  methane,
+  carbonDioxide: carbonDioxide / 10,
+  water: water / 100,
+});
