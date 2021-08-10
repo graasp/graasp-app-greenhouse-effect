@@ -5,6 +5,7 @@ import Cloud from './Cloud';
 import {
   CLOUD_CENTRAL_CIRCLE_X,
   CLOUD_CENTRAL_CIRCLE_Y,
+  CLOUD_COVER_PERCENTAGE_LIMIT,
 } from '../../../../../config/constants';
 
 const Clouds = ({
@@ -36,7 +37,11 @@ const Clouds = ({
         cursorBecomesZoomIn={cursorBecomesZoomIn}
         offsetY={(CLOUD_CENTRAL_CIRCLE_Y - 0.05) * skyHeight}
         offsetX={0.7 * skyWidth}
-        cloudCover={cloudCover < 50 ? 0 : (cloudCover - 50) * 2}
+        cloudCover={
+          cloudCover < CLOUD_COVER_PERCENTAGE_LIMIT
+            ? 0
+            : (cloudCover - CLOUD_COVER_PERCENTAGE_LIMIT) * 2
+        }
       />
     </>
   );

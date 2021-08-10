@@ -10,6 +10,8 @@ import {
   MOLECULE_DISTRIBUTION_MIN_X,
   CLOUD_ELLIPSE_RADIUS_X,
   CLOUD_ELLIPSE_RADIUS_Y,
+  CLOUD_COVER_DIVISION_FACTOR,
+  CLOUD_COVER_CIRCLES_DIVISION_FACTOR,
 } from '../config/constants';
 
 // ice caps are trapezium-shaped, but there is no native trapezium in konva
@@ -52,31 +54,36 @@ export const generateCloudCircles = (
 
   const circleOne = {
     radiusX: peripheralCircleRadius,
-    radiusY: peripheralCircleRadius - cloudCover / 3,
+    radiusY:
+      peripheralCircleRadius - cloudCover / CLOUD_COVER_CIRCLES_DIVISION_FACTOR,
     x: centralCircleX - centralCircleRadius - adjacentCircleRadius,
   };
 
   const circleTwo = {
     radiusX: adjacentCircleRadius,
-    radiusY: adjacentCircleRadius - cloudCover / 3,
+    radiusY:
+      adjacentCircleRadius - cloudCover / CLOUD_COVER_CIRCLES_DIVISION_FACTOR,
     x: centralCircleX - centralCircleRadius,
   };
 
   const circleThree = {
     radiusX: centralCircleRadius,
-    radiusY: centralCircleRadius - cloudCover / 3,
+    radiusY:
+      centralCircleRadius - cloudCover / CLOUD_COVER_CIRCLES_DIVISION_FACTOR,
     x: centralCircleX,
   };
 
   const circleFour = {
     radiusX: adjacentCircleRadius,
-    radiusY: adjacentCircleRadius - cloudCover / 3,
+    radiusY:
+      adjacentCircleRadius - cloudCover / CLOUD_COVER_CIRCLES_DIVISION_FACTOR,
     x: centralCircleX + centralCircleRadius,
   };
 
   const circleFive = {
     radiusX: peripheralCircleRadius,
-    radiusY: peripheralCircleRadius - cloudCover / 3,
+    radiusY:
+      peripheralCircleRadius - cloudCover / CLOUD_COVER_CIRCLES_DIVISION_FACTOR,
     x: centralCircleX + centralCircleRadius + adjacentCircleRadius,
   };
 
@@ -356,7 +363,8 @@ export const computeCloudEllipseRadiuses = ({
   offsetX,
 }) => {
   // we determine the size of the circles of the cloud from a central circle we define (using generateCloudCircles below)
-  const centralCircleRadius = (cloudCover / 380) * skyHeight;
+  const centralCircleRadius =
+    (cloudCover / CLOUD_COVER_DIVISION_FACTOR) * skyHeight;
   const centralCircleX = offsetX;
   const centralCircleY = skyBeginsY + offsetY;
 

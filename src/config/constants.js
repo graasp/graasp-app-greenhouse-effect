@@ -400,3 +400,7 @@ export const SIMULATION_MODES = {
     name: 'Custom',
   },
 };
+
+export const CLOUD_COVER_DIVISION_FACTOR = 380;
+export const CLOUD_COVER_CIRCLES_DIVISION_FACTOR = 3;
+export const CLOUD_COVER_PERCENTAGE_LIMIT = 50;

@@ -34,7 +34,7 @@ function SimulationMode() {
       <RadioGroup
         onChange={handleChange}
         defaultValue={SIMULATION_MODES.TODAY.name}
-        aria-label="simulation mode"
+        aria-label={t('simulation mode')}
         className={classes.radioGroup}
       >
         {Object.values(SIMULATION_MODES).map(({ name }) => (
