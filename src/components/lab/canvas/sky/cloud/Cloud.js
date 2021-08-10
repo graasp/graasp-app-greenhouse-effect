@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
-import { Group, Circle, Ellipse } from 'react-konva';
+import { Group, Ellipse } from 'react-konva';
 import {
   CLOUD_BORDER_COLOR,
   CLOUD_BORDER_WIDTH,
@@ -20,8 +19,10 @@ const Cloud = ({
   skyBeginsY,
   cursorBecomesDefault,
   cursorBecomesZoomIn,
+  offsetX,
+  offsetY,
+  cloudCover,
 }) => {
-  const { cloudCover } = useSelector(({ lab }) => lab.albedo);
   const {
     cloudEllipseRadiusX,
     cloudEllipseRadiusY,
@@ -33,6 +34,8 @@ const Cloud = ({
     skyHeight,
     skyWidth,
     skyBeginsY,
+    offsetX,
+    offsetY,
   });
 
   return (
@@ -40,20 +43,23 @@ const Cloud = ({
       onMouseEnter={cursorBecomesDefault}
       onMouseLeave={cursorBecomesZoomIn}
     >
-      {generateCloudCircles(centralCircleRadius, centralCircleX).map(
-        ({ x, radius }, index) => (
-          <Circle
-            x={x}
-            y={centralCircleY}
-            radius={radius}
-            fill={CLOUD_FILL}
-            stroke={CLOUD_BORDER_COLOR}
-            strokeWidth={CLOUD_BORDER_WIDTH}
-            // eslint-disable-next-line react/no-array-index-key
-            key={index}
-          />
-        ),
-      )}
+      {generateCloudCircles(
+        centralCircleRadius,
+        centralCircleX,
+        cloudCover,
+      ).map(({ x, radiusX, radiusY }, index) => (
+        <Ellipse
+          x={x}
+          y={centralCircleY}
+          radiusX={radiusX}
+          radiusY={radiusY}
+          fill={CLOUD_FILL}
+          stroke={CLOUD_BORDER_COLOR}
+          strokeWidth={CLOUD_BORDER_WIDTH}
+          // eslint-disable-next-line react/no-array-index-key
+          key={index}
+        />
+      ))}
       <Ellipse
         x={centralCircleX}
         y={centralCircleY}
@@ -71,6 +77,9 @@ Cloud.propTypes = {
   skyBeginsY: PropTypes.number.isRequired,
   cursorBecomesDefault: PropTypes.func.isRequired,
   cursorBecomesZoomIn: PropTypes.func.isRequired,
+  offsetX: PropTypes.number.isRequired,
+  offsetY: PropTypes.number.isRequired,
+  cloudCover: PropTypes.number.isRequired,
 };
 
 export default Cloud;

@@ -23,7 +23,11 @@ const SunFluxes = ({
   const [cloudRadiation, setCloudRadiation] = useState(false);
   const { iceCover, cloudCover } = useSelector(({ lab }) => lab.albedo);
 
-  const { ice: iceAlbedo, cloud: cloudAlbedo } = computeAlbedo({
+  const {
+    albedo: generalAlbedo,
+    ice: iceAlbedo,
+    cloud: cloudAlbedo,
+  } = computeAlbedo({
     iceCover,
     cloudCover,
   });
@@ -59,7 +63,9 @@ const SunFluxes = ({
     SOLAR_FLUX.value - cloudToSkyRadiationValue
   ).toFixed(0);
   const iceToSkyRadiationValue = (
-    cloudToGroundRadiationValue * iceAlbedo
+    SOLAR_FLUX.value *
+    iceAlbedo *
+    (generalAlbedo - cloudAlbedo)
   ).toFixed(0);
 
   return (

@@ -58,8 +58,9 @@ class Radiations extends Component {
     } = this.props;
     const { sunRadiation, earthRadiation } = this.state;
 
+    const skyHeight = height * SKY.height;
     const { cloudEllipseRadiusX: cloudHeight } = computeCloudEllipseRadiuses({
-      skyHeight: height * SKY.height,
+      skyHeight,
       skyWidth: width * SKY.width,
       cloudCover,
     });
@@ -71,7 +72,10 @@ class Radiations extends Component {
 
     const cloudToGroundRadiation = {
       x: CLOUD_CENTRAL_CIRCLE_X * width * ATMOSPHERE.width,
-      y: ATMOSPHERE.height * height + SOLAR_FLUX.height + cloudHeight,
+      y:
+        ATMOSPHERE.height * height +
+        SOLAR_FLUX.height +
+        Math.min(cloudHeight, skyHeight / 2.5),
       height: 250 - cloudCover,
     };
 

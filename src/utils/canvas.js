@@ -3,7 +3,6 @@ import {
   CLOUD_ADJACENT_CIRCLE_RADIUS,
   ATOM_DIMENSIONS,
   CARBON,
-  CLOUD_CENTRAL_CIRCLE_Y,
   ICE_CAP_TRAPEZIUM_INDENT,
   OXYGEN,
   CLOUD_PERIPHERAL_CIRCLE_RADIUS,
@@ -11,7 +10,8 @@ import {
   MOLECULE_DISTRIBUTION_MIN_X,
   CLOUD_ELLIPSE_RADIUS_X,
   CLOUD_ELLIPSE_RADIUS_Y,
-  CLOUD_CENTRAL_CIRCLE_X,
+  CLOUD_COVER_DIVISION_FACTOR,
+  CLOUD_COVER_CIRCLES_DIVISION_FACTOR,
 } from '../config/constants';
 
 // ice caps are trapezium-shaped, but there is no native trapezium in konva
@@ -42,34 +42,48 @@ export const generateIceCapPoints = (iceCapBaseWidth, iceCapHeight) => {
 };
 
 // the cloud is five concentric circles - a large one in the center flanked by two smaller ones on each side
-export const generateCloudCircles = (centralCircleRadius, centralCircleX) => {
+export const generateCloudCircles = (
+  centralCircleRadius,
+  centralCircleX,
+  cloudCover,
+) => {
   const adjacentCircleRadius =
     centralCircleRadius * CLOUD_ADJACENT_CIRCLE_RADIUS;
   const peripheralCircleRadius =
     centralCircleRadius * CLOUD_PERIPHERAL_CIRCLE_RADIUS;
 
   const circleOne = {
-    radius: peripheralCircleRadius,
+    radiusX: peripheralCircleRadius,
+    radiusY:
+      peripheralCircleRadius - cloudCover / CLOUD_COVER_CIRCLES_DIVISION_FACTOR,
     x: centralCircleX - centralCircleRadius - adjacentCircleRadius,
   };
 
   const circleTwo = {
-    radius: adjacentCircleRadius,
+    radiusX: adjacentCircleRadius,
+    radiusY:
+      adjacentCircleRadius - cloudCover / CLOUD_COVER_CIRCLES_DIVISION_FACTOR,
     x: centralCircleX - centralCircleRadius,
   };
 
   const circleThree = {
-    radius: centralCircleRadius,
+    radiusX: centralCircleRadius,
+    radiusY:
+      centralCircleRadius - cloudCover / CLOUD_COVER_CIRCLES_DIVISION_FACTOR,
     x: centralCircleX,
   };
 
   const circleFour = {
-    radius: adjacentCircleRadius,
+    radiusX: adjacentCircleRadius,
+    radiusY:
+      adjacentCircleRadius - cloudCover / CLOUD_COVER_CIRCLES_DIVISION_FACTOR,
     x: centralCircleX + centralCircleRadius,
   };
 
   const circleFive = {
-    radius: peripheralCircleRadius,
+    radiusX: peripheralCircleRadius,
+    radiusY:
+      peripheralCircleRadius - cloudCover / CLOUD_COVER_CIRCLES_DIVISION_FACTOR,
     x: centralCircleX + centralCircleRadius + adjacentCircleRadius,
   };
 
@@ -344,13 +358,15 @@ export const determineMoleculesWithinRowCenterXs = (moleculeDistribution) => {
 export const computeCloudEllipseRadiuses = ({
   cloudCover,
   skyHeight,
-  skyWidth,
   skyBeginsY = 0,
+  offsetY,
+  offsetX,
 }) => {
   // we determine the size of the circles of the cloud from a central circle we define (using generateCloudCircles below)
-  const centralCircleRadius = (cloudCover / 500) * skyHeight;
-  const centralCircleX = CLOUD_CENTRAL_CIRCLE_X * skyWidth;
-  const centralCircleY = skyBeginsY + CLOUD_CENTRAL_CIRCLE_Y * skyHeight;
+  const centralCircleRadius =
+    (cloudCover / CLOUD_COVER_DIVISION_FACTOR) * skyHeight;
+  const centralCircleX = offsetX;
+  const centralCircleY = skyBeginsY + offsetY;
 
   const cloudEllipseRadiusX = centralCircleRadius * CLOUD_ELLIPSE_RADIUS_X;
   const cloudEllipseRadiusY = centralCircleRadius * CLOUD_ELLIPSE_RADIUS_Y;

@@ -11,8 +11,9 @@ const GroundBackground = ({
   groundBeginsX,
   groundBeginsY,
 }) => {
+  const isPaused = useSelector(({ lab }) => lab.isPaused);
   const { iceCover } = useSelector(({ lab }) => lab.albedo);
-  const { colorRange: groundColorRange } = GROUND;
+  const { colorRange, colorRangePaused } = GROUND;
 
   return (
     <>
@@ -26,7 +27,7 @@ const GroundBackground = ({
           y: 0,
         }}
         fillLinearGradientEndPoint={{ x: 0, y: groundHeight }}
-        fillLinearGradientColorStops={groundColorRange}
+        fillLinearGradientColorStops={isPaused ? colorRangePaused : colorRange}
       />
       {iceCover > 0 && (
         <Shape

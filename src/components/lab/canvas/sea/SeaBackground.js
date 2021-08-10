@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Line } from 'react-konva';
 import { SEA } from '../../../../config/constants';
@@ -11,7 +12,9 @@ const SeaBackground = ({
   seaBeginsX,
   seaBeginsY,
 }) => {
-  const { colorRange: seaColorRange } = SEA;
+  const isPaused = useSelector(({ lab }) => lab.isPaused);
+
+  const { colorRange, colorRangePaused } = SEA;
 
   return (
     <Line
@@ -23,7 +26,7 @@ const SeaBackground = ({
         x: 0,
         y: seaHeight,
       }}
-      fillLinearGradientColorStops={seaColorRange}
+      fillLinearGradientColorStops={isPaused ? colorRangePaused : colorRange}
       closed
     />
   );

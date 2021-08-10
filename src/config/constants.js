@@ -33,17 +33,20 @@ export const SKY = {
   height: 0.65,
   width: 1,
   colorRange: [0, '#A4C8EA', 1, '#C8DEF2'],
+  colorRangePaused: [0, '#c1cdd9', 1, '#d3dbe3'],
 };
 export const SEA = {
   height: 0.15,
   width: 0.4,
   indent: 0.06,
   colorRange: [0, '#406bca', 1, '#6688D4'],
+  colorRangePaused: [0, '#6f8cc9', 1, '#92a6d4'],
 };
 export const GROUND = {
   height: 0.15,
   width: 0.6,
   colorRange: [0, '#50A032', 1, '#84BC6F'],
+  colorRangePaused: [0, '#6c9c5a', 1, '#9fba95'],
 };
 
 /* ------SUN CONSTANTS------ */
@@ -83,7 +86,7 @@ export const CLOUD_CENTRAL_CIRCLE_RADIUS = 0.1;
 export const CLOUD_CENTRAL_CIRCLE_X = 0.3;
 export const CLOUD_CENTRAL_CIRCLE_Y = 0.3;
 export const CLOUD_ELLIPSE_RADIUS_X = 2;
-export const CLOUD_ELLIPSE_RADIUS_Y = 0.75;
+export const CLOUD_ELLIPSE_RADIUS_Y = 0.55;
 export const CLOUD_FILL = 'white';
 export const CLOUD_BORDER_COLOR = 'black';
 export const CLOUD_BORDER_WIDTH = 0.5;
@@ -147,6 +150,7 @@ export const FACTORY_CHIMNEY_BEGINS_X = 0.75;
 
 /* ------MOUNTAIN CONSTANTS------ */
 export const MOUNTAIN_FILL = '#9A7B4F';
+export const MOUNTAIN_FILL_PAUSED = '#998871';
 export const MOUNTAIN_LINES_TENSION = 0;
 export const MOUNTAIN_RANGE_BEGINS_X = 0.6;
 export const FULL_MOUNTAIN_WIDTH = 0.3;
@@ -253,12 +257,6 @@ export const LINE_STARTING_POSITION_Y = 550;
 export const SUN_LIGHT_COLOR = 'yellow';
 export const EARTH_RADIATION_COLOR = 'red';
 
-export const DEFAULT_GREENHOUSE_GASES_VALUES = {
-  CARBON_DIOXIDE: 10,
-  METHANE: 10,
-  WATER: 10,
-};
-
 export const RADIATION_STATES = {
   SUN_RADIATION: 'SUN_RADIATION',
   CLOUD_RADIATION: 'CLOUD_RADIATION',
@@ -271,8 +269,11 @@ export const DEFAULT_ALBEDO = 30;
 
 export const ALBEDO_MAX_VALUE = 100;
 export const CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE = 5000;
+export const CARBON_DIOXIDE_CONCENTRATION_MIN_VALUE = 50;
 export const METHANE_CONCENTRATION_MAX_VALUE = 10;
-export const WATER_CONCENTRATION_MAX_VALUE = 100;
+export const METHANE_CONCENTRATION_MIN_VALUE = 0.1;
+export const WATER_CONCENTRATION_MIN_VALUE = 3000;
+export const WATER_CONCENTRATION_MAX_VALUE = 13000;
 export const GREENHOUSE_TOTAL_EFFECT_MAX_VALUE = 100;
 export const INFRARED_AMPLITUDE = 50;
 export const ULTRAVIOLET_AMPLITUDE = 30;
@@ -333,3 +334,73 @@ export const SUN_FLUXES_DELTA_WIDTH = 0.35;
 export const EARTH_FLUXES_DELTA_WIDTH = 0.3;
 
 export const ZERO_KELVIN_IN_CELISUS = 273.15;
+
+export const SIMULATION_MODES = {
+  ICE_AGE: {
+    name: 'Ice Age',
+    greenhouseGasesValues: {
+      carbonDioxide: 200,
+      methane: 0.4,
+      water: 5600,
+    },
+    albedo: {
+      iceCover: 90,
+      cloudCover: 40,
+    },
+  },
+  TWENTIETH_CENTURY: {
+    name: '1990',
+    greenhouseGasesValues: {
+      carbonDioxide: 290,
+      methane: 1,
+      water: 7900,
+    },
+    albedo: {
+      iceCover: 10,
+      cloudCover: 40,
+    },
+  },
+  TODAY: {
+    name: 'Today',
+    greenhouseGasesValues: {
+      carbonDioxide: 410,
+      methane: 1.8,
+      water: 8400,
+    },
+    albedo: {
+      iceCover: 10,
+      cloudCover: 40,
+    },
+  },
+  MARS: {
+    name: 'Mars',
+    greenhouseGasesValues: {
+      carbonDioxide: 410,
+      methane: 1.8,
+      water: 8400,
+    },
+    albedo: {
+      iceCover: 10,
+      cloudCover: 40,
+    },
+  },
+  VENUS: {
+    name: 'Venus',
+    greenhouseGasesValues: {
+      carbonDioxide: 410,
+      methane: 1.8,
+      water: 8400,
+    },
+    albedo: {
+      iceCover: 10,
+      cloudCover: 40,
+    },
+  },
+  CUSTOM: {
+    name: 'Custom',
+  },
+};
+
+export const CLOUD_COVER_DIVISION_FACTOR = 380;
+export const CLOUD_COVER_CIRCLES_DIVISION_FACTOR = 3;
+export const CLOUD_COVER_PERCENTAGE_LIMIT = 50;

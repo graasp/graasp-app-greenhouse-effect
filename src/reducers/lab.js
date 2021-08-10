@@ -1,8 +1,8 @@
 import _ from 'lodash';
 import {
-  DEFAULT_GREENHOUSE_GASES_VALUES,
   RADIATION_MODES,
   SCALE_UNITS,
+  SIMULATION_MODES,
 } from '../config/constants';
 import {
   SET_ALBEDO_VALUES,
@@ -12,6 +12,7 @@ import {
   SET_RADIATION_MODE,
   SET_IS_PAUSED,
   SET_SCALE_UNIT,
+  SET_SIMULATION_MODE,
 } from '../types';
 
 const INITIAL_STATE = {
@@ -21,13 +22,13 @@ const INITIAL_STATE = {
   },
   radiationMode: RADIATION_MODES.WAVES,
   greenhouseGasesValues: {
-    carbonDioxide: DEFAULT_GREENHOUSE_GASES_VALUES.CARBON_DIOXIDE,
-    methane: DEFAULT_GREENHOUSE_GASES_VALUES.METHANE,
-    water: DEFAULT_GREENHOUSE_GASES_VALUES.WATER,
+    carbonDioxide: SIMULATION_MODES.TODAY.greenhouseGasesValues.carbonDioxide,
+    methane: SIMULATION_MODES.TODAY.greenhouseGasesValues.methane,
+    water: SIMULATION_MODES.TODAY.greenhouseGasesValues.water,
   },
   albedo: {
-    iceCover: 10,
-    cloudCover: 45,
+    iceCover: SIMULATION_MODES.TODAY.albedo.iceCover,
+    cloudCover: SIMULATION_MODES.TODAY.albedo.cloudCover,
   },
   feedback: {
     iceCoverChange: false,
@@ -70,6 +71,16 @@ export default (state = INITIAL_STATE, { type, payload }) => {
       return {
         ...state,
         isPaused: payload,
+      };
+    case SET_SIMULATION_MODE:
+      return {
+        ...state,
+        greenhouseGasesValues: _.merge(
+          {},
+          state.greenhouseGasesValues,
+          payload.greenhouseGasesValues,
+        ),
+        albedo: _.merge({}, state.albedo, payload.albedo),
       };
     default:
       return state;
