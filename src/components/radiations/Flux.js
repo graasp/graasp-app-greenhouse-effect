@@ -12,6 +12,8 @@ import {
   FLUX_PROGRESS_INTERVAL_DELTA,
   FLUX_PROGRESS_MAX_VALUE,
   FLUX_TEXT_COLOR,
+  FLUX_TEXT_FONT_SIZE,
+  FLUX_TEXT_STROKE_WIDTH,
   FLUX_TEXT_WIDTH,
   FLUX_WAVELENGTH,
   SET_INTERVAL_PAUSED_ANIMATION_TIME,
@@ -154,12 +156,12 @@ class Flux extends Component {
     return (
       <Text
         stroke={color}
-        strokeWidth={5}
+        strokeWidth={FLUX_TEXT_STROKE_WIDTH}
         fillAfterStrokeEnabled
         x={x - progressiveX}
         y={y - progressiveY}
         text={text}
-        fontSize={20}
+        fontSize={FLUX_TEXT_FONT_SIZE}
         fontFamily="Arial"
         fill={FLUX_TEXT_COLOR}
         align="center"

@@ -12,6 +12,7 @@ import {
   CLOUD_ELLIPSE_RADIUS_Y,
   CLOUD_COVER_DIVISION_FACTOR,
   CLOUD_COVER_CIRCLES_DIVISION_FACTOR,
+  GREENHOUSE_GASES_DISTRIBUTION,
 } from '../config/constants';
 
 // ice caps are trapezium-shaped, but there is no native trapezium in konva
@@ -385,7 +386,7 @@ export const adjustGreenhouseGasesDistribution = ({
   methane,
   water,
 }) => ({
-  methane,
-  carbonDioxide: carbonDioxide / 10,
-  water: water / 10,
+  methane: methane / GREENHOUSE_GASES_DISTRIBUTION.METHANE,
+  carbonDioxide: carbonDioxide / GREENHOUSE_GASES_DISTRIBUTION.CARBON_DIOXIDE,
+  water: water / GREENHOUSE_GASES_DISTRIBUTION.WATER,
 });

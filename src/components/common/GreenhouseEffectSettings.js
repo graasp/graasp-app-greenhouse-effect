@@ -57,7 +57,7 @@ const GreenhouseEffectSettings = () => {
       <SliderWithLabel
         text={t('Albedo (%)')}
         max={ALBEDO_MAX_VALUE}
-        value={+albedo.toFixed(1)}
+        value={parseFloat(albedo.toFixed(1))}
         labelClassName={classes.title}
         valueLabelDisplay="on"
         disabled

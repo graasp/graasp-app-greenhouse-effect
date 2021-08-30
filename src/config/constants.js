@@ -279,6 +279,8 @@ export const FLUX_TEXT_COLOR = 'black';
 export const FLUX_MARGIN = 25;
 export const FLUX_HEAD_HEIGHT = 40;
 export const FLUX_BODY_AMPLITUDE = 0;
+export const FLUX_TEXT_STROKE_WIDTH = 5;
+export const FLUX_TEXT_FONT_SIZE = 20;
 export const FLUX_TEXT_WIDTH = 40;
 export const FLUX_WAVELENGTH = 70;
 export const FLUX_PROGRESS_MAX_VALUE = 100;
@@ -399,3 +401,9 @@ export const SIMULATION_MODES = {
 export const CLOUD_COVER_DIVISION_FACTOR = 380;
 export const CLOUD_COVER_CIRCLES_DIVISION_FACTOR = 3;
 export const CLOUD_COVER_PERCENTAGE_LIMIT = 50;
+
+export const GREENHOUSE_GASES_DISTRIBUTION = {
+  METHANE: 1,
+  CARBON_DIOXIDE: 10,
+  WATER: 10,
+};
