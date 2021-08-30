@@ -12,6 +12,7 @@ import {
   CLOUD_ELLIPSE_RADIUS_Y,
   CLOUD_COVER_DIVISION_FACTOR,
   CLOUD_COVER_CIRCLES_DIVISION_FACTOR,
+  GREENHOUSE_GASES_DISTRIBUTION,
 } from '../config/constants';
 
 // ice caps are trapezium-shaped, but there is no native trapezium in konva
@@ -150,16 +151,17 @@ export const determineCarbonDioxideAtomsCoordinates = (
   moleculeCenter,
   carbonRadius,
   oxygenRadius,
+  rotation,
 ) => {
   const { x: moleculeCenterX, y: moleculeCenterY } = moleculeCenter;
   return {
     topOxygen: {
-      x: moleculeCenterX,
+      x: moleculeCenterX + carbonRadius * Math.cos(rotation),
       y: moleculeCenterY - carbonRadius - oxygenRadius,
     },
     carbon: { x: moleculeCenterX, y: moleculeCenterY },
     bottomOxygen: {
-      x: moleculeCenterX,
+      x: moleculeCenterX + carbonRadius * Math.cos(rotation),
       y: moleculeCenterY + carbonRadius + oxygenRadius,
     },
   };
@@ -169,6 +171,7 @@ export const determineWaterAtomsCoordinates = (
   moleculeCenter,
   oxygenRadius,
   hydrogenRadius,
+  rotation,
 ) => {
   const { x: moleculeCenterX, y: moleculeCenterY } = moleculeCenter;
   const hydrogenXOffset = Math.sin((45 * Math.PI) / 180) * oxygenRadius;
@@ -176,13 +179,13 @@ export const determineWaterAtomsCoordinates = (
     Math.cos((45 * Math.PI) / 180) * oxygenRadius + hydrogenRadius;
   return {
     topHydrogen: {
-      x: moleculeCenterX - hydrogenXOffset,
-      y: moleculeCenterY - hydrogenYOffset,
+      x: moleculeCenterX - hydrogenXOffset * Math.cos(rotation),
+      y: moleculeCenterY - hydrogenYOffset * Math.sin(rotation),
     },
     oxygen: { x: moleculeCenterX, y: moleculeCenterY },
     bottomHydrogen: {
-      x: moleculeCenterX - hydrogenXOffset,
-      y: moleculeCenterY + hydrogenYOffset,
+      x: moleculeCenterX - hydrogenXOffset * Math.cos(rotation),
+      y: moleculeCenterY + hydrogenYOffset * Math.sin(rotation),
     },
   };
 };
@@ -341,9 +344,7 @@ export const chunkMolecules = (moleculeDistribution) => {
 // given a moleculeDistribution of the form {CO2: N, H2O: M, CH4: K}, where N, M, K are integers (counts of each molecule),
 // (1) find the chunked distribution of these molecules,
 // (2) return the x-coordinates (randomly determined) (as %s, to be multiplied in <Molecules> by stageWidth) of each molecule
-export const determineMoleculesWithinRowCenterXs = (moleculeDistribution) => {
-  const chunkedMolecules = chunkMolecules(moleculeDistribution);
-
+export const determineMoleculesWithinRowCenterXs = (chunkedMolecules) => {
   const centerXs = chunkedMolecules.map((moleculeRow) => {
     return moleculeRow.map(
       () =>
@@ -379,3 +380,13 @@ export const computeCloudEllipseRadiuses = ({
     centralCircleY,
   };
 };
+
+export const adjustGreenhouseGasesDistribution = ({
+  carbonDioxide,
+  methane,
+  water,
+}) => ({
+  methane: methane / GREENHOUSE_GASES_DISTRIBUTION.METHANE,
+  carbonDioxide: carbonDioxide / GREENHOUSE_GASES_DISTRIBUTION.CARBON_DIOXIDE,
+  water: water / GREENHOUSE_GASES_DISTRIBUTION.WATER,
+});

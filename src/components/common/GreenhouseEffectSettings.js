@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
@@ -56,7 +57,7 @@ const GreenhouseEffectSettings = () => {
       <SliderWithLabel
         text={t('Albedo (%)')}
         max={ALBEDO_MAX_VALUE}
-        value={albedo.toFixed(1)}
+        value={parseFloat(albedo.toFixed(1))}
         labelClassName={classes.title}
         valueLabelDisplay="on"
         disabled
@@ -81,7 +82,7 @@ const GreenhouseEffectSettings = () => {
         disabled
         text={t('Greenhouse Effect (%)')}
         max={GREENHOUSE_TOTAL_EFFECT_MAX_VALUE}
-        value={totalEffectValue.toFixed(1)}
+        value={+totalEffectValue.toFixed(1)}
         valueLabelDisplay="on"
         labelClassName={classes.title}
       />

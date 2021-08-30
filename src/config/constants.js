@@ -198,18 +198,13 @@ export const PERMAFROST_HEIGHT = 0.05;
 export const PERMAFROST_FILL = '#F5F5F5';
 
 /* ------GREENHOUSE GAS MOLECULES CONSTANTS------ */
-export const MOLECULE_DISTRIBUTION = {
-  CARBON_DIOXIDE: 6,
-  WATER: 5,
-  METHANE: 4,
-};
 export const CARBON_DIOXIDE = 'CARBON_DIOXIDE';
 export const WATER = 'WATER';
 export const METHANE = 'METHANE';
 export const MOLECULE_ROW_BEGINS_X = 0.45;
 export const MOLECULE_ROW_BEGINS_Y = 0.5;
 export const X_DISTANCE_BETWEEN_MOLECULES_IN_ROW = 0.025;
-export const ATOM_DIMENSIONS = { small: 0.006, medium: 0.012 };
+export const ATOM_DIMENSIONS = { small: 0.003, medium: 0.006 };
 export const CARBON = {
   atomColor: 'black',
   size: 'medium',
@@ -224,7 +219,7 @@ export const HYDROGEN = {
 };
 export const MOLECULE_DISTRIBUTION_MIN_X = 0.01;
 // to avoid clashes with therometer, don't place molecules more than this constant from beginning of canvas
-export const MOLECULE_DISTRIBUTION_MAX_X = 0.9;
+export const MOLECULE_DISTRIBUTION_MAX_X = 0.99;
 // to avoid clashes with cloud, on rows whose y falls within cloud, place the molecules at least this constant from beginning of canvas
 export const MOLECULE_DISTRIBUTION_MIN_X_ON_CLOUD_ROWS = 0.5;
 
@@ -284,6 +279,8 @@ export const FLUX_TEXT_COLOR = 'black';
 export const FLUX_MARGIN = 25;
 export const FLUX_HEAD_HEIGHT = 40;
 export const FLUX_BODY_AMPLITUDE = 0;
+export const FLUX_TEXT_STROKE_WIDTH = 5;
+export const FLUX_TEXT_FONT_SIZE = 20;
 export const FLUX_TEXT_WIDTH = 40;
 export const FLUX_WAVELENGTH = 70;
 export const FLUX_PROGRESS_MAX_VALUE = 100;
@@ -404,3 +401,9 @@ export const SIMULATION_MODES = {
 export const CLOUD_COVER_DIVISION_FACTOR = 380;
 export const CLOUD_COVER_CIRCLES_DIVISION_FACTOR = 3;
 export const CLOUD_COVER_PERCENTAGE_LIMIT = 50;
+
+export const GREENHOUSE_GASES_DISTRIBUTION = {
+  METHANE: 1,
+  CARBON_DIOXIDE: 10,
+  WATER: 10,
+};

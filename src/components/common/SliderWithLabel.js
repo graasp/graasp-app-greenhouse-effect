@@ -96,9 +96,9 @@ SliderWithLabel.propTypes = {
   min: PropTypes.number,
   max: PropTypes.number.isRequired,
   disabled: PropTypes.bool,
-  text: PropTypes.string.isRequired,
+  text: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   finalMarkText: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
+  onChange: PropTypes.func,
   indent: PropTypes.bool,
   labelClassName: PropTypes.string,
   valueLabelDisplay: PropTypes.string,
@@ -113,6 +113,7 @@ SliderWithLabel.defaultProps = {
   valueLabelDisplay: 'auto',
   min: 0,
   step: 1,
+  onChange: () => {},
 };
 
 export default SliderWithLabel;

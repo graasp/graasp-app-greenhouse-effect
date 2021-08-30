@@ -22,9 +22,9 @@ import SunFluxes from './SunFluxes';
 import EarthFluxes from './EarthFluxes';
 import { computeCloudEllipseRadiuses } from '../../utils/canvas';
 
-class Radiations extends Component {
+class RadiationManager extends Component {
   static propTypes = {
-    radiationMode: PropTypes.oneOf(RADIATION_MODES).isRequired,
+    radiationMode: PropTypes.oneOf(Object.values(RADIATION_MODES)).isRequired,
     stageDimensions: PropTypes.shape({
       width: PropTypes.number.isRequired,
       height: PropTypes.number.isRequired,
@@ -140,4 +140,4 @@ const mapStateToProps = ({ lab, layout }) => ({
   cloudCover: lab.albedo.cloudCover,
 });
 
-export default connect(mapStateToProps)(Radiations);
+export default connect(mapStateToProps)(RadiationManager);

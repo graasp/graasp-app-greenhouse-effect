@@ -8,11 +8,11 @@ import {
   SET_ALBEDO_VALUES,
   SET_FEEDBACK_VALUES,
   SET_GREENHOUSE_GASES_VALUES,
-  SET_NEXT_STATE,
   SET_RADIATION_MODE,
   SET_IS_PAUSED,
   SET_SCALE_UNIT,
   SET_SIMULATION_MODE,
+  RESET,
 } from '../types';
 
 const INITIAL_STATE = {
@@ -21,6 +21,7 @@ const INITIAL_STATE = {
     open: false,
   },
   radiationMode: RADIATION_MODES.WAVES,
+  simulationMode: SIMULATION_MODES.TODAY.name,
   greenhouseGasesValues: {
     carbonDioxide: SIMULATION_MODES.TODAY.greenhouseGasesValues.carbonDioxide,
     methane: SIMULATION_MODES.TODAY.greenhouseGasesValues.methane,
@@ -59,14 +60,6 @@ export default (state = INITIAL_STATE, { type, payload }) => {
       return { ...state, albedo: { ...state.albedo, ...payload } };
     case SET_FEEDBACK_VALUES:
       return { ...state, feedback: _.merge({}, state.feedback, payload) };
-    case SET_NEXT_STATE:
-      return {
-        ...state,
-        radiations: {
-          ...state.radiations,
-          ...payload,
-        },
-      };
     case SET_IS_PAUSED:
       return {
         ...state,
@@ -75,13 +68,16 @@ export default (state = INITIAL_STATE, { type, payload }) => {
     case SET_SIMULATION_MODE:
       return {
         ...state,
+        simulationMode: payload.name,
         greenhouseGasesValues: _.merge(
           {},
           state.greenhouseGasesValues,
-          payload.greenhouseGasesValues,
+          payload?.greenhouseGasesValues,
         ),
-        albedo: _.merge({}, state.albedo, payload.albedo),
+        albedo: _.merge({}, state.albedo, payload?.albedo),
       };
+    case RESET:
+      return INITIAL_STATE;
     default:
       return state;
   }

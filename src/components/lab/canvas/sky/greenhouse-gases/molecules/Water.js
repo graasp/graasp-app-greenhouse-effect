@@ -15,6 +15,7 @@ const Water = ({
   stageHeight,
   cursorBecomesDefault,
   cursorBecomesZoomOut,
+  rotation,
 }) => {
   const oxygenAtomRadius = ATOM_DIMENSIONS[OXYGEN.size] * stageHeight;
   const hydrogenAtomRadius = ATOM_DIMENSIONS[HYDROGEN.size] * stageHeight;
@@ -27,6 +28,7 @@ const Water = ({
     moleculeCenter,
     oxygenAtomRadius,
     hydrogenAtomRadius,
+    rotation,
   );
 
   return (
@@ -47,7 +49,7 @@ Water.propTypes = {
     y: PropTypes.number,
   }).isRequired,
   stageHeight: PropTypes.number.isRequired,
-
+  rotation: PropTypes.number.isRequired,
   cursorBecomesDefault: PropTypes.func.isRequired,
   cursorBecomesZoomOut: PropTypes.func.isRequired,
 };

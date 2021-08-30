@@ -3,10 +3,10 @@ import {
   SET_ALBEDO_VALUES,
   SET_FEEDBACK_VALUES,
   SET_RADIATION_MODE,
-  SET_NEXT_STATE,
   SET_IS_PAUSED,
   SET_SCALE_UNIT,
   SET_SIMULATION_MODE,
+  RESET,
 } from '../types';
 
 export const setGreenhouseGasesValues = (payload) => (dispatch) => {
@@ -21,7 +21,7 @@ export const setFeedbackValues = (payload) => (dispatch) => {
   dispatch({ type: SET_FEEDBACK_VALUES, payload });
 };
 
-export const setRadationMode = (payload) => (dispatch) => {
+export const setRadiationMode = (payload) => (dispatch) => {
   dispatch({ type: SET_RADIATION_MODE, payload });
   dispatch({ type: SET_IS_PAUSED, payload: true });
 };
@@ -36,8 +36,8 @@ export const setIsPaused = (payload) => (dispatch) =>
     payload,
   });
 
-export const setNextState = (payload) => (dispatch) => {
-  dispatch({ type: SET_NEXT_STATE, payload });
+export const reset = (payload) => (dispatch) => {
+  dispatch({ type: RESET, payload });
 };
 
 export const setSimulationMode = (payload) => (dispatch) => {
