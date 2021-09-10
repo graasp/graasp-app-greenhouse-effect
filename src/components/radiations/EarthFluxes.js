@@ -9,11 +9,14 @@ import {
   ICE_CAP_ROWS_BEGIN,
   X_DISTANCE_BETWEEN_ICE_CAPS,
   STEFAN_BOLTZMANN_CONSTANT,
-  CHANGING_FLUX_CLOUD_COVER_SPEED,
-  CHANGING_FLUX_ICE_COVER_SPEED,
-  CHANGING_FLUX_METHANE_SPEED,
-  CHANGING_FLUX_CARBON_DIOXIDE_SPEED,
   EARTH_FLUXES_DELTA_WIDTH,
+  CARBON_DIOXIDE_CONCENTRATION_MIN_VALUE,
+  CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE,
+  METHANE_CONCENTRATION_MAX_VALUE,
+  METHANE_CONCENTRATION_MIN_VALUE,
+  SLOW_ANIMATION_SPEED_DELTA,
+  CLOUD_COVER_MAX_VALUE,
+  ICE_COVER_MAX_VALUE,
 } from '../../config/constants';
 import Flux from './Flux';
 import {
@@ -53,6 +56,12 @@ const EarthFluxes = ({ sunToCloudRadiation, earthRadiation }) => {
     iceCover,
     cloudCover,
   });
+  const [settingsDifferences, setSettingsDifferences] = useState({
+    iceCover: 0,
+    cloudCover: 0,
+    methane: 0,
+    carbonDioxide: 0,
+  });
 
   const slowUpdateValues = (value, key, speed) => {
     const difference = value - values[key];
@@ -71,19 +80,50 @@ const EarthFluxes = ({ sunToCloudRadiation, earthRadiation }) => {
 
   useEffect(() => {
     if (!isPaused) {
+      // when difference is big, it should update faster
+      // if small, it should update slower
+      const speed = Math.max(...Object.values(settingsDifferences));
       // slowly increase fluxes values
-      slowUpdateValues(methane, 'methane', CHANGING_FLUX_METHANE_SPEED);
+      slowUpdateValues(
+        methane,
+        'methane',
+        speed * SLOW_ANIMATION_SPEED_DELTA * METHANE_CONCENTRATION_MAX_VALUE,
+      );
       slowUpdateValues(
         carbonDioxide,
         'carbonDioxide',
-        CHANGING_FLUX_CARBON_DIOXIDE_SPEED,
+        // add factor to speed up speed for carbon dioxide
+        speed *
+          SLOW_ANIMATION_SPEED_DELTA *
+          CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE,
       );
       slowUpdateValues(
         cloudCover,
         'cloudCover',
-        CHANGING_FLUX_CLOUD_COVER_SPEED,
+        speed * SLOW_ANIMATION_SPEED_DELTA * CLOUD_COVER_MAX_VALUE,
       );
-      slowUpdateValues(iceCover, 'iceCover', CHANGING_FLUX_ICE_COVER_SPEED);
+      slowUpdateValues(
+        iceCover,
+        'iceCover',
+        speed * SLOW_ANIMATION_SPEED_DELTA * ICE_COVER_MAX_VALUE,
+      );
+    } else {
+      // on pause, compute difference between values
+      setSettingsDifferences({
+        methane: Math.abs(
+          (methane - values.methane) /
+            (METHANE_CONCENTRATION_MAX_VALUE - METHANE_CONCENTRATION_MIN_VALUE),
+        ),
+        carbonDioxide: Math.abs(
+          (carbonDioxide - values.carbonDioxide) /
+            (CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE -
+              CARBON_DIOXIDE_CONCENTRATION_MIN_VALUE),
+        ),
+        iceCover: Math.abs((iceCover - values.iceCover) / ICE_COVER_MAX_VALUE),
+        cloudCover: Math.abs(
+          (cloudCover - values.cloudCover) / CLOUD_COVER_MAX_VALUE,
+        ),
+      });
     }
   }, [methane, carbonDioxide, cloudCover, iceCover, isPaused, values]);
 
