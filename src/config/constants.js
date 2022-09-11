@@ -161,7 +161,7 @@ export const MOUNTAINS_INDENT_Y = 0.075;
 export const FULL_MOUNTAIN_X_INDENT = 0.8;
 export const FULL_MOUNTAIN = 'FULL_MOUNTAIN';
 export const HALF_MOUNTAIN = 'HALF_MOUNTAIN';
-// ice cover as a percentage of the mountain (can be adjusted in state/redux later)
+// ice and snow cover as a percentage of the mountain (can be adjusted in state/redux later)
 export const DEFAULT_ICE_COVER = 0.5;
 export const ICE_COVER_FILL = '#F5F5F5';
 export const ICE_COVER_LINES_TENSION = 0.1;
@@ -263,11 +263,11 @@ export const RADIATION_STATES = {
 export const DEFAULT_ALBEDO = 30;
 
 export const ALBEDO_MAX_VALUE = 100;
-export const CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE = 5000;
+export const CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE = 1e6;
 export const CARBON_DIOXIDE_CONCENTRATION_MIN_VALUE = 50;
 export const METHANE_CONCENTRATION_MAX_VALUE = 10;
 export const METHANE_CONCENTRATION_MIN_VALUE = 0.1;
-export const WATER_CONCENTRATION_MIN_VALUE = 3000;
+export const WATER_CONCENTRATION_MIN_VALUE = 0;
 export const WATER_CONCENTRATION_MAX_VALUE = 13000;
 export const ICE_COVER_MAX_VALUE = 100;
 export const CLOUD_COVER_MAX_VALUE = 100;
@@ -339,7 +339,7 @@ export const SIMULATION_MODES = {
     greenhouseGasesValues: {
       carbonDioxide: 200,
       methane: 0.4,
-      water: 5600,
+      water: 5200,
     },
     albedo: {
       iceCover: 90,
@@ -347,11 +347,11 @@ export const SIMULATION_MODES = {
     },
   },
   TWENTIETH_CENTURY: {
-    name: '1990',
+    name: '1900',
     greenhouseGasesValues: {
       carbonDioxide: 290,
       methane: 1,
-      water: 7900,
+      water: 7300,
     },
     albedo: {
       iceCover: 10,
@@ -359,11 +359,11 @@ export const SIMULATION_MODES = {
     },
   },
   TODAY: {
-    name: 'Today',
+    name: '2020',
     greenhouseGasesValues: {
-      carbonDioxide: 410,
-      methane: 1.8,
-      water: 8400,
+      carbonDioxide: 413.2,
+      methane: 0,
+      water: 7800,
     },
     albedo: {
       iceCover: 10,
@@ -373,9 +373,9 @@ export const SIMULATION_MODES = {
   MARS: {
     name: 'Mars',
     greenhouseGasesValues: {
-      carbonDioxide: 410,
-      methane: 1.8,
-      water: 8400,
+      carbonDioxide: 965000,
+      methane: 0,
+      water: 210,
     },
     albedo: {
       iceCover: 10,
@@ -385,17 +385,14 @@ export const SIMULATION_MODES = {
   VENUS: {
     name: 'Venus',
     greenhouseGasesValues: {
-      carbonDioxide: 410,
+      carbonDioxide: 965000,
       methane: 1.8,
-      water: 8400,
+      water: 20,
     },
     albedo: {
       iceCover: 10,
       cloudCover: 40,
     },
-  },
-  CUSTOM: {
-    name: 'Custom',
   },
 };
 

@@ -10,10 +10,11 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1, 0),
     display: 'flex',
     justifyContent: 'space-between',
-    width: '58%',
+    width: '100%',
   },
   label: {
     display: 'block',
+    fontSize: '0.9em',
   },
 }));
 
@@ -35,9 +36,7 @@ const SwitchWithLabel = ({ isChecked, onToggle, switchLabel, disabled }) => {
   );
 
   const Label = (
-    <Typography variant="body2" className={classes.label}>
-      {switchLabel}
-    </Typography>
+    <Typography className={classes.label}>{switchLabel}</Typography>
   );
 
   return (

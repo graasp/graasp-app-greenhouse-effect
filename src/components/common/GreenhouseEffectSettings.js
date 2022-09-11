@@ -65,7 +65,7 @@ const GreenhouseEffectSettings = () => {
         disabled
       />
       <SliderWithLabel
-        text={t('Ice Cover (%)')}
+        text={t('Ice and Snow Cover (%)')}
         max={ICE_COVER_MAX_VALUE}
         value={albedoValues.iceCover}
         onChange={(e, v) => onAlbedoChange(v, 'iceCover')}

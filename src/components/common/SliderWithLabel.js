@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     width: '50%',
   },
   indent: {
-    paddingLeft: theme.spacing(3),
+    paddingLeft: theme.spacing(1),
   },
 }));
 
