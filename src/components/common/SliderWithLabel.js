@@ -1,10 +1,12 @@
 import React from 'react';
+import { withStyles } from '@material-ui/core/styles';
 import {
   FormControlLabel,
   makeStyles,
   Slider,
   Typography,
 } from '@material-ui/core';
+import ValueLabel from '@material-ui/core/Slider/ValueLabel';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 
@@ -28,6 +30,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+// this component is used to make the label on the CO2 slider wider when the planet is Mars or Venus
+// without it, the text (965,000) would not fit
+const StyledValueLabel = withStyles({
+  circle: {
+    marginLeft: -7.5,
+    marginTop: -10,
+    width: 47.5,
+    height: 47.5,
+  },
+})(ValueLabel);
+
 const SliderWithLabel = ({
   value,
   max,
@@ -40,6 +53,8 @@ const SliderWithLabel = ({
   labelClassName,
   valueLabelDisplay,
   step,
+  valueLabelFormat,
+  widerLabel,
 }) => {
   const classes = useStyles();
 
@@ -64,6 +79,8 @@ const SliderWithLabel = ({
       disabled={disabled}
       onChange={onChange}
       valueLabelDisplay={valueLabelDisplay}
+      valueLabelFormat={valueLabelFormat}
+      ValueLabelComponent={widerLabel ? StyledValueLabel : ValueLabel}
       step={step}
     />
   );
@@ -103,6 +120,8 @@ SliderWithLabel.propTypes = {
   labelClassName: PropTypes.string,
   valueLabelDisplay: PropTypes.string,
   step: PropTypes.number,
+  valueLabelFormat: PropTypes.func,
+  widerLabel: PropTypes.bool,
 };
 
 SliderWithLabel.defaultProps = {
@@ -114,6 +133,8 @@ SliderWithLabel.defaultProps = {
   min: 0,
   step: 1,
   onChange: () => {},
+  valueLabelFormat: (x) => x,
+  widerLabel: false,
 };
 
 export default SliderWithLabel;

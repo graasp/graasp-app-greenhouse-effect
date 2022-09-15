@@ -9,14 +9,17 @@ import {
   GREENHOUSE_TOTAL_EFFECT_MAX_VALUE,
   WATER_CONCENTRATION_MAX_VALUE,
   METHANE_CONCENTRATION_MAX_VALUE,
-  CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE,
+  CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE_DEFAULT,
   ALBEDO_MAX_VALUE,
   RADIATION_MODES,
-  WATER_CONCENTRATION_MIN_VALUE,
+  WATER_CONCENTRATION_MIN_VALUE_DEFAULT,
   METHANE_CONCENTRATION_MIN_VALUE,
   CARBON_DIOXIDE_CONCENTRATION_MIN_VALUE,
   ICE_COVER_MAX_VALUE,
   CLOUD_COVER_MAX_VALUE,
+  SIMULATION_MODES,
+  CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE_ON_MARS_OR_VENUS,
+  WATER_CONCENTRATION_MIN_VALUE_ON_MARS_OR_VENUS,
 } from '../../config/constants';
 import {
   computeAlbedo,
@@ -34,11 +37,14 @@ const GreenhouseEffectSettings = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const classes = useStyles();
-  const radiationMode = useSelector(({ lab }) => lab.radiationMode);
-  const albedoValues = useSelector(({ lab }) => lab.albedo);
-  const isPaused = useSelector(({ lab }) => lab.isPaused);
-  const values = useSelector(({ lab }) => lab.greenhouseGasesValues);
-  const { methane, carbonDioxide, water } = values;
+  const {
+    radiationMode,
+    albedo: albedoValues,
+    isPaused,
+    greenhouseGasesValues,
+    simulationMode,
+  } = useSelector(({ lab }) => lab);
+  const { methane, carbonDioxide, water } = greenhouseGasesValues;
 
   const onChange = (value, key) => {
     dispatch(setGreenhouseGasesValues({ [key]: value }));
@@ -51,8 +57,32 @@ const GreenhouseEffectSettings = () => {
 
   const albedo = computeAlbedo(albedoValues).albedo * 100;
 
+  const isMarsOrVenus =
+    simulationMode === SIMULATION_MODES.MARS.name ||
+    simulationMode === SIMULATION_MODES.VENUS.name;
+
   // greenhouse effect settings should only affect the simulation on flux mode
-  const disabled = !isPaused || radiationMode !== RADIATION_MODES.FLUXES;
+  const disabled =
+    !isPaused || radiationMode !== RADIATION_MODES.FLUXES || isMarsOrVenus;
+
+  // adjust CO2 and H2O concentration sliders max/min points if planet other than earth is selected
+  const CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE = isMarsOrVenus
+    ? CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE_ON_MARS_OR_VENUS
+    : CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE_DEFAULT;
+
+  const WATER_CONCENTRATION_MIN_VALUE = isMarsOrVenus
+    ? WATER_CONCENTRATION_MIN_VALUE_ON_MARS_OR_VENUS
+    : WATER_CONCENTRATION_MIN_VALUE_DEFAULT;
+
+  // used to transofrm the label on the CO2 slider when either Mars or Venus are selected
+  // by default '965000' would be shown; this adds a comma separator so that it's 965,000
+  const formatCarbonDioxideLabel = (num) => {
+    const numString = num.toString();
+    if (isMarsOrVenus) {
+      return `${numString.slice(0, 3)},${numString.slice(3)}`;
+    }
+    return num;
+  };
 
   return (
     <>
@@ -96,6 +126,9 @@ const GreenhouseEffectSettings = () => {
         onChange={(e, v) => onChange(v, 'carbonDioxide')}
         indent
         disabled={disabled}
+        valueLabelDisplay={isMarsOrVenus ? 'on' : 'auto'}
+        widerLabel={isMarsOrVenus}
+        valueLabelFormat={formatCarbonDioxideLabel}
       />
       <SliderWithLabel
         text={t('CH_4 (ppm)', { escapeInterpolation: true })}
@@ -106,6 +139,7 @@ const GreenhouseEffectSettings = () => {
         step={0.1}
         indent
         disabled={disabled}
+        valueLabelDisplay={isMarsOrVenus ? 'on' : 'auto'}
       />
       <SliderWithLabel
         disabled

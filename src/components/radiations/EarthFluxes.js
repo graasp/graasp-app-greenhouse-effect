@@ -11,7 +11,7 @@ import {
   STEFAN_BOLTZMANN_CONSTANT,
   EARTH_FLUXES_DELTA_WIDTH,
   CARBON_DIOXIDE_CONCENTRATION_MIN_VALUE,
-  CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE,
+  CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE_DEFAULT,
   METHANE_CONCENTRATION_MAX_VALUE,
   METHANE_CONCENTRATION_MIN_VALUE,
   SLOW_ANIMATION_SPEED_DELTA,
@@ -95,7 +95,7 @@ const EarthFluxes = ({ sunToCloudRadiation, earthRadiation }) => {
         // add factor to speed up speed for carbon dioxide
         speed *
           SLOW_ANIMATION_SPEED_DELTA *
-          CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE,
+          CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE_DEFAULT,
       );
       slowUpdateValues(
         cloudCover,
@@ -116,7 +116,7 @@ const EarthFluxes = ({ sunToCloudRadiation, earthRadiation }) => {
         ),
         carbonDioxide: Math.abs(
           (carbonDioxide - values.carbonDioxide) /
-            (CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE -
+            (CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE_DEFAULT -
               CARBON_DIOXIDE_CONCENTRATION_MIN_VALUE),
         ),
         iceCover: Math.abs((iceCover - values.iceCover) / ICE_COVER_MAX_VALUE),
