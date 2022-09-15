@@ -53,7 +53,7 @@ const GreenhouseEffectSettings = () => {
     dispatch(setAlbedoValues({ [key]: value }));
   };
   const totalEffectValue =
-    computeGreenhouseEffect({ methane, carbonDioxide }) * 100;
+    computeGreenhouseEffect({ methane, carbonDioxide, simulationMode }) * 100;
 
   const albedo = computeAlbedo(albedoValues).albedo * 100;
 

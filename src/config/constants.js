@@ -364,7 +364,7 @@ export const SIMULATION_MODES = {
     name: '2020',
     greenhouseGasesValues: {
       carbonDioxide: 413.2,
-      methane: 0,
+      methane: 1.9,
       water: 7800,
     },
     albedo: {

@@ -32,12 +32,13 @@ const Thermometer = ({
   cursorBecomesDefault,
   cursorBecomesZoomIn,
 }) => {
-  const albedoValues = useSelector(({ lab }) => lab.albedo);
+  const {
+    isPaused,
+    greenhouseGasesValues,
+    albedo: albedoValues,
+    simulationMode,
+  } = useSelector(({ lab }) => lab);
   const { albedo } = computeAlbedo(albedoValues);
-  const greenhouseEffectGases = useSelector(
-    ({ lab }) => lab.greenhouseGasesValues,
-  );
-  const isPaused = useSelector(({ lab }) => lab.isPaused);
   const thermometerBeginsX = skyBeginsX + THERMOMETER_BEGINS_X * skyWidth;
   const thermometerBeginsY = skyBeginsY + THERMOMETER_BEGINS_Y * skyHeight;
   const thermometerBaseWidth = THERMOMETER_BASE_WIDTH * skyWidth;
@@ -62,7 +63,10 @@ const Thermometer = ({
     thermometerBulbRadius,
   );
 
-  const greenhouseEffect = computeGreenhouseEffect(greenhouseEffectGases);
+  const greenhouseEffect = computeGreenhouseEffect({
+    ...greenhouseGasesValues,
+    simulationMode,
+  });
 
   // temperature
   const [temperature, setTemperature] = useState(

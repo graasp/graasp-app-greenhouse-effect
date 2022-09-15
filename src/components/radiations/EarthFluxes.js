@@ -28,7 +28,7 @@ import {
 const EarthFluxes = ({ sunToCloudRadiation, earthRadiation }) => {
   const [gasesRadiation, setGasesRadiation] = useState(false);
   const { iceCover, cloudCover } = useSelector(({ lab }) => lab.albedo);
-  const isPaused = useSelector(({ lab }) => lab.isPaused);
+  const { isPaused, simulationMode } = useSelector(({ lab }) => lab);
   const { methane, carbonDioxide } = useSelector(
     ({ lab }) => lab.greenhouseGasesValues,
   );
@@ -134,7 +134,10 @@ const EarthFluxes = ({ sunToCloudRadiation, earthRadiation }) => {
     iceCover: values.iceCover,
     cloudCover: values.cloudCover,
   });
-  const greenhouseEffect = computeGreenhouseEffect(values);
+  const greenhouseEffect = computeGreenhouseEffect({
+    ...values,
+    simulationMode,
+  });
   const temperature = computeCurrentTemperature({
     greenhouseEffect,
     albedo,
@@ -142,6 +145,7 @@ const EarthFluxes = ({ sunToCloudRadiation, earthRadiation }) => {
   const futureGreenhouseEffect = computeGreenhouseEffect({
     methane,
     carbonDioxide,
+    simulationMode,
   });
 
   const onEnd = (state) => {
