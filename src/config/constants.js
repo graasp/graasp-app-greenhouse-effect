@@ -41,6 +41,7 @@ export const SEA = {
   indent: 0.06,
   colorRange: [0, '#406bca', 1, '#6688D4'],
   colorRangePaused: [0, '#6f8cc9', 1, '#92a6d4'],
+  colorRangeFrozen: [0, '#F5F5F5', 1, '#F5F5F5'],
 };
 export const GROUND = {
   height: 0.15,
@@ -61,9 +62,6 @@ export const SUN_BORDER = 2;
 export const SUN_BORDER_COLOR = '#444444';
 
 /* ------ICE CAPS CONSTANTS------ */
-export const NUMBER_OF_ICE_CAP_ROWS = 2;
-// Since there are two ice cap rows, we choose a default for number of ice caps in each row
-export const DEFAULT_NUMBER_OF_ICE_CAPS_PER_ROW = [3, 3];
 export const ICE_CAP_BASE = 0.15;
 export const ICE_CAP_HEIGHT = 0.5;
 // TRAPEZIUM_INDENT: distance from bottom left of trapezium to point at which a straight line from top left of trapezium descends
@@ -73,8 +71,8 @@ export const X_DISTANCE_BETWEEN_ICE_CAPS = 0.05;
 export const Y_DISTANCE_BETWEEN_ICE_CAPS = 0.075;
 // ROW_INDENTS: positioning of ice cap rows relative to sea
 export const ICE_CAP_ROWS_BEGIN = [
-  { x: 0.3, y: 0.05 },
-  { x: 0.35, y: 0.7 },
+  { x: 0.2, y: 0.05 },
+  { x: 0.25, y: 0.55 },
 ];
 export const ICE_CAP_FILL = 'whitesmoke';
 export const ICE_CAP_BORDER_COLOR = 'darkblue';
@@ -165,7 +163,6 @@ export const HALF_MOUNTAIN = 'HALF_MOUNTAIN';
 export const DEFAULT_ICE_COVER = 0.5;
 export const ICE_COVER_FILL = '#F5F5F5';
 export const ICE_COVER_LINES_TENSION = 0.1;
-export const MOUNTAIN_ICE_COVER_MAXIMUM_PERCENT = 70;
 
 /* ------TRUCK CONSTANTS------ */
 export const TRUCK_FRONT_WIDTH = 0.05;

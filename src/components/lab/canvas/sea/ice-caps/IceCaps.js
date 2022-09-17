@@ -3,14 +3,16 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import IceCapRow from './IceCapRow';
 import {
-  DEFAULT_NUMBER_OF_ICE_CAPS_PER_ROW,
   ICE_CAP_BASE,
   ICE_CAP_HEIGHT,
   ICE_CAP_ROWS_BEGIN,
-  NUMBER_OF_ICE_CAP_ROWS,
   X_DISTANCE_BETWEEN_ICE_CAPS,
   Y_DISTANCE_BETWEEN_ICE_CAPS,
 } from '../../../../../config/constants';
+import {
+  computeNumIceCaps,
+  distributeIceCaps,
+} from '../../../../../utils/canvas';
 
 const IceCaps = ({ seaHeight, seaWidth, seaBeginsY }) => {
   const iceCover = useSelector(({ lab }) => lab.albedo.iceCover);
@@ -22,31 +24,29 @@ const IceCaps = ({ seaHeight, seaWidth, seaBeginsY }) => {
   const xDistanceBetweenIceCapsInRow = X_DISTANCE_BETWEEN_ICE_CAPS * seaWidth;
   const yDistanceBetweenIceCapsInRow = Y_DISTANCE_BETWEEN_ICE_CAPS * seaHeight;
 
-  const iceCapRows = new Array(NUMBER_OF_ICE_CAP_ROWS)
-    .fill()
-    .map((emptyElement, index) => {
-      const iceCapRowsBegin = ICE_CAP_ROWS_BEGIN[index];
-      const iceCapRowBeginsX = iceCapRowsBegin.x * seaWidth;
-      const iceCapRowBeginsY = seaBeginsY + iceCapRowsBegin.y * seaHeight;
-      const numberOfIceCaps = Math.ceil(
-        (DEFAULT_NUMBER_OF_ICE_CAPS_PER_ROW[index] * iceCover) / 100,
-      );
+  // number of ice caps computed based on iceCover
+  // iceCapDist is array of the form [x, y], where array[i] is # of ice caps in row i
+  const numIceCaps = computeNumIceCaps(iceCover);
+  const iceCapDist = distributeIceCaps(numIceCaps);
 
-      return (
-        <IceCapRow
-          // eslint-disable-next-line react/no-array-index-key
-          key={index}
-          iceCapRowBeginsX={iceCapRowBeginsX}
-          iceCapRowBeginsY={iceCapRowBeginsY}
-          iceCapBaseWidth={iceCapBaseWidth}
-          iceCapHeight={iceCapHeight}
-          xDistanceBetweenIceCaps={xDistanceBetweenIceCapsInRow}
-          yDistanceBetweenIceCaps={yDistanceBetweenIceCapsInRow}
-          // TODO: numberOfIceCaps in a row will be determined in global state (Albedo)
-          numberOfIceCaps={numberOfIceCaps}
-        />
-      );
-    });
+  const iceCapRows = iceCapDist.map((numIceCapsInRow, index) => {
+    const iceCapRowsBegin = ICE_CAP_ROWS_BEGIN[index];
+    const iceCapRowBeginsX = iceCapRowsBegin.x * seaWidth;
+    const iceCapRowBeginsY = seaBeginsY + iceCapRowsBegin.y * seaHeight;
+    return (
+      <IceCapRow
+        // eslint-disable-next-line react/no-array-index-key
+        key={index}
+        iceCapRowBeginsX={iceCapRowBeginsX}
+        iceCapRowBeginsY={iceCapRowBeginsY}
+        iceCapBaseWidth={iceCapBaseWidth}
+        iceCapHeight={iceCapHeight}
+        xDistanceBetweenIceCaps={xDistanceBetweenIceCapsInRow}
+        yDistanceBetweenIceCaps={yDistanceBetweenIceCapsInRow}
+        numberOfIceCaps={numIceCapsInRow}
+      />
+    );
+  });
 
   return iceCapRows;
 };
