@@ -71,8 +71,8 @@ export const X_DISTANCE_BETWEEN_ICE_CAPS = 0.05;
 export const Y_DISTANCE_BETWEEN_ICE_CAPS = 0.075;
 // ROW_INDENTS: positioning of ice cap rows relative to sea
 export const ICE_CAP_ROWS_BEGIN = [
-  { x: 0.2, y: 0.05 },
-  { x: 0.25, y: 0.55 },
+  { x: 0.25, y: 0.05 },
+  { x: 0.3, y: 0.55 },
 ];
 export const ICE_CAP_FILL = 'whitesmoke';
 export const ICE_CAP_BORDER_COLOR = 'darkblue';
@@ -341,9 +341,11 @@ export const SIMULATION_MODES = {
       water: 5200,
     },
     albedo: {
-      iceCover: 90,
-      cloudCover: 40,
+      iceCover: 20,
+      cloudCover: 30,
     },
+    cTerm: 0.204,
+    SOLAR_FLUX: { value: 340, width: 110, height: 80 },
   },
   TWENTIETH_CENTURY: {
     name: '1900',
@@ -356,6 +358,8 @@ export const SIMULATION_MODES = {
       iceCover: 10,
       cloudCover: 40,
     },
+    cTerm: 0.227,
+    SOLAR_FLUX: { value: 340, width: 110, height: 80 },
   },
   TODAY: {
     name: '2020',
@@ -368,6 +372,8 @@ export const SIMULATION_MODES = {
       iceCover: 10,
       cloudCover: 40,
     },
+    cTerm: 0.231,
+    SOLAR_FLUX: { value: 340, width: 110, height: 80 },
   },
   MARS: {
     name: 'Mars',
@@ -377,23 +383,49 @@ export const SIMULATION_MODES = {
       water: 210,
     },
     albedo: {
-      iceCover: 10,
-      cloudCover: 40,
+      iceCover: 2,
+      cloudCover: 0,
     },
+    cTerm: 0,
+    SOLAR_FLUX: { value: 147, width: 48, height: 35 },
   },
   VENUS: {
     name: 'Venus',
     greenhouseGasesValues: {
       carbonDioxide: 965000,
-      methane: 1.8,
+      methane: 0,
       water: 20,
     },
     albedo: {
-      iceCover: 10,
-      cloudCover: 40,
+      iceCover: 0,
+      cloudCover: 100,
     },
+    cTerm: 0,
+    SOLAR_FLUX: { value: 650, width: 210, height: 150 },
   },
 };
+
+export const cTerms = Object.fromEntries(
+  Object.entries(
+    SIMULATION_MODES,
+    // eslint-disable-next-line no-unused-vars
+  ).map(([simulationMode, simulationModeDetails]) => [
+    simulationModeDetails.name,
+    simulationModeDetails.cTerm,
+  ]),
+);
+
+export const TWENTIETH_CENTURY_ALBEDO_OFFSET = -0.006;
+
+export const SOLAR_FLUXES = Object.fromEntries(
+  Object.entries(
+    SIMULATION_MODES,
+    // eslint-disable-next-line no-unused-vars
+  ).map(([simulationMode, simulationModeDetails]) => [
+    simulationModeDetails.name,
+    simulationModeDetails.SOLAR_FLUX,
+  ]),
+);
 
 export const CLOUD_COVER_DIVISION_FACTOR = 380;
 export const CLOUD_COVER_CIRCLES_DIVISION_FACTOR = 3;

@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
@@ -55,7 +54,8 @@ const GreenhouseEffectSettings = () => {
   const totalEffectValue =
     computeGreenhouseEffect({ methane, carbonDioxide, simulationMode }) * 100;
 
-  const albedo = computeAlbedo(albedoValues).albedo * 100;
+  const albedo =
+    computeAlbedo({ ...albedoValues, simulationMode }).albedo * 100;
 
   const isMarsOrVenus =
     simulationMode === SIMULATION_MODES.MARS.name ||

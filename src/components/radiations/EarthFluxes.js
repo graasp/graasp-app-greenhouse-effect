@@ -133,6 +133,7 @@ const EarthFluxes = ({ sunToCloudRadiation, earthRadiation }) => {
   const { albedo } = computeAlbedo({
     iceCover: values.iceCover,
     cloudCover: values.cloudCover,
+    simulationMode,
   });
   const greenhouseEffect = computeGreenhouseEffect({
     ...values,
@@ -141,6 +142,7 @@ const EarthFluxes = ({ sunToCloudRadiation, earthRadiation }) => {
   const temperature = computeCurrentTemperature({
     greenhouseEffect,
     albedo,
+    simulationMode,
   });
   const futureGreenhouseEffect = computeGreenhouseEffect({
     methane,

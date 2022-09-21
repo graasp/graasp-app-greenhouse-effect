@@ -39,6 +39,7 @@ const EarthWaves = ({ earthRadiation }) => {
   const temperature = computeCurrentTemperature({
     greenhouseEffect,
     albedo: values.albedo,
+    simulationMode,
   });
   const futureGreenhouseEffect = computeGreenhouseEffect({
     methane,

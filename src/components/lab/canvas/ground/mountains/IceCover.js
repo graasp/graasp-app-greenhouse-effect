@@ -48,7 +48,6 @@ const IceCover = ({
       fill={ICE_COVER_FILL}
       tension={ICE_COVER_LINES_TENSION}
       closed
-      draggable
     />
   );
 };
