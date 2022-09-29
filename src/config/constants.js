@@ -436,3 +436,6 @@ export const GREENHOUSE_GASES_DISTRIBUTION = {
   CARBON_DIOXIDE: 10,
   WATER: 10,
 };
+
+export const ON_STRING = 'on';
+export const AUTO_STRING = 'auto';

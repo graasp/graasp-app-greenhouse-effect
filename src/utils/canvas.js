@@ -451,12 +451,8 @@ export const computeNumIceCaps = (iceCover) => {
 // given numIceCaps, distribute them over two rows, alternating between each row
 export const distributeIceCaps = (numIceCaps) => {
   const distribution = [0, 0];
-  let remainingIceCaps = numIceCaps;
-  let index = 0;
-  while (remainingIceCaps) {
-    distribution[index % 2] += 1;
-    index += 1;
-    remainingIceCaps -= 1;
+  for (let i = 0; i < numIceCaps; i += 1) {
+    distribution[i % 2] += 1;
   }
   return distribution;
 };

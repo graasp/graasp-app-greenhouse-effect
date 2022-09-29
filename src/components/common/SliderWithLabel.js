@@ -54,7 +54,7 @@ const SliderWithLabel = ({
   valueLabelDisplay,
   step,
   valueLabelFormat,
-  widerLabel,
+  bigLabel,
 }) => {
   const classes = useStyles();
 
@@ -80,7 +80,7 @@ const SliderWithLabel = ({
       onChange={onChange}
       valueLabelDisplay={valueLabelDisplay}
       valueLabelFormat={valueLabelFormat}
-      ValueLabelComponent={widerLabel ? StyledValueLabel : ValueLabel}
+      ValueLabelComponent={bigLabel ? StyledValueLabel : ValueLabel}
       step={step}
     />
   );
@@ -121,7 +121,7 @@ SliderWithLabel.propTypes = {
   valueLabelDisplay: PropTypes.string,
   step: PropTypes.number,
   valueLabelFormat: PropTypes.func,
-  widerLabel: PropTypes.bool,
+  bigLabel: PropTypes.bool,
 };
 
 SliderWithLabel.defaultProps = {
@@ -134,7 +134,7 @@ SliderWithLabel.defaultProps = {
   step: 1,
   onChange: () => {},
   valueLabelFormat: (x) => x,
-  widerLabel: false,
+  bigLabel: false,
 };
 
 export default SliderWithLabel;

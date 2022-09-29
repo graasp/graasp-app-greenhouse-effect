@@ -14,11 +14,13 @@ export const computeGreenhouseEffect = ({
   simulationMode,
 }) => {
   // if either Venus or Mars are selected, greenhouse effect value is hard-coded
-  if (simulationMode === SIMULATION_MODES.VENUS.name) {
-    return 0.99;
-  }
-  if (simulationMode === SIMULATION_MODES.MARS.name) {
-    return 0.12;
+  switch (simulationMode) {
+    case SIMULATION_MODES.VENUS.name:
+      return 0.99;
+    case SIMULATION_MODES.MARS.name:
+      return 0.12;
+    default:
+      break;
   }
 
   const C = cTerms[simulationMode];
@@ -50,11 +52,13 @@ export const computeCurrentTemperature = ({
 
 export const computeAlbedo = ({ iceCover, cloudCover, simulationMode }) => {
   // if either Venus or Mars are selected, albedo value is hard-coded
-  if (simulationMode === SIMULATION_MODES.VENUS.name) {
-    return { albedo: 0.76 };
-  }
-  if (simulationMode === SIMULATION_MODES.MARS.name) {
-    return { albedo: 0.25 };
+  switch (simulationMode) {
+    case SIMULATION_MODES.VENUS.name:
+      return { albedo: 0.76 };
+    case SIMULATION_MODES.MARS.name:
+      return { albedo: 0.25 };
+    default:
+      break;
   }
 
   const ice = (iceCover / 100.0) * 0.7 + (1 - iceCover / 100.0) * 0.09;

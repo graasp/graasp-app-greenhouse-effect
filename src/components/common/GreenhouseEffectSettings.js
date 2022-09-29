@@ -19,6 +19,8 @@ import {
   SIMULATION_MODES,
   CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE_ON_MARS_OR_VENUS,
   WATER_CONCENTRATION_MIN_VALUE_ON_MARS_OR_VENUS,
+  ON_STRING,
+  AUTO_STRING,
 } from '../../config/constants';
 import {
   computeAlbedo,
@@ -74,7 +76,7 @@ const GreenhouseEffectSettings = () => {
     ? WATER_CONCENTRATION_MIN_VALUE_ON_MARS_OR_VENUS
     : WATER_CONCENTRATION_MIN_VALUE_DEFAULT;
 
-  // used to transofrm the label on the CO2 slider when either Mars or Venus are selected
+  // transform the label on the CO2 slider when either Mars or Venus are selected
   // by default '965000' would be shown; this adds a comma separator so that it's 965,000
   const formatCarbonDioxideLabel = (num) => {
     const numString = num.toString();
@@ -91,7 +93,7 @@ const GreenhouseEffectSettings = () => {
         max={ALBEDO_MAX_VALUE}
         value={parseFloat(albedo.toFixed(1))}
         labelClassName={classes.title}
-        valueLabelDisplay="on"
+        valueLabelDisplay={ON_STRING}
         disabled
       />
       <SliderWithLabel
@@ -115,7 +117,7 @@ const GreenhouseEffectSettings = () => {
         text={t('Greenhouse Effect (%)')}
         max={GREENHOUSE_TOTAL_EFFECT_MAX_VALUE}
         value={+totalEffectValue.toFixed(1)}
-        valueLabelDisplay="on"
+        valueLabelDisplay={ON_STRING}
         labelClassName={classes.title}
       />
       <SliderWithLabel
@@ -126,8 +128,8 @@ const GreenhouseEffectSettings = () => {
         onChange={(e, v) => onChange(v, 'carbonDioxide')}
         indent
         disabled={disabled}
-        valueLabelDisplay={isMarsOrVenus ? 'on' : 'auto'}
-        widerLabel={isMarsOrVenus}
+        valueLabelDisplay={isMarsOrVenus ? ON_STRING : AUTO_STRING}
+        bigLabel={isMarsOrVenus}
         valueLabelFormat={formatCarbonDioxideLabel}
       />
       <SliderWithLabel
@@ -139,7 +141,7 @@ const GreenhouseEffectSettings = () => {
         step={0.1}
         indent
         disabled={disabled}
-        valueLabelDisplay={isMarsOrVenus ? 'on' : 'auto'}
+        valueLabelDisplay={isMarsOrVenus ? ON_STRING : AUTO_STRING}
       />
       <SliderWithLabel
         disabled
@@ -149,7 +151,7 @@ const GreenhouseEffectSettings = () => {
         value={water}
         onChange={(e, v) => onChange(v, 'water')}
         indent
-        valueLabelDisplay="on"
+        valueLabelDisplay={ON_STRING}
       />
     </>
   );
