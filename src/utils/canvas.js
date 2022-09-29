@@ -390,3 +390,69 @@ export const adjustGreenhouseGasesDistribution = ({
   carbonDioxide: carbonDioxide / GREENHOUSE_GASES_DISTRIBUTION.CARBON_DIOXIDE,
   water: water / GREENHOUSE_GASES_DISTRIBUTION.WATER,
 });
+
+// given an ice cover %, calculate how much of land and mountains is covered by ice
+// formula provided by teachers
+export const computeIcePercentage = (iceCover) => {
+  if (iceCover >= 0.1 && iceCover < 0.55) {
+    return 2 * iceCover - 0.1;
+  }
+  if (iceCover < 0.1 && iceCover >= 0.05) {
+    return 0.05;
+  }
+  if (iceCover < 0.05) {
+    return 0;
+  }
+  // remaining case is when iceCover >= 0.55, in which case ice coverage is 100%
+  return 1;
+};
+
+// when users change ice cover (via its slider), the amount of ice on the mountains changes
+// this fn calculates the dimensions of the ice 'triangle' formed on the mountains given their width, height, and the % ice coverage
+// (noting that if ice is e.g. 50% of mountain, then the ice triangle's *area* [and not base/height] should be half the mountain's)
+export const computeMountainIceCoverDimensions = (
+  mountainWidth,
+  mountainHeight,
+  icePercentage,
+) => {
+  const iceCoverWidth = Math.sqrt(mountainWidth ** 2 * icePercentage);
+  const iceCoverHeight = Math.sqrt(mountainHeight ** 2 * icePercentage);
+  return { iceCoverWidth, iceCoverHeight };
+};
+
+// given an ice cover %, return number of ice caps to be displayed on canvas
+// formula provided by teachers
+export const computeNumIceCaps = (iceCover) => {
+  if (iceCover < 5) {
+    return 0;
+  }
+  if (iceCover < 10) {
+    return 1;
+  }
+  if (iceCover < 20) {
+    return 2;
+  }
+  if (iceCover < 30) {
+    return 4;
+  }
+  if (iceCover < 40) {
+    return 5;
+  }
+  if (iceCover < 50) {
+    return 6;
+  }
+  if (iceCover < 60) {
+    return 7;
+  }
+  // if iceCover >= 60%, show 8 icebergs
+  return 8;
+};
+
+// given numIceCaps, distribute them over two rows, alternating between each row
+export const distributeIceCaps = (numIceCaps) => {
+  const distribution = [0, 0];
+  for (let i = 0; i < numIceCaps; i += 1) {
+    distribution[i % 2] += 1;
+  }
+  return distribution;
+};

@@ -1,6 +1,7 @@
 import React from 'react';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
+import Typography from '@material-ui/core/Typography';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,9 +11,17 @@ import { useTranslation } from 'react-i18next';
 import { SIMULATION_MODES } from '../../config/constants';
 import { setSimulationMode } from '../../actions';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   radioGroup: {
     flexDirection: 'row',
+  },
+  formLabel: {
+    color: 'black',
+    fontWeight: 'bold',
+    marginBottom: theme.spacing(1),
+  },
+  radioText: {
+    fontSize: '0.84em',
   },
 }));
 
@@ -32,7 +41,11 @@ function SimulationMode() {
 
   return (
     <FormControl component="fieldset">
-      <FormLabel component="legend">{t('Values in')}</FormLabel>
+      <FormLabel component="legend">
+        <Typography variant="body2" className={classes.formLabel}>
+          {t('Values in')}
+        </Typography>
+      </FormLabel>
       <RadioGroup
         onChange={handleChange}
         defaultValue={SIMULATION_MODES.TODAY.name}
@@ -44,9 +57,12 @@ function SimulationMode() {
           <FormControlLabel
             key={name}
             value={name}
-            control={<Radio color="primary" />}
-            label={name}
+            control={<Radio color="primary" size="small" />}
+            label={
+              <Typography className={classes.radioText}>{name}</Typography>
+            }
             disabled={!isPaused}
+            className={classes.radioButton}
           />
         ))}
       </RadioGroup>

@@ -41,6 +41,7 @@ export const SEA = {
   indent: 0.06,
   colorRange: [0, '#406bca', 1, '#6688D4'],
   colorRangePaused: [0, '#6f8cc9', 1, '#92a6d4'],
+  colorRangeFrozen: [0, '#F5F5F5', 1, '#F5F5F5'],
 };
 export const GROUND = {
   height: 0.15,
@@ -61,9 +62,6 @@ export const SUN_BORDER = 2;
 export const SUN_BORDER_COLOR = '#444444';
 
 /* ------ICE CAPS CONSTANTS------ */
-export const NUMBER_OF_ICE_CAP_ROWS = 2;
-// Since there are two ice cap rows, we choose a default for number of ice caps in each row
-export const DEFAULT_NUMBER_OF_ICE_CAPS_PER_ROW = [3, 3];
 export const ICE_CAP_BASE = 0.15;
 export const ICE_CAP_HEIGHT = 0.5;
 // TRAPEZIUM_INDENT: distance from bottom left of trapezium to point at which a straight line from top left of trapezium descends
@@ -73,8 +71,8 @@ export const X_DISTANCE_BETWEEN_ICE_CAPS = 0.05;
 export const Y_DISTANCE_BETWEEN_ICE_CAPS = 0.075;
 // ROW_INDENTS: positioning of ice cap rows relative to sea
 export const ICE_CAP_ROWS_BEGIN = [
-  { x: 0.3, y: 0.05 },
-  { x: 0.35, y: 0.7 },
+  { x: 0.25, y: 0.05 },
+  { x: 0.3, y: 0.55 },
 ];
 export const ICE_CAP_FILL = 'whitesmoke';
 export const ICE_CAP_BORDER_COLOR = 'darkblue';
@@ -161,11 +159,10 @@ export const MOUNTAINS_INDENT_Y = 0.075;
 export const FULL_MOUNTAIN_X_INDENT = 0.8;
 export const FULL_MOUNTAIN = 'FULL_MOUNTAIN';
 export const HALF_MOUNTAIN = 'HALF_MOUNTAIN';
-// ice cover as a percentage of the mountain (can be adjusted in state/redux later)
+// ice and snow cover as a percentage of the mountain (can be adjusted in state/redux later)
 export const DEFAULT_ICE_COVER = 0.5;
 export const ICE_COVER_FILL = '#F5F5F5';
 export const ICE_COVER_LINES_TENSION = 0.1;
-export const MOUNTAIN_ICE_COVER_MAXIMUM_PERCENT = 70;
 
 /* ------TRUCK CONSTANTS------ */
 export const TRUCK_FRONT_WIDTH = 0.05;
@@ -263,11 +260,13 @@ export const RADIATION_STATES = {
 export const DEFAULT_ALBEDO = 30;
 
 export const ALBEDO_MAX_VALUE = 100;
-export const CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE = 5000;
+export const CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE_DEFAULT = 5000;
+export const CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE_ON_MARS_OR_VENUS = 1e6;
 export const CARBON_DIOXIDE_CONCENTRATION_MIN_VALUE = 50;
 export const METHANE_CONCENTRATION_MAX_VALUE = 10;
 export const METHANE_CONCENTRATION_MIN_VALUE = 0.1;
-export const WATER_CONCENTRATION_MIN_VALUE = 3000;
+export const WATER_CONCENTRATION_MIN_VALUE_DEFAULT = 3000;
+export const WATER_CONCENTRATION_MIN_VALUE_ON_MARS_OR_VENUS = 0;
 export const WATER_CONCENTRATION_MAX_VALUE = 13000;
 export const ICE_COVER_MAX_VALUE = 100;
 export const CLOUD_COVER_MAX_VALUE = 100;
@@ -339,65 +338,94 @@ export const SIMULATION_MODES = {
     greenhouseGasesValues: {
       carbonDioxide: 200,
       methane: 0.4,
-      water: 5600,
+      water: 5200,
     },
     albedo: {
-      iceCover: 90,
-      cloudCover: 40,
+      iceCover: 20,
+      cloudCover: 30,
     },
+    cTerm: 0.204,
+    SOLAR_FLUX: { value: 340, width: 110, height: 80 },
   },
   TWENTIETH_CENTURY: {
-    name: '1990',
+    name: '1900',
     greenhouseGasesValues: {
       carbonDioxide: 290,
       methane: 1,
-      water: 7900,
+      water: 7300,
     },
     albedo: {
       iceCover: 10,
       cloudCover: 40,
     },
+    cTerm: 0.227,
+    SOLAR_FLUX: { value: 340, width: 110, height: 80 },
   },
   TODAY: {
-    name: 'Today',
+    name: '2020',
     greenhouseGasesValues: {
-      carbonDioxide: 410,
-      methane: 1.8,
-      water: 8400,
+      carbonDioxide: 413.2,
+      methane: 1.9,
+      water: 7800,
     },
     albedo: {
       iceCover: 10,
       cloudCover: 40,
     },
+    cTerm: 0.231,
+    SOLAR_FLUX: { value: 340, width: 110, height: 80 },
   },
   MARS: {
     name: 'Mars',
     greenhouseGasesValues: {
-      carbonDioxide: 410,
-      methane: 1.8,
-      water: 8400,
+      carbonDioxide: 965000,
+      methane: 0,
+      water: 210,
     },
     albedo: {
-      iceCover: 10,
-      cloudCover: 40,
+      iceCover: 2,
+      cloudCover: 0,
     },
+    cTerm: 0,
+    SOLAR_FLUX: { value: 147, width: 48, height: 35 },
   },
   VENUS: {
     name: 'Venus',
     greenhouseGasesValues: {
-      carbonDioxide: 410,
-      methane: 1.8,
-      water: 8400,
+      carbonDioxide: 965000,
+      methane: 0,
+      water: 20,
     },
     albedo: {
-      iceCover: 10,
-      cloudCover: 40,
+      iceCover: 0,
+      cloudCover: 100,
     },
-  },
-  CUSTOM: {
-    name: 'Custom',
+    cTerm: 0,
+    SOLAR_FLUX: { value: 650, width: 210, height: 150 },
   },
 };
+
+export const cTerms = Object.fromEntries(
+  Object.entries(
+    SIMULATION_MODES,
+    // eslint-disable-next-line no-unused-vars
+  ).map(([simulationMode, simulationModeDetails]) => [
+    simulationModeDetails.name,
+    simulationModeDetails.cTerm,
+  ]),
+);
+
+export const TWENTIETH_CENTURY_ALBEDO_OFFSET = -0.006;
+
+export const SOLAR_FLUXES = Object.fromEntries(
+  Object.entries(
+    SIMULATION_MODES,
+    // eslint-disable-next-line no-unused-vars
+  ).map(([simulationMode, simulationModeDetails]) => [
+    simulationModeDetails.name,
+    simulationModeDetails.SOLAR_FLUX,
+  ]),
+);
 
 export const CLOUD_COVER_DIVISION_FACTOR = 380;
 export const CLOUD_COVER_CIRCLES_DIVISION_FACTOR = 3;
@@ -408,3 +436,6 @@ export const GREENHOUSE_GASES_DISTRIBUTION = {
   CARBON_DIOXIDE: 10,
   WATER: 10,
 };
+
+export const ON_STRING = 'on';
+export const AUTO_STRING = 'auto';

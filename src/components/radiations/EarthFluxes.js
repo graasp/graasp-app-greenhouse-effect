@@ -11,7 +11,7 @@ import {
   STEFAN_BOLTZMANN_CONSTANT,
   EARTH_FLUXES_DELTA_WIDTH,
   CARBON_DIOXIDE_CONCENTRATION_MIN_VALUE,
-  CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE,
+  CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE_DEFAULT,
   METHANE_CONCENTRATION_MAX_VALUE,
   METHANE_CONCENTRATION_MIN_VALUE,
   SLOW_ANIMATION_SPEED_DELTA,
@@ -28,7 +28,7 @@ import {
 const EarthFluxes = ({ sunToCloudRadiation, earthRadiation }) => {
   const [gasesRadiation, setGasesRadiation] = useState(false);
   const { iceCover, cloudCover } = useSelector(({ lab }) => lab.albedo);
-  const isPaused = useSelector(({ lab }) => lab.isPaused);
+  const { isPaused, simulationMode } = useSelector(({ lab }) => lab);
   const { methane, carbonDioxide } = useSelector(
     ({ lab }) => lab.greenhouseGasesValues,
   );
@@ -95,7 +95,7 @@ const EarthFluxes = ({ sunToCloudRadiation, earthRadiation }) => {
         // add factor to speed up speed for carbon dioxide
         speed *
           SLOW_ANIMATION_SPEED_DELTA *
-          CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE,
+          CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE_DEFAULT,
       );
       slowUpdateValues(
         cloudCover,
@@ -116,7 +116,7 @@ const EarthFluxes = ({ sunToCloudRadiation, earthRadiation }) => {
         ),
         carbonDioxide: Math.abs(
           (carbonDioxide - values.carbonDioxide) /
-            (CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE -
+            (CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE_DEFAULT -
               CARBON_DIOXIDE_CONCENTRATION_MIN_VALUE),
         ),
         iceCover: Math.abs((iceCover - values.iceCover) / ICE_COVER_MAX_VALUE),
@@ -133,15 +133,21 @@ const EarthFluxes = ({ sunToCloudRadiation, earthRadiation }) => {
   const { albedo } = computeAlbedo({
     iceCover: values.iceCover,
     cloudCover: values.cloudCover,
+    simulationMode,
   });
-  const greenhouseEffect = computeGreenhouseEffect(values);
+  const greenhouseEffect = computeGreenhouseEffect({
+    ...values,
+    simulationMode,
+  });
   const temperature = computeCurrentTemperature({
     greenhouseEffect,
     albedo,
+    simulationMode,
   });
   const futureGreenhouseEffect = computeGreenhouseEffect({
     methane,
     carbonDioxide,
+    simulationMode,
   });
 
   const onEnd = (state) => {

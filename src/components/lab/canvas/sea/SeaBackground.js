@@ -13,8 +13,20 @@ const SeaBackground = ({
   seaBeginsY,
 }) => {
   const isPaused = useSelector(({ lab }) => lab.isPaused);
+  const { iceCover } = useSelector(({ lab }) => lab.albedo);
 
-  const { colorRange, colorRangePaused } = SEA;
+  const { colorRange, colorRangePaused, colorRangeFrozen } = SEA;
+
+  const determineSeaColor = () => {
+    // if ice cover is 100%, ocean should freeze
+    if (iceCover === 100) {
+      return colorRangeFrozen;
+    }
+    if (isPaused) {
+      return colorRangePaused;
+    }
+    return colorRange;
+  };
 
   return (
     <Line
@@ -26,7 +38,7 @@ const SeaBackground = ({
         x: 0,
         y: seaHeight,
       }}
-      fillLinearGradientColorStops={isPaused ? colorRangePaused : colorRange}
+      fillLinearGradientColorStops={determineSeaColor()}
       closed
     />
   );

@@ -14,7 +14,7 @@ import {
   ICE_CAP_HEIGHT,
   ICE_CAP_ROWS_BEGIN,
   X_DISTANCE_BETWEEN_ICE_CAPS,
-  SOLAR_FLUX,
+  SOLAR_FLUXES,
 } from '../../config/constants';
 import EarthWaves from './EarthWaves';
 import SunWaves from './SunWaves';
@@ -30,6 +30,7 @@ class RadiationManager extends Component {
       height: PropTypes.number.isRequired,
     }).isRequired,
     cloudCover: PropTypes.number.isRequired,
+    simulationMode: PropTypes.string.isRequired,
   };
 
   state = {
@@ -55,6 +56,7 @@ class RadiationManager extends Component {
       stageDimensions: { width, height },
       radiationMode,
       cloudCover,
+      simulationMode,
     } = this.props;
     const { sunRadiation, earthRadiation } = this.state;
 
@@ -74,7 +76,7 @@ class RadiationManager extends Component {
       x: CLOUD_CENTRAL_CIRCLE_X * width * ATMOSPHERE.width,
       y:
         ATMOSPHERE.height * height +
-        SOLAR_FLUX.height +
+        SOLAR_FLUXES[simulationMode].height +
         Math.min(cloudHeight, skyHeight / 2.5),
       height: 250 - cloudCover,
     };
@@ -138,6 +140,7 @@ const mapStateToProps = ({ lab, layout }) => ({
   radiationMode: lab.radiationMode,
   stageDimensions: layout.lab.stageDimensions,
   cloudCover: lab.albedo.cloudCover,
+  simulationMode: lab.simulationMode,
 });
 
 export default connect(mapStateToProps)(RadiationManager);

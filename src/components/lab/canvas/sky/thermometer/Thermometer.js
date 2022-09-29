@@ -32,12 +32,13 @@ const Thermometer = ({
   cursorBecomesDefault,
   cursorBecomesZoomIn,
 }) => {
-  const albedoValues = useSelector(({ lab }) => lab.albedo);
-  const { albedo } = computeAlbedo(albedoValues);
-  const greenhouseEffectGases = useSelector(
-    ({ lab }) => lab.greenhouseGasesValues,
-  );
-  const isPaused = useSelector(({ lab }) => lab.isPaused);
+  const {
+    isPaused,
+    greenhouseGasesValues,
+    albedo: albedoValues,
+    simulationMode,
+  } = useSelector(({ lab }) => lab);
+  const { albedo } = computeAlbedo({ ...albedoValues, simulationMode });
   const thermometerBeginsX = skyBeginsX + THERMOMETER_BEGINS_X * skyWidth;
   const thermometerBeginsY = skyBeginsY + THERMOMETER_BEGINS_Y * skyHeight;
   const thermometerBaseWidth = THERMOMETER_BASE_WIDTH * skyWidth;
@@ -62,11 +63,14 @@ const Thermometer = ({
     thermometerBulbRadius,
   );
 
-  const greenhouseEffect = computeGreenhouseEffect(greenhouseEffectGases);
+  const greenhouseEffect = computeGreenhouseEffect({
+    ...greenhouseGasesValues,
+    simulationMode,
+  });
 
   // temperature
   const [temperature, setTemperature] = useState(
-    computeCurrentTemperature({ greenhouseEffect, albedo }),
+    computeCurrentTemperature({ greenhouseEffect, albedo, simulationMode }),
   );
 
   // save temperature value
@@ -74,7 +78,11 @@ const Thermometer = ({
   useEffect(() => {
     if (!isPaused) {
       // new temperature
-      const t = computeCurrentTemperature({ greenhouseEffect, albedo });
+      const t = computeCurrentTemperature({
+        greenhouseEffect,
+        albedo,
+        simulationMode,
+      });
 
       // slowly increase temperature
       if (Math.abs(t - temperature) > CHANGING_TEMPERATURE_SPEED) {

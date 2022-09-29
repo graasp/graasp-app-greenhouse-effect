@@ -16,7 +16,7 @@ import {
 const EarthWaves = ({ earthRadiation }) => {
   const [gasesRadiation, setGasesRadiation] = useState(false);
   const albedo = useSelector(({ lab }) => lab.albedo);
-  const isPaused = useSelector(({ lab }) => lab.isPaused);
+  const { isPaused, simulationMode } = useSelector(({ lab }) => lab);
   const { methane, carbonDioxide } = useSelector(
     ({ lab }) => lab.greenhouseGasesValues,
   );
@@ -32,14 +32,19 @@ const EarthWaves = ({ earthRadiation }) => {
   const { width, height } = useSelector(
     ({ layout }) => layout.lab.stageDimensions,
   );
-  const greenhouseEffect = computeGreenhouseEffect(values);
+  const greenhouseEffect = computeGreenhouseEffect({
+    ...values,
+    simulationMode,
+  });
   const temperature = computeCurrentTemperature({
     greenhouseEffect,
     albedo: values.albedo,
+    simulationMode,
   });
   const futureGreenhouseEffect = computeGreenhouseEffect({
     methane,
     carbonDioxide,
+    simulationMode,
   });
 
   const onEnd = (state) => {

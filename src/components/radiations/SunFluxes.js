@@ -5,7 +5,7 @@ import {
   SUN_LIGHT_COLOR,
   RADIATION_STATES,
   FLUX_HEAD_HEIGHT,
-  SOLAR_FLUX,
+  SOLAR_FLUXES,
   SUN_FLUXES_DELTA_WIDTH,
 } from '../../config/constants';
 import Flux from './Flux';
@@ -19,7 +19,7 @@ const SunFluxes = ({
   startEarthRadiations,
   sunRadiation,
 }) => {
-  const isPaused = useSelector(({ lab }) => lab.isPaused);
+  const { isPaused, simulationMode } = useSelector(({ lab }) => lab);
   const [iceRadiation, setIceRadiation] = useState(false);
   const [cloudRadiation, setCloudRadiation] = useState(false);
   const { iceCover, cloudCover } = useSelector(({ lab }) => lab.albedo);
@@ -27,6 +27,7 @@ const SunFluxes = ({
   const { albedo: generalAlbedo, cloud: cloudAlbedo } = computeAlbedo({
     iceCover,
     cloudCover,
+    simulationMode,
   });
 
   // save prev values to detect changes and apply enableBlinking
@@ -69,6 +70,8 @@ const SunFluxes = ({
       default:
     }
   };
+
+  const SOLAR_FLUX = SOLAR_FLUXES[simulationMode];
 
   const cloudToSkyRadiationValue = cloudAlbedo * SOLAR_FLUX.value;
   const cloudToGroundRadiationValue = (

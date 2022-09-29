@@ -34,7 +34,6 @@ const INITIAL_STATE = {
   feedback: {
     iceCoverChange: false,
     waterVapor: false,
-    thawingPermafrost: false,
   },
   showLoader: true,
   showSideMenu: true,

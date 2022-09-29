@@ -32,7 +32,6 @@ const MountainWithIceCover = ({
         mountainType={mountainType}
         mountainWidth={mountainWidth}
         mountainHeight={mountainHeight}
-        mountainPoints={mountainPoints}
         mountainBeginsX={mountainBeginsX}
         mountainBeginsY={mountainBeginsY}
       />
