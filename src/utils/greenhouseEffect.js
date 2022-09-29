@@ -16,9 +16,9 @@ export const computeGreenhouseEffect = ({
   // if either Venus or Mars are selected, greenhouse effect value is hard-coded
   switch (simulationMode) {
     case SIMULATION_MODES.VENUS.name:
-      return 0.99;
+      return 0.99106;
     case SIMULATION_MODES.MARS.name:
-      return 0.12;
+      return 0;
     default:
       break;
   }
@@ -54,7 +54,7 @@ export const computeAlbedo = ({ iceCover, cloudCover, simulationMode }) => {
   // if either Venus or Mars are selected, albedo value is hard-coded
   switch (simulationMode) {
     case SIMULATION_MODES.VENUS.name:
-      return { albedo: 0.76 };
+      return { albedo: 0.77 };
     case SIMULATION_MODES.MARS.name:
       return { albedo: 0.25 };
     default:
