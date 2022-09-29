@@ -1,7 +1,14 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Group } from 'react-konva';
-import { ATMOSPHERE, SKY, SEA, GROUND } from '../../../config/constants';
+import {
+  ATMOSPHERE,
+  SKY,
+  SEA,
+  GROUND,
+  SIMULATION_MODES,
+} from '../../../config/constants';
 import GroundBackground from './ground/GroundBackground';
 import Road from './ground/road/Road';
 import HouseRow from './ground/houses/HouseRow';
@@ -15,6 +22,8 @@ const Ground = ({ stageHeight, stageWidth, cursorBecomesDefault }) => {
     height: groundHeightPercentage,
     width: groundWidthPercentage,
   } = GROUND;
+  const { simulationMode } = useSelector(({ lab }) => lab);
+  const isIceAge = simulationMode === SIMULATION_MODES.ICE_AGE.name;
 
   // pixel dimensions of ground
   const groundHeight = stageHeight * groundHeightPercentage;
@@ -52,24 +61,30 @@ const Ground = ({ stageHeight, stageWidth, cursorBecomesDefault }) => {
         groundBeginsX={groundBeginsX}
         groundBeginsY={groundBeginsY}
       />
-      <Road
-        groundHeight={groundHeight}
-        groundWidth={groundWidth}
-        groundBeginsX={groundBeginsX}
-        groundBeginsY={groundBeginsY}
-      />
-      <FactoryRow
-        groundHeight={groundHeight}
-        groundWidth={groundWidth}
-        groundBeginsX={groundBeginsX}
-        groundBeginsY={groundBeginsY}
-      />
-      <HouseRow
-        groundHeight={groundHeight}
-        groundWidth={groundWidth}
-        groundBeginsX={groundBeginsX}
-        groundBeginsY={groundBeginsY}
-      />
+      {!isIceAge && (
+        <Road
+          groundHeight={groundHeight}
+          groundWidth={groundWidth}
+          groundBeginsX={groundBeginsX}
+          groundBeginsY={groundBeginsY}
+        />
+      )}
+      {!isIceAge && (
+        <FactoryRow
+          groundHeight={groundHeight}
+          groundWidth={groundWidth}
+          groundBeginsX={groundBeginsX}
+          groundBeginsY={groundBeginsY}
+        />
+      )}
+      {!isIceAge && (
+        <HouseRow
+          groundHeight={groundHeight}
+          groundWidth={groundWidth}
+          groundBeginsX={groundBeginsX}
+          groundBeginsY={groundBeginsY}
+        />
+      )}
     </Group>
   );
 };
