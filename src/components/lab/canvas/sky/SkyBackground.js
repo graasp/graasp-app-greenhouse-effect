@@ -2,13 +2,34 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Rect } from 'react-konva';
-import { SKY } from '../../../../config/constants';
+import { SIMULATION_MODES, SKY } from '../../../../config/constants';
 import { toggleZoom } from '../../../../actions';
 
 const SkyBackground = ({ skyHeight, skyWidth, skyBeginsX, skyBeginsY }) => {
-  const isPaused = useSelector(({ lab }) => lab.isPaused);
-  const { colorRange, colorRangePaused } = SKY;
+  const { isPaused, simulationMode } = useSelector(({ lab }) => lab);
+  const {
+    colorRange: allColorRanges,
+    colorRangePaused: allPausedColorRanges,
+  } = SKY;
   const dispatch = useDispatch();
+
+  let colorRange;
+  if (simulationMode === SIMULATION_MODES.VENUS.name) {
+    colorRange = allColorRanges.venus;
+  } else if (simulationMode === SIMULATION_MODES.MARS.name) {
+    colorRange = allColorRanges.mars;
+  } else {
+    colorRange = allColorRanges.earth;
+  }
+
+  let colorRangePaused;
+  if (simulationMode === SIMULATION_MODES.VENUS.name) {
+    colorRangePaused = allPausedColorRanges.venus;
+  } else if (simulationMode === SIMULATION_MODES.MARS.name) {
+    colorRangePaused = allPausedColorRanges.mars;
+  } else {
+    colorRangePaused = allPausedColorRanges.earth;
+  }
 
   return (
     <Rect

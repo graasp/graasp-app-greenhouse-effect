@@ -32,8 +32,16 @@ export const ATMOSPHERE = {
 export const SKY = {
   height: 0.65,
   width: 1,
-  colorRange: [0, '#A4C8EA', 1, '#C8DEF2'],
-  colorRangePaused: [0, '#c1cdd9', 1, '#d3dbe3'],
+  colorRange: {
+    earth: [0, '#A4C8EA', 1, '#C8DEF2'],
+    venus: [0, '#737373', 1, '#e5e5e5'],
+    mars: [0, '#8D8D8D', 1, '#E6CF6B'],
+  },
+  colorRangePaused: {
+    earth: [0, '#c1cdd9', 1, '#d3dbe3'],
+    venus: [0, '#8D8D8D', 1, '#f2f2f2'],
+    mars: [0, '#A6A6A6', 1, '#FFE884'],
+  },
 };
 export const SEA = {
   height: 0.15,
@@ -45,9 +53,17 @@ export const SEA = {
 };
 export const GROUND = {
   height: 0.15,
-  width: 0.6,
-  colorRange: [0, '#50A032', 1, '#84BC6F'],
-  colorRangePaused: [0, '#6c9c5a', 1, '#9fba95'],
+  width: { earth: 0.6, nonEarth: 1 },
+  colorRange: {
+    earth: [0, '#50A032', 1, '#84BC6F'],
+    venus: [0, '#AF854B', 1, '#795C34'],
+    mars: [0, '#87270E', 1, '#A05006'],
+  },
+  colorRangePaused: {
+    earth: [0, '#6c9c5a', 1, '#9fba95'],
+    venus: [0, '#E2B87E', 1, '#93764E'],
+    mars: [0, '#A04027', 1, '#B9691F'],
+  },
 };
 
 /* ------SUN CONSTANTS------ */

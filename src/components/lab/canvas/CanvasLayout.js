@@ -6,11 +6,16 @@ import Atmosphere from './Atmosphere';
 import Ground from './Ground';
 import Sea from './Sea';
 import Sky from './Sky';
+import { SIMULATION_MODES } from '../../../config/constants';
 
 const CanvasLayout = ({ cursorBecomesDefault, cursorBecomesZoomIn }) => {
   const { height: stageHeight, width: stageWidth } = useSelector(
     ({ layout }) => layout.lab.stageDimensions,
   );
+  const { simulationMode } = useSelector(({ lab }) => lab);
+  const isEarth =
+    simulationMode !== SIMULATION_MODES.MARS.name &&
+    simulationMode !== SIMULATION_MODES.VENUS.name;
 
   return (
     <Group>
@@ -29,12 +34,15 @@ const CanvasLayout = ({ cursorBecomesDefault, cursorBecomesZoomIn }) => {
         stageHeight={stageHeight}
         stageWidth={stageWidth}
         cursorBecomesDefault={cursorBecomesDefault}
+        isEarth={isEarth}
       />
-      <Sea
-        stageHeight={stageHeight}
-        stageWidth={stageWidth}
-        cursorBecomesDefault={cursorBecomesDefault}
-      />
+      {isEarth && (
+        <Sea
+          stageHeight={stageHeight}
+          stageWidth={stageWidth}
+          cursorBecomesDefault={cursorBecomesDefault}
+        />
+      )}
     </Group>
   );
 };
