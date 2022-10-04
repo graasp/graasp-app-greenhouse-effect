@@ -202,9 +202,6 @@ const EarthFluxes = ({ sunToCloudRadiation, earthRadiation }) => {
     value: EARTH_EMITTED_INFRARED_VALUES.value - AIR_TO_EARTH_INFRARED.value,
   };
 
-  const hasGreenhouseValuesChanged =
-    values.methane !== methane || values.carbonDioxide !== carbonDioxide;
-
   return (
     <>
       <Flux
@@ -233,7 +230,6 @@ const EarthFluxes = ({ sunToCloudRadiation, earthRadiation }) => {
         show={gasesRadiation}
         progress={gasesToSkyRadiationProgress}
         setProgress={setGasesToSkyRadiationProgress}
-        enableBlinking={hasGreenhouseValuesChanged}
       />
       <Flux
         x={gasesToEarthRadiation.x}
@@ -246,7 +242,6 @@ const EarthFluxes = ({ sunToCloudRadiation, earthRadiation }) => {
         show={gasesRadiation}
         progress={gasesToEarthRadiationProgress}
         setProgress={setGasesToEarthRadiationProgress}
-        enableBlinking={hasGreenhouseValuesChanged}
       />
     </>
   );

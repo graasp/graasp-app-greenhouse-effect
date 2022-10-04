@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import {
@@ -19,32 +19,10 @@ const SunFluxes = ({
   startEarthRadiations,
   sunRadiation,
 }) => {
-  const { isPaused, simulationMode } = useSelector(({ lab }) => lab);
+  const { simulationMode } = useSelector(({ lab }) => lab);
+  const { iceCover, cloudCover } = useSelector(({ lab }) => lab.albedo);
   const [iceRadiation, setIceRadiation] = useState(false);
   const [cloudRadiation, setCloudRadiation] = useState(false);
-  const { iceCover, cloudCover } = useSelector(({ lab }) => lab.albedo);
-
-  const { albedo: generalAlbedo, cloud: cloudAlbedo } = computeAlbedo({
-    iceCover,
-    cloudCover,
-    simulationMode,
-  });
-
-  // save prev values to detect changes and apply enableBlinking
-  const [prevIceCover, setPrevIceCover] = useState(iceCover);
-  const [prevCloudCover, setPrevCloudCover] = useState(cloudCover);
-
-  useEffect(() => {
-    if (isPaused) {
-      setPrevIceCover(iceCover);
-      setPrevCloudCover(cloudCover);
-    }
-  }, [isPaused]);
-
-  const hasCloudAlbedoChanged = cloudCover !== prevCloudCover;
-
-  const hasIceAlbedoChanged = prevIceCover !== iceCover;
-
   const [
     sunToCloudRadiationProgress,
     setSunToCloudRadiationProgress,
@@ -58,6 +36,12 @@ const SunFluxes = ({
     setCloudToSkyRadiationProgress,
   ] = useState(0);
   const [iceToSkyRadiationProgress, setIceToSkyRadiationProgress] = useState(0);
+
+  const { albedo: generalAlbedo, cloud: cloudAlbedo } = computeAlbedo({
+    iceCover,
+    cloudCover,
+    simulationMode,
+  });
 
   const onEnd = (state) => {
     switch (state) {
@@ -109,7 +93,6 @@ const SunFluxes = ({
         }}
         progress={cloudToGroundRadiationProgress}
         setProgress={setCloudToGroundRadiationProgress}
-        enableBlinking={hasCloudAlbedoChanged}
       />
       <Flux
         x={cloudToSkyRadiation.x}
@@ -123,7 +106,6 @@ const SunFluxes = ({
         onEnd={startEarthRadiations}
         progress={cloudToSkyRadiationProgress}
         setProgress={setCloudToSkyRadiationProgress}
-        enableBlinking={hasCloudAlbedoChanged}
       />
       <Flux
         x={iceToSkyRadiation.x}
@@ -136,7 +118,6 @@ const SunFluxes = ({
         show={iceRadiation}
         progress={iceToSkyRadiationProgress}
         setProgress={setIceToSkyRadiationProgress}
-        enableBlinking={hasCloudAlbedoChanged || hasIceAlbedoChanged}
       />
     </>
   );

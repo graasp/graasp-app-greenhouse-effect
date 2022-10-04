@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Group } from 'react-konva';
 import { useSelector } from 'react-redux';
 import {
-  CHANGING_TEMPERATURE_SPEED,
   THERMOMETER_BASE_WIDTH,
   THERMOMETER_BEGINS_X,
   THERMOMETER_BEGINS_Y,
@@ -33,7 +32,6 @@ const Thermometer = ({
   cursorBecomesZoomIn,
 }) => {
   const {
-    isPaused,
     greenhouseGasesValues,
     albedo: albedoValues,
     simulationMode,
@@ -68,32 +66,11 @@ const Thermometer = ({
     simulationMode,
   });
 
-  // temperature
-  const [temperature, setTemperature] = useState(
-    computeCurrentTemperature({ greenhouseEffect, albedo, simulationMode }),
-  );
-
-  // save temperature value
-  // changing settings while paused won't change the temperature
-  useEffect(() => {
-    if (!isPaused) {
-      // new temperature
-      const t = computeCurrentTemperature({
-        greenhouseEffect,
-        albedo,
-        simulationMode,
-      });
-
-      // slowly increase temperature
-      if (Math.abs(t - temperature) > CHANGING_TEMPERATURE_SPEED) {
-        setTemperature(
-          temperature + Math.sign(t - temperature) * CHANGING_TEMPERATURE_SPEED,
-        );
-      } else if (temperature !== t) {
-        setTemperature(t);
-      }
-    }
-  }, [temperature, isPaused]);
+  const temperature = computeCurrentTemperature({
+    greenhouseEffect,
+    albedo,
+    simulationMode,
+  });
 
   return (
     <Group
