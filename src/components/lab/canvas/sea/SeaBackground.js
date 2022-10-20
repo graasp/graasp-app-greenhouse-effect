@@ -1,17 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
 import { Line } from 'react-konva';
 import { SEA } from '../../../../config/constants';
 import { generateSeaPoints } from '../../../../utils/canvas';
+import { SeaDimensionsContext } from '../../../contexts/canvas-dimensions/SeaDimensionsProvider';
 
-const SeaBackground = ({
-  seaHeight,
-  seaWidth,
-  seaIndent,
-  seaBeginsX,
-  seaBeginsY,
-}) => {
+const SeaBackground = () => {
+  const { seaWidth, seaHeight, seaIndent, seaBeginsX, seaBeginsY } = useContext(
+    SeaDimensionsContext,
+  );
+
   const isPaused = useSelector(({ lab }) => lab.isPaused);
   const { iceCover } = useSelector(({ lab }) => lab.albedo);
 
@@ -42,14 +40,6 @@ const SeaBackground = ({
       closed
     />
   );
-};
-
-SeaBackground.propTypes = {
-  seaHeight: PropTypes.number.isRequired,
-  seaWidth: PropTypes.number.isRequired,
-  seaIndent: PropTypes.number.isRequired,
-  seaBeginsX: PropTypes.number.isRequired,
-  seaBeginsY: PropTypes.number.isRequired,
 };
 
 export default SeaBackground;

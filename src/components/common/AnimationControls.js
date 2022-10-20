@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
@@ -9,8 +9,13 @@ import PauseCircleOutlineIcon from '@material-ui/icons/PauseCircleOutline';
 import RotateLeftIcon from '@material-ui/icons/RotateLeft';
 import { green, yellow, orange, blue, red } from '@material-ui/core/colors';
 import clsx from 'clsx';
-import { reset, setIsPaused, setRadiationMode } from '../../actions';
-import { RADIATION_MODES } from '../../config/constants';
+import {
+  incrementIntervalCount,
+  reset,
+  setIsPaused,
+  setRadiationMode,
+} from '../../actions';
+import { APPLICATION_INTERVAL, RADIATION_MODES } from '../../config/constants';
 
 const useStyles = makeStyles(() => ({
   buttonContainer: {
@@ -32,6 +37,21 @@ const AnimationControls = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const isPaused = useSelector(({ lab }) => lab.isPaused);
+  const applicationInterval = useRef();
+
+  const startInterval = () => {
+    applicationInterval.current = setInterval(() => {
+      dispatch(incrementIntervalCount());
+    }, APPLICATION_INTERVAL);
+  };
+
+  useEffect(() => {
+    if (isPaused) {
+      clearInterval(applicationInterval.current);
+    } else if (!isPaused) {
+      startInterval();
+    }
+  }, [isPaused]);
 
   const onClickPlay = () => {
     dispatch(setIsPaused(false));

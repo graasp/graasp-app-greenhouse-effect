@@ -1,17 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import IceCap from './IceCap';
 import { generateIceCapPoints } from '../../../../../utils/canvas';
+import { SeaDimensionsContext } from '../../../../contexts/canvas-dimensions/SeaDimensionsProvider';
 
-const IceCapRow = ({
-  iceCapBaseWidth,
-  iceCapHeight,
-  xDistanceBetweenIceCaps,
-  yDistanceBetweenIceCaps,
-  iceCapRowBeginsX,
-  iceCapRowBeginsY,
-  numberOfIceCaps,
-}) => {
+const IceCapRow = ({ iceCapRowBeginsX, iceCapRowBeginsY, numberOfIceCaps }) => {
+  const {
+    iceCapBaseWidth,
+    iceCapHeight,
+    xDistanceBetweenIceCaps,
+    yDistanceBetweenIceCaps,
+  } = useContext(SeaDimensionsContext);
+
   // generateIceCapPoints creates a trapezium given a base and height
   // the trapezium is an array of points passed as a prop to a Konva Line (with a prop of closed={true})
   const iceCapPoints = generateIceCapPoints(iceCapBaseWidth, iceCapHeight);
@@ -30,10 +30,6 @@ const IceCapRow = ({
 };
 
 IceCapRow.propTypes = {
-  iceCapBaseWidth: PropTypes.number.isRequired,
-  iceCapHeight: PropTypes.number.isRequired,
-  xDistanceBetweenIceCaps: PropTypes.number.isRequired,
-  yDistanceBetweenIceCaps: PropTypes.number.isRequired,
   iceCapRowBeginsX: PropTypes.number.isRequired,
   iceCapRowBeginsY: PropTypes.number.isRequired,
   numberOfIceCaps: PropTypes.number.isRequired,

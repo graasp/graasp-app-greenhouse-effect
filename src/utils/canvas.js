@@ -8,11 +8,13 @@ import {
   CLOUD_PERIPHERAL_CIRCLE_RADIUS,
   MOLECULE_DISTRIBUTION_MAX_X,
   MOLECULE_DISTRIBUTION_MIN_X,
-  CLOUD_ELLIPSE_RADIUS_X,
-  CLOUD_ELLIPSE_RADIUS_Y,
-  CLOUD_COVER_DIVISION_FACTOR,
-  CLOUD_COVER_CIRCLES_DIVISION_FACTOR,
   GREENHOUSE_GASES_DISTRIBUTION,
+  UP_STRING,
+  FLUX_WIDTH_AS_PERCENTAGE_OF_FLUX_VALUE,
+  MAXIMUM_FLUX_WIDTH_AS_PERCENTAGE_OF_STAGE_WIDTH,
+  Y_SHIFT_PER_INTERVAL,
+  Y_INCREMENT,
+  VISIBLE_LIGHT_PERIOD,
 } from '../config/constants';
 
 // ice caps are trapezium-shaped, but there is no native trapezium in konva
@@ -42,50 +44,48 @@ export const generateIceCapPoints = (iceCapBaseWidth, iceCapHeight) => {
   ];
 };
 
-// the cloud is five concentric circles - a large one in the center flanked by two smaller ones on each side
 export const generateCloudCircles = (
-  centralCircleRadius,
+  centralCircleRadiusX,
+  centralCircleRadiusY,
   centralCircleX,
-  cloudCover,
 ) => {
-  const adjacentCircleRadius =
-    centralCircleRadius * CLOUD_ADJACENT_CIRCLE_RADIUS;
-  const peripheralCircleRadius =
-    centralCircleRadius * CLOUD_PERIPHERAL_CIRCLE_RADIUS;
+  const adjacentCircleRadiusX =
+    centralCircleRadiusX * CLOUD_ADJACENT_CIRCLE_RADIUS;
+  const adjacentCircleRadiusY =
+    centralCircleRadiusY * CLOUD_ADJACENT_CIRCLE_RADIUS;
+  const peripheralCircleRadiusX =
+    centralCircleRadiusX * CLOUD_PERIPHERAL_CIRCLE_RADIUS;
+  const peripheralCircleRadiusY =
+    centralCircleRadiusY * CLOUD_PERIPHERAL_CIRCLE_RADIUS;
 
   const circleOne = {
-    radiusX: peripheralCircleRadius,
-    radiusY:
-      peripheralCircleRadius - cloudCover / CLOUD_COVER_CIRCLES_DIVISION_FACTOR,
-    x: centralCircleX - centralCircleRadius - adjacentCircleRadius,
+    radiusX: peripheralCircleRadiusX,
+    radiusY: peripheralCircleRadiusY,
+    x: centralCircleX - centralCircleRadiusX - adjacentCircleRadiusX,
   };
 
   const circleTwo = {
-    radiusX: adjacentCircleRadius,
-    radiusY:
-      adjacentCircleRadius - cloudCover / CLOUD_COVER_CIRCLES_DIVISION_FACTOR,
-    x: centralCircleX - centralCircleRadius,
+    radiusX: adjacentCircleRadiusX,
+    radiusY: adjacentCircleRadiusY,
+    x: centralCircleX - centralCircleRadiusX,
   };
 
   const circleThree = {
-    radiusX: centralCircleRadius,
-    radiusY:
-      centralCircleRadius - cloudCover / CLOUD_COVER_CIRCLES_DIVISION_FACTOR,
+    radiusX: centralCircleRadiusX,
+    radiusY: centralCircleRadiusY,
     x: centralCircleX,
   };
 
   const circleFour = {
-    radiusX: adjacentCircleRadius,
-    radiusY:
-      adjacentCircleRadius - cloudCover / CLOUD_COVER_CIRCLES_DIVISION_FACTOR,
-    x: centralCircleX + centralCircleRadius,
+    radiusX: adjacentCircleRadiusX,
+    radiusY: adjacentCircleRadiusY,
+    x: centralCircleX + centralCircleRadiusX,
   };
 
   const circleFive = {
-    radiusX: peripheralCircleRadius,
-    radiusY:
-      peripheralCircleRadius - cloudCover / CLOUD_COVER_CIRCLES_DIVISION_FACTOR,
-    x: centralCircleX + centralCircleRadius + adjacentCircleRadius,
+    radiusX: peripheralCircleRadiusX,
+    radiusY: peripheralCircleRadiusY,
+    x: centralCircleX + centralCircleRadiusX + adjacentCircleRadiusX,
   };
 
   return [circleOne, circleTwo, circleThree, circleFour, circleFive];
@@ -356,31 +356,6 @@ export const determineMoleculesWithinRowCenterXs = (chunkedMolecules) => {
   return centerXs;
 };
 
-export const computeCloudEllipseRadiuses = ({
-  cloudCover,
-  skyHeight,
-  skyBeginsY = 0,
-  offsetY,
-  offsetX,
-}) => {
-  // we determine the size of the circles of the cloud from a central circle we define (using generateCloudCircles below)
-  const centralCircleRadius =
-    (cloudCover / CLOUD_COVER_DIVISION_FACTOR) * skyHeight;
-  const centralCircleX = offsetX;
-  const centralCircleY = skyBeginsY + offsetY;
-
-  const cloudEllipseRadiusX = centralCircleRadius * CLOUD_ELLIPSE_RADIUS_X;
-  const cloudEllipseRadiusY = centralCircleRadius * CLOUD_ELLIPSE_RADIUS_Y;
-
-  return {
-    centralCircleRadius,
-    cloudEllipseRadiusX,
-    cloudEllipseRadiusY,
-    centralCircleX,
-    centralCircleY,
-  };
-};
-
 export const adjustGreenhouseGasesDistribution = ({
   carbonDioxide,
   methane,
@@ -455,4 +430,69 @@ export const distributeIceCaps = (numIceCaps) => {
     distribution[i % 2] += 1;
   }
   return distribution;
+};
+
+export const generateFluxPointerPoints = (
+  direction,
+  pointerWidth,
+  pointerHeight,
+) => {
+  return direction === UP_STRING
+    ? [0, 0, pointerWidth / 2, pointerHeight, -pointerWidth / 2, pointerHeight]
+    : [0, 0, pointerWidth / 2, 0, 0, pointerHeight, -pointerWidth / 2, 0];
+};
+
+// remember, points on a Konva line are an array of the form [x_0, y_0, x_1, y_1, ..., x_n, y_n]
+// each pair in that array represents an offset from the origin of the line
+// we want to draw the line y = amplitude * sin(period * x)
+// because the line we're drawing is vertical, our equation is in fact x = amplitude * sin(period * y)
+// i.e. y point is given, x point is determined
+// hence we can create a loop: start at a given y, increment y by yIncrement
+// the choice of increment is relevant: the more y points are input, the more the line is 'filled out'
+export const generateSineCurve = (
+  currentInterval,
+  startingPoint,
+  absorptionPoint,
+  amplitude,
+  period = VISIBLE_LIGHT_PERIOD,
+  yShiftPerInterval = Y_SHIFT_PER_INTERVAL,
+  yIncrement = Y_INCREMENT,
+) => {
+  const sineCurvePoints = [];
+  const curveDirection = startingPoint > absorptionPoint ? 1 : -1;
+  const curveHeight = Math.abs(startingPoint - absorptionPoint);
+  const intervalsToReachAbsorptionPoint = curveHeight / yShiftPerInterval;
+  if (currentInterval <= intervalsToReachAbsorptionPoint) {
+    let y = 0;
+    while (y < currentInterval * yShiftPerInterval) {
+      sineCurvePoints.push(amplitude * Math.sin(y * period));
+      sineCurvePoints.push(
+        curveDirection * (y - currentInterval * yShiftPerInterval),
+      );
+      y += yIncrement;
+    }
+  } else {
+    let y =
+      (currentInterval - intervalsToReachAbsorptionPoint) * yShiftPerInterval;
+    while (
+      y <
+      curveHeight +
+        (currentInterval - intervalsToReachAbsorptionPoint) * yShiftPerInterval
+    ) {
+      sineCurvePoints.push(amplitude * Math.sin(y * period));
+      sineCurvePoints.push(
+        curveDirection * (y - currentInterval * yShiftPerInterval),
+      );
+      y += yIncrement;
+    }
+  }
+  return sineCurvePoints;
+};
+
+export const calculateFluxWidth = (flux, stageWidth) => {
+  // because a flux value can be extremely large (e.g. on Venus), cap its value via Math.min(...) below
+  return Math.min(
+    flux * FLUX_WIDTH_AS_PERCENTAGE_OF_FLUX_VALUE,
+    stageWidth * MAXIMUM_FLUX_WIDTH_AS_PERCENTAGE_OF_STAGE_WIDTH,
+  );
 };

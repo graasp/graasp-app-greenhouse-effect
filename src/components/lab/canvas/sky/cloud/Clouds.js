@@ -1,56 +1,44 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useContext } from 'react';
+import { Group } from 'react-konva';
 import PropTypes from 'prop-types';
 import Cloud from './Cloud';
-import {
-  CLOUD_CENTRAL_CIRCLE_X,
-  CLOUD_CENTRAL_CIRCLE_Y,
-  CLOUD_COVER_PERCENTAGE_LIMIT,
-} from '../../../../../config/constants';
+import { SkyDimensionsContext } from '../../../../contexts/canvas-dimensions/SkyDimensionsProvider';
 
-const Clouds = ({
-  skyHeight,
-  skyWidth,
-  skyBeginsY,
-  cursorBecomesDefault,
-  cursorBecomesZoomIn,
-}) => {
-  const { cloudCover } = useSelector(({ lab }) => lab.albedo);
+const Clouds = ({ cursorBecomesDefault, cursorBecomesZoomIn }) => {
+  const {
+    firstCloudCentralCircleX,
+    firstCloudCentralCircleY,
+    secondCloudCentralCircleX,
+    secondCloudCentralCircleY,
+    firstCloudCentralCircleRadiusX,
+    firstCloudCentralCircleRadiusY,
+    secondCloudCentralCircleRadiusX,
+    secondCloudCentralCircleRadiusY,
+  } = useContext(SkyDimensionsContext);
 
   return (
-    <>
+    <Group>
       <Cloud
-        skyHeight={skyHeight}
-        skyWidth={skyWidth}
-        skyBeginsY={skyBeginsY}
         cursorBecomesDefault={cursorBecomesDefault}
         cursorBecomesZoomIn={cursorBecomesZoomIn}
-        offsetY={CLOUD_CENTRAL_CIRCLE_Y * skyHeight}
-        offsetX={CLOUD_CENTRAL_CIRCLE_X * skyWidth}
-        cloudCover={cloudCover}
+        cloudCentralCircleX={firstCloudCentralCircleX}
+        cloudCentralCircleY={firstCloudCentralCircleY}
+        cloudCentralCircleRadiusX={firstCloudCentralCircleRadiusX}
+        cloudCentralCircleRadiusY={firstCloudCentralCircleRadiusY}
       />
       <Cloud
-        skyHeight={skyHeight}
-        skyWidth={skyWidth}
-        skyBeginsY={skyBeginsY}
         cursorBecomesDefault={cursorBecomesDefault}
         cursorBecomesZoomIn={cursorBecomesZoomIn}
-        offsetY={(CLOUD_CENTRAL_CIRCLE_Y - 0.05) * skyHeight}
-        offsetX={0.7 * skyWidth}
-        cloudCover={
-          cloudCover < CLOUD_COVER_PERCENTAGE_LIMIT
-            ? 0
-            : (cloudCover - CLOUD_COVER_PERCENTAGE_LIMIT) * 2
-        }
+        cloudCentralCircleX={secondCloudCentralCircleX}
+        cloudCentralCircleY={secondCloudCentralCircleY}
+        cloudCentralCircleRadiusX={secondCloudCentralCircleRadiusX}
+        cloudCentralCircleRadiusY={secondCloudCentralCircleRadiusY}
       />
-    </>
+    </Group>
   );
 };
 
 Clouds.propTypes = {
-  skyHeight: PropTypes.number.isRequired,
-  skyWidth: PropTypes.number.isRequired,
-  skyBeginsY: PropTypes.number.isRequired,
   cursorBecomesDefault: PropTypes.func.isRequired,
   cursorBecomesZoomIn: PropTypes.func.isRequired,
 };

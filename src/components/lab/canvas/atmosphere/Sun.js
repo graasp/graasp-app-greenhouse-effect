@@ -1,22 +1,21 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useContext } from 'react';
 import { Group, Circle, Star } from 'react-konva';
 import {
-  SUN_RAYS_RADIUS,
-  SUN_RADIUS,
-  SUN_CENTER_X,
   SUN_FILL,
   SUN_RAYS_NUMBER_OF_RAYS,
   SUN_BORDER_COLOR,
   SUN_BORDER,
 } from '../../../../config/constants';
+import { AtmosphereDimensionsContext } from '../../../contexts/canvas-dimensions/AtmosphereDimensionsProvider';
 
-const Sun = ({ atmosphereHeight, atmosphereWidth }) => {
-  const sunRaysOuterRadius = atmosphereHeight * SUN_RAYS_RADIUS;
-  const sunRaysInnerRadius = sunRaysOuterRadius / 2;
-  const sunRadius = atmosphereHeight * SUN_RADIUS;
-  const sunCenterX = atmosphereWidth * SUN_CENTER_X;
-  const sunCenterY = atmosphereHeight / 2;
+const Sun = () => {
+  const {
+    sunRaysOuterRadius,
+    sunRaysInnerRadius,
+    sunRadius,
+    sunCenterX,
+    sunCenterY,
+  } = useContext(AtmosphereDimensionsContext);
 
   return (
     <Group x={sunCenterX} y={sunCenterY}>
@@ -38,11 +37,6 @@ const Sun = ({ atmosphereHeight, atmosphereWidth }) => {
       />
     </Group>
   );
-};
-
-Sun.propTypes = {
-  atmosphereHeight: PropTypes.number.isRequired,
-  atmosphereWidth: PropTypes.number.isRequired,
 };
 
 export default Sun;

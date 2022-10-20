@@ -13,6 +13,8 @@ import {
   SET_SCALE_UNIT,
   SET_SIMULATION_MODE,
   RESET,
+  INCREMENT_INTERVAL_COUNT,
+  TOGGLE_FLUXES_BLINKING,
 } from '../types';
 
 const INITIAL_STATE = {
@@ -38,6 +40,8 @@ const INITIAL_STATE = {
   showLoader: true,
   showSideMenu: true,
   scaleUnit: SCALE_UNITS.CELSIUS,
+  intervalCount: 0,
+  fluxesBlinking: false,
 };
 
 export default (state = INITIAL_STATE, { type, payload }) => {
@@ -75,8 +79,13 @@ export default (state = INITIAL_STATE, { type, payload }) => {
         ),
         albedo: _.merge({}, state.albedo, payload?.albedo),
       };
+
+    case INCREMENT_INTERVAL_COUNT:
+      return { ...state, intervalCount: state.intervalCount + 1 };
     case RESET:
       return INITIAL_STATE;
+    case TOGGLE_FLUXES_BLINKING:
+      return { ...state, fluxesBlinking: !state.fluxesBlinking };
     default:
       return state;
   }

@@ -1,5 +1,4 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useContext } from 'react';
 import Factory from './Factory';
 import {
   FACTORY_MAIN_BUILDING_WIDTH,
@@ -11,13 +10,16 @@ import {
   X_DISTANCE_BETWEEN_FACTORIES,
   DEFAULT_NUMBER_OF_FACTORIES_IN_ROW,
 } from '../../../../../config/constants';
+import { GroundDimensionsContext } from '../../../../contexts/canvas-dimensions/GroundDimensionsProvider';
 
-const FactoryRow = ({
-  groundHeight,
-  groundWidth,
-  groundBeginsX,
-  groundBeginsY,
-}) => {
+const FactoryRow = () => {
+  const {
+    groundHeight,
+    groundWidth,
+    groundBeginsX,
+    groundBeginsY,
+  } = useContext(GroundDimensionsContext);
+
   // factory dimensions
   const mainBuildingWidth = FACTORY_MAIN_BUILDING_WIDTH * groundWidth;
   const mainBuildingHeight = FACTORY_MAIN_BUILDING_HEIGHT * groundHeight;
@@ -49,13 +51,6 @@ const FactoryRow = ({
     ));
 
   return factories;
-};
-
-FactoryRow.propTypes = {
-  groundHeight: PropTypes.number.isRequired,
-  groundWidth: PropTypes.number.isRequired,
-  groundBeginsX: PropTypes.number.isRequired,
-  groundBeginsY: PropTypes.number.isRequired,
 };
 
 export default FactoryRow;

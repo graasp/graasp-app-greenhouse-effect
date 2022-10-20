@@ -44,7 +44,7 @@ export const computeCurrentTemperature = ({
   const SOLAR_FLUX = SOLAR_FLUXES[simulationMode];
 
   return (
-    ((SOLAR_FLUX.value * (1 - Math.min(albedo, 99.9))) /
+    ((SOLAR_FLUX * (1 - Math.min(albedo, 99.9))) /
       (STEFAN_BOLTZMANN_CONSTANT * (1 - greenhouseEffect))) **
     0.25
   );
@@ -54,9 +54,9 @@ export const computeAlbedo = ({ iceCover, cloudCover, simulationMode }) => {
   // if either Venus or Mars are selected, albedo value is hard-coded
   switch (simulationMode) {
     case SIMULATION_MODES.VENUS.name:
-      return { albedo: 0.77 };
+      return { albedo: 0.77, cloud: 1 };
     case SIMULATION_MODES.MARS.name:
-      return { albedo: 0.25 };
+      return { albedo: 0.25, cloud: 0 };
     default:
       break;
   }

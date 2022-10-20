@@ -7,6 +7,8 @@ import {
   SET_SCALE_UNIT,
   SET_SIMULATION_MODE,
   RESET,
+  INCREMENT_INTERVAL_COUNT,
+  TOGGLE_FLUXES_BLINKING,
 } from '../types';
 
 export const setGreenhouseGasesValues = (payload) => (dispatch) => {
@@ -43,3 +45,9 @@ export const reset = (payload) => (dispatch) => {
 export const setSimulationMode = (payload) => (dispatch) => {
   dispatch({ type: SET_SIMULATION_MODE, payload });
 };
+
+export const incrementIntervalCount = () => (dispatch) =>
+  dispatch({ type: INCREMENT_INTERVAL_COUNT });
+
+export const toggleFluxesBlinking = () => (dispatch) =>
+  dispatch({ type: TOGGLE_FLUXES_BLINKING });

@@ -12,7 +12,6 @@ import {
 import { setStageDimensions } from '../../actions';
 import CanvasLayout from './canvas/CanvasLayout';
 import MoleculesView from './canvas/MoleculesView';
-import RadiationManager from '../radiations/RadiationManager';
 
 const styles = () => ({
   container: {
@@ -104,9 +103,6 @@ class Lab extends Component {
                       cursorBecomesDefault={this.cursorBecomesDefault}
                       cursorBecomesZoomIn={this.cursorBecomesZoomIn}
                     />
-                  </Layer>
-                  <Layer>
-                    <RadiationManager />
                   </Layer>
                   {zoomedIn && (
                     <MoleculesView

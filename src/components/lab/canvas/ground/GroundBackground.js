@@ -1,22 +1,24 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { Rect, Shape, Group } from 'react-konva';
 import {
   GROUND,
   ICE_CAP_FILL,
-  SEA,
   SIMULATION_MODES,
 } from '../../../../config/constants';
 import { computeIcePercentage } from '../../../../utils/canvas';
+import { GroundDimensionsContext } from '../../../contexts/canvas-dimensions/GroundDimensionsProvider';
+import { SeaDimensionsContext } from '../../../contexts/canvas-dimensions/SeaDimensionsProvider';
 
-const GroundBackground = ({
-  stageWidth,
-  groundHeight,
-  groundWidth,
-  groundBeginsX,
-  groundBeginsY,
-}) => {
+const GroundBackground = () => {
+  const {
+    groundHeight,
+    groundWidth,
+    groundBeginsX,
+    groundBeginsY,
+  } = useContext(GroundDimensionsContext);
+  const { seaIndent } = useContext(SeaDimensionsContext);
+
   const { isPaused, simulationMode } = useSelector(({ lab }) => lab);
   const { iceCover } = useSelector(({ lab }) => lab.albedo);
   const {
@@ -61,8 +63,6 @@ const GroundBackground = ({
         <Shape
           sceneFunc={(context, shape) => {
             const width = groundWidth * icePercentage;
-            const { indent: seaIndentPercentage } = SEA;
-            const seaIndent = stageWidth * seaIndentPercentage;
 
             context.beginPath();
             context.moveTo(0, 0);
@@ -90,14 +90,6 @@ const GroundBackground = ({
       )}
     </Group>
   );
-};
-
-GroundBackground.propTypes = {
-  groundHeight: PropTypes.number.isRequired,
-  groundWidth: PropTypes.number.isRequired,
-  groundBeginsX: PropTypes.number.isRequired,
-  groundBeginsY: PropTypes.number.isRequired,
-  stageWidth: PropTypes.number.isRequired,
 };
 
 export default GroundBackground;

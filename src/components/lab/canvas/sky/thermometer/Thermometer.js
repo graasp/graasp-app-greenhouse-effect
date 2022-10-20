@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Group } from 'react-konva';
-import { useSelector } from 'react-redux';
 import {
   THERMOMETER_BASE_WIDTH,
   THERMOMETER_BEGINS_X,
@@ -16,27 +15,18 @@ import {
 import ThermometerBody from './ThermometerBody';
 import ThermometerBulb from './ThermometerBulb';
 import ThermometerScale from './ThermometerScale';
-import {
-  computeAlbedo,
-  computeCurrentTemperature,
-  computeGreenhouseEffect,
-} from '../../../../../utils/greenhouseEffect';
 import CurrentTemperature from './CurrentTemperature';
+import { SkyDimensionsContext } from '../../../../contexts/canvas-dimensions/SkyDimensionsProvider';
 
 const Thermometer = ({
-  skyHeight,
-  skyWidth,
-  skyBeginsX,
-  skyBeginsY,
   cursorBecomesDefault,
   cursorBecomesZoomIn,
+  temperature,
 }) => {
-  const {
-    greenhouseGasesValues,
-    albedo: albedoValues,
-    simulationMode,
-  } = useSelector(({ lab }) => lab);
-  const { albedo } = computeAlbedo({ ...albedoValues, simulationMode });
+  const { skyHeight, skyWidth, skyBeginsX, skyBeginsY } = useContext(
+    SkyDimensionsContext,
+  );
+
   const thermometerBeginsX = skyBeginsX + THERMOMETER_BEGINS_X * skyWidth;
   const thermometerBeginsY = skyBeginsY + THERMOMETER_BEGINS_Y * skyHeight;
   const thermometerBaseWidth = THERMOMETER_BASE_WIDTH * skyWidth;
@@ -60,17 +50,6 @@ const Thermometer = ({
     thermometerBaseWidth,
     thermometerBulbRadius,
   );
-
-  const greenhouseEffect = computeGreenhouseEffect({
-    ...greenhouseGasesValues,
-    simulationMode,
-  });
-
-  const temperature = computeCurrentTemperature({
-    greenhouseEffect,
-    albedo,
-    simulationMode,
-  });
 
   return (
     <Group
@@ -106,12 +85,9 @@ const Thermometer = ({
 };
 
 Thermometer.propTypes = {
-  skyHeight: PropTypes.number.isRequired,
-  skyWidth: PropTypes.number.isRequired,
-  skyBeginsX: PropTypes.number.isRequired,
-  skyBeginsY: PropTypes.number.isRequired,
   cursorBecomesDefault: PropTypes.func.isRequired,
   cursorBecomesZoomIn: PropTypes.func.isRequired,
+  temperature: PropTypes.number.isRequired,
 };
 
 export default Thermometer;
