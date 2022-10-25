@@ -20,7 +20,7 @@ const GroundBackground = () => {
   const { seaIndent } = useContext(SeaDimensionsContext);
 
   const { isPaused, simulationMode } = useSelector(({ lab }) => lab);
-  const { iceCover } = useSelector(({ lab }) => lab.albedo);
+  const { iceCover } = useSelector(({ lab }) => lab);
   const {
     colorRange: allColorRanges,
     colorRangePaused: allPausedColorRanges,

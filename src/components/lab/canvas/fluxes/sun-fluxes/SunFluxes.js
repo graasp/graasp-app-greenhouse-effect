@@ -16,18 +16,18 @@ import { computeAlbedo } from '../../../../../utils/greenhouseEffect';
 
 const SunFluxes = ({ fluxFill }) => {
   const { simulationMode } = useSelector(({ lab }) => lab);
-  const { iceCover, cloudCover } = useSelector(({ lab }) => lab.albedo);
+  const { iceCover, cloudCover } = useSelector(({ lab }) => lab);
 
-  const { albedo: generalAlbedo, cloud: cloudAlbedo } = computeAlbedo({
+  const { totalAlbedo, cloudAlbedo } = computeAlbedo(
     iceCover,
     cloudCover,
     simulationMode,
-  });
+  );
 
   const sunToCloudFlux = SOLAR_FLUXES[simulationMode];
   const cloudToAtmosphereFlux = cloudAlbedo * sunToCloudFlux;
   const cloudToGroundFlux = sunToCloudFlux - cloudToAtmosphereFlux;
-  const groundToAtmosphereFlux = sunToCloudFlux * (generalAlbedo - cloudAlbedo);
+  const groundToAtmosphereFlux = sunToCloudFlux * (totalAlbedo - cloudAlbedo);
 
   const fill =
     fluxFill === DEFAULT_FILL

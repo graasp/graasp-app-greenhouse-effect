@@ -6,15 +6,9 @@ import {
   THERMOMETER_BORDER_WIDTH,
 } from '../../../../../config/constants';
 
-const ThermometerBody = ({
-  thermometerBeginsX,
-  thermometerBeginsY,
-  thermometerRectanglePoints,
-}) => {
+const ThermometerBody = ({ thermometerRectanglePoints }) => {
   return (
     <Line
-      x={thermometerBeginsX}
-      y={thermometerBeginsY}
       points={thermometerRectanglePoints}
       stroke={THERMOMETER_BORDER_COLOR}
       strokeWidth={THERMOMETER_BORDER_WIDTH}
@@ -23,8 +17,6 @@ const ThermometerBody = ({
 };
 
 ThermometerBody.propTypes = {
-  thermometerBeginsX: PropTypes.number.isRequired,
-  thermometerBeginsY: PropTypes.number.isRequired,
   thermometerRectanglePoints: PropTypes.arrayOf(PropTypes.number).isRequired,
 };
 

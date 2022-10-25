@@ -10,7 +10,7 @@ import { SIMULATION_MODES } from '../../../config/constants';
 import CanvasDimensionsProvider from '../../contexts/canvas-dimensions/CanvasDimensionsProvider';
 import {
   computeAlbedo,
-  computeCurrentTemperature,
+  computeTemperature,
   computeGreenhouseEffect,
 } from '../../../utils/greenhouseEffect';
 import Radiation from './Radiation';
@@ -18,25 +18,30 @@ import Radiation from './Radiation';
 const CanvasLayout = ({ cursorBecomesDefault, cursorBecomesZoomIn }) => {
   const {
     simulationMode,
-    greenhouseGasesValues,
-    albedo: albedoValues,
+    carbonDioxide,
+    methane,
+    cTerm,
+    iceCover,
+    cloudCover,
   } = useSelector(({ lab }) => lab);
   const isEarth =
     simulationMode !== SIMULATION_MODES.MARS.name &&
     simulationMode !== SIMULATION_MODES.VENUS.name;
 
-  const { albedo } = computeAlbedo({ ...albedoValues, simulationMode });
+  const { totalAlbedo } = computeAlbedo(iceCover, cloudCover, simulationMode);
 
-  const greenhouseEffect = computeGreenhouseEffect({
-    ...greenhouseGasesValues,
+  const greenhouseEffect = computeGreenhouseEffect(
+    carbonDioxide,
+    methane,
+    cTerm,
     simulationMode,
-  });
+  );
 
-  const temperature = computeCurrentTemperature({
+  const temperature = computeTemperature(
     greenhouseEffect,
-    albedo,
+    totalAlbedo,
     simulationMode,
-  });
+  );
 
   return (
     <Group>

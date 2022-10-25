@@ -16,7 +16,7 @@ import {
 export const SkyDimensionsContext = createContext();
 
 const SkyDimensionsProvider = ({ children, stageHeight, stageWidth }) => {
-  const { cloudCover } = useSelector(({ lab }) => lab.albedo);
+  const { cloudCover } = useSelector(({ lab }) => lab);
 
   // sky dimensions in /constants.js are stated as a percentage of canvas dimensions
   const { height: skyHeightPercentage, width: skyWidthPercentage } = SKY;

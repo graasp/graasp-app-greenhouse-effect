@@ -5,9 +5,7 @@ import {
   SIMULATION_MODES,
 } from '../config/constants';
 import {
-  SET_ALBEDO_VALUES,
   SET_FEEDBACK_VALUES,
-  SET_GREENHOUSE_GASES_VALUES,
   SET_RADIATION_MODE,
   SET_IS_PAUSED,
   SET_SCALE_UNIT,
@@ -15,6 +13,12 @@ import {
   RESET,
   INCREMENT_INTERVAL_COUNT,
   TOGGLE_FLUXES_BLINKING,
+  SET_CARBON_DIOXIDE,
+  SET_METHANE,
+  SET_WATER_VAPOR,
+  SET_CLOUD_COVER,
+  SET_ICE_COVER,
+  SET_C_TERM,
 } from '../types';
 
 const INITIAL_STATE = {
@@ -24,15 +28,12 @@ const INITIAL_STATE = {
   },
   radiationMode: RADIATION_MODES.WAVES,
   simulationMode: SIMULATION_MODES.TODAY.name,
-  greenhouseGasesValues: {
-    carbonDioxide: SIMULATION_MODES.TODAY.greenhouseGasesValues.carbonDioxide,
-    methane: SIMULATION_MODES.TODAY.greenhouseGasesValues.methane,
-    water: SIMULATION_MODES.TODAY.greenhouseGasesValues.water,
-  },
-  albedo: {
-    iceCover: SIMULATION_MODES.TODAY.albedo.iceCover,
-    cloudCover: SIMULATION_MODES.TODAY.albedo.cloudCover,
-  },
+  carbonDioxide: SIMULATION_MODES.TODAY.carbonDioxide,
+  methane: SIMULATION_MODES.TODAY.methane,
+  cTerm: SIMULATION_MODES.TODAY.cTerm,
+  waterVapor: SIMULATION_MODES.TODAY.waterVapor,
+  iceCover: SIMULATION_MODES.TODAY.iceCover,
+  cloudCover: SIMULATION_MODES.TODAY.cloudCover,
   feedback: {
     iceCoverChange: false,
     waterVapor: false,
@@ -50,17 +51,6 @@ export default (state = INITIAL_STATE, { type, payload }) => {
       return { ...state, radiationMode: payload };
     case SET_SCALE_UNIT:
       return { ...state, scaleUnit: payload };
-    case SET_GREENHOUSE_GASES_VALUES:
-      return {
-        ...state,
-        greenhouseGasesValues: _.merge(
-          {},
-          state.greenhouseGasesValues,
-          payload,
-        ),
-      };
-    case SET_ALBEDO_VALUES:
-      return { ...state, albedo: { ...state.albedo, ...payload } };
     case SET_FEEDBACK_VALUES:
       return { ...state, feedback: _.merge({}, state.feedback, payload) };
     case SET_IS_PAUSED:
@@ -68,16 +58,28 @@ export default (state = INITIAL_STATE, { type, payload }) => {
         ...state,
         isPaused: payload,
       };
+    case SET_CARBON_DIOXIDE:
+      return { ...state, carbonDioxide: payload };
+    case SET_METHANE:
+      return { ...state, methane: payload };
+    case SET_C_TERM:
+      return { ...state, cTerm: payload };
+    case SET_WATER_VAPOR:
+      return { ...state, waterVapor: payload };
+    case SET_CLOUD_COVER:
+      return { ...state, cloudCover: payload };
+    case SET_ICE_COVER:
+      return { ...state, iceCover: payload };
     case SET_SIMULATION_MODE:
       return {
         ...state,
         simulationMode: payload.name,
-        greenhouseGasesValues: _.merge(
-          {},
-          state.greenhouseGasesValues,
-          payload?.greenhouseGasesValues,
-        ),
-        albedo: _.merge({}, state.albedo, payload?.albedo),
+        carbonDioxide: payload.carbonDioxide,
+        methane: payload.methane,
+        cTerm: payload.cTerm,
+        waterVapor: payload.waterVapor,
+        iceCover: payload.iceCover,
+        cloudCover: payload.cloudCover,
       };
 
     case INCREMENT_INTERVAL_COUNT:

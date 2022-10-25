@@ -8,7 +8,8 @@ import SwitchWithTwoLabels from './SwitchWithTwoLabels';
 const ScaleUnitSwitch = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const scaleUnit = useSelector(({ lab }) => lab.scaleUnit);
+  const { scaleUnit } = useSelector(({ lab }) => lab);
+  const scaleName = scaleUnit.name;
 
   const onToggle = (e) => {
     const { checked } = e.target;
@@ -21,7 +22,7 @@ const ScaleUnitSwitch = () => {
       leftLabel={t('Kelvin')}
       rightLabel={t('Celsius')}
       onSwitchToggle={onToggle}
-      isChecked={scaleUnit === SCALE_UNITS.CELSIUS}
+      isChecked={scaleName === SCALE_UNITS.CELSIUS.name}
     />
   );
 };

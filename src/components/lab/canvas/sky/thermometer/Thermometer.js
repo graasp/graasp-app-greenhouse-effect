@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { Group } from 'react-konva';
 import {
   THERMOMETER_BASE_WIDTH,
@@ -7,16 +8,19 @@ import {
   THERMOMETER_BEGINS_Y,
   THERMOMETER_BULB_RADIUS,
   THERMOMETER_HEIGHT,
+  THERMOMETER_SCALE_NUM_GRADES,
 } from '../../../../../config/constants';
 import {
   determineBulbCoordinates,
+  generateThermometerLabels,
   generateThermometerRectanglePoints,
 } from '../../../../../utils/canvas';
 import ThermometerBody from './ThermometerBody';
 import ThermometerBulb from './ThermometerBulb';
-import ThermometerScale from './ThermometerScale';
 import CurrentTemperature from './CurrentTemperature';
 import { SkyDimensionsContext } from '../../../../contexts/canvas-dimensions/SkyDimensionsProvider';
+import ThermometerScale from './ThermometerScale';
+import ThermometerFill from './ThermometerFill';
 
 const Thermometer = ({
   cursorBecomesDefault,
@@ -26,6 +30,9 @@ const Thermometer = ({
   const { skyHeight, skyWidth, skyBeginsX, skyBeginsY } = useContext(
     SkyDimensionsContext,
   );
+  const { scaleUnit } = useSelector(({ lab }) => lab);
+  const scaleName = scaleUnit.name;
+  const scaleLabel = scaleUnit.label;
 
   const thermometerBeginsX = skyBeginsX + THERMOMETER_BEGINS_X * skyWidth;
   const thermometerBeginsY = skyBeginsY + THERMOMETER_BEGINS_Y * skyHeight;
@@ -44,41 +51,46 @@ const Thermometer = ({
   const {
     x: thermometerBulbBeginsX,
     y: thermometerBulbBeginsY,
-  } = determineBulbCoordinates(
-    thermometerBeginsX,
-    thermometerBeginsY,
-    thermometerBaseWidth,
-    thermometerBulbRadius,
+  } = determineBulbCoordinates(thermometerBaseWidth, thermometerBulbRadius);
+
+  const theremometerScaleLabels = generateThermometerLabels(
+    THERMOMETER_SCALE_NUM_GRADES,
+    scaleName,
   );
 
   return (
     <Group
       onMouseEnter={cursorBecomesDefault}
       onMouseLeave={cursorBecomesZoomIn}
+      x={thermometerBeginsX}
+      y={thermometerBeginsY}
     >
+      <ThermometerBody
+        thermometerRectanglePoints={thermometerRectanglePoints}
+        thermometerBulbRadius={thermometerBulbRadius}
+      />
       <ThermometerBulb
         thermometerBulbBeginsX={thermometerBulbBeginsX}
         thermometerBulbBeginsY={thermometerBulbBeginsY}
         thermometerBulbRadius={thermometerBulbRadius}
       />
-      <ThermometerBody
-        thermometerBeginsX={thermometerBeginsX}
-        thermometerBeginsY={thermometerBeginsY}
-        thermometerRectanglePoints={thermometerRectanglePoints}
-      />
-      <ThermometerScale
-        thermometerBeginsX={thermometerBeginsX}
-        thermometerBeginsY={thermometerBeginsY}
-        thermometerBaseWidth={thermometerBaseWidth}
-        thermometerBodyHeight={thermometerBodyHeight}
-        currentTemperature={temperature}
-      />
       <CurrentTemperature
-        thermometerBeginsX={thermometerBeginsX}
-        thermometerBeginsY={thermometerBeginsY}
         thermometerBodyHeight={thermometerBodyHeight}
         thermometerBaseWidth={thermometerBaseWidth}
         temperature={temperature}
+        scaleName={scaleName}
+        scaleLabel={scaleLabel}
+      />
+      <ThermometerFill
+        thermometerBodyHeight={thermometerBodyHeight}
+        thermometerBaseWidth={thermometerBaseWidth}
+        temperature={temperature}
+        scaleName={scaleName}
+        labels={theremometerScaleLabels}
+      />
+      <ThermometerScale
+        thermometerBodyHeight={thermometerBodyHeight}
+        labels={theremometerScaleLabels}
       />
     </Group>
   );

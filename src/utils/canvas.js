@@ -15,7 +15,12 @@ import {
   Y_SHIFT_PER_INTERVAL,
   Y_INCREMENT,
   VISIBLE_LIGHT_PERIOD,
+  THERMOMETER_SCALE_STEP,
+  MINIMUM_THERMOMETER_TEMPERATURE_CELSIUS,
+  SCALE_UNITS,
+  MAX_TEMPERATURE_DISPLAYED_ON_EARTH_CELSIUS,
 } from '../config/constants';
+import { celsiusToKelvin, kelvinToCelsius } from './greenhouseEffect';
 
 // ice caps are trapezium-shaped, but there is no native trapezium in konva
 // the approach used to create a trapezium is a line with a property of 'closed'
@@ -237,8 +242,6 @@ export const generateThermometerRectanglePoints = (
 };
 
 export const determineBulbCoordinates = (
-  thermometerBeginsX,
-  thermometerBeginsY,
   thermometerBaseWidth,
   thermometerBulbRadius,
 ) => {
@@ -247,26 +250,56 @@ export const determineBulbCoordinates = (
     thermometerBulbRadius ** 2 - (thermometerBaseWidth / 2) ** 2,
   );
   return {
-    x: thermometerBeginsX + halfBaseWidth,
-    y: thermometerBeginsY + yIndent,
+    x: halfBaseWidth,
+    y: yIndent,
   };
 };
 
-export const determineThermometerScalePoints = (
-  thermometerBeginsY,
-  thermometerBodyHeight,
-  numberOfGradations,
-) => {
-  const distanceBetweenGradations = thermometerBodyHeight / numberOfGradations;
+export const generateThermometerLabels = (numGrades, scaleName) => {
+  let minimumTemperature = MINIMUM_THERMOMETER_TEMPERATURE_CELSIUS;
+  if (scaleName === SCALE_UNITS.KELVIN.name) {
+    minimumTemperature = celsiusToKelvin(minimumTemperature);
+  }
 
-  const gradationCoordinates = new Array(numberOfGradations)
+  return new Array(numGrades)
     .fill()
     .map(
       (emptyElement, index) =>
-        thermometerBeginsY - index * distanceBetweenGradations,
+        minimumTemperature + index * THERMOMETER_SCALE_STEP,
     );
+};
 
-  return gradationCoordinates;
+export const determineThermometerFillHeight = (temperature, scaleValues) => {
+  const scaleMinimum = Math.min(...scaleValues);
+  const scaleMaximum = Math.max(...scaleValues);
+  const scaleRange = scaleMaximum - scaleMinimum;
+  if (temperature < scaleMinimum) {
+    return 0;
+  }
+  if (temperature > scaleMaximum) {
+    return 1;
+  }
+  return (temperature - scaleMinimum) / scaleRange;
+};
+
+export const createTemperatureLabel = (
+  temperatureInKelvin,
+  scaleName,
+  scaleLabel,
+) => {
+  const maxTemperature =
+    scaleName === SCALE_UNITS.CELSIUS.name
+      ? MAX_TEMPERATURE_DISPLAYED_ON_EARTH_CELSIUS
+      : celsiusToKelvin(MAX_TEMPERATURE_DISPLAYED_ON_EARTH_CELSIUS);
+
+  const temperature =
+    scaleName === SCALE_UNITS.CELSIUS.name
+      ? kelvinToCelsius(temperatureInKelvin)
+      : temperatureInKelvin;
+
+  return temperature > maxTemperature
+    ? `${maxTemperature}${scaleLabel}+`
+    : `${temperature.toFixed(1)}${scaleLabel}`;
 };
 
 export const generateSeaPoints = (seaBaseWidth, seaHeight, seaIndent) => {

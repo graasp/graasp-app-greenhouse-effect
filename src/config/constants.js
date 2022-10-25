@@ -235,12 +235,25 @@ export const THERMOMETER_BEGINS_Y = 0.48;
 export const THERMOMETER_BASE_WIDTH = 0.015;
 export const THERMOMETER_HEIGHT = 0.4;
 export const THERMOMETER_BORDER_COLOR = '#282828';
-export const THERMOMETER_BORDER_WIDTH = 0.75;
+export const THERMOMETER_BORDER_WIDTH = 1;
 export const THERMOMETER_BULB_RADIUS = 0.015;
 export const THERMOMETER_FILL = '#CD4646';
-export const THERMOMETER_MIN_VALUE_IN_KELVIN = 250; // Kelvin
-export const THERMOMETER_MAX_VALUE_IN_KELVIN = 305; // Kelvin
-export const THERMOMETER_GRADATION_WIDTH = 0.25;
+export const THERMOMETER_SCALE_NUM_GRADES = 6;
+export const THERMOMETER_SCALE_LABEL_WIDTH = 30;
+export const THERMOMETER_SCALE_LABEL_PADDING_RIGHT = 5;
+export const THERMOMETER_SCALE_GRADE_WIDTH = 5;
+export const THERMOMETER_SCALE_STROKE_WIDTH = 0.5;
+export const THERMOMETER_SCALE_STROKE_COLOR = 'black';
+export const MINIMUM_THERMOMETER_TEMPERATURE_CELSIUS = -20;
+export const THERMOMETER_SCALE_STEP = 10;
+export const SCALE_UNITS = {
+  KELVIN: { name: 'kelvin', label: 'K' },
+  CELSIUS: { name: 'celsius', label: '°C' },
+};
+export const THERMOMETER_CURRENT_TEMPERATURE_FONT_SIZE = 20;
+export const THERMOMETER_LABEL_WIDTH = 100;
+export const THERMOMETER_LABEL_HEIGHT = 40;
+export const THERMOMETER_LABEL_PADDING_BOTTOM = 7.5;
 
 export const SUN_LIGHT_COLOR = 'yellow';
 export const SUN_FLUXES_DEFAULT_COLOR = 'yellow';
@@ -287,11 +300,13 @@ export const CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE_ON_MARS_OR_VENUS = 1e6;
 export const CARBON_DIOXIDE_CONCENTRATION_MIN_VALUE = 50;
 export const METHANE_CONCENTRATION_MAX_VALUE = 10;
 export const METHANE_CONCENTRATION_MIN_VALUE = 0.1;
+export const METHANE_SLIDER_STEP = 0.1;
 export const WATER_CONCENTRATION_MIN_VALUE_DEFAULT = 3000;
 export const WATER_CONCENTRATION_MIN_VALUE_ON_MARS_OR_VENUS = 0;
 export const WATER_CONCENTRATION_MAX_VALUE = 13000;
 export const ICE_COVER_MAX_VALUE = 100;
 export const CLOUD_COVER_MAX_VALUE = 100;
+export const CLOUD_COVER_MIN_VALUE = 20;
 export const GREENHOUSE_TOTAL_EFFECT_MAX_VALUE = 100;
 
 export const ZOOM_IN_CURSOR = 'zoom-in';
@@ -300,107 +315,60 @@ export const DEFAULT_CURSOR = 'default';
 
 export const STEFAN_BOLTZMANN_CONSTANT = 5.670367e-8;
 
-export const SCALE_WIDTH = 7;
-export const SCALE_FONT_SIZE = 13;
-export const SCALE_PADDING_LEFT = 7;
-export const SCALE_PADDING_RIGHT = 15;
-export const SCALE_LINE_HEIGHT = 1.5;
-export const SCALE_HEIGHT = 17;
-// the actual number of displayed ticks might vary due to number rounding
-export const SCALE_MAX_NUMBER_TICKS = 6;
-
-export const SCALE_UNITS = {
-  KELVIN: { name: 'kelvin', unit: 'K' },
-  CELSIUS: { name: 'celsius', unit: '°C' },
-};
-export const THERMOMETER_CURRENT_TEMPERATURE_FONT_SIZE = 20;
-export const THERMOMETER_CURRENT_TEMPERATURE_WIDTH = 20;
-export const THERMOMETER_CURRENT_TEMPERATURE_MARGIN_BOTTOM = 10;
-
 export const ZERO_KELVIN_IN_CELISUS = 273.15;
 
 export const SIMULATION_MODES = {
   ICE_AGE: {
     name: 'Ice Age',
-    greenhouseGasesValues: {
-      carbonDioxide: 200,
-      methane: 0.4,
-      water: 5200,
-    },
-    albedo: {
-      iceCover: 20,
-      cloudCover: 30,
-    },
+    carbonDioxide: 200,
+    methane: 0.4,
+    waterVapor: 5200,
+    iceCover: 20,
+    cloudCover: 30,
     cTerm: 0.204,
-    SOLAR_FLUX: 340,
+    solarFlux: 340,
   },
   TWENTIETH_CENTURY: {
     name: '1900',
-    greenhouseGasesValues: {
-      carbonDioxide: 290,
-      methane: 1,
-      water: 7300,
-    },
-    albedo: {
-      iceCover: 10,
-      cloudCover: 40,
-    },
+    carbonDioxide: 290,
+    methane: 1,
+    waterVapor: 7300,
+    iceCover: 10,
+    cloudCover: 40,
     cTerm: 0.227,
-    SOLAR_FLUX: 340,
+    solarFlux: 340,
   },
   TODAY: {
     name: '2020',
-    greenhouseGasesValues: {
-      carbonDioxide: 413.2,
-      methane: 1.9,
-      water: 7800,
-    },
-    albedo: {
-      iceCover: 10,
-      cloudCover: 40,
-    },
+    carbonDioxide: 413.2,
+    methane: 1.9,
+    waterVapor: 7800,
+    iceCover: 10,
+    cloudCover: 40,
     cTerm: 0.231,
-    SOLAR_FLUX: 340,
+    solarFlux: 340,
   },
   MARS: {
     name: 'Mars',
-    greenhouseGasesValues: {
-      carbonDioxide: 965000,
-      methane: 0,
-      water: 210,
-    },
-    albedo: {
-      iceCover: 2,
-      cloudCover: 0,
-    },
+    carbonDioxide: 965000,
+    methane: 0,
+    waterVapor: 210,
+    iceCover: 2,
+    cloudCover: 0,
     cTerm: 0,
-    SOLAR_FLUX: 147,
+    solarFlux: 147,
   },
   VENUS: {
     name: 'Venus',
-    greenhouseGasesValues: {
-      carbonDioxide: 965000,
-      methane: 0,
-      water: 20,
-    },
-    albedo: {
-      iceCover: 0,
-      cloudCover: 100,
-    },
+    carbonDioxide: 965000,
+    methane: 0,
+    waterVapor: 20,
+    iceCover: 0,
+    cloudCover: 100,
     cTerm: 0,
-    SOLAR_FLUX: 650,
+    solarFlux: 650,
   },
 };
-
-export const cTerms = Object.fromEntries(
-  Object.entries(
-    SIMULATION_MODES,
-    // eslint-disable-next-line no-unused-vars
-  ).map(([simulationMode, simulationModeDetails]) => [
-    simulationModeDetails.name,
-    simulationModeDetails.cTerm,
-  ]),
-);
 
 export const TWENTIETH_CENTURY_ALBEDO_OFFSET = -0.006;
 
@@ -410,7 +378,7 @@ export const SOLAR_FLUXES = Object.fromEntries(
     // eslint-disable-next-line no-unused-vars
   ).map(([simulationMode, simulationModeDetails]) => [
     simulationModeDetails.name,
-    simulationModeDetails.SOLAR_FLUX,
+    simulationModeDetails.solarFlux,
   ]),
 );
 
@@ -440,3 +408,9 @@ export const INFRARED_RADIATION_PERIOD = 1 / 12;
 export const Y_INCREMENT = Math.PI / 8;
 
 export const FLUX_BLINKING_INTERVAL = 1000;
+
+// when temperature changes become smaller than this number, exit the loop
+export const WATER_VAPOR_FEEDBACK_DEFAULT_EPSILON = 0.01;
+export const WATER_VAPOR_FEEDBACK_UPDATE_INTERVAL = 1000;
+// above this temperature, the earth has heated so much that for all purposes there's no difference
+export const MAX_TEMPERATURE_DISPLAYED_ON_EARTH_CELSIUS = 30;

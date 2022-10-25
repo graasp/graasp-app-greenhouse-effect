@@ -25,14 +25,15 @@ const Wave = ({
     type === VISIBLE_LIGHT ? VISIBLE_LIGHT_PERIOD : INFRARED_RADIATION_PERIOD;
 
   const wavePoints =
-    intervalCount > startAfterInterval &&
-    generateSineCurve(
-      intervalCount - startAfterInterval,
-      waveBeginsY,
-      waveEndsY,
-      amplitude,
-      period,
-    );
+    intervalCount > startAfterInterval
+      ? generateSineCurve(
+          intervalCount - startAfterInterval,
+          waveBeginsY,
+          waveEndsY,
+          amplitude,
+          period,
+        )
+      : [];
 
   return (
     <Line

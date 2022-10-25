@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
@@ -12,10 +13,25 @@ import clsx from 'clsx';
 import {
   incrementIntervalCount,
   reset,
+  setCarbonDioxide,
+  setCTerm,
   setIsPaused,
+  setMethane,
   setRadiationMode,
+  toggleFluxesBlinking,
 } from '../../actions';
-import { APPLICATION_INTERVAL, RADIATION_MODES } from '../../config/constants';
+import {
+  APPLICATION_INTERVAL,
+  RADIATION_MODES,
+  SIMULATION_MODES,
+  WATER_VAPOR_FEEDBACK_UPDATE_INTERVAL,
+} from '../../config/constants';
+import {
+  computeAlbedo,
+  computeGreenhouseEffect,
+  computeTemperature,
+  computeWaterVaporFeedback,
+} from '../../utils/greenhouseEffect';
 
 const useStyles = makeStyles(() => ({
   buttonContainer: {
@@ -32,11 +48,25 @@ const useStyles = makeStyles(() => ({
   forwardButton: { color: blue[800] },
 }));
 
-const AnimationControls = () => {
+const AnimationControls = ({
+  componentCarbonDioxide,
+  setComponentCarbonDioxide,
+  componentMethane,
+  setComponentMethane,
+}) => {
   const classes = useStyles();
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const isPaused = useSelector(({ lab }) => lab.isPaused);
+  const {
+    isPaused,
+    fluxesBlinking,
+    simulationMode,
+    carbonDioxide,
+    methane,
+    cTerm,
+    cloudCover,
+    iceCover,
+  } = useSelector(({ lab }) => lab);
   const applicationInterval = useRef();
 
   const startInterval = () => {
@@ -53,8 +83,48 @@ const AnimationControls = () => {
     }
   }, [isPaused]);
 
+  const { totalAlbedo } = computeAlbedo(iceCover, cloudCover, simulationMode);
+
+  const greenhouseEffect = computeGreenhouseEffect(
+    carbonDioxide,
+    methane,
+    cTerm,
+    simulationMode,
+  );
+
+  const temperature = computeTemperature(
+    greenhouseEffect,
+    totalAlbedo,
+    simulationMode,
+  );
+
   const onClickPlay = () => {
     dispatch(setIsPaused(false));
+    if (fluxesBlinking) {
+      const feedbackValues = computeWaterVaporFeedback(
+        temperature,
+        cTerm,
+        componentMethane,
+        componentCarbonDioxide,
+        totalAlbedo,
+        simulationMode,
+      );
+
+      dispatch(setCarbonDioxide(componentCarbonDioxide));
+      dispatch(setMethane(componentMethane));
+
+      let index = 0;
+      const updateInterval = setInterval(() => {
+        if (index >= feedbackValues.length) {
+          dispatch(toggleFluxesBlinking());
+          clearInterval(updateInterval);
+        } else {
+          const currentCTerm = feedbackValues[index];
+          dispatch(setCTerm(currentCTerm));
+          index += 1;
+        }
+      }, WATER_VAPOR_FEEDBACK_UPDATE_INTERVAL);
+    }
   };
 
   const onClickPause = () => {
@@ -62,11 +132,11 @@ const AnimationControls = () => {
   };
 
   const onClickReset = () => {
-    // to avoid complex data saving of animation data,
-    // we change the radiation mode to fluxes to reset waves animations
     // being on flux mode will automatically reset the fluxes once we dispatch reset
     dispatch(setRadiationMode(RADIATION_MODES.FLUXES));
     dispatch(reset());
+    setComponentCarbonDioxide(SIMULATION_MODES.TODAY.carbonDioxide);
+    setComponentMethane(SIMULATION_MODES.TODAY.methane);
   };
 
   return (
@@ -111,6 +181,13 @@ const AnimationControls = () => {
       </Tooltip>
     </div>
   );
+};
+
+AnimationControls.propTypes = {
+  componentCarbonDioxide: PropTypes.number.isRequired,
+  setComponentCarbonDioxide: PropTypes.func.isRequired,
+  componentMethane: PropTypes.number.isRequired,
+  setComponentMethane: PropTypes.func.isRequired,
 };
 
 export default AnimationControls;

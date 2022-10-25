@@ -21,7 +21,7 @@ const IceCover = ({
   mountainBeginsX,
   mountainBeginsY,
 }) => {
-  const { iceCover } = useSelector(({ lab }) => lab.albedo);
+  const { iceCover } = useSelector(({ lab }) => lab);
   const icePercentage = computeIcePercentage(iceCover / 100);
   const { iceCoverWidth, iceCoverHeight } = computeMountainIceCoverDimensions(
     mountainWidth,

@@ -8,6 +8,7 @@ import {
   toggleFluxesBlinking,
 } from '../../actions';
 import SwitchWithLabel from './SwitchWithLabel';
+import { SIMULATION_MODES } from '../../config/constants';
 
 const useStyles = makeStyles((theme) => ({
   heading: {
@@ -20,9 +21,12 @@ const useStyles = makeStyles((theme) => ({
 const FeedbacksSettings = () => {
   const { t } = useTranslation();
   const classes = useStyles();
-  const { feedback, isPaused } = useSelector(({ lab }) => lab);
+  const { feedback, isPaused, simulationMode } = useSelector(({ lab }) => lab);
   const { iceCoverChange, waterVapor } = feedback;
   const dispatch = useDispatch();
+  const isEarth =
+    simulationMode !== SIMULATION_MODES.MARS.name &&
+    simulationMode !== SIMULATION_MODES.VENUS.name;
 
   const onToggleIceCoverChange = (checked) => {
     dispatch(setFeedbackValues({ iceCoverChange: checked }));
@@ -47,11 +51,13 @@ const FeedbacksSettings = () => {
         switchLabel={t('Water Vapor')}
         isChecked={waterVapor}
         onToggle={onToggleWaterVapor}
+        disabled={!isEarth}
       />
       <SwitchWithLabel
         switchLabel={t('Ice and Snow Cover Change')}
         isChecked={iceCoverChange}
         onToggle={onToggleIceCoverChange}
+        disabled={!isEarth}
       />
     </>
   );

@@ -10,8 +10,7 @@ const SeaBackground = () => {
     SeaDimensionsContext,
   );
 
-  const isPaused = useSelector(({ lab }) => lab.isPaused);
-  const { iceCover } = useSelector(({ lab }) => lab.albedo);
+  const { isPaused, iceCover } = useSelector(({ lab }) => lab);
 
   const { colorRange, colorRangePaused, colorRangeFrozen } = SEA;
 
