@@ -5,22 +5,18 @@ import { FluxesWavesContext } from '../../../../contexts/fluxes-waves/FluxesWave
 import Flux from '../flux/Flux';
 
 const GroundToSkyFlux = ({ flux, fill }) => {
-  const {
-    groundToSkyFluxBeginsX,
-    groundToSkyFluxBeginsY,
-    groundToSkyFluxHeight,
-    groundToSkyFluxStartsAfterInterval,
-  } = useContext(FluxesWavesContext);
+  const { groundToSkyFlux } = useContext(FluxesWavesContext);
+  const { beginsX, beginsY, height, startsAfterInterval } = groundToSkyFlux;
 
   return (
     <Flux
-      x={groundToSkyFluxBeginsX}
-      y={groundToSkyFluxBeginsY}
-      totalHeight={groundToSkyFluxHeight}
+      x={beginsX}
+      y={beginsY}
+      totalHeight={height}
       fill={fill}
       direction={UP_STRING}
       flux={flux}
-      startAfterInterval={groundToSkyFluxStartsAfterInterval}
+      startAfterInterval={startsAfterInterval}
     />
   );
 };

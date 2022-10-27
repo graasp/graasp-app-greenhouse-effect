@@ -10,21 +10,17 @@ import { FluxesWavesContext } from '../../../../contexts/fluxes-waves/FluxesWave
 import Wave from '../wave/Wave';
 
 const SkyToAtmosphereWave = ({ greenhouseEffect }) => {
-  const {
-    skyToAtmosphereWaveBeginsX,
-    skyToAtmosphereWaveBeginsY,
-    skyToAtmosphereWaveEndsY,
-    skyToAtmosphereWaveStartsAfterInterval,
-  } = useContext(FluxesWavesContext);
+  const { skyToAtmosphereWave } = useContext(FluxesWavesContext);
+  const { beginsX, beginsY, endsY, startsAfterInterval } = skyToAtmosphereWave;
 
   return (
     <Wave
-      waveBeginsX={skyToAtmosphereWaveBeginsX}
-      waveBeginsY={skyToAtmosphereWaveBeginsY}
-      waveEndsY={skyToAtmosphereWaveEndsY}
+      waveBeginsX={beginsX}
+      waveBeginsY={beginsY}
+      waveEndsY={endsY}
       waveColor={EARTH_FLUXES_DEFAULT_COLOR}
       amplitude={GROUND_TO_SKY_WAVE_AMPLITUDE * greenhouseEffect}
-      startAfterInterval={skyToAtmosphereWaveStartsAfterInterval}
+      startAfterInterval={startsAfterInterval}
       waveRotation={SKY_TO_ATMOSPHERE_WAVE_ROTATION}
       type={INFRARED}
     />

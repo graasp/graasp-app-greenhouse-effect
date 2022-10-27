@@ -8,21 +8,17 @@ import Wave from '../wave/Wave';
 import { FluxesWavesContext } from '../../../../contexts/fluxes-waves/FluxesWavesProvider';
 
 const GroundToSkyWave = () => {
-  const {
-    groundToSkyWaveBeginsX,
-    groundToSkyWaveBeginsY,
-    groundToSkyWaveEndsY,
-    groundToSkyWaveStartsAfterInterval,
-  } = useContext(FluxesWavesContext);
+  const { groundToSkyWave } = useContext(FluxesWavesContext);
+  const { beginsX, beginsY, endsY, startsAfterInterval } = groundToSkyWave;
 
   return (
     <Wave
-      waveBeginsX={groundToSkyWaveBeginsX}
-      waveBeginsY={groundToSkyWaveBeginsY}
-      waveEndsY={groundToSkyWaveEndsY}
+      waveBeginsX={beginsX}
+      waveBeginsY={beginsY}
+      waveEndsY={endsY}
       waveColor={EARTH_FLUXES_DEFAULT_COLOR}
       amplitude={GROUND_TO_SKY_WAVE_AMPLITUDE}
-      startAfterInterval={groundToSkyWaveStartsAfterInterval}
+      startAfterInterval={startsAfterInterval}
       type={INFRARED}
     />
   );

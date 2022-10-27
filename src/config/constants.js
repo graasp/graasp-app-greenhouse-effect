@@ -327,6 +327,10 @@ export const SIMULATION_MODES = {
     cloudCover: 30,
     cTerm: 0.204,
     solarFlux: 340,
+    groundColorRange: GROUND.colorRange.earth,
+    groundColorRangePaused: GROUND.colorRangePaused.earth,
+    skyColorRange: SKY.colorRange.earth,
+    skyColorRangePaused: SKY.colorRangePaused.earth,
   },
   TWENTIETH_CENTURY: {
     name: '1900',
@@ -337,6 +341,10 @@ export const SIMULATION_MODES = {
     cloudCover: 40,
     cTerm: 0.227,
     solarFlux: 340,
+    groundColorRange: GROUND.colorRange.earth,
+    groundColorRangePaused: GROUND.colorRangePaused.earth,
+    skyColorRange: SKY.colorRange.earth,
+    skyColorRangePaused: SKY.colorRangePaused.earth,
   },
   TODAY: {
     name: '2020',
@@ -347,6 +355,10 @@ export const SIMULATION_MODES = {
     cloudCover: 40,
     cTerm: 0.231,
     solarFlux: 340,
+    groundColorRange: GROUND.colorRange.earth,
+    groundColorRangePaused: GROUND.colorRangePaused.earth,
+    skyColorRange: SKY.colorRange.earth,
+    skyColorRangePaused: SKY.colorRangePaused.earth,
   },
   MARS: {
     name: 'Mars',
@@ -357,6 +369,10 @@ export const SIMULATION_MODES = {
     cloudCover: 0,
     cTerm: 0,
     solarFlux: 147,
+    groundColorRange: GROUND.colorRange.mars,
+    groundColorRangePaused: GROUND.colorRangePaused.mars,
+    skyColorRange: SKY.colorRange.mars,
+    skyColorRangePaused: SKY.colorRangePaused.mars,
   },
   VENUS: {
     name: 'Venus',
@@ -367,6 +383,10 @@ export const SIMULATION_MODES = {
     cloudCover: 100,
     cTerm: 0,
     solarFlux: 650,
+    groundColorRange: GROUND.colorRange.venus,
+    groundColorRangePaused: GROUND.colorRangePaused.venus,
+    skyColorRange: SKY.colorRange.venus,
+    skyColorRangePaused: SKY.colorRangePaused.venus,
   },
 };
 
@@ -379,6 +399,46 @@ export const SOLAR_FLUXES = Object.fromEntries(
   ).map(([simulationMode, simulationModeDetails]) => [
     simulationModeDetails.name,
     simulationModeDetails.solarFlux,
+  ]),
+);
+
+export const GROUND_COLOR_RANGES = Object.fromEntries(
+  Object.entries(
+    SIMULATION_MODES,
+    // eslint-disable-next-line no-unused-vars
+  ).map(([simulationMode, simulationModeDetails]) => [
+    simulationModeDetails.name,
+    simulationModeDetails.groundColorRange,
+  ]),
+);
+
+export const GROUND_PAUSED_COLOR_RANGES = Object.fromEntries(
+  Object.entries(
+    SIMULATION_MODES,
+    // eslint-disable-next-line no-unused-vars
+  ).map(([simulationMode, simulationModeDetails]) => [
+    simulationModeDetails.name,
+    simulationModeDetails.groundColorRangePaused,
+  ]),
+);
+
+export const SKY_COLOR_RANGES = Object.fromEntries(
+  Object.entries(
+    SIMULATION_MODES,
+    // eslint-disable-next-line no-unused-vars
+  ).map(([simulationMode, simulationModeDetails]) => [
+    simulationModeDetails.name,
+    simulationModeDetails.skyColorRange,
+  ]),
+);
+
+export const SKY_PAUSED_COLOR_RANGES = Object.fromEntries(
+  Object.entries(
+    SIMULATION_MODES,
+    // eslint-disable-next-line no-unused-vars
+  ).map(([simulationMode, simulationModeDetails]) => [
+    simulationModeDetails.name,
+    simulationModeDetails.skyColorRangePaused,
   ]),
 );
 

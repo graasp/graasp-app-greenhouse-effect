@@ -2,9 +2,9 @@ import React, { useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { Rect, Shape, Group } from 'react-konva';
 import {
-  GROUND,
+  GROUND_COLOR_RANGES,
+  GROUND_PAUSED_COLOR_RANGES,
   ICE_CAP_FILL,
-  SIMULATION_MODES,
 } from '../../../../config/constants';
 import { computeIcePercentage } from '../../../../utils/canvas';
 import { GroundDimensionsContext } from '../../../contexts/canvas-dimensions/GroundDimensionsProvider';
@@ -18,32 +18,11 @@ const GroundBackground = () => {
     groundBeginsY,
   } = useContext(GroundDimensionsContext);
   const { seaIndent } = useContext(SeaDimensionsContext);
-
   const { isPaused, simulationMode } = useSelector(({ lab }) => lab);
   const { iceCover } = useSelector(({ lab }) => lab);
-  const {
-    colorRange: allColorRanges,
-    colorRangePaused: allPausedColorRanges,
-  } = GROUND;
   const icePercentage = computeIcePercentage(iceCover / 100);
-
-  let colorRange;
-  if (simulationMode === SIMULATION_MODES.VENUS.name) {
-    colorRange = allColorRanges.venus;
-  } else if (simulationMode === SIMULATION_MODES.MARS.name) {
-    colorRange = allColorRanges.mars;
-  } else {
-    colorRange = allColorRanges.earth;
-  }
-
-  let colorRangePaused;
-  if (simulationMode === SIMULATION_MODES.VENUS.name) {
-    colorRangePaused = allPausedColorRanges.venus;
-  } else if (simulationMode === SIMULATION_MODES.MARS.name) {
-    colorRangePaused = allPausedColorRanges.mars;
-  } else {
-    colorRangePaused = allPausedColorRanges.earth;
-  }
+  const colorRange = GROUND_COLOR_RANGES[simulationMode];
+  const colorRangePaused = GROUND_PAUSED_COLOR_RANGES[simulationMode];
 
   return (
     <Group>

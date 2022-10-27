@@ -9,22 +9,23 @@ import { FluxesWavesContext } from '../../../../contexts/fluxes-waves/FluxesWave
 import Wave from '../wave/Wave';
 
 const CloudToAtmosphereWave = () => {
+  const { cloudToAtmosphereWave } = useContext(FluxesWavesContext);
   const {
-    cloudToAtmosphereWaveBeginsX,
-    cloudToAtmosphereWaveBeginsY,
-    cloudToAtmosphereWaveEndsY,
-    cloudToAtmosphereWaveStartsAfterInterval,
-  } = useContext(FluxesWavesContext);
+    beginsX,
+    beginsY,
+    endsY,
+    startsAfterInterval,
+  } = cloudToAtmosphereWave;
 
   return (
     <Wave
-      waveBeginsX={cloudToAtmosphereWaveBeginsX}
-      waveBeginsY={cloudToAtmosphereWaveBeginsY}
-      waveEndsY={cloudToAtmosphereWaveEndsY}
+      waveBeginsX={beginsX}
+      waveBeginsY={beginsY}
+      waveEndsY={endsY}
       waveColor={SUN_FLUXES_DEFAULT_COLOR}
       amplitude={CLOUD_TO_ATMOSPHERE_WAVE_AMPLITUDE}
       waveRotation={CLOUD_TO_ATMOSPHERE_WAVE_ROTATION}
-      startAfterInterval={cloudToAtmosphereWaveStartsAfterInterval}
+      startAfterInterval={startsAfterInterval}
       type={VISIBLE_LIGHT}
     />
   );
