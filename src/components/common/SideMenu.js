@@ -1,8 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { withTranslation } from 'react-i18next';
-import { withStyles } from '@material-ui/core/styles';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { Divider, Typography } from '@material-ui/core';
@@ -18,7 +17,7 @@ import SimulationMode from './SimulationMode';
 import AnimationControls from './AnimationControls';
 import ScaleUnitSwitch from './ScaleUnitSwitch';
 
-const styles = (theme) => ({
+const useStyles = makeStyles((theme) => ({
   drawerPaper: {
     width: DRAWER_WIDTH,
   },
@@ -35,35 +34,36 @@ const styles = (theme) => ({
   divider: {
     marginBottom: theme.spacing(2),
   },
-});
+}));
 
-class SideMenu extends React.Component {
-  static propTypes = {
-    classes: PropTypes.shape({
-      drawerHeader: PropTypes.string.isRequired,
-      drawerPaper: PropTypes.string.isRequired,
-      contentWrapper: PropTypes.string.isRequired,
-      divider: PropTypes.string.isRequired,
-    }).isRequired,
-    theme: PropTypes.shape({
-      direction: PropTypes.string.isRequired,
-    }).isRequired,
-    t: PropTypes.func.isRequired,
-    showSideMenu: PropTypes.bool.isRequired,
-    dispatchToggleSideMenu: PropTypes.func.isRequired,
+const SideMenu = () => {
+  const classes = useStyles();
+  const { t } = useTranslation();
+  const dispatch = useDispatch();
+  const theme = useTheme();
+  const { showSideMenu } = useSelector(({ layout }) => layout);
+  const { simulationMode, carbonDioxide, methane } = useSelector(
+    ({ lab }) => lab,
+  );
+  const [componentCarbonDioxide, setComponentCarbonDioxide] = useState(
+    carbonDioxide,
+  );
+  const [componentMethane, setComponentMethane] = useState(methane);
+
+  useEffect(() => {
+    setComponentCarbonDioxide(carbonDioxide);
+    setComponentMethane(methane);
+  }, [simulationMode]);
+
+  const handleToggleSideMenu = (open) => {
+    dispatch(toggleSideMenu(open));
   };
 
-  handleToggleSideMenu = (open) => () => {
-    const { dispatchToggleSideMenu } = this.props;
-    dispatchToggleSideMenu(open);
-  };
-
-  renderDrawerHeader = () => {
-    const { classes, theme, t } = this.props;
+  const renderDrawerHeader = () => {
     return (
       <>
         <div className={classes.drawerHeader}>
-          <IconButton onClick={this.handleToggleSideMenu(false)}>
+          <IconButton onClick={() => handleToggleSideMenu(false)}>
             {theme.direction === DEFAULT_THEME_DIRECTION ? (
               <ChevronLeftIcon />
             ) : (
@@ -77,51 +77,40 @@ class SideMenu extends React.Component {
     );
   };
 
-  render() {
-    const { classes, showSideMenu } = this.props;
-
-    return (
-      <>
-        <CssBaseline />
-        <Drawer
-          variant="persistent"
-          anchor="right"
-          open={showSideMenu}
-          classes={{
-            paper: classes.drawerPaper,
-          }}
-        >
-          {this.renderDrawerHeader()}
-          <div className={classes.contentWrapper}>
-            <AnimationControls />
-            <RadiationModeSwitch />
-            <ScaleUnitSwitch />
-            <Divider className={classes.divider} />
-            <SimulationMode />
-            <GreenhouseEffectSettings />
-            <FeedbacksSettings />
-          </div>
-        </Drawer>
-      </>
-    );
-  }
-}
-
-const mapStateToProps = ({ layout }) => ({
-  showSideMenu: layout.showSideMenu,
-});
-
-const mapDispatchToProps = {
-  dispatchToggleSideMenu: toggleSideMenu,
+  return (
+    <>
+      <CssBaseline />
+      <Drawer
+        variant="persistent"
+        anchor="right"
+        open={showSideMenu}
+        classes={{
+          paper: classes.drawerPaper,
+        }}
+      >
+        {renderDrawerHeader()}
+        <div className={classes.contentWrapper}>
+          <AnimationControls
+            componentCarbonDioxide={componentCarbonDioxide}
+            setComponentCarbonDioxide={setComponentCarbonDioxide}
+            componentMethane={componentMethane}
+            setComponentMethane={setComponentMethane}
+          />
+          <RadiationModeSwitch />
+          <ScaleUnitSwitch />
+          <Divider className={classes.divider} />
+          <SimulationMode />
+          <GreenhouseEffectSettings
+            componentCarbonDioxide={componentCarbonDioxide}
+            setComponentCarbonDioxide={setComponentCarbonDioxide}
+            componentMethane={componentMethane}
+            setComponentMethane={setComponentMethane}
+          />
+          <FeedbacksSettings />
+        </div>
+      </Drawer>
+    </>
+  );
 };
 
-const ConnectedComponent = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(SideMenu);
-
-const StyledComponent = withStyles(styles, { withTheme: true })(
-  ConnectedComponent,
-);
-
-export default withTranslation()(StyledComponent);
+export default SideMenu;

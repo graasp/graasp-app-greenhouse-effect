@@ -1,5 +1,4 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useContext } from 'react';
 import { Rect, Line, Group } from 'react-konva';
 import {
   ROAD_BEGINS_X,
@@ -10,8 +9,16 @@ import {
   ROAD_LINE_DASH,
 } from '../../../../../config/constants';
 import Truck from './Truck';
+import { GroundDimensionsContext } from '../../../../contexts/canvas-dimensions/GroundDimensionsProvider';
 
-const Road = ({ groundHeight, groundWidth, groundBeginsX, groundBeginsY }) => {
+const Road = () => {
+  const {
+    groundHeight,
+    groundWidth,
+    groundBeginsX,
+    groundBeginsY,
+  } = useContext(GroundDimensionsContext);
+
   const roadBeginsX = groundBeginsX + ROAD_BEGINS_X * groundWidth;
   const roadBeginsY = groundBeginsY + ROAD_BEGINS_Y * groundHeight;
   const roadHeight = ROAD_HEIGHT * groundHeight;
@@ -46,13 +53,6 @@ const Road = ({ groundHeight, groundWidth, groundBeginsX, groundBeginsY }) => {
       />
     </Group>
   );
-};
-
-Road.propTypes = {
-  groundHeight: PropTypes.number.isRequired,
-  groundWidth: PropTypes.number.isRequired,
-  groundBeginsX: PropTypes.number.isRequired,
-  groundBeginsY: PropTypes.number.isRequired,
 };
 
 export default Road;

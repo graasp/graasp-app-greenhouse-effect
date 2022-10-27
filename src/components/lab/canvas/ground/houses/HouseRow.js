@@ -1,5 +1,4 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useContext } from 'react';
 import {
   HOUSE_FRONT_WIDTH,
   HOUSE_HEIGHT,
@@ -11,13 +10,16 @@ import {
   X_DISTANCE_BETWEEN_HOUSES,
 } from '../../../../../config/constants';
 import House from './House';
+import { GroundDimensionsContext } from '../../../../contexts/canvas-dimensions/GroundDimensionsProvider';
 
-const HouseRow = ({
-  groundHeight,
-  groundWidth,
-  groundBeginsX,
-  groundBeginsY,
-}) => {
+const HouseRow = () => {
+  const {
+    groundHeight,
+    groundWidth,
+    groundBeginsX,
+    groundBeginsY,
+  } = useContext(GroundDimensionsContext);
+
   // house dimensions
   const houseFrontWidth = HOUSE_FRONT_WIDTH * groundWidth;
   const houseSideWidth = HOUSE_SIDE_WIDTH * groundWidth;
@@ -47,13 +49,6 @@ const HouseRow = ({
     ));
 
   return houses;
-};
-
-HouseRow.propTypes = {
-  groundHeight: PropTypes.number.isRequired,
-  groundWidth: PropTypes.number.isRequired,
-  groundBeginsX: PropTypes.number.isRequired,
-  groundBeginsY: PropTypes.number.isRequired,
 };
 
 export default HouseRow;

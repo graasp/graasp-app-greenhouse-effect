@@ -1,44 +1,39 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { Group } from 'react-konva';
 import { useSelector } from 'react-redux';
+import { Group } from 'react-konva';
 import {
-  CHANGING_TEMPERATURE_SPEED,
   THERMOMETER_BASE_WIDTH,
   THERMOMETER_BEGINS_X,
   THERMOMETER_BEGINS_Y,
   THERMOMETER_BULB_RADIUS,
   THERMOMETER_HEIGHT,
+  THERMOMETER_SCALE_NUM_GRADES,
 } from '../../../../../config/constants';
 import {
   determineBulbCoordinates,
+  generateThermometerLabels,
   generateThermometerRectanglePoints,
 } from '../../../../../utils/canvas';
 import ThermometerBody from './ThermometerBody';
 import ThermometerBulb from './ThermometerBulb';
-import ThermometerScale from './ThermometerScale';
-import {
-  computeAlbedo,
-  computeCurrentTemperature,
-  computeGreenhouseEffect,
-} from '../../../../../utils/greenhouseEffect';
 import CurrentTemperature from './CurrentTemperature';
+import { SkyDimensionsContext } from '../../../../contexts/canvas-dimensions/SkyDimensionsProvider';
+import ThermometerScale from './ThermometerScale';
+import ThermometerFill from './ThermometerFill';
 
 const Thermometer = ({
-  skyHeight,
-  skyWidth,
-  skyBeginsX,
-  skyBeginsY,
   cursorBecomesDefault,
   cursorBecomesZoomIn,
+  temperature,
 }) => {
-  const {
-    isPaused,
-    greenhouseGasesValues,
-    albedo: albedoValues,
-    simulationMode,
-  } = useSelector(({ lab }) => lab);
-  const { albedo } = computeAlbedo({ ...albedoValues, simulationMode });
+  const { skyHeight, skyWidth, skyBeginsX, skyBeginsY } = useContext(
+    SkyDimensionsContext,
+  );
+  const { scaleUnit } = useSelector(({ lab }) => lab);
+  const scaleName = scaleUnit.name;
+  const scaleLabel = scaleUnit.label;
+
   const thermometerBeginsX = skyBeginsX + THERMOMETER_BEGINS_X * skyWidth;
   const thermometerBeginsY = skyBeginsY + THERMOMETER_BEGINS_Y * skyHeight;
   const thermometerBaseWidth = THERMOMETER_BASE_WIDTH * skyWidth;
@@ -56,85 +51,55 @@ const Thermometer = ({
   const {
     x: thermometerBulbBeginsX,
     y: thermometerBulbBeginsY,
-  } = determineBulbCoordinates(
-    thermometerBeginsX,
-    thermometerBeginsY,
-    thermometerBaseWidth,
-    thermometerBulbRadius,
+  } = determineBulbCoordinates(thermometerBaseWidth, thermometerBulbRadius);
+
+  const theremometerScaleLabels = generateThermometerLabels(
+    THERMOMETER_SCALE_NUM_GRADES,
+    scaleName,
   );
-
-  const greenhouseEffect = computeGreenhouseEffect({
-    ...greenhouseGasesValues,
-    simulationMode,
-  });
-
-  // temperature
-  const [temperature, setTemperature] = useState(
-    computeCurrentTemperature({ greenhouseEffect, albedo, simulationMode }),
-  );
-
-  // save temperature value
-  // changing settings while paused won't change the temperature
-  useEffect(() => {
-    if (!isPaused) {
-      // new temperature
-      const t = computeCurrentTemperature({
-        greenhouseEffect,
-        albedo,
-        simulationMode,
-      });
-
-      // slowly increase temperature
-      if (Math.abs(t - temperature) > CHANGING_TEMPERATURE_SPEED) {
-        setTemperature(
-          temperature + Math.sign(t - temperature) * CHANGING_TEMPERATURE_SPEED,
-        );
-      } else if (temperature !== t) {
-        setTemperature(t);
-      }
-    }
-  }, [temperature, isPaused]);
 
   return (
     <Group
       onMouseEnter={cursorBecomesDefault}
       onMouseLeave={cursorBecomesZoomIn}
+      x={thermometerBeginsX}
+      y={thermometerBeginsY}
     >
+      <ThermometerBody
+        thermometerRectanglePoints={thermometerRectanglePoints}
+        thermometerBulbRadius={thermometerBulbRadius}
+      />
       <ThermometerBulb
         thermometerBulbBeginsX={thermometerBulbBeginsX}
         thermometerBulbBeginsY={thermometerBulbBeginsY}
         thermometerBulbRadius={thermometerBulbRadius}
       />
-      <ThermometerBody
-        thermometerBeginsX={thermometerBeginsX}
-        thermometerBeginsY={thermometerBeginsY}
-        thermometerRectanglePoints={thermometerRectanglePoints}
-      />
-      <ThermometerScale
-        thermometerBeginsX={thermometerBeginsX}
-        thermometerBeginsY={thermometerBeginsY}
-        thermometerBaseWidth={thermometerBaseWidth}
-        thermometerBodyHeight={thermometerBodyHeight}
-        currentTemperature={temperature}
-      />
       <CurrentTemperature
-        thermometerBeginsX={thermometerBeginsX}
-        thermometerBeginsY={thermometerBeginsY}
         thermometerBodyHeight={thermometerBodyHeight}
         thermometerBaseWidth={thermometerBaseWidth}
         temperature={temperature}
+        scaleName={scaleName}
+        scaleLabel={scaleLabel}
+      />
+      <ThermometerFill
+        thermometerBodyHeight={thermometerBodyHeight}
+        thermometerBaseWidth={thermometerBaseWidth}
+        temperature={temperature}
+        scaleName={scaleName}
+        labels={theremometerScaleLabels}
+      />
+      <ThermometerScale
+        thermometerBodyHeight={thermometerBodyHeight}
+        labels={theremometerScaleLabels}
       />
     </Group>
   );
 };
 
 Thermometer.propTypes = {
-  skyHeight: PropTypes.number.isRequired,
-  skyWidth: PropTypes.number.isRequired,
-  skyBeginsX: PropTypes.number.isRequired,
-  skyBeginsY: PropTypes.number.isRequired,
   cursorBecomesDefault: PropTypes.func.isRequired,
   cursorBecomesZoomIn: PropTypes.func.isRequired,
+  temperature: PropTypes.number.isRequired,
 };
 
 export default Thermometer;

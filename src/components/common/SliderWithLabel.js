@@ -47,7 +47,6 @@ const SliderWithLabel = ({
   min,
   disabled,
   text,
-  finalMarkText,
   onChange,
   indent,
   labelClassName,
@@ -65,7 +64,7 @@ const SliderWithLabel = ({
     },
     {
       value: max,
-      label: finalMarkText ?? max,
+      label: max,
     },
   ];
 
@@ -114,7 +113,6 @@ SliderWithLabel.propTypes = {
   max: PropTypes.number.isRequired,
   disabled: PropTypes.bool,
   text: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-  finalMarkText: PropTypes.string,
   onChange: PropTypes.func,
   indent: PropTypes.bool,
   labelClassName: PropTypes.string,
@@ -126,7 +124,6 @@ SliderWithLabel.propTypes = {
 
 SliderWithLabel.defaultProps = {
   disabled: false,
-  finalMarkText: null,
   indent: false,
   labelClassName: null,
   valueLabelDisplay: 'auto',

@@ -6,35 +6,60 @@ import Atmosphere from './Atmosphere';
 import Ground from './Ground';
 import Sea from './Sea';
 import Sky from './Sky';
+import { SIMULATION_MODES } from '../../../config/constants';
+import CanvasDimensionsProvider from '../../contexts/canvas-dimensions/CanvasDimensionsProvider';
+import {
+  computeAlbedo,
+  computeTemperature,
+  computeGreenhouseEffect,
+} from '../../../utils/greenhouseEffect';
+import Radiation from './Radiation';
 
 const CanvasLayout = ({ cursorBecomesDefault, cursorBecomesZoomIn }) => {
-  const { height: stageHeight, width: stageWidth } = useSelector(
-    ({ layout }) => layout.lab.stageDimensions,
+  const {
+    simulationMode,
+    carbonDioxide,
+    methane,
+    cTerm,
+    iceCover,
+    cloudCover,
+  } = useSelector(({ lab }) => lab);
+  const isEarth =
+    simulationMode !== SIMULATION_MODES.MARS.name &&
+    simulationMode !== SIMULATION_MODES.VENUS.name;
+
+  const { totalAlbedo } = computeAlbedo(iceCover, cloudCover, simulationMode);
+
+  const greenhouseEffect = computeGreenhouseEffect(
+    carbonDioxide,
+    methane,
+    cTerm,
+    simulationMode,
+  );
+
+  const temperature = computeTemperature(
+    greenhouseEffect,
+    totalAlbedo,
+    simulationMode,
   );
 
   return (
     <Group>
-      <Atmosphere
-        stageHeight={stageHeight}
-        stageWidth={stageWidth}
-        cursorBecomesDefault={cursorBecomesDefault}
-      />
-      <Sky
-        stageHeight={stageHeight}
-        stageWidth={stageWidth}
-        cursorBecomesZoomIn={cursorBecomesZoomIn}
-        cursorBecomesDefault={cursorBecomesDefault}
-      />
-      <Ground
-        stageHeight={stageHeight}
-        stageWidth={stageWidth}
-        cursorBecomesDefault={cursorBecomesDefault}
-      />
-      <Sea
-        stageHeight={stageHeight}
-        stageWidth={stageWidth}
-        cursorBecomesDefault={cursorBecomesDefault}
-      />
+      <CanvasDimensionsProvider>
+        <Atmosphere cursorBecomesDefault={cursorBecomesDefault} />
+        <Sky
+          cursorBecomesZoomIn={cursorBecomesZoomIn}
+          cursorBecomesDefault={cursorBecomesDefault}
+          temperature={temperature}
+        />
+        <Radiation
+          temperature={temperature}
+          greenhouseEffect={greenhouseEffect}
+          cursorBecomesDefault={cursorBecomesDefault}
+        />
+        <Ground cursorBecomesDefault={cursorBecomesDefault} />
+        {isEarth && <Sea cursorBecomesDefault={cursorBecomesDefault} />}
+      </CanvasDimensionsProvider>
     </Group>
   );
 };

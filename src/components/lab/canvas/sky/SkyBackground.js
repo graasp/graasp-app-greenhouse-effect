@@ -1,14 +1,21 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
 import { Rect } from 'react-konva';
-import { SKY } from '../../../../config/constants';
+import {
+  SKY_COLOR_RANGES,
+  SKY_PAUSED_COLOR_RANGES,
+} from '../../../../config/constants';
 import { toggleZoom } from '../../../../actions';
+import { SkyDimensionsContext } from '../../../contexts/canvas-dimensions/SkyDimensionsProvider';
 
-const SkyBackground = ({ skyHeight, skyWidth, skyBeginsX, skyBeginsY }) => {
-  const isPaused = useSelector(({ lab }) => lab.isPaused);
-  const { colorRange, colorRangePaused } = SKY;
+const SkyBackground = () => {
   const dispatch = useDispatch();
+  const { skyHeight, skyWidth, skyBeginsX, skyBeginsY } = useContext(
+    SkyDimensionsContext,
+  );
+  const { isPaused, simulationMode } = useSelector(({ lab }) => lab);
+  const colorRange = SKY_COLOR_RANGES[simulationMode];
+  const colorRangePaused = SKY_PAUSED_COLOR_RANGES[simulationMode];
 
   return (
     <Rect
@@ -27,13 +34,6 @@ const SkyBackground = ({ skyHeight, skyWidth, skyBeginsX, skyBeginsY }) => {
       }}
     />
   );
-};
-
-SkyBackground.propTypes = {
-  skyHeight: PropTypes.number.isRequired,
-  skyWidth: PropTypes.number.isRequired,
-  skyBeginsX: PropTypes.number.isRequired,
-  skyBeginsY: PropTypes.number.isRequired,
 };
 
 export default SkyBackground;

@@ -1,97 +1,30 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Group } from 'react-konva';
-import {
-  ATMOSPHERE,
-  SKY,
-  SEA,
-  GROUND,
-  SIMULATION_MODES,
-} from '../../../config/constants';
 import GroundBackground from './ground/GroundBackground';
 import Road from './ground/road/Road';
 import HouseRow from './ground/houses/HouseRow';
 import FactoryRow from './ground/factories/FactoryRow';
 import MountainRange from './ground/mountains/MountainRange';
 import Permafrost from './ground/permafrost/Permafrost';
+import { GroundDimensionsContext } from '../../contexts/canvas-dimensions/GroundDimensionsProvider';
 
-const Ground = ({ stageHeight, stageWidth, cursorBecomesDefault }) => {
-  // ground dimensions in /constants.js are stated as a percentage of canvas dimensions
-  const {
-    height: groundHeightPercentage,
-    width: groundWidthPercentage,
-  } = GROUND;
-  const { simulationMode } = useSelector(({ lab }) => lab);
-  const isIceAge = simulationMode === SIMULATION_MODES.ICE_AGE.name;
-
-  // pixel dimensions of ground
-  const groundHeight = stageHeight * groundHeightPercentage;
-  const groundWidth = stageWidth * groundWidthPercentage;
-
-  // dimensions of other canvas elements required to position ground
-  const { height: atmosphereHeightPercentage } = ATMOSPHERE;
-  const { height: skyHeightPercentage } = SKY;
-  const { width: seaWidthPercentage } = SEA;
-  const atmosphereHeight = stageHeight * atmosphereHeightPercentage;
-  const skyHeight = stageHeight * skyHeightPercentage;
-  const atmosphereAndSkyHeight = atmosphereHeight + skyHeight;
-  const seaWidth = stageWidth * seaWidthPercentage;
-  const groundBeginsX = seaWidth;
-  const groundBeginsY = atmosphereAndSkyHeight;
+const Ground = ({ cursorBecomesDefault }) => {
+  const { isEarth, isIceAge } = useContext(GroundDimensionsContext);
 
   return (
     <Group onMouseEnter={cursorBecomesDefault}>
-      <Permafrost
-        groundHeight={groundHeight}
-        groundWidth={groundWidth}
-        groundBeginsX={groundBeginsX}
-        groundBeginsY={groundBeginsY}
-      />
-      <MountainRange
-        groundHeight={groundHeight}
-        groundWidth={groundWidth}
-        groundBeginsY={groundBeginsY}
-        stageWidth={stageWidth}
-      />
-      <GroundBackground
-        stageWidth={stageWidth}
-        groundHeight={groundHeight}
-        groundWidth={groundWidth}
-        groundBeginsX={groundBeginsX}
-        groundBeginsY={groundBeginsY}
-      />
-      {!isIceAge && (
-        <Road
-          groundHeight={groundHeight}
-          groundWidth={groundWidth}
-          groundBeginsX={groundBeginsX}
-          groundBeginsY={groundBeginsY}
-        />
-      )}
-      {!isIceAge && (
-        <FactoryRow
-          groundHeight={groundHeight}
-          groundWidth={groundWidth}
-          groundBeginsX={groundBeginsX}
-          groundBeginsY={groundBeginsY}
-        />
-      )}
-      {!isIceAge && (
-        <HouseRow
-          groundHeight={groundHeight}
-          groundWidth={groundWidth}
-          groundBeginsX={groundBeginsX}
-          groundBeginsY={groundBeginsY}
-        />
-      )}
+      {isEarth && <Permafrost />}
+      {isEarth && <MountainRange />}
+      <GroundBackground />
+      {!isIceAge && isEarth && <Road />}
+      {!isIceAge && isEarth && <FactoryRow />}
+      {!isIceAge && isEarth && <HouseRow />}
     </Group>
   );
 };
 
 Ground.propTypes = {
-  stageHeight: PropTypes.number.isRequired,
-  stageWidth: PropTypes.number.isRequired,
   cursorBecomesDefault: PropTypes.func.isRequired,
 };
 

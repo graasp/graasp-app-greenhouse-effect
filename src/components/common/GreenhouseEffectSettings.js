@@ -1,9 +1,16 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core';
 import SliderWithLabel from './SliderWithLabel';
-import { setGreenhouseGasesValues, setAlbedoValues } from '../../actions';
+import {
+  setIceCover,
+  setCloudCover,
+  setCarbonDioxide,
+  setMethane,
+  setWaterVapor,
+} from '../../actions';
 import {
   GREENHOUSE_TOTAL_EFFECT_MAX_VALUE,
   WATER_CONCENTRATION_MAX_VALUE,
@@ -21,6 +28,8 @@ import {
   WATER_CONCENTRATION_MIN_VALUE_ON_MARS_OR_VENUS,
   ON_STRING,
   AUTO_STRING,
+  CLOUD_COVER_MIN_VALUE,
+  METHANE_SLIDER_STEP,
 } from '../../config/constants';
 import {
   computeAlbedo,
@@ -34,30 +43,33 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const GreenhouseEffectSettings = () => {
+const GreenhouseEffectSettings = ({
+  componentCarbonDioxide,
+  setComponentCarbonDioxide,
+  componentMethane,
+  setComponentMethane,
+}) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const classes = useStyles();
   const {
     radiationMode,
-    albedo: albedoValues,
     isPaused,
-    greenhouseGasesValues,
+    carbonDioxide,
+    methane,
+    cTerm,
+    waterVapor,
+    iceCover,
+    cloudCover,
     simulationMode,
+    fluxesBlinking,
   } = useSelector(({ lab }) => lab);
-  const { methane, carbonDioxide, water } = greenhouseGasesValues;
 
-  const onChange = (value, key) => {
-    dispatch(setGreenhouseGasesValues({ [key]: value }));
-  };
-  const onAlbedoChange = (value, key) => {
-    dispatch(setAlbedoValues({ [key]: value }));
-  };
   const totalEffectValue =
-    computeGreenhouseEffect({ methane, carbonDioxide, simulationMode }) * 100;
+    computeGreenhouseEffect(carbonDioxide, methane, cTerm, simulationMode) *
+    100;
 
-  const albedo =
-    computeAlbedo({ ...albedoValues, simulationMode }).albedo * 100;
+  const { totalAlbedo } = computeAlbedo(iceCover, cloudCover, simulationMode);
 
   const isMarsOrVenus =
     simulationMode === SIMULATION_MODES.MARS.name ||
@@ -91,7 +103,7 @@ const GreenhouseEffectSettings = () => {
       <SliderWithLabel
         text={t('Albedo (%)')}
         max={ALBEDO_MAX_VALUE}
-        value={parseFloat(albedo.toFixed(1))}
+        value={parseFloat((totalAlbedo * 100).toFixed(1))}
         labelClassName={classes.title}
         valueLabelDisplay={ON_STRING}
         disabled
@@ -99,16 +111,17 @@ const GreenhouseEffectSettings = () => {
       <SliderWithLabel
         text={t('Ice and Snow Cover (%)')}
         max={ICE_COVER_MAX_VALUE}
-        value={albedoValues.iceCover}
-        onChange={(e, v) => onAlbedoChange(v, 'iceCover')}
+        value={iceCover}
+        onChange={(e, v) => dispatch(setIceCover(v))}
         indent
         disabled={disabled}
       />
       <SliderWithLabel
         text={t('Cloud Cover (%)')}
+        min={CLOUD_COVER_MIN_VALUE}
         max={CLOUD_COVER_MAX_VALUE}
-        value={albedoValues.cloudCover}
-        onChange={(e, v) => onAlbedoChange(v, 'cloudCover')}
+        value={cloudCover}
+        onChange={(e, v) => dispatch(setCloudCover(v))}
         indent
         disabled={disabled}
       />
@@ -124,8 +137,13 @@ const GreenhouseEffectSettings = () => {
         text={t('CO_2 (ppm)', { escapeInterpolation: true })}
         max={CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE}
         min={CARBON_DIOXIDE_CONCENTRATION_MIN_VALUE}
-        value={carbonDioxide}
-        onChange={(e, v) => onChange(v, 'carbonDioxide')}
+        value={componentCarbonDioxide}
+        onChange={(e, v) => {
+          setComponentCarbonDioxide(v);
+          if (!fluxesBlinking) {
+            dispatch(setCarbonDioxide(v));
+          }
+        }}
         indent
         disabled={disabled}
         valueLabelDisplay={isMarsOrVenus ? ON_STRING : AUTO_STRING}
@@ -136,9 +154,14 @@ const GreenhouseEffectSettings = () => {
         text={t('CH_4 (ppm)', { escapeInterpolation: true })}
         max={METHANE_CONCENTRATION_MAX_VALUE}
         min={METHANE_CONCENTRATION_MIN_VALUE}
-        value={methane}
-        onChange={(e, v) => onChange(v, 'methane')}
-        step={0.1}
+        value={componentMethane}
+        onChange={(e, v) => {
+          setComponentMethane(v);
+          if (!fluxesBlinking) {
+            dispatch(setMethane(v));
+          }
+        }}
+        step={METHANE_SLIDER_STEP}
         indent
         disabled={disabled}
         valueLabelDisplay={isMarsOrVenus ? ON_STRING : AUTO_STRING}
@@ -148,13 +171,20 @@ const GreenhouseEffectSettings = () => {
         text={t('H_2O (ppm)', { escapeInterpolation: true })}
         max={WATER_CONCENTRATION_MAX_VALUE}
         min={WATER_CONCENTRATION_MIN_VALUE}
-        value={water}
-        onChange={(e, v) => onChange(v, 'water')}
+        value={waterVapor}
+        onChange={(e, v) => dispatch(setWaterVapor(v))}
         indent
         valueLabelDisplay={ON_STRING}
       />
     </>
   );
+};
+
+GreenhouseEffectSettings.propTypes = {
+  componentCarbonDioxide: PropTypes.number.isRequired,
+  setComponentCarbonDioxide: PropTypes.func.isRequired,
+  componentMethane: PropTypes.number.isRequired,
+  setComponentMethane: PropTypes.func.isRequired,
 };
 
 export default GreenhouseEffectSettings;

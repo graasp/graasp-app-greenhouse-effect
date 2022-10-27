@@ -1,18 +1,20 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useContext } from 'react';
 import { Rect } from 'react-konva';
 import {
   PERMAFROST_FILL,
   PERMAFROST_HEIGHT,
   PERMAFROST_WIDTH,
 } from '../../../../../config/constants';
+import { GroundDimensionsContext } from '../../../../contexts/canvas-dimensions/GroundDimensionsProvider';
 
-const Permafrost = ({
-  groundHeight,
-  groundWidth,
-  groundBeginsX,
-  groundBeginsY,
-}) => {
+const Permafrost = () => {
+  const {
+    groundHeight,
+    groundWidth,
+    groundBeginsX,
+    groundBeginsY,
+  } = useContext(GroundDimensionsContext);
+
   // permafrost dimensions
   const permafrostWidth = PERMAFROST_WIDTH * groundWidth;
   const permafrostHeight = PERMAFROST_HEIGHT * groundHeight;
@@ -30,13 +32,6 @@ const Permafrost = ({
       fill={PERMAFROST_FILL}
     />
   );
-};
-
-Permafrost.propTypes = {
-  groundHeight: PropTypes.number.isRequired,
-  groundWidth: PropTypes.number.isRequired,
-  groundBeginsX: PropTypes.number.isRequired,
-  groundBeginsY: PropTypes.number.isRequired,
 };
 
 export default Permafrost;

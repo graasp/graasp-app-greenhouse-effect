@@ -32,8 +32,16 @@ export const ATMOSPHERE = {
 export const SKY = {
   height: 0.65,
   width: 1,
-  colorRange: [0, '#A4C8EA', 1, '#C8DEF2'],
-  colorRangePaused: [0, '#c1cdd9', 1, '#d3dbe3'],
+  colorRange: {
+    earth: [0, '#A4C8EA', 1, '#C8DEF2'],
+    venus: [0, '#737373', 1, '#e5e5e5'],
+    mars: [0, '#8D8D8D', 1, '#E6CF6B'],
+  },
+  colorRangePaused: {
+    earth: [0, '#c1cdd9', 1, '#d3dbe3'],
+    venus: [0, '#8D8D8D', 1, '#f2f2f2'],
+    mars: [0, '#A6A6A6', 1, '#FFE884'],
+  },
 };
 export const SEA = {
   height: 0.15,
@@ -45,9 +53,17 @@ export const SEA = {
 };
 export const GROUND = {
   height: 0.15,
-  width: 0.6,
-  colorRange: [0, '#50A032', 1, '#84BC6F'],
-  colorRangePaused: [0, '#6c9c5a', 1, '#9fba95'],
+  width: { earth: 0.6, nonEarth: 1 },
+  colorRange: {
+    earth: [0, '#50A032', 1, '#84BC6F'],
+    venus: [0, '#AF854B', 1, '#795C34'],
+    mars: [0, '#87270E', 1, '#A05006'],
+  },
+  colorRangePaused: {
+    earth: [0, '#6c9c5a', 1, '#9fba95'],
+    venus: [0, '#E2B87E', 1, '#93764E'],
+    mars: [0, '#A04027', 1, '#B9691F'],
+  },
 };
 
 /* ------SUN CONSTANTS------ */
@@ -81,15 +97,15 @@ export const ICE_CAP_LINES_TENSION = 0.1;
 
 /* ------CLOUD CONSTANTS------ */
 export const CLOUD_CENTRAL_CIRCLE_RADIUS = 0.1;
-export const CLOUD_CENTRAL_CIRCLE_X = 0.3;
-export const CLOUD_CENTRAL_CIRCLE_Y = 0.3;
-export const CLOUD_ELLIPSE_RADIUS_X = 2;
-export const CLOUD_ELLIPSE_RADIUS_Y = 0.55;
+export const CLOUD_RESPONSIVE_ADJUSTMENT_FACTOR = 1.5;
+export const FIRST_CLOUD_CENTRAL_CIRCLE_X = 0.3;
+export const FIRST_CLOUD_CENTRAL_CIRCLE_Y = 0.3;
+export const SECOND_CLOUD_CENTRAL_CIRCLE_X = 0.7;
+export const SECOND_CLOUD_CENTRAL_CIRCLE_Y =
+  FIRST_CLOUD_CENTRAL_CIRCLE_X - 0.05;
 export const CLOUD_FILL = 'white';
-export const CLOUD_BORDER_COLOR = 'black';
-export const CLOUD_BORDER_WIDTH = 0.5;
 export const CLOUD_ADJACENT_CIRCLE_RADIUS = 0.85;
-export const CLOUD_PERIPHERAL_CIRCLE_RADIUS = 0.5;
+export const CLOUD_PERIPHERAL_CIRCLE_RADIUS = 0.4;
 
 /* ------ROAD CONSTANTS------ */
 export const ROAD_BEGINS_X = 0.18;
@@ -159,8 +175,6 @@ export const MOUNTAINS_INDENT_Y = 0.075;
 export const FULL_MOUNTAIN_X_INDENT = 0.8;
 export const FULL_MOUNTAIN = 'FULL_MOUNTAIN';
 export const HALF_MOUNTAIN = 'HALF_MOUNTAIN';
-// ice and snow cover as a percentage of the mountain (can be adjusted in state/redux later)
-export const DEFAULT_ICE_COVER = 0.5;
 export const ICE_COVER_FILL = '#F5F5F5';
 export const ICE_COVER_LINES_TENSION = 0.1;
 
@@ -198,9 +212,6 @@ export const PERMAFROST_FILL = '#F5F5F5';
 export const CARBON_DIOXIDE = 'CARBON_DIOXIDE';
 export const WATER = 'WATER';
 export const METHANE = 'METHANE';
-export const MOLECULE_ROW_BEGINS_X = 0.45;
-export const MOLECULE_ROW_BEGINS_Y = 0.5;
-export const X_DISTANCE_BETWEEN_MOLECULES_IN_ROW = 0.025;
 export const ATOM_DIMENSIONS = { small: 0.003, medium: 0.006 };
 export const CARBON = {
   atomColor: 'black',
@@ -217,8 +228,6 @@ export const HYDROGEN = {
 export const MOLECULE_DISTRIBUTION_MIN_X = 0.01;
 // to avoid clashes with therometer, don't place molecules more than this constant from beginning of canvas
 export const MOLECULE_DISTRIBUTION_MAX_X = 0.99;
-// to avoid clashes with cloud, on rows whose y falls within cloud, place the molecules at least this constant from beginning of canvas
-export const MOLECULE_DISTRIBUTION_MIN_X_ON_CLOUD_ROWS = 0.5;
 
 /* ------THERMOMETER CONSTANTS------ */
 export const THERMOMETER_BEGINS_X = 0.95;
@@ -226,38 +235,64 @@ export const THERMOMETER_BEGINS_Y = 0.48;
 export const THERMOMETER_BASE_WIDTH = 0.015;
 export const THERMOMETER_HEIGHT = 0.4;
 export const THERMOMETER_BORDER_COLOR = '#282828';
-export const THERMOMETER_BORDER_WIDTH = 0.75;
+export const THERMOMETER_BORDER_WIDTH = 1;
 export const THERMOMETER_BULB_RADIUS = 0.015;
 export const THERMOMETER_FILL = '#CD4646';
-export const DEFAULT_THERMOMETER_PERCENTAGE_FULL = 0.4;
-export const THERMOMETER_NUMBER_OF_GRADATIONS = 10;
-export const THERMOMETER_MIN_VALUE_IN_KELVIN = 250; // Kelvin
-export const THERMOMETER_MAX_VALUE_IN_KELVIN = 305; // Kelvin
-export const THERMOMETER_GRADATION_WIDTH = 0.25;
-export const THERMOMETER_GRADATION_STROKE = 1;
-
-export const SET_INTERVAL_TIME = 80;
-export const DEFAULT_TIMER_COUNT = 1;
-
-export const DEFAULT_RADIATION_LINE_TENSION = 0.3;
-
-export const NUMBER_OF_LINES = 5;
-export const LINE_STEP = 5;
-export const LINE_ANGLE = Math.PI / 2;
-export const LINE_STARTING_POSITION_Y = 550;
+export const THERMOMETER_SCALE_NUM_GRADES = 6;
+export const THERMOMETER_SCALE_LABEL_WIDTH = 30;
+export const THERMOMETER_SCALE_LABEL_PADDING_RIGHT = 5;
+export const THERMOMETER_SCALE_GRADE_WIDTH = 5;
+export const THERMOMETER_SCALE_STROKE_WIDTH = 0.5;
+export const THERMOMETER_SCALE_STROKE_COLOR = 'black';
+export const MINIMUM_THERMOMETER_TEMPERATURE_CELSIUS = -20;
+export const THERMOMETER_SCALE_STEP = 10;
+export const SCALE_UNITS = {
+  KELVIN: { name: 'kelvin', label: 'K' },
+  CELSIUS: { name: 'celsius', label: '°C' },
+};
+export const THERMOMETER_CURRENT_TEMPERATURE_FONT_SIZE = 20;
+export const THERMOMETER_LABEL_WIDTH = 100;
+export const THERMOMETER_LABEL_HEIGHT = 40;
+export const THERMOMETER_LABEL_PADDING_BOTTOM = 7.5;
 
 export const SUN_LIGHT_COLOR = 'yellow';
+export const SUN_FLUXES_DEFAULT_COLOR = 'yellow';
+export const SUN_FLUXES_DARKENED_COLOR = 'gold';
 export const EARTH_RADIATION_COLOR = 'red';
+export const EARTH_FLUXES_DEFAULT_COLOR = 'red';
+export const EARTH_FLUXES_DARKENED_COLOR = 'darkred';
+export const CLOUD_TO_ATMOSPHERE_FLUX_ROTATION = -20;
+export const GROUND_TO_ATMOSPHERE_FLUX_ROTATION = -10;
+export const SKY_TO_ATMOSPHERE_FLUX_ROTATION = 20;
+export const SKY_TO_GROUND_FLUX_ROTATION = -10;
+export const CLOUD_TO_ATMOSPHERE_WAVE_ROTATION = -25;
+export const GROUND_TO_ATMOSPHERE_WAVE_ROTATION = -10;
+export const SKY_TO_ATMOSPHERE_WAVE_ROTATION = 20;
+export const SKY_TO_GROUND_WAVE_ROTATION = -20;
+// three constants below used to position earth fluxes relative to stageWidth
+// this is to ensure consistent placement across earth/non-earth planets
+// (non-earth planets have no sea, hence differing ground dimensions, hence the need to position relative to stageWidth)
+export const GROUND_TO_SKY_EARTH_FLUX_ADJUSTMENT = 1.1;
+export const SKY_TO_ATMOSPHERE_EARTH_FLUX_ADJUSTMENT = 1.25;
+export const SKY_TO_GROUND_EARTH_FLUX_ADJUSTMENT = 1.4;
+// if a flux pointer is <25px, use a smaller font size; otherwise, the flux can accommodate a larger font
+export const WIDE_FLUX_MINIMUM_WIDTH = 25;
+export const FLUX_LABEL_LARGE_FONT_SIZE = 16;
+export const FLUX_LABEL_SMALL_FONT_SIZE = 13;
+// wave amplitudes
+export const SUN_TO_CLOUD_WAVE_AMPLITUDE = 50;
+export const CLOUD_TO_GROUND_WAVE_AMPLITUDE = 35;
+export const GROUND_TO_ATMOSPHERE_WAVE_AMPLITUDE = 15;
+export const CLOUD_TO_ATMOSPHERE_WAVE_AMPLITUDE = 15;
+export const GROUND_TO_SKY_WAVE_AMPLITUDE = 50;
+// constants used in the creation of custom flux arrow
+export const FLUX_WIDTH_AS_PERCENTAGE_OF_FLUX_VALUE = 0.7;
+export const MAXIMUM_FLUX_WIDTH_AS_PERCENTAGE_OF_STAGE_WIDTH = 0.2;
+export const FLUX_POINTER_HEIGHT_AS_PERCENTAGE_OF_POINTER_WIDTH = 0.4;
+export const MINIMUM_FLUX_POINTER_HEIGHT = 22.5;
+export const FLUX_BODY_WIDTH_AS_PERCENTAGE_OF_TOTAL_WIDTH = 0.7;
 
-export const RADIATION_STATES = {
-  SUN_RADIATION: 'SUN_RADIATION',
-  CLOUD_RADIATION: 'CLOUD_RADIATION',
-  GASES_RADIATION: 'GASES_RADIATION',
-  EARTH_RADIATION: 'EARTH_RADIATION',
-  ICE_RADIATION: 'ICE_RADIATION',
-};
-
-export const DEFAULT_ALBEDO = 30;
+export const TOTAL_INTERVALS_TO_COMPLETE_FLUX = 50;
 
 export const ALBEDO_MAX_VALUE = 100;
 export const CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE_DEFAULT = 5000;
@@ -265,155 +300,95 @@ export const CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE_ON_MARS_OR_VENUS = 1e6;
 export const CARBON_DIOXIDE_CONCENTRATION_MIN_VALUE = 50;
 export const METHANE_CONCENTRATION_MAX_VALUE = 10;
 export const METHANE_CONCENTRATION_MIN_VALUE = 0.1;
+export const METHANE_SLIDER_STEP = 0.1;
 export const WATER_CONCENTRATION_MIN_VALUE_DEFAULT = 3000;
 export const WATER_CONCENTRATION_MIN_VALUE_ON_MARS_OR_VENUS = 0;
 export const WATER_CONCENTRATION_MAX_VALUE = 13000;
 export const ICE_COVER_MAX_VALUE = 100;
 export const CLOUD_COVER_MAX_VALUE = 100;
+export const CLOUD_COVER_MIN_VALUE = 20;
 export const GREENHOUSE_TOTAL_EFFECT_MAX_VALUE = 100;
-export const INFRARED_AMPLITUDE = 50;
-export const ULTRAVIOLET_AMPLITUDE = 30;
-export const INFRARED_WAVELENGTH = 10;
-export const ULTRAVIOLET_WAVELENGTH = 30;
-
-export const FLUX_TEXT_COLOR = 'black';
-export const FLUX_MARGIN = 25;
-export const FLUX_HEAD_HEIGHT = 40;
-export const FLUX_BODY_AMPLITUDE = 0;
-export const FLUX_TEXT_STROKE_WIDTH = 5;
-export const FLUX_TEXT_FONT_SIZE = 20;
-export const FLUX_TEXT_WIDTH = 40;
-export const FLUX_WAVELENGTH = 70;
-export const FLUX_PROGRESS_MAX_VALUE = 100;
-export const ICE_TO_SKY_RADIATION_FLUX_OFFSET_X = 50;
-export const FLUX_PROGRESS_INTERVAL_DELTA = 10;
 
 export const ZOOM_IN_CURSOR = 'zoom-in';
 export const ZOOM_OUT_CURSOR = 'zoom-out';
 export const DEFAULT_CURSOR = 'default';
 
-export const SOLAR_FLUX = { value: 340, width: 110, height: 80 };
 export const STEFAN_BOLTZMANN_CONSTANT = 5.670367e-8;
-
-export const SCALE_WIDTH = 7;
-export const SCALE_FONT_SIZE = 13;
-export const SCALE_PADDING_LEFT = 7;
-export const SCALE_PADDING_RIGHT = 15;
-export const SCALE_LINE_HEIGHT = 1.5;
-export const SCALE_HEIGHT = 17;
-// approximatively the width of the scale text
-export const SCALE_TEXT_WIDTH_FACTOR = SCALE_FONT_SIZE;
-// the actual number of displayed ticks might vary due to number rounding
-export const SCALE_MAX_NUMBER_TICKS = 6;
-export const SCALE_LEGEND_PADDING_BOTTOM = 30;
-export const SCALE_TICKS_STROKE_COLOR = 'black';
-export const INITIAL_TEMPERATURE = 289;
-// apply dashed stroke that is 6px long and 2 pixels apart
-export const SCALE_LABELS_LINE_DASH = [6, 2];
-
-export const THERMOMETER_HEIGHT_FACTOR = 0.5;
-export const SCALE_UNITS = {
-  KELVIN: { name: 'kelvin', unit: 'K' },
-  CELSIUS: { name: 'celsius', unit: '°C' },
-};
-export const THERMOMETER_CURRENT_TEMPERATURE_FONT_SIZE = 20;
-export const THERMOMETER_CURRENT_TEMPERATURE_WIDTH = 20;
-export const THERMOMETER_CURRENT_TEMPERATURE_MARGIN_BOTTOM = 10;
-
-export const CHANGING_TEMPERATURE_SPEED = 0.01;
-export const SLOW_UPDATE_ANIMATION_TIME = 6000;
-export const SLOW_ANIMATION_SPEED_DELTA = 0.001;
-export const CHANGING_FLUX_CARBON_DIOXIDE_SPEED = 10;
-export const SET_INTERVAL_PAUSED_ANIMATION_TIME = 200;
-export const BLINKING_SHADOW_COLOR = 'yellow';
-export const DEFAULT_SHADOW_COLOR = 'black';
-export const SUN_FLUXES_DELTA_WIDTH = 0.35;
-export const EARTH_FLUXES_DELTA_WIDTH = 0.3;
 
 export const ZERO_KELVIN_IN_CELISUS = 273.15;
 
 export const SIMULATION_MODES = {
   ICE_AGE: {
     name: 'Ice Age',
-    greenhouseGasesValues: {
-      carbonDioxide: 200,
-      methane: 0.4,
-      water: 5200,
-    },
-    albedo: {
-      iceCover: 20,
-      cloudCover: 30,
-    },
+    carbonDioxide: 200,
+    methane: 0.4,
+    waterVapor: 5200,
+    iceCover: 20,
+    cloudCover: 30,
     cTerm: 0.204,
-    SOLAR_FLUX: { value: 340, width: 110, height: 80 },
+    solarFlux: 340,
+    groundColorRange: GROUND.colorRange.earth,
+    groundColorRangePaused: GROUND.colorRangePaused.earth,
+    skyColorRange: SKY.colorRange.earth,
+    skyColorRangePaused: SKY.colorRangePaused.earth,
   },
   TWENTIETH_CENTURY: {
     name: '1900',
-    greenhouseGasesValues: {
-      carbonDioxide: 290,
-      methane: 1,
-      water: 7300,
-    },
-    albedo: {
-      iceCover: 10,
-      cloudCover: 40,
-    },
+    carbonDioxide: 290,
+    methane: 1,
+    waterVapor: 7300,
+    iceCover: 10,
+    cloudCover: 40,
     cTerm: 0.227,
-    SOLAR_FLUX: { value: 340, width: 110, height: 80 },
+    solarFlux: 340,
+    groundColorRange: GROUND.colorRange.earth,
+    groundColorRangePaused: GROUND.colorRangePaused.earth,
+    skyColorRange: SKY.colorRange.earth,
+    skyColorRangePaused: SKY.colorRangePaused.earth,
   },
   TODAY: {
     name: '2020',
-    greenhouseGasesValues: {
-      carbonDioxide: 413.2,
-      methane: 1.9,
-      water: 7800,
-    },
-    albedo: {
-      iceCover: 10,
-      cloudCover: 40,
-    },
+    carbonDioxide: 413.2,
+    methane: 1.9,
+    waterVapor: 7800,
+    iceCover: 10,
+    cloudCover: 40,
     cTerm: 0.231,
-    SOLAR_FLUX: { value: 340, width: 110, height: 80 },
+    solarFlux: 340,
+    groundColorRange: GROUND.colorRange.earth,
+    groundColorRangePaused: GROUND.colorRangePaused.earth,
+    skyColorRange: SKY.colorRange.earth,
+    skyColorRangePaused: SKY.colorRangePaused.earth,
   },
   MARS: {
     name: 'Mars',
-    greenhouseGasesValues: {
-      carbonDioxide: 965000,
-      methane: 0,
-      water: 210,
-    },
-    albedo: {
-      iceCover: 2,
-      cloudCover: 0,
-    },
+    carbonDioxide: 965000,
+    methane: 0,
+    waterVapor: 210,
+    iceCover: 2,
+    cloudCover: 0,
     cTerm: 0,
-    SOLAR_FLUX: { value: 147, width: 48, height: 35 },
+    solarFlux: 147,
+    groundColorRange: GROUND.colorRange.mars,
+    groundColorRangePaused: GROUND.colorRangePaused.mars,
+    skyColorRange: SKY.colorRange.mars,
+    skyColorRangePaused: SKY.colorRangePaused.mars,
   },
   VENUS: {
     name: 'Venus',
-    greenhouseGasesValues: {
-      carbonDioxide: 965000,
-      methane: 0,
-      water: 20,
-    },
-    albedo: {
-      iceCover: 0,
-      cloudCover: 100,
-    },
+    carbonDioxide: 965000,
+    methane: 0,
+    waterVapor: 20,
+    iceCover: 0,
+    cloudCover: 100,
     cTerm: 0,
-    SOLAR_FLUX: { value: 650, width: 210, height: 150 },
+    solarFlux: 650,
+    groundColorRange: GROUND.colorRange.venus,
+    groundColorRangePaused: GROUND.colorRangePaused.venus,
+    skyColorRange: SKY.colorRange.venus,
+    skyColorRangePaused: SKY.colorRangePaused.venus,
   },
 };
-
-export const cTerms = Object.fromEntries(
-  Object.entries(
-    SIMULATION_MODES,
-    // eslint-disable-next-line no-unused-vars
-  ).map(([simulationMode, simulationModeDetails]) => [
-    simulationModeDetails.name,
-    simulationModeDetails.cTerm,
-  ]),
-);
 
 export const TWENTIETH_CENTURY_ALBEDO_OFFSET = -0.006;
 
@@ -423,12 +398,50 @@ export const SOLAR_FLUXES = Object.fromEntries(
     // eslint-disable-next-line no-unused-vars
   ).map(([simulationMode, simulationModeDetails]) => [
     simulationModeDetails.name,
-    simulationModeDetails.SOLAR_FLUX,
+    simulationModeDetails.solarFlux,
   ]),
 );
 
-export const CLOUD_COVER_DIVISION_FACTOR = 380;
-export const CLOUD_COVER_CIRCLES_DIVISION_FACTOR = 3;
+export const GROUND_COLOR_RANGES = Object.fromEntries(
+  Object.entries(
+    SIMULATION_MODES,
+    // eslint-disable-next-line no-unused-vars
+  ).map(([simulationMode, simulationModeDetails]) => [
+    simulationModeDetails.name,
+    simulationModeDetails.groundColorRange,
+  ]),
+);
+
+export const GROUND_PAUSED_COLOR_RANGES = Object.fromEntries(
+  Object.entries(
+    SIMULATION_MODES,
+    // eslint-disable-next-line no-unused-vars
+  ).map(([simulationMode, simulationModeDetails]) => [
+    simulationModeDetails.name,
+    simulationModeDetails.groundColorRangePaused,
+  ]),
+);
+
+export const SKY_COLOR_RANGES = Object.fromEntries(
+  Object.entries(
+    SIMULATION_MODES,
+    // eslint-disable-next-line no-unused-vars
+  ).map(([simulationMode, simulationModeDetails]) => [
+    simulationModeDetails.name,
+    simulationModeDetails.skyColorRange,
+  ]),
+);
+
+export const SKY_PAUSED_COLOR_RANGES = Object.fromEntries(
+  Object.entries(
+    SIMULATION_MODES,
+    // eslint-disable-next-line no-unused-vars
+  ).map(([simulationMode, simulationModeDetails]) => [
+    simulationModeDetails.name,
+    simulationModeDetails.skyColorRangePaused,
+  ]),
+);
+
 export const CLOUD_COVER_PERCENTAGE_LIMIT = 50;
 
 export const GREENHOUSE_GASES_DISTRIBUTION = {
@@ -439,3 +452,25 @@ export const GREENHOUSE_GASES_DISTRIBUTION = {
 
 export const ON_STRING = 'on';
 export const AUTO_STRING = 'auto';
+export const UP_STRING = 'up';
+export const DOWN_STRING = 'down';
+export const TOP_STRING = 'top';
+export const BOTTOM_STRING = 'bottom';
+export const INFRARED = 'infrared';
+export const VISIBLE_LIGHT = 'visible-light';
+export const DEFAULT_FILL = 'default-fill';
+export const DARK_FILL = 'dark-fill';
+
+export const APPLICATION_INTERVAL = 50;
+export const Y_SHIFT_PER_INTERVAL = Math.PI;
+export const VISIBLE_LIGHT_PERIOD = 1 / 6;
+export const INFRARED_RADIATION_PERIOD = 1 / 12;
+export const Y_INCREMENT = Math.PI / 8;
+
+export const FLUX_BLINKING_INTERVAL = 1000;
+
+// when temperature changes become smaller than this number, exit the loop
+export const WATER_VAPOR_FEEDBACK_DEFAULT_EPSILON = 0.01;
+export const WATER_VAPOR_FEEDBACK_UPDATE_INTERVAL = 1000;
+// above this temperature, the earth has heated so much that for all purposes there's no difference
+export const MAX_TEMPERATURE_DISPLAYED_ON_EARTH_CELSIUS = 30;

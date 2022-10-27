@@ -1,14 +1,15 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useContext } from 'react';
 import { Rect } from 'react-konva';
 import { ATMOSPHERE } from '../../../../config/constants';
+import { AtmosphereDimensionsContext } from '../../../contexts/canvas-dimensions/AtmosphereDimensionsProvider';
 
-const AtmosphereBackground = ({
-  atmosphereHeight,
-  atmosphereWidth,
-  atmosphereBeginsX,
-  atmosphereBeginsY,
-}) => {
+const AtmosphereBackground = () => {
+  const {
+    atmosphereBeginsX,
+    atmosphereBeginsY,
+    atmosphereHeight,
+    atmosphereWidth,
+  } = useContext(AtmosphereDimensionsContext);
   const { colorRange: atmosphereColorRange } = ATMOSPHERE;
 
   return (
@@ -25,13 +26,6 @@ const AtmosphereBackground = ({
       fillLinearGradientColorStops={atmosphereColorRange}
     />
   );
-};
-
-AtmosphereBackground.propTypes = {
-  atmosphereHeight: PropTypes.number.isRequired,
-  atmosphereWidth: PropTypes.number.isRequired,
-  atmosphereBeginsX: PropTypes.number.isRequired,
-  atmosphereBeginsY: PropTypes.number.isRequired,
 };
 
 export default AtmosphereBackground;
