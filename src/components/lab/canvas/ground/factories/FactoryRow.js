@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { useSelector } from 'react-redux';
 import Factory from './Factory';
 import {
   FACTORY_MAIN_BUILDING_WIDTH,
@@ -9,6 +10,7 @@ import {
   FACTORY_ROW_BEGINS_X,
   X_DISTANCE_BETWEEN_FACTORIES,
   DEFAULT_NUMBER_OF_FACTORIES_IN_ROW,
+  SIMULATION_MODES,
 } from '../../../../../config/constants';
 import { GroundDimensionsContext } from '../../../../contexts/canvas-dimensions/GroundDimensionsProvider';
 
@@ -19,6 +21,7 @@ const FactoryRow = () => {
     groundBeginsX,
     groundBeginsY,
   } = useContext(GroundDimensionsContext);
+  const { simulationMode } = useSelector(({ lab }) => lab);
 
   // factory dimensions
   const mainBuildingWidth = FACTORY_MAIN_BUILDING_WIDTH * groundWidth;
@@ -32,7 +35,12 @@ const FactoryRow = () => {
   const factoryRowBeginsX = groundBeginsX + FACTORY_ROW_BEGINS_X * groundWidth;
   const xDistanceBetweenFactories = X_DISTANCE_BETWEEN_FACTORIES * groundWidth;
 
-  const factories = new Array(DEFAULT_NUMBER_OF_FACTORIES_IN_ROW)
+  const numFactoriesInRow =
+    simulationMode !== SIMULATION_MODES.TWENTIETH_CENTURY.name
+      ? DEFAULT_NUMBER_OF_FACTORIES_IN_ROW
+      : DEFAULT_NUMBER_OF_FACTORIES_IN_ROW - 1;
+
+  const factories = new Array(numFactoriesInRow)
     .fill()
     .map((emptyElement, index) => (
       <Factory
