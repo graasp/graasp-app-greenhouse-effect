@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Text } from 'react-konva';
 import {
@@ -16,7 +17,14 @@ const CurrentTemperature = ({
   scaleName,
   scaleLabel,
 }) => {
-  const text = createTemperatureLabel(temperature, scaleName, scaleLabel);
+  const { simulationMode } = useSelector(({ lab }) => lab);
+
+  const text = createTemperatureLabel(
+    temperature,
+    scaleName,
+    scaleLabel,
+    simulationMode,
+  );
 
   const labelBeginsX = thermometerBaseWidth / 2 - THERMOMETER_LABEL_WIDTH / 2;
 

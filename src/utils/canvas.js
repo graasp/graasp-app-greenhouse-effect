@@ -19,6 +19,7 @@ import {
   MINIMUM_THERMOMETER_TEMPERATURE_CELSIUS,
   SCALE_UNITS,
   MAX_TEMPERATURE_DISPLAYED_ON_EARTH_CELSIUS,
+  SIMULATION_MODES,
 } from '../config/constants';
 import { celsiusToKelvin, kelvinToCelsius } from './greenhouseEffect';
 
@@ -286,16 +287,21 @@ export const createTemperatureLabel = (
   temperatureInKelvin,
   scaleName,
   scaleLabel,
+  simulationMode,
 ) => {
   const maxTemperature =
     scaleName === SCALE_UNITS.CELSIUS.name
       ? MAX_TEMPERATURE_DISPLAYED_ON_EARTH_CELSIUS
-      : celsiusToKelvin(MAX_TEMPERATURE_DISPLAYED_ON_EARTH_CELSIUS);
+      : Math.round(celsiusToKelvin(MAX_TEMPERATURE_DISPLAYED_ON_EARTH_CELSIUS));
 
   const temperature =
     scaleName === SCALE_UNITS.CELSIUS.name
       ? kelvinToCelsius(temperatureInKelvin)
       : temperatureInKelvin;
+
+  if (simulationMode === SIMULATION_MODES.VENUS.name) {
+    return `${Math.round(temperature)}${scaleLabel}`;
+  }
 
   return temperature > maxTemperature
     ? `${maxTemperature}${scaleLabel}+`
