@@ -113,7 +113,6 @@ const GreenhouseEffectSettings = ({
         max={ICE_COVER_MAX_VALUE}
         value={iceCover}
         onChange={(e, v) => dispatch(setIceCover(v))}
-        indent
         disabled={disabled}
       />
       <SliderWithLabel
@@ -122,7 +121,6 @@ const GreenhouseEffectSettings = ({
         max={CLOUD_COVER_MAX_VALUE}
         value={cloudCover}
         onChange={(e, v) => dispatch(setCloudCover(v))}
-        indent
         disabled={disabled}
       />
       <SliderWithLabel
@@ -144,7 +142,6 @@ const GreenhouseEffectSettings = ({
             dispatch(setCarbonDioxide(v));
           }
         }}
-        indent
         disabled={disabled}
         valueLabelDisplay={isMarsOrVenus ? ON_STRING : AUTO_STRING}
         bigLabel={isMarsOrVenus}
@@ -162,7 +159,6 @@ const GreenhouseEffectSettings = ({
           }
         }}
         step={METHANE_SLIDER_STEP}
-        indent
         disabled={disabled}
         valueLabelDisplay={isMarsOrVenus ? ON_STRING : AUTO_STRING}
       />
@@ -173,7 +169,6 @@ const GreenhouseEffectSettings = ({
         min={WATER_CONCENTRATION_MIN_VALUE}
         value={waterVapor}
         onChange={(e, v) => dispatch(setWaterVapor(v))}
-        indent
         valueLabelDisplay={ON_STRING}
       />
     </>

@@ -106,6 +106,7 @@ const SideMenu = () => {
             componentMethane={componentMethane}
             setComponentMethane={setComponentMethane}
           />
+          <Divider className={classes.divider} />
           <FeedbacksSettings />
         </div>
       </Drawer>

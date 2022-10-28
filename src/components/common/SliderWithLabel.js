@@ -25,9 +25,6 @@ const useStyles = makeStyles((theme) => ({
   slider: {
     width: '50%',
   },
-  indent: {
-    paddingLeft: theme.spacing(1),
-  },
 }));
 
 // this component is used to make the label on the CO2 slider wider when the planet is Mars or Venus
@@ -48,7 +45,6 @@ const SliderWithLabel = ({
   disabled,
   text,
   onChange,
-  indent,
   labelClassName,
   valueLabelDisplay,
   step,
@@ -85,12 +81,7 @@ const SliderWithLabel = ({
   );
 
   const Label = (
-    <Typography
-      variant="body2"
-      className={clsx(classes.label, labelClassName, {
-        [classes.indent]: indent,
-      })}
-    >
+    <Typography variant="body2" className={clsx(classes.label, labelClassName)}>
       {/* set in inner html to allow subscript tags */}
       {/* eslint-disable-next-line react/no-danger */}
       <span dangerouslySetInnerHTML={{ __html: text }} />
@@ -114,7 +105,7 @@ SliderWithLabel.propTypes = {
   disabled: PropTypes.bool,
   text: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   onChange: PropTypes.func,
-  indent: PropTypes.bool,
+
   labelClassName: PropTypes.string,
   valueLabelDisplay: PropTypes.string,
   step: PropTypes.number,
@@ -124,7 +115,6 @@ SliderWithLabel.propTypes = {
 
 SliderWithLabel.defaultProps = {
   disabled: false,
-  indent: false,
   labelClassName: null,
   valueLabelDisplay: 'auto',
   min: 0,
