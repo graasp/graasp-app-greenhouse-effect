@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { Group } from 'react-konva';
@@ -13,8 +13,10 @@ import {
   SUN_FLUXES_DEFAULT_COLOR,
 } from '../../../../../config/constants';
 import { computeAlbedo } from '../../../../../utils/greenhouseEffect';
+import { FluxesWavesContext } from '../../../../contexts/fluxes-waves/FluxesWavesProvider';
 
 const SunFluxes = ({ fluxFill }) => {
+  const { isMars } = useContext(FluxesWavesContext);
   const { simulationMode } = useSelector(({ lab }) => lab);
   const { iceCover, cloudCover } = useSelector(({ lab }) => lab);
 
@@ -37,8 +39,10 @@ const SunFluxes = ({ fluxFill }) => {
   return (
     <Group>
       <SunToCloudFlux flux={sunToCloudFlux} fill={fill} />
-      <CloudToAtmosphereFlux flux={cloudToAtmosphereFlux} fill={fill} />
-      <CloudToGroundFlux flux={cloudToGroundFlux} fill={fill} />
+      {!isMars && (
+        <CloudToAtmosphereFlux flux={cloudToAtmosphereFlux} fill={fill} />
+      )}
+      {!isMars && <CloudToGroundFlux flux={cloudToGroundFlux} fill={fill} />}
       <GroundToAtmosphereFlux flux={groundToAtmosphereFlux} fill={fill} />
     </Group>
   );

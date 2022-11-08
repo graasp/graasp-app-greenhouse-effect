@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Group } from 'react-konva';
 import {
@@ -10,8 +10,11 @@ import {
 import GroundToSkyFlux from './GroundToSkyFlux';
 import SkyToAtmosphereFlux from './SkyToAtmosphereFlux';
 import SkyToGroundFlux from './SkyToGroundFlux';
+import { FluxesWavesContext } from '../../../../contexts/fluxes-waves/FluxesWavesProvider';
 
 const EarthFluxes = ({ temperature, greenhouseEffect, fluxFill }) => {
+  const { isMars } = useContext(FluxesWavesContext);
+
   const groundToSkyFlux = Math.round(
     STEFAN_BOLTZMANN_CONSTANT * temperature ** 4,
   );
@@ -27,7 +30,9 @@ const EarthFluxes = ({ temperature, greenhouseEffect, fluxFill }) => {
     <Group>
       <GroundToSkyFlux flux={groundToSkyFlux} fill={fill} />
       <SkyToGroundFlux flux={skyToGroundFlux} fill={fill} />
-      <SkyToAtmosphereFlux flux={skyToAtmosphereFlux} fill={fill} />
+      {!isMars && (
+        <SkyToAtmosphereFlux flux={skyToAtmosphereFlux} fill={fill} />
+      )}
     </Group>
   );
 };

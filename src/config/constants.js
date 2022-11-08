@@ -285,6 +285,8 @@ export const CLOUD_TO_GROUND_WAVE_AMPLITUDE = 35;
 export const GROUND_TO_ATMOSPHERE_WAVE_AMPLITUDE = 15;
 export const CLOUD_TO_ATMOSPHERE_WAVE_AMPLITUDE = 15;
 export const GROUND_TO_SKY_WAVE_AMPLITUDE = 50;
+// set a minimum amplitude so that waves never appear as a straight-ish line
+export const MINIMUM_WAVE_AMPLITUDE = 10;
 // constants used in the creation of custom flux arrow
 export const FLUX_WIDTH_AS_PERCENTAGE_OF_FLUX_VALUE = 0.7;
 export const MAXIMUM_FLUX_WIDTH_AS_PERCENTAGE_OF_STAGE_WIDTH = 0.2;

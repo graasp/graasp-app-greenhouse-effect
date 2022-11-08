@@ -31,8 +31,6 @@ const getActions = async (
   try {
     const { apiHost, spaceId: currentSpaceId } = getApiContext(getState);
 
-    // stops an error being thrown in development mode
-    // case with !apiHost in production is handled by getApiContext
     if (!apiHost) {
       return;
     }

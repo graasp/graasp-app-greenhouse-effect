@@ -5,6 +5,7 @@ import { Line } from 'react-konva';
 import { generateSineCurve } from '../../../../../utils/canvas';
 import {
   INFRARED_RADIATION_PERIOD,
+  MINIMUM_WAVE_AMPLITUDE,
   VISIBLE_LIGHT,
   VISIBLE_LIGHT_PERIOD,
 } from '../../../../../config/constants';
@@ -24,13 +25,15 @@ const Wave = ({
   const period =
     type === VISIBLE_LIGHT ? VISIBLE_LIGHT_PERIOD : INFRARED_RADIATION_PERIOD;
 
+  const waveAmplitude = Math.max(amplitude, MINIMUM_WAVE_AMPLITUDE);
+
   const wavePoints =
     intervalCount > startAfterInterval
       ? generateSineCurve(
           intervalCount - startAfterInterval,
           waveBeginsY,
           waveEndsY,
-          amplitude,
+          waveAmplitude,
           period,
         )
       : [];
