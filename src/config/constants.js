@@ -103,7 +103,8 @@ export const FIRST_CLOUD_CENTRAL_CIRCLE_Y = 0.3;
 export const SECOND_CLOUD_CENTRAL_CIRCLE_X = 0.7;
 export const SECOND_CLOUD_CENTRAL_CIRCLE_Y =
   FIRST_CLOUD_CENTRAL_CIRCLE_X - 0.05;
-export const CLOUD_FILL = 'white';
+export const DEFAULT_CLOUD_FILL = 'white';
+export const VENUS_CLOUD_FILL = 'lightgray';
 export const CLOUD_ADJACENT_CIRCLE_RADIUS = 0.85;
 export const CLOUD_PERIPHERAL_CIRCLE_RADIUS = 0.4;
 
