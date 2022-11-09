@@ -20,6 +20,7 @@ import {
   SCALE_UNITS,
   MAX_TEMPERATURE_DISPLAYED_ON_EARTH_CELSIUS,
   SIMULATION_MODES,
+  LARGE_FLUX,
 } from '../config/constants';
 import { celsiusToKelvin, kelvinToCelsius } from './greenhouseEffect';
 
@@ -529,7 +530,12 @@ export const generateSineCurve = (
 };
 
 export const calculateFluxWidth = (flux, stageWidth) => {
-  // because a flux value can be extremely large (e.g. on Venus), cap its value via Math.min(...) below
+  if (flux > LARGE_FLUX) {
+    // if a flux is LARGE, take maximum possible flux size and scale it by 1.35
+    return stageWidth * MAXIMUM_FLUX_WIDTH_AS_PERCENTAGE_OF_STAGE_WIDTH * 1.35;
+  }
+
+  // to ensure fluxes aren't too large, cap their size via Math.min(...)
   return Math.min(
     flux * FLUX_WIDTH_AS_PERCENTAGE_OF_FLUX_VALUE,
     stageWidth * MAXIMUM_FLUX_WIDTH_AS_PERCENTAGE_OF_STAGE_WIDTH,

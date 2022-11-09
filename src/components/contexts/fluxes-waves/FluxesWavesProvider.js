@@ -98,8 +98,9 @@ const FluxesWavesProvider = ({ children }) => {
   const skyToGroundFluxBeginsX =
     SKY_TO_GROUND_EARTH_FLUX_ADJUSTMENT * (stageWidth - seaWidth);
   const skyToGroundFluxBeginsY = cloudBottomY;
-  const skyToGroundFluxHeight =
-    groundBeginsY - fullMountainHeight - cloudBottomY;
+  const skyToGroundFluxHeight = isVenus
+    ? groundBeginsY - cloudBottomY
+    : groundBeginsY - fullMountainHeight - cloudBottomY;
   const skyToGroundFluxStartsAfterInterval = groundToSkyFluxReachesEnd;
 
   const skyToAtmosphereFluxBeginsX =
