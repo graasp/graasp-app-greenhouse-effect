@@ -63,7 +63,8 @@ const FluxesWavesProvider = ({ children }) => {
 
   const cloudToGroundFluxBeginsX = sunCenterX;
   const cloudToGroundFluxBeginsY = cloudBottomY;
-  const cloudToGroundFluxHeight = skyBeginsY + skyHeight - cloudBottomY;
+  const cloudToGroundFluxHeight =
+    skyBeginsY + skyHeight - cloudBottomY - iceCapHeight;
   const cloudToGroundFluxStartsAfterInterval = sunToCloudFluxReachesEnd;
   const cloudToGroundFluxReachesEnd =
     sunToCloudFluxReachesEnd + TOTAL_INTERVALS_TO_COMPLETE_FLUX;
@@ -71,7 +72,7 @@ const FluxesWavesProvider = ({ children }) => {
   const cloudToAtmosphereFluxBeginsX =
     firstCloudCentralCircleX - firstCloudCentralCircleRadiusX;
   const cloudToAtmosphereFluxBeginsY = firstCloudCentralCircleY;
-  const cloudToAtmosphereFluxHeight = firstCloudCentralCircleY - sunBottomY;
+  const cloudToAtmosphereFluxHeight = firstCloudCentralCircleY - sunCenterY;
   const cloudToAtmosphereFluxStartsAfterInterval = sunToCloudFluxReachesEnd;
 
   const groundToAtmosphereFluxBeginsX =
@@ -106,7 +107,7 @@ const FluxesWavesProvider = ({ children }) => {
   const skyToAtmosphereFluxBeginsX =
     SKY_TO_ATMOSPHERE_EARTH_FLUX_ADJUSTMENT * (stageWidth - seaWidth);
   const skyToAtmosphereFluxBeginsY = firstCloudCentralCircleY;
-  const skyToAtmosphereFluxHeight = firstCloudCentralCircleY - sunBottomY;
+  const skyToAtmosphereFluxHeight = firstCloudCentralCircleY - sunCenterY;
   const skyToAtmosphereFluxStartsAfterInterval = groundToSkyFluxReachesEnd;
 
   // sun wave dimensions, positions, starting/ending intervals
@@ -122,7 +123,7 @@ const FluxesWavesProvider = ({ children }) => {
 
   const cloudToGroundWaveBeginsX = sunCenterX;
   const cloudToGroundWaveBeginsY = cloudBottomY;
-  const cloudToGroundWaveEndsY = groundBeginsY;
+  const cloudToGroundWaveEndsY = groundBeginsY - iceCapHeight;
   const cloudToGroundWaveStartsAfterInterval = sunToCloudWaveReachesEnd;
   const cloudToGroundWaveReachesEnd =
     sunToCloudWaveReachesEnd +
@@ -132,7 +133,7 @@ const FluxesWavesProvider = ({ children }) => {
   const cloudToAtmosphereWaveBeginsX =
     firstCloudCentralCircleX - firstCloudCentralCircleRadiusX;
   const cloudToAtmosphereWaveBeginsY = firstCloudCentralCircleY;
-  const cloudToAtmosphereWaveEndsY = sunBottomY;
+  const cloudToAtmosphereWaveEndsY = sunCenterY;
   const cloudToAtmosphereWaveStartsAfterInterval = sunToCloudWaveReachesEnd;
 
   const groundToAtmosphereWaveBeginsX =
@@ -170,7 +171,7 @@ const FluxesWavesProvider = ({ children }) => {
   const skyToAtmosphereWaveBeginsX =
     SKY_TO_ATMOSPHERE_EARTH_FLUX_ADJUSTMENT * (stageWidth - seaWidth);
   const skyToAtmosphereWaveBeginsY = firstCloudCentralCircleY;
-  const skyToAtmosphereWaveEndsY = sunBottomY;
+  const skyToAtmosphereWaveEndsY = sunCenterY;
   const skyToAtmosphereWaveStartsAfterInterval = groundToSkyWaveReachesEnd;
 
   return (
