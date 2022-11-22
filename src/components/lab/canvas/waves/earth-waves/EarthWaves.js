@@ -1,13 +1,27 @@
 import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { Group } from 'react-konva';
 import GroundToSkyWave from './GroundToSkyWave';
 import SkyToAtmosphereWave from './SkyToAtmosphereWave';
 import SkyToGroundWave from './SkyToGroundWave';
 import { FluxesWavesContext } from '../../../../contexts/fluxes-waves/FluxesWavesProvider';
+import { computeGreenhouseEffect } from '../../../../../utils/greenhouseEffect';
 
-const EarthWaves = ({ greenhouseEffect }) => {
+const EarthWaves = () => {
   const { isMars } = useContext(FluxesWavesContext);
+  const {
+    finalCarbonDioxide,
+    finalMethane,
+    cTerm,
+    simulationMode,
+  } = useSelector(({ lab }) => lab);
+
+  const greenhouseEffect = computeGreenhouseEffect(
+    finalCarbonDioxide,
+    finalMethane,
+    cTerm,
+    simulationMode,
+  );
 
   return (
     <Group>
@@ -16,10 +30,6 @@ const EarthWaves = ({ greenhouseEffect }) => {
       {!isMars && <SkyToGroundWave greenhouseEffect={greenhouseEffect} />}
     </Group>
   );
-};
-
-EarthWaves.propTypes = {
-  greenhouseEffect: PropTypes.number.isRequired,
 };
 
 export default EarthWaves;

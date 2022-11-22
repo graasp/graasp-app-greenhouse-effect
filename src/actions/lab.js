@@ -6,33 +6,49 @@ import {
   SET_SIMULATION_MODE,
   RESET,
   INCREMENT_INTERVAL_COUNT,
-  TOGGLE_FLUXES_BLINKING,
-  SET_CARBON_DIOXIDE,
-  SET_METHANE,
-  SET_WATER_VAPOR,
-  SET_CLOUD_COVER,
-  SET_ICE_COVER,
+  SET_FINAL_CARBON_DIOXIDE,
+  SET_FINAL_METHANE,
+  SET_FINAL_CLOUD_COVER,
+  SET_FINAL_ICE_COVER,
   SET_C_TERM,
+  SET_TEMPORARY_ICE_COVER,
+  SET_TEMPORARY_CLOUD_COVER,
+  SET_TEMPORARY_CARBON_DIOXIDE,
+  SET_TEMPORARY_METHANE,
+  TOGGLE_FLUXES_FILLS,
+  RESET_FLUXES_FILL,
 } from '../types';
 
-export const setCarbonDioxide = (payload) => (dispatch) => {
-  dispatch({ type: SET_CARBON_DIOXIDE, payload });
+export const setFinalCarbonDioxide = (payload) => (dispatch) => {
+  dispatch({ type: SET_FINAL_CARBON_DIOXIDE, payload });
 };
 
-export const setMethane = (payload) => (dispatch) => {
-  dispatch({ type: SET_METHANE, payload });
+export const setTemporaryCarbonDioxide = (payload) => (dispatch) => {
+  dispatch({ type: SET_TEMPORARY_CARBON_DIOXIDE, payload });
 };
 
-export const setWaterVapor = (payload) => (dispatch) => {
-  dispatch({ type: SET_WATER_VAPOR, payload });
+export const setFinalMethane = (payload) => (dispatch) => {
+  dispatch({ type: SET_FINAL_METHANE, payload });
 };
 
-export const setCloudCover = (payload) => (dispatch) => {
-  dispatch({ type: SET_CLOUD_COVER, payload });
+export const setTemporaryMethane = (payload) => (dispatch) => {
+  dispatch({ type: SET_TEMPORARY_METHANE, payload });
 };
 
-export const setIceCover = (payload) => (dispatch) => {
-  dispatch({ type: SET_ICE_COVER, payload });
+export const setFinalCloudCover = (payload) => (dispatch) => {
+  dispatch({ type: SET_FINAL_CLOUD_COVER, payload });
+};
+
+export const setTemporaryCloudCover = (payload) => (dispatch) => {
+  dispatch({ type: SET_TEMPORARY_CLOUD_COVER, payload });
+};
+
+export const setFinalIceCover = (payload) => (dispatch) => {
+  dispatch({ type: SET_FINAL_ICE_COVER, payload });
+};
+
+export const setTemporaryIceCover = (payload) => (dispatch) => {
+  dispatch({ type: SET_TEMPORARY_ICE_COVER, payload });
 };
 
 export const setFeedbackValues = (payload) => (dispatch) => {
@@ -65,8 +81,11 @@ export const setSimulationMode = (payload) => (dispatch) => {
 export const incrementIntervalCount = () => (dispatch) =>
   dispatch({ type: INCREMENT_INTERVAL_COUNT });
 
-export const toggleFluxesBlinking = () => (dispatch) =>
-  dispatch({ type: TOGGLE_FLUXES_BLINKING });
-
 export const setCTerm = (payload) => (dispatch) =>
   dispatch({ type: SET_C_TERM, payload });
+
+export const toggleFluxesFills = (payload) => (dispatch) =>
+  dispatch({ type: TOGGLE_FLUXES_FILLS, payload });
+
+export const resetFluxesFills = (payload) => (dispatch) =>
+  dispatch({ type: RESET_FLUXES_FILL, payload });

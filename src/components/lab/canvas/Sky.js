@@ -5,7 +5,7 @@ import SkyBackground from './sky/SkyBackground';
 import Thermometer from './sky/thermometer/Thermometer';
 import Clouds from './sky/cloud/Clouds';
 
-const Sky = ({ cursorBecomesZoomIn, cursorBecomesDefault, temperature }) => {
+const Sky = ({ cursorBecomesZoomIn, cursorBecomesDefault }) => {
   return (
     // Some notes on getting the mouse cursor to behave correcly when moving from/to zoom-in/zoom-out views:
     // (1) The desired behavior: When in zoomed out view, only show a zoom-in lens when hovering over the sky,
@@ -24,7 +24,6 @@ const Sky = ({ cursorBecomesZoomIn, cursorBecomesDefault, temperature }) => {
       <Thermometer
         cursorBecomesZoomIn={cursorBecomesZoomIn}
         cursorBecomesDefault={cursorBecomesDefault}
-        temperature={temperature}
       />
     </Group>
   );
@@ -33,7 +32,6 @@ const Sky = ({ cursorBecomesZoomIn, cursorBecomesDefault, temperature }) => {
 Sky.propTypes = {
   cursorBecomesZoomIn: PropTypes.func.isRequired,
   cursorBecomesDefault: PropTypes.func.isRequired,
-  temperature: PropTypes.number.isRequired,
 };
 
 export default Sky;

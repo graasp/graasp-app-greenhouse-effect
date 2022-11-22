@@ -21,12 +21,21 @@ import CurrentTemperature from './CurrentTemperature';
 import { SkyDimensionsContext } from '../../../../contexts/canvas-dimensions/SkyDimensionsProvider';
 import ThermometerScale from './ThermometerScale';
 import ThermometerFill from './ThermometerFill';
+import {
+  computeAlbedo,
+  computeGreenhouseEffect,
+  computeTemperature,
+} from '../../../../../utils/greenhouseEffect';
 
-const Thermometer = ({
-  cursorBecomesDefault,
-  cursorBecomesZoomIn,
-  temperature,
-}) => {
+const Thermometer = ({ cursorBecomesDefault, cursorBecomesZoomIn }) => {
+  const {
+    finalCarbonDioxide,
+    finalMethane,
+    cTerm,
+    simulationMode,
+    finalIceCover,
+    finalCloudCover,
+  } = useSelector(({ lab }) => lab);
   const { skyHeight, skyWidth, skyBeginsX, skyBeginsY } = useContext(
     SkyDimensionsContext,
   );
@@ -56,6 +65,23 @@ const Thermometer = ({
   const theremometerScaleLabels = generateThermometerLabels(
     THERMOMETER_SCALE_NUM_GRADES,
     scaleName,
+  );
+
+  const greenhouseEffect = computeGreenhouseEffect(
+    finalCarbonDioxide,
+    finalMethane,
+    cTerm,
+    simulationMode,
+  );
+  const { totalAlbedo } = computeAlbedo(
+    finalIceCover,
+    finalCloudCover,
+    simulationMode,
+  );
+  const temperature = computeTemperature(
+    greenhouseEffect,
+    totalAlbedo,
+    simulationMode,
   );
 
   return (
@@ -99,7 +125,6 @@ const Thermometer = ({
 Thermometer.propTypes = {
   cursorBecomesDefault: PropTypes.func.isRequired,
   cursorBecomesZoomIn: PropTypes.func.isRequired,
-  temperature: PropTypes.number.isRequired,
 };
 
 export default Thermometer;

@@ -8,8 +8,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import FormLabel from '@material-ui/core/FormLabel';
 import { makeStyles } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
-import { SIMULATION_MODES } from '../../config/constants';
-import { setSimulationMode } from '../../actions';
+import { SIMULATION_MODES } from '../../../config/constants';
+import { setSimulationMode } from '../../../actions';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {

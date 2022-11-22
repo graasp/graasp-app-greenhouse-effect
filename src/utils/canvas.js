@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { resetFluxesFills, setCTerm, toggleFluxesFills } from '../actions';
 import {
   CLOUD_ADJACENT_CIRCLE_RADIUS,
   ATOM_DIMENSIONS,
@@ -21,6 +22,10 @@ import {
   MAX_TEMPERATURE_DISPLAYED_ON_EARTH_CELSIUS,
   SIMULATION_MODES,
   LARGE_FLUX,
+  FLUX_BLINKING_INTERVAL,
+  GROUND_TO_SKY,
+  SKY_TO_GROUND,
+  SKY_TO_ATMOSPHERE,
 } from '../config/constants';
 import { celsiusToKelvin, kelvinToCelsius } from './greenhouseEffect';
 
@@ -540,4 +545,59 @@ export const calculateFluxWidth = (flux, stageWidth) => {
     flux * FLUX_WIDTH_AS_PERCENTAGE_OF_FLUX_VALUE,
     stageWidth * MAXIMUM_FLUX_WIDTH_AS_PERCENTAGE_OF_STAGE_WIDTH,
   );
+};
+
+export const stopFluxesBlinking = () => {
+  clearInterval(window.fluxBlinkingInterval);
+};
+
+export const keepFluxesBlinking = (fluxes, dispatch) => {
+  stopFluxesBlinking();
+  window.fluxBlinkingInterval = setInterval(() => {
+    dispatch(toggleFluxesFills(fluxes));
+  }, FLUX_BLINKING_INTERVAL);
+};
+
+export const graduallyDispatchValues = (
+  targetValues,
+  originalValues,
+  numIncrements,
+  delay,
+  dispatch,
+  actions,
+  blinkEarthFluxes = false,
+) => {
+  const increments = targetValues.map((value, index) => {
+    if (!originalValues.length) {
+      return value;
+    }
+    return (value - originalValues[index]) / numIncrements;
+  });
+  for (let i = 1; i <= numIncrements; i += 1) {
+    setTimeout(() => {
+      if (blinkEarthFluxes) {
+        dispatch(
+          toggleFluxesFills([GROUND_TO_SKY, SKY_TO_GROUND, SKY_TO_ATMOSPHERE]),
+        );
+      }
+      increments.forEach((increment, index) => {
+        dispatch(actions[index](originalValues[index] + i * increment));
+      });
+      if (i === numIncrements) {
+        dispatch(resetFluxesFills());
+      }
+    }, delay * (i - 1));
+  }
+};
+
+export const graduallyDispatchCTerms = (cTerms, dispatch, delay) => {
+  for (let i = 0; i < cTerms.length; i += 1) {
+    setTimeout(() => {
+      dispatch(toggleFluxesFills([GROUND_TO_SKY, SKY_TO_GROUND]));
+      dispatch(setCTerm(cTerms[i]));
+      if (i === cTerms.length - 1) {
+        dispatch(resetFluxesFills());
+      }
+    }, delay * (i + 1));
+  }
 };

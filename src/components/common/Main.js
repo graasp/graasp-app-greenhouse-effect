@@ -8,7 +8,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { CssBaseline, Fab } from '@material-ui/core';
 import { toggleSideMenu } from '../../actions';
 import Header from './Header';
-import SideMenu from './SideMenu';
+import SideMenu from './side-menu/SideMenu';
 import {
   DEFAULT_HEADER_VISIBLE,
   DRAWER_WIDTH,

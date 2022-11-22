@@ -19,8 +19,8 @@ const GroundBackground = () => {
   } = useContext(GroundDimensionsContext);
   const { seaIndent } = useContext(SeaDimensionsContext);
   const { isPaused, simulationMode } = useSelector(({ lab }) => lab);
-  const { iceCover } = useSelector(({ lab }) => lab);
-  const icePercentage = computeIcePercentage(iceCover / 100);
+  const { temporaryIceCover } = useSelector(({ lab }) => lab);
+  const icePercentage = computeIcePercentage(temporaryIceCover / 100);
   const colorRange = GROUND_COLOR_RANGES[simulationMode];
   const colorRangePaused = GROUND_PAUSED_COLOR_RANGES[simulationMode];
 

@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import {
+  INITIAL_FLUX_FILLS,
   RADIATION_MODES,
   SCALE_UNITS,
   SIMULATION_MODES,
@@ -12,14 +13,19 @@ import {
   SET_SIMULATION_MODE,
   RESET,
   INCREMENT_INTERVAL_COUNT,
-  TOGGLE_FLUXES_BLINKING,
-  SET_CARBON_DIOXIDE,
-  SET_METHANE,
-  SET_WATER_VAPOR,
-  SET_CLOUD_COVER,
-  SET_ICE_COVER,
+  SET_FINAL_CARBON_DIOXIDE,
+  SET_FINAL_METHANE,
+  SET_FINAL_CLOUD_COVER,
+  SET_FINAL_ICE_COVER,
   SET_C_TERM,
+  SET_TEMPORARY_ICE_COVER,
+  SET_TEMPORARY_CLOUD_COVER,
+  SET_TEMPORARY_CARBON_DIOXIDE,
+  SET_TEMPORARY_METHANE,
+  TOGGLE_FLUXES_FILLS,
+  RESET_FLUXES_FILL,
 } from '../types';
+import { adjustFluxesFills } from '../utils/reducers';
 
 const INITIAL_STATE = {
   isPaused: true,
@@ -28,12 +34,15 @@ const INITIAL_STATE = {
   },
   radiationMode: RADIATION_MODES.WAVES,
   simulationMode: SIMULATION_MODES.TODAY.name,
-  carbonDioxide: SIMULATION_MODES.TODAY.carbonDioxide,
-  methane: SIMULATION_MODES.TODAY.methane,
+  finalCarbonDioxide: SIMULATION_MODES.TODAY.carbonDioxide,
+  temporaryCarbonDioxide: SIMULATION_MODES.TODAY.carbonDioxide,
+  finalMethane: SIMULATION_MODES.TODAY.methane,
+  temporaryMethane: SIMULATION_MODES.TODAY.methane,
   cTerm: SIMULATION_MODES.TODAY.cTerm,
-  waterVapor: SIMULATION_MODES.TODAY.waterVapor,
-  iceCover: SIMULATION_MODES.TODAY.iceCover,
-  cloudCover: SIMULATION_MODES.TODAY.cloudCover,
+  finalIceCover: SIMULATION_MODES.TODAY.iceCover,
+  temporaryIceCover: SIMULATION_MODES.TODAY.iceCover,
+  finalCloudCover: SIMULATION_MODES.TODAY.cloudCover,
+  temporaryCloudCover: SIMULATION_MODES.TODAY.cloudCover,
   feedback: {
     iceCoverChange: false,
     waterVapor: false,
@@ -42,7 +51,7 @@ const INITIAL_STATE = {
   showSideMenu: true,
   scaleUnit: SCALE_UNITS.CELSIUS,
   intervalCount: 0,
-  fluxesBlinking: false,
+  fluxesFills: INITIAL_FLUX_FILLS,
 };
 
 export default (state = INITIAL_STATE, { type, payload }) => {
@@ -58,36 +67,50 @@ export default (state = INITIAL_STATE, { type, payload }) => {
         ...state,
         isPaused: payload,
       };
-    case SET_CARBON_DIOXIDE:
-      return { ...state, carbonDioxide: payload };
-    case SET_METHANE:
-      return { ...state, methane: payload };
+    case SET_FINAL_CARBON_DIOXIDE:
+      return { ...state, finalCarbonDioxide: payload };
+    case SET_TEMPORARY_CARBON_DIOXIDE:
+      return { ...state, temporaryCarbonDioxide: payload };
+    case SET_FINAL_METHANE:
+      return { ...state, finalMethane: payload };
+    case SET_TEMPORARY_METHANE:
+      return { ...state, temporaryMethane: payload };
     case SET_C_TERM:
       return { ...state, cTerm: payload };
-    case SET_WATER_VAPOR:
-      return { ...state, waterVapor: payload };
-    case SET_CLOUD_COVER:
-      return { ...state, cloudCover: payload };
-    case SET_ICE_COVER:
-      return { ...state, iceCover: payload };
+    case SET_FINAL_CLOUD_COVER:
+      return { ...state, finalCloudCover: payload };
+    case SET_TEMPORARY_CLOUD_COVER:
+      return { ...state, temporaryCloudCover: payload };
+    case SET_FINAL_ICE_COVER:
+      return { ...state, finalIceCover: payload };
+    case SET_TEMPORARY_ICE_COVER:
+      return { ...state, temporaryIceCover: payload };
     case SET_SIMULATION_MODE:
       return {
         ...state,
         simulationMode: payload.name,
-        carbonDioxide: payload.carbonDioxide,
-        methane: payload.methane,
+        finalCarbonDioxide: payload.carbonDioxide,
+        temporaryCarbonDioxide: payload.carbonDioxide,
+        finalMethane: payload.methane,
+        temporaryMethane: payload.methane,
         cTerm: payload.cTerm,
-        waterVapor: payload.waterVapor,
-        iceCover: payload.iceCover,
-        cloudCover: payload.cloudCover,
+        finalIceCover: payload.iceCover,
+        temporaryIceCover: payload.iceCover,
+        finalCloudCover: payload.cloudCover,
+        temporaryCloudCover: payload.cloudCover,
       };
 
     case INCREMENT_INTERVAL_COUNT:
       return { ...state, intervalCount: state.intervalCount + 1 };
     case RESET:
       return INITIAL_STATE;
-    case TOGGLE_FLUXES_BLINKING:
-      return { ...state, fluxesBlinking: !state.fluxesBlinking };
+    case TOGGLE_FLUXES_FILLS:
+      return {
+        ...state,
+        fluxesFills: adjustFluxesFills(state.fluxesFills, payload),
+      };
+    case RESET_FLUXES_FILL:
+      return { ...state, fluxesFills: INITIAL_FLUX_FILLS };
     default:
       return state;
   }

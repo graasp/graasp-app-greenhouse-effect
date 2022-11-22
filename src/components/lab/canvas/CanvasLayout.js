@@ -8,40 +8,13 @@ import Sea from './Sea';
 import Sky from './Sky';
 import { SIMULATION_MODES } from '../../../config/constants';
 import CanvasDimensionsProvider from '../../contexts/canvas-dimensions/CanvasDimensionsProvider';
-import {
-  computeAlbedo,
-  computeTemperature,
-  computeGreenhouseEffect,
-} from '../../../utils/greenhouseEffect';
 import Radiation from './Radiation';
 
 const CanvasLayout = ({ cursorBecomesDefault, cursorBecomesZoomIn }) => {
-  const {
-    simulationMode,
-    carbonDioxide,
-    methane,
-    cTerm,
-    iceCover,
-    cloudCover,
-  } = useSelector(({ lab }) => lab);
+  const { simulationMode } = useSelector(({ lab }) => lab);
   const isEarth =
     simulationMode !== SIMULATION_MODES.MARS.name &&
     simulationMode !== SIMULATION_MODES.VENUS.name;
-
-  const { totalAlbedo } = computeAlbedo(iceCover, cloudCover, simulationMode);
-
-  const greenhouseEffect = computeGreenhouseEffect(
-    carbonDioxide,
-    methane,
-    cTerm,
-    simulationMode,
-  );
-
-  const temperature = computeTemperature(
-    greenhouseEffect,
-    totalAlbedo,
-    simulationMode,
-  );
 
   return (
     <Group>
@@ -50,13 +23,8 @@ const CanvasLayout = ({ cursorBecomesDefault, cursorBecomesZoomIn }) => {
         <Sky
           cursorBecomesZoomIn={cursorBecomesZoomIn}
           cursorBecomesDefault={cursorBecomesDefault}
-          temperature={temperature}
         />
-        <Radiation
-          temperature={temperature}
-          greenhouseEffect={greenhouseEffect}
-          cursorBecomesDefault={cursorBecomesDefault}
-        />
+        <Radiation cursorBecomesDefault={cursorBecomesDefault} />
         <Ground cursorBecomesDefault={cursorBecomesDefault} />
         {isEarth && <Sea cursorBecomesDefault={cursorBecomesDefault} />}
       </CanvasDimensionsProvider>

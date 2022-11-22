@@ -2,13 +2,9 @@ import React from 'react';
 import { Typography, makeStyles } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  setFeedbackValues,
-  setIsPaused,
-  toggleFluxesBlinking,
-} from '../../actions';
-import SwitchWithLabel from './SwitchWithLabel';
-import { SIMULATION_MODES } from '../../config/constants';
+import { setFeedbackValues, setIsPaused } from '../../../actions';
+import SwitchWithLabel from './shared-components/SwitchWithLabel';
+import { SIMULATION_MODES } from '../../../config/constants';
 
 const useStyles = makeStyles((theme) => ({
   heading: {
@@ -36,9 +32,6 @@ const FeedbacksSettings = () => {
     dispatch(setFeedbackValues({ waterVapor: checked }));
     if (!isPaused && checked) {
       dispatch(setIsPaused(true));
-      dispatch(toggleFluxesBlinking(true));
-    } else {
-      dispatch(toggleFluxesBlinking(false));
     }
   };
 
