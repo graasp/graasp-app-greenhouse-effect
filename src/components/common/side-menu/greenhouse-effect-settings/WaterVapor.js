@@ -26,7 +26,10 @@ const WaterVapor = () => {
     finalCarbonDioxide,
     finalMethane,
     cTerm,
+    waterVapor,
+    feedback,
   } = useSelector(({ lab }) => lab);
+  const { waterVapor: waterVaporFeedbackOn } = feedback;
 
   const isMarsOrVenus =
     simulationMode === SIMULATION_MODES.MARS.name ||
@@ -47,6 +50,7 @@ const WaterVapor = () => {
     finalCloudCover,
     simulationMode,
   );
+
   const temperature = computeTemperature(
     greenhouseEffect,
     totalAlbedo,
@@ -59,7 +63,11 @@ const WaterVapor = () => {
       text={t('H_2O (ppm)', { escapeInterpolation: true })}
       max={WATER_CONCENTRATION_MAX_VALUE}
       min={WATER_CONCENTRATION_MIN_VALUE}
-      value={Math.round(computeWaterVapor(kelvinToCelsius(temperature)))}
+      value={
+        waterVaporFeedbackOn
+          ? Math.round(computeWaterVapor(kelvinToCelsius(temperature)))
+          : waterVapor
+      }
       valueLabelDisplay={ON_STRING}
     />
   );

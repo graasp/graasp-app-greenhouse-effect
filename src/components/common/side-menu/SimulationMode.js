@@ -9,7 +9,7 @@ import FormLabel from '@material-ui/core/FormLabel';
 import { makeStyles } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import { SIMULATION_MODES } from '../../../config/constants';
-import { setSimulationMode } from '../../../actions';
+import { setFeedbackValues, setSimulationMode } from '../../../actions';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -49,6 +49,7 @@ function SimulationMode() {
       ({ name }) => name === e.target.value,
     );
     dispatch(setSimulationMode(values));
+    dispatch(setFeedbackValues({ waterVapor: false }));
   };
 
   return (
