@@ -17,9 +17,18 @@ const Fluxes = () => {
     simulationMode,
     finalIceCover,
     finalCloudCover,
+    finalCarbonDioxide,
+    finalMethane,
   } = useSelector(({ lab }) => lab);
 
-  const greenhouseEffect = computeGreenhouseEffect(
+  const oldGreenhouseEffect = computeGreenhouseEffect(
+    finalCarbonDioxide,
+    finalMethane,
+    cTerm,
+    simulationMode,
+  );
+
+  const newGreenhouseEffect = computeGreenhouseEffect(
     temporaryCarbonDioxide,
     temporaryMethane,
     cTerm,
@@ -33,7 +42,7 @@ const Fluxes = () => {
   );
 
   const temperature = computeTemperature(
-    greenhouseEffect,
+    oldGreenhouseEffect,
     totalAlbedo,
     simulationMode,
   );
@@ -43,7 +52,7 @@ const Fluxes = () => {
       <SunFluxes />
       <EarthFluxes
         temperature={temperature}
-        greenhouseEffect={greenhouseEffect}
+        greenhouseEffect={newGreenhouseEffect}
       />
     </Group>
   );

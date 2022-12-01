@@ -18,9 +18,13 @@ import {
   ON_STRING,
   AUTO_STRING,
   GROUND_TO_SKY,
+  SKY_TO_ATMOSPHERE,
   SKY_TO_GROUND,
 } from '../../../../config/constants';
-import { stopFluxesBlinking } from '../../../../utils/canvas';
+import {
+  keepFluxesBlinking,
+  stopFluxesBlinking,
+} from '../../../../utils/canvas';
 
 const CarbonDioxideSlider = ({ disabled }) => {
   const { t } = useTranslation();
@@ -53,7 +57,7 @@ const CarbonDioxideSlider = ({ disabled }) => {
 
   const onChange = (event, value) => {
     stopFluxesBlinking();
-    dispatch(toggleFluxesFills([GROUND_TO_SKY, SKY_TO_GROUND]));
+    dispatch(toggleFluxesFills([SKY_TO_ATMOSPHERE, SKY_TO_GROUND]));
 
     // to make sure fluxes are being calculated based on latest albedo values
     // covers the case where: user adjusts cloud/ice cover, then adjusts CO2 before clicking play
@@ -66,6 +70,10 @@ const CarbonDioxideSlider = ({ disabled }) => {
 
   const onMouseUp = () => {
     dispatch(resetFluxesFills());
+    keepFluxesBlinking(
+      [GROUND_TO_SKY, SKY_TO_GROUND, SKY_TO_ATMOSPHERE],
+      dispatch,
+    );
   };
 
   return (

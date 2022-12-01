@@ -565,7 +565,7 @@ export const graduallyDispatchValues = (
   delay,
   dispatch,
   actions,
-  blinkEarthFluxes = false,
+  blinkEarthFluxes = true,
 ) => {
   const increments = targetValues.map((value, index) => {
     if (!originalValues.length) {

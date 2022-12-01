@@ -19,8 +19,12 @@ import {
   METHANE_SLIDER_STEP,
   GROUND_TO_SKY,
   SKY_TO_GROUND,
+  SKY_TO_ATMOSPHERE,
 } from '../../../../config/constants';
-import { stopFluxesBlinking } from '../../../../utils/canvas';
+import {
+  keepFluxesBlinking,
+  stopFluxesBlinking,
+} from '../../../../utils/canvas';
 
 const MethaneSlider = ({ disabled }) => {
   const { t } = useTranslation();
@@ -38,7 +42,7 @@ const MethaneSlider = ({ disabled }) => {
 
   const onChange = (event, value) => {
     stopFluxesBlinking();
-    dispatch(toggleFluxesFills([GROUND_TO_SKY, SKY_TO_GROUND]));
+    dispatch(toggleFluxesFills([SKY_TO_ATMOSPHERE, SKY_TO_GROUND]));
 
     // to make sure fluxes are being calculated based on latest albedo values
     // covers the case where: user adjusts cloud/ice cover, then adjusts Methane before clicking play
@@ -51,6 +55,10 @@ const MethaneSlider = ({ disabled }) => {
 
   const onMouseUp = () => {
     dispatch(resetFluxesFills());
+    keepFluxesBlinking(
+      [GROUND_TO_SKY, SKY_TO_GROUND, SKY_TO_ATMOSPHERE],
+      dispatch,
+    );
   };
 
   return (

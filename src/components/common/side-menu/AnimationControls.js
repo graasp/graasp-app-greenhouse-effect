@@ -103,10 +103,6 @@ const AnimationControls = () => {
       temporaryMethane !== finalMethane ||
       temporaryCarbonDioxide !== finalCarbonDioxide
     ) {
-      const blinkEarthFluxes =
-        temporaryIceCover !== finalIceCover ||
-        temporaryCloudCover !== finalCloudCover;
-
       graduallyDispatchValues(
         [
           temporaryIceCover,
@@ -124,7 +120,6 @@ const AnimationControls = () => {
           setFinalMethane,
           setFinalCarbonDioxide,
         ],
-        blinkEarthFluxes,
       );
     }
   };
