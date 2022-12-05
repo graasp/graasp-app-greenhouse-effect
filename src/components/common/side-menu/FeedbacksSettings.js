@@ -4,7 +4,13 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { setFeedbackValues, setIsPaused } from '../../../actions';
 import SwitchWithLabel from './shared-components/SwitchWithLabel';
-import { SIMULATION_MODES } from '../../../config/constants';
+import {
+  GROUND_TO_SKY,
+  SIMULATION_MODES,
+  SKY_TO_ATMOSPHERE,
+  SKY_TO_GROUND,
+} from '../../../config/constants';
+import { keepFluxesBlinking } from '../../../utils/canvas';
 
 const useStyles = makeStyles((theme) => ({
   heading: {
@@ -30,6 +36,12 @@ const FeedbacksSettings = () => {
 
   const onToggleWaterVapor = (checked) => {
     dispatch(setFeedbackValues({ waterVapor: checked }));
+    if (checked) {
+      keepFluxesBlinking(
+        [GROUND_TO_SKY, SKY_TO_GROUND, SKY_TO_ATMOSPHERE],
+        dispatch,
+      );
+    }
     if (!isPaused && checked) {
       dispatch(setIsPaused(true));
     }

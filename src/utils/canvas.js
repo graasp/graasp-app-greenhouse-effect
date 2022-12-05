@@ -593,7 +593,9 @@ export const graduallyDispatchValues = (
 export const graduallyDispatchCTerms = (cTerms, dispatch, delay) => {
   for (let i = 0; i < cTerms.length; i += 1) {
     setTimeout(() => {
-      dispatch(toggleFluxesFills([GROUND_TO_SKY, SKY_TO_GROUND]));
+      dispatch(
+        toggleFluxesFills([GROUND_TO_SKY, SKY_TO_GROUND, SKY_TO_ATMOSPHERE]),
+      );
       dispatch(setCTerm(cTerms[i]));
       if (i === cTerms.length - 1) {
         dispatch(resetFluxesFills());
