@@ -8,13 +8,13 @@ import SkyToAtmosphereFlux from './SkyToAtmosphereFlux';
 import SkyToGroundFlux from './SkyToGroundFlux';
 import { FluxesWavesContext } from '../../../../contexts/fluxes-waves/FluxesWavesProvider';
 
-const EarthFluxes = ({ temperature, greenhouseEffect }) => {
+const EarthFluxes = ({ oldTemperature, greenhouseEffect }) => {
   const { isMars } = useContext(FluxesWavesContext);
   const { fluxesFills } = useSelector(({ lab }) => lab);
   const { groundToSky, skyToAtmosphere, skyToGround } = fluxesFills;
 
   const groundToSkyFlux = Math.round(
-    STEFAN_BOLTZMANN_CONSTANT * temperature ** 4,
+    STEFAN_BOLTZMANN_CONSTANT * oldTemperature ** 4,
   );
   const skyToGroundFlux = greenhouseEffect * groundToSkyFlux;
   const skyToAtmosphereFlux = groundToSkyFlux - skyToGroundFlux;
@@ -34,7 +34,7 @@ const EarthFluxes = ({ temperature, greenhouseEffect }) => {
 };
 
 EarthFluxes.propTypes = {
-  temperature: PropTypes.number.isRequired,
+  oldTemperature: PropTypes.number.isRequired,
   greenhouseEffect: PropTypes.number.isRequired,
 };
 

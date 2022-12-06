@@ -8,7 +8,13 @@ import {
   GREENHOUSE_TOTAL_EFFECT_MAX_VALUE,
   ON_STRING,
 } from '../../../../config/constants';
-import { computeGreenhouseEffect } from '../../../../utils/greenhouseEffect';
+import {
+  computeAlbedo,
+  computeCTerm,
+  computeGreenhouseEffect,
+  computeTemperature,
+  kelvinToCelsius,
+} from '../../../../utils/greenhouseEffect';
 import CarbonDioxideSlider from './CarbonDioxideSlider';
 import MethaneSlider from './MethaneSlider';
 import WaterVapor from './WaterVapor';
@@ -28,13 +34,38 @@ const GreenhouseEffect = ({ disabled }) => {
     temporaryMethane,
     cTerm,
     simulationMode,
+    temporaryIceCover,
+    temporaryCloudCover,
+    feedback,
   } = useSelector(({ lab }) => lab);
+  const { waterVapor: waterVaporFeedbackOn } = feedback;
+
+  const greenhouseEffect = computeGreenhouseEffect(
+    temporaryCarbonDioxide,
+    temporaryMethane,
+    cTerm,
+    simulationMode,
+  );
+
+  const { totalAlbedo } = computeAlbedo(
+    temporaryIceCover,
+    temporaryCloudCover,
+    simulationMode,
+  );
+
+  const newTemperature = kelvinToCelsius(
+    computeTemperature(greenhouseEffect, totalAlbedo, simulationMode),
+  );
+
+  const adjustedCTerm = waterVaporFeedbackOn
+    ? computeCTerm(newTemperature)
+    : cTerm;
 
   const totalEffectValue =
     computeGreenhouseEffect(
       temporaryCarbonDioxide,
       temporaryMethane,
-      cTerm,
+      adjustedCTerm,
       simulationMode,
     ) * 100;
 

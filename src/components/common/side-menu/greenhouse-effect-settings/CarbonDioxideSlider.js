@@ -5,8 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import SliderWithLabel from '../shared-components/SliderWithLabel';
 import {
   setTemporaryCarbonDioxide,
-  setFinalCloudCover,
-  setFinalIceCover,
   toggleFluxesFills,
   resetFluxesFills,
 } from '../../../../actions';
@@ -29,12 +27,9 @@ import {
 const CarbonDioxideSlider = ({ disabled }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const {
-    temporaryIceCover,
-    temporaryCloudCover,
-    simulationMode,
-    temporaryCarbonDioxide,
-  } = useSelector(({ lab }) => lab);
+  const { simulationMode, temporaryCarbonDioxide } = useSelector(
+    ({ lab }) => lab,
+  );
 
   const isMarsOrVenus =
     simulationMode === SIMULATION_MODES.MARS.name ||
@@ -58,13 +53,6 @@ const CarbonDioxideSlider = ({ disabled }) => {
   const onChange = (event, value) => {
     stopFluxesBlinking();
     dispatch(toggleFluxesFills([SKY_TO_ATMOSPHERE, SKY_TO_GROUND]));
-
-    // to make sure fluxes are being calculated based on latest albedo values
-    // covers the case where: user adjusts cloud/ice cover, then adjusts CO2 before clicking play
-    // in such a case, earth fluxes need to be calculated taking into account adjusted ice/cloud cover
-    dispatch(setFinalCloudCover(temporaryCloudCover));
-    dispatch(setFinalIceCover(temporaryIceCover));
-
     dispatch(setTemporaryCarbonDioxide(value));
   };
 
