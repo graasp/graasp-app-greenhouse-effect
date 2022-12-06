@@ -134,3 +134,7 @@ export const computeWaterVaporFeedbackCTerms = (
 
   return cTerms;
 };
+
+export const roundToNearestHundred = (num) => {
+  return Math.round(num / 100) * 100;
+};

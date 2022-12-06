@@ -15,6 +15,7 @@ import {
   computeTemperature,
   computeWaterVapor,
   kelvinToCelsius,
+  roundToNearestHundred,
 } from '../../../../utils/greenhouseEffect';
 
 const WaterVapor = () => {
@@ -63,11 +64,11 @@ const WaterVapor = () => {
       text={t('H_2O (ppm)', { escapeInterpolation: true })}
       max={WATER_CONCENTRATION_MAX_VALUE}
       min={WATER_CONCENTRATION_MIN_VALUE}
-      value={
+      value={roundToNearestHundred(
         waterVaporFeedbackOn
-          ? Math.round(computeWaterVapor(kelvinToCelsius(temperature)))
-          : waterVapor
-      }
+          ? computeWaterVapor(kelvinToCelsius(temperature))
+          : waterVapor,
+      )}
       valueLabelDisplay={ON_STRING}
     />
   );
