@@ -406,6 +406,21 @@ export const SOLAR_FLUXES = Object.fromEntries(
   ]),
 );
 
+export const INITIAL_SLIDER_VALUES = Object.fromEntries(
+  Object.entries(
+    SIMULATION_MODES,
+    // eslint-disable-next-line no-unused-vars
+  ).map(([simulationMode, simulationModeDetails]) => [
+    simulationModeDetails.name,
+    {
+      iceCover: simulationModeDetails.iceCover,
+      cloudCover: simulationModeDetails.cloudCover,
+      methane: simulationModeDetails.methane,
+      carbonDioxide: simulationModeDetails.carbonDioxide,
+    },
+  ]),
+);
+
 export const GROUND_COLOR_RANGES = Object.fromEntries(
   Object.entries(
     SIMULATION_MODES,

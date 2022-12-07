@@ -32,34 +32,51 @@ const GreenhouseEffect = ({ disabled }) => {
   const {
     temporaryCarbonDioxide,
     temporaryMethane,
+    finalCarbonDioxide,
+    finalMethane,
     cTerm,
     simulationMode,
     temporaryIceCover,
     temporaryCloudCover,
+    finalIceCover,
+    finalCloudCover,
     feedback,
   } = useSelector(({ lab }) => lab);
   const { waterVapor: waterVaporFeedbackOn } = feedback;
 
-  const greenhouseEffect = computeGreenhouseEffect(
-    temporaryCarbonDioxide,
-    temporaryMethane,
-    cTerm,
-    simulationMode,
-  );
+  let adjustedCTerm = cTerm;
 
-  const { totalAlbedo } = computeAlbedo(
-    temporaryIceCover,
-    temporaryCloudCover,
-    simulationMode,
-  );
+  // to handle case where water vapor feedback is toggled on and we want to compute GHE based on cTerm as a function of (new) displayed temperature
+  // to check if there is a new displayed temperature, check that all slider values are equal to the final values
+  // if not all are equal, it means displayed temperature has not been updated
+  if (
+    waterVaporFeedbackOn &&
+    finalCarbonDioxide === temporaryCarbonDioxide &&
+    finalMethane === temporaryMethane &&
+    finalIceCover === temporaryIceCover &&
+    finalCloudCover === temporaryCloudCover
+  ) {
+    const newGreenhouseEffect = computeGreenhouseEffect(
+      temporaryCarbonDioxide,
+      temporaryMethane,
+      cTerm,
+      simulationMode,
+    );
 
-  const newTemperature = kelvinToCelsius(
-    computeTemperature(greenhouseEffect, totalAlbedo, simulationMode),
-  );
+    const { totalAlbedo } = computeAlbedo(
+      temporaryIceCover,
+      temporaryCloudCover,
+      simulationMode,
+    );
 
-  const adjustedCTerm = waterVaporFeedbackOn
-    ? computeCTerm(newTemperature)
-    : cTerm;
+    const newTemperature = computeTemperature(
+      newGreenhouseEffect,
+      totalAlbedo,
+      simulationMode,
+    );
+
+    adjustedCTerm = computeCTerm(kelvinToCelsius(newTemperature));
+  }
 
   const totalEffectValue =
     computeGreenhouseEffect(

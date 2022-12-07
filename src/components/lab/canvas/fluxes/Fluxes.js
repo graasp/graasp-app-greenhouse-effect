@@ -34,22 +34,9 @@ const Fluxes = () => {
     simulationMode,
   );
 
-  const newGreenhouseEffect = computeGreenhouseEffect(
-    temporaryCarbonDioxide,
-    temporaryMethane,
-    cTerm,
-    simulationMode,
-  );
-
   const { totalAlbedo: oldAlbedo } = computeAlbedo(
     finalIceCover,
     finalCloudCover,
-    simulationMode,
-  );
-
-  const { totalAlbedo: newAlbedo } = computeAlbedo(
-    temporaryIceCover,
-    temporaryCloudCover,
     simulationMode,
   );
 
@@ -59,28 +46,50 @@ const Fluxes = () => {
     simulationMode,
   );
 
-  const newTemperature = computeTemperature(
-    newGreenhouseEffect,
-    newAlbedo,
-    simulationMode,
-  );
+  let adjustedCTerm = cTerm;
 
-  const adjustedCTerm = computeCTerm(kelvinToCelsius(newTemperature));
+  if (
+    waterVaporFeedbackOn &&
+    finalCarbonDioxide === temporaryCarbonDioxide &&
+    finalMethane === temporaryMethane &&
+    finalIceCover === temporaryIceCover &&
+    finalCloudCover === temporaryCloudCover
+  ) {
+    const newGreenhouseEffect = computeGreenhouseEffect(
+      temporaryCarbonDioxide,
+      temporaryMethane,
+      cTerm,
+      simulationMode,
+    );
 
-  const adjustedGreenhouseEffect = computeGreenhouseEffect(
+    const { totalAlbedo } = computeAlbedo(
+      temporaryIceCover,
+      temporaryCloudCover,
+      simulationMode,
+    );
+
+    const newTemperature = computeTemperature(
+      newGreenhouseEffect,
+      totalAlbedo,
+      simulationMode,
+    );
+
+    adjustedCTerm = computeCTerm(kelvinToCelsius(newTemperature));
+  }
+
+  const finalGreenhouseEffect = computeGreenhouseEffect(
     temporaryCarbonDioxide,
     temporaryMethane,
     adjustedCTerm,
+    simulationMode,
   );
 
   return (
     <Group>
       <SunFluxes />
       <EarthFluxes
-        oldTemperature={oldTemperature}
-        greenhouseEffect={
-          waterVaporFeedbackOn ? adjustedGreenhouseEffect : newGreenhouseEffect
-        }
+        temperature={oldTemperature}
+        greenhouseEffect={finalGreenhouseEffect}
       />
     </Group>
   );
