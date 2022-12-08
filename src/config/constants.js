@@ -489,10 +489,11 @@ export const Y_INCREMENT = Math.PI / 8;
 export const FLUX_BLINKING_INTERVAL = 500;
 
 // when temperature changes become smaller than this number, exit the loop
-export const WATER_VAPOR_FEEDBACK_DEFAULT_EPSILON = 0.01;
+export const FEEDBACK_EFFECTS_DEFAULT_EPSILON = 0.01;
 export const WATER_VAPOR_FEEDBACK_UPDATE_INTERVAL = 1000;
 // above this temperature, the earth has heated so much that for all purposes there's no difference
 export const MAX_TEMPERATURE_DISPLAYED_ON_EARTH_CELSIUS = 30;
+export const MAX_ICE_COVER_POSSIBLE = 100;
 
 export const SUN_TO_CLOUD = {
   name: 'sunToCloud',

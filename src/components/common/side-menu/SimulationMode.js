@@ -49,7 +49,12 @@ function SimulationMode() {
       ({ name }) => name === e.target.value,
     );
     dispatch(setSimulationMode(values));
-    dispatch(setFeedbackValues({ waterVapor: false }));
+    dispatch(
+      setFeedbackValues({
+        waterVaporFeedbackOn: false,
+        iceCoverFeedbackOn: false,
+      }),
+    );
   };
 
   return (

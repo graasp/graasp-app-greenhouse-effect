@@ -30,7 +30,7 @@ const WaterVapor = () => {
     waterVapor,
     feedback,
   } = useSelector(({ lab }) => lab);
-  const { waterVapor: waterVaporFeedbackOn } = feedback;
+  const { waterVaporFeedbackOn } = feedback;
 
   const isMarsOrVenus =
     simulationMode === SIMULATION_MODES.MARS.name ||
@@ -46,6 +46,7 @@ const WaterVapor = () => {
     cTerm,
     simulationMode,
   );
+
   const { totalAlbedo } = computeAlbedo(
     finalIceCover,
     finalCloudCover,

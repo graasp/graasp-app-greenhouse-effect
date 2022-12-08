@@ -23,10 +23,14 @@ import {
 } from '../../../config/constants';
 import {
   graduallyDispatchCTerms,
+  graduallyDispatchIceCoverTerms,
   graduallyDispatchValues,
   stopFluxesBlinking,
 } from '../../../utils/canvas';
-import { computeWaterVaporFeedbackCTerms } from '../../../utils/greenhouseEffect';
+import {
+  computeIceCoverFeedbackTerms,
+  computeWaterVaporFeedbackCTerms,
+} from '../../../utils/greenhouseEffect';
 import CustomButton from './shared-components/CustomButton';
 
 const useStyles = makeStyles(() => ({
@@ -55,7 +59,7 @@ const AnimationControls = () => {
     cTerm,
     simulationMode,
   } = useSelector(({ lab }) => lab);
-  const { waterVapor } = feedback;
+  const { waterVaporFeedbackOn, iceCoverFeedbackOn } = feedback;
   const applicationInterval = useRef();
 
   const startInterval = () => {
@@ -77,7 +81,7 @@ const AnimationControls = () => {
     dispatch(resetFluxesFills());
     dispatch(setIsPaused(false));
 
-    if (waterVapor) {
+    if (waterVaporFeedbackOn) {
       dispatch(setFinalIceCover(temporaryIceCover));
       dispatch(setFinalCloudCover(temporaryCloudCover));
       dispatch(setFinalCarbonDioxide(temporaryCarbonDioxide));
@@ -93,6 +97,30 @@ const AnimationControls = () => {
       );
 
       graduallyDispatchCTerms(cTerms, dispatch, GRADUAL_UPDATE_INTERVAL);
+
+      return;
+    }
+
+    if (iceCoverFeedbackOn) {
+      dispatch(setFinalIceCover(temporaryIceCover));
+      dispatch(setFinalCloudCover(temporaryCloudCover));
+      dispatch(setFinalCarbonDioxide(temporaryCarbonDioxide));
+      dispatch(setFinalMethane(temporaryMethane));
+
+      const iceCoverTerms = computeIceCoverFeedbackTerms(
+        temporaryIceCover,
+        temporaryCloudCover,
+        temporaryCarbonDioxide,
+        temporaryMethane,
+        cTerm,
+        simulationMode,
+      );
+
+      graduallyDispatchIceCoverTerms(
+        iceCoverTerms,
+        dispatch,
+        GRADUAL_UPDATE_INTERVAL,
+      );
 
       return;
     }

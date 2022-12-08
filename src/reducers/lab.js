@@ -45,8 +45,8 @@ const INITIAL_STATE = {
   finalCloudCover: SIMULATION_MODES.TODAY.cloudCover,
   temporaryCloudCover: SIMULATION_MODES.TODAY.cloudCover,
   feedback: {
-    iceCoverChange: false,
-    waterVapor: false,
+    waterVaporFeedbackOn: false,
+    iceCoverFeedbackOn: false,
   },
   showLoader: true,
   showSideMenu: true,

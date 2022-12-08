@@ -14,7 +14,7 @@ import {
   DEFAULT_THEME_DIRECTION,
 } from '../../../config/constants';
 import RadiationModeSwitch from './RadiationModeSwitch';
-import FeedbacksSettings from './FeedbacksSettings';
+import FeedbackToggles from './FeedbackToggles';
 import GreenhouseEffectSettings from './GreenhouseEffectSettings';
 import SimulationMode from './SimulationMode';
 import AnimationControls from './AnimationControls';
@@ -88,7 +88,7 @@ const SideMenu = () => {
           <SimulationMode />
           <GreenhouseEffectSettings />
           <Divider className={classes.divider} />
-          <FeedbacksSettings />
+          <FeedbackToggles />
         </div>
       </Drawer>
     </>

@@ -4,8 +4,9 @@ import {
   SIMULATION_MODES,
   TWENTIETH_CENTURY_ALBEDO_OFFSET,
   SOLAR_FLUXES,
-  WATER_VAPOR_FEEDBACK_DEFAULT_EPSILON,
+  FEEDBACK_EFFECTS_DEFAULT_EPSILON,
   MAX_TEMPERATURE_DISPLAYED_ON_EARTH_CELSIUS,
+  MAX_ICE_COVER_POSSIBLE,
 } from '../config/constants';
 
 export const computeGreenhouseEffect = (
@@ -79,6 +80,10 @@ export const computeWaterVapor = (temperatureInCelsius) => {
   );
 };
 
+export const computeIceCover = (temperatureInCelsius) => {
+  return Math.round(-1.67 * temperatureInCelsius + 35);
+};
+
 export const computeCTerm = (temperature) => {
   return temperature * 0.00454 + 0.163;
 };
@@ -90,7 +95,7 @@ export const computeWaterVaporFeedbackCTerms = (
   methane,
   cTerm,
   simulationMode,
-  epsilon = WATER_VAPOR_FEEDBACK_DEFAULT_EPSILON,
+  epsilon = FEEDBACK_EFFECTS_DEFAULT_EPSILON,
 ) => {
   // calculate albedo, greenhouse effect, and temperature based on new icecover/cloudcover/methane/co2
   const { totalAlbedo: albedo } = computeAlbedo(
@@ -133,6 +138,58 @@ export const computeWaterVaporFeedbackCTerms = (
   } while (Math.abs(newTemperature - previousTemperature) > epsilon);
 
   return cTerms;
+};
+
+export const computeIceCoverFeedbackTerms = (
+  iceCover,
+  cloudCover,
+  carbonDioxide,
+  methane,
+  cTerm,
+  simulationMode,
+  epsilon = FEEDBACK_EFFECTS_DEFAULT_EPSILON,
+) => {
+  // calculate albedo, greenhouse effect, and temperature based on new icecover/cloudcover/methane/co2
+  const { totalAlbedo: albedo } = computeAlbedo(
+    iceCover,
+    cloudCover,
+    simulationMode,
+  );
+  const greenhouseEffect = computeGreenhouseEffect(
+    carbonDioxide,
+    methane,
+    cTerm,
+    simulationMode,
+  );
+  const initialTemperature = kelvinToCelsius(
+    computeTemperature(greenhouseEffect, albedo, simulationMode),
+  );
+
+  const iceCoverTerms = [];
+  let previousTemperature;
+  let newTemperature;
+  do {
+    previousTemperature = newTemperature || initialTemperature;
+    const newIceCover = computeIceCover(previousTemperature);
+    const { totalAlbedo: newAlbedo } = computeAlbedo(
+      newIceCover,
+      cloudCover,
+      simulationMode,
+    );
+
+    newTemperature = kelvinToCelsius(
+      computeTemperature(greenhouseEffect, newAlbedo, simulationMode),
+    );
+    iceCoverTerms.push(newIceCover);
+    if (
+      newTemperature > MAX_TEMPERATURE_DISPLAYED_ON_EARTH_CELSIUS ||
+      newIceCover >= MAX_ICE_COVER_POSSIBLE
+    ) {
+      break;
+    }
+  } while (Math.abs(newTemperature - previousTemperature) > epsilon);
+
+  return iceCoverTerms;
 };
 
 export const roundToNearestHundred = (num) => {

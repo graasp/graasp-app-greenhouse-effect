@@ -1,5 +1,11 @@
 import _ from 'lodash';
-import { resetFluxesFills, setCTerm, toggleFluxesFills } from '../actions';
+import {
+  resetFluxesFills,
+  setCTerm,
+  setFinalIceCover,
+  setTemporaryIceCover,
+  toggleFluxesFills,
+} from '../actions';
 import {
   CLOUD_ADJACENT_CIRCLE_RADIUS,
   ATOM_DIMENSIONS,
@@ -26,6 +32,7 @@ import {
   GROUND_TO_SKY,
   SKY_TO_GROUND,
   SKY_TO_ATMOSPHERE,
+  GROUND_TO_ATMOSPHERE,
 } from '../config/constants';
 import { celsiusToKelvin, kelvinToCelsius } from './greenhouseEffect';
 
@@ -598,6 +605,30 @@ export const graduallyDispatchCTerms = (cTerms, dispatch, delay) => {
       );
       dispatch(setCTerm(cTerms[i]));
       if (i === cTerms.length - 1) {
+        dispatch(resetFluxesFills());
+      }
+    }, delay * (i + 1));
+  }
+};
+
+export const graduallyDispatchIceCoverTerms = (
+  iceCoverTerms,
+  dispatch,
+  delay,
+) => {
+  for (let i = 0; i < iceCoverTerms.length; i += 1) {
+    setTimeout(() => {
+      dispatch(
+        toggleFluxesFills([
+          GROUND_TO_SKY,
+          SKY_TO_GROUND,
+          SKY_TO_ATMOSPHERE,
+          GROUND_TO_ATMOSPHERE,
+        ]),
+      );
+      dispatch(setTemporaryIceCover(iceCoverTerms[i]));
+      dispatch(setFinalIceCover(iceCoverTerms[i]));
+      if (i === iceCoverTerms.length - 1) {
         dispatch(resetFluxesFills());
       }
     }, delay * (i + 1));

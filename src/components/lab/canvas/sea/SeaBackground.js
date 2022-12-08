@@ -16,7 +16,7 @@ const SeaBackground = () => {
 
   const determineSeaColor = () => {
     // if ice cover is 100%, ocean should freeze
-    if (temporaryIceCover === 100) {
+    if (temporaryIceCover >= 100) {
       return colorRangeFrozen;
     }
     if (isPaused) {

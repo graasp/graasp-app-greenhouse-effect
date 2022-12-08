@@ -25,7 +25,7 @@ const Fluxes = () => {
     finalMethane,
     feedback,
   } = useSelector(({ lab }) => lab);
-  const { waterVapor: waterVaporFeedbackOn } = feedback;
+  const { waterVaporFeedbackOn } = feedback;
 
   const oldGreenhouseEffect = computeGreenhouseEffect(
     finalCarbonDioxide,

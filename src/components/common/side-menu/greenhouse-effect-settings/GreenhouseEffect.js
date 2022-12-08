@@ -42,7 +42,7 @@ const GreenhouseEffect = ({ disabled }) => {
     finalCloudCover,
     feedback,
   } = useSelector(({ lab }) => lab);
-  const { waterVapor: waterVaporFeedbackOn } = feedback;
+  const { waterVaporFeedbackOn } = feedback;
 
   let adjustedCTerm = cTerm;
 
