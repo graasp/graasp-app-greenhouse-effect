@@ -1,33 +1,34 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Group } from 'react-konva';
-import {
-  DEFAULT_FILL,
-  EARTH_FLUXES_DARKENED_COLOR,
-  EARTH_FLUXES_DEFAULT_COLOR,
-  STEFAN_BOLTZMANN_CONSTANT,
-} from '../../../../../config/constants';
+import { STEFAN_BOLTZMANN_CONSTANT } from '../../../../../config/constants';
 import GroundToSkyFlux from './GroundToSkyFlux';
 import SkyToAtmosphereFlux from './SkyToAtmosphereFlux';
 import SkyToGroundFlux from './SkyToGroundFlux';
+import { FluxesWavesContext } from '../../../../contexts/fluxes-waves/FluxesWavesProvider';
 
-const EarthFluxes = ({ temperature, greenhouseEffect, fluxFill }) => {
+const EarthFluxes = ({ temperature, greenhouseEffect }) => {
+  const { isMars } = useContext(FluxesWavesContext);
+  const { fluxesFills } = useSelector(({ lab }) => lab);
+  const { groundToSky, skyToAtmosphere, skyToGround } = fluxesFills;
+
   const groundToSkyFlux = Math.round(
     STEFAN_BOLTZMANN_CONSTANT * temperature ** 4,
   );
   const skyToGroundFlux = greenhouseEffect * groundToSkyFlux;
   const skyToAtmosphereFlux = groundToSkyFlux - skyToGroundFlux;
 
-  const fill =
-    fluxFill === DEFAULT_FILL
-      ? EARTH_FLUXES_DEFAULT_COLOR
-      : EARTH_FLUXES_DARKENED_COLOR;
-
   return (
     <Group>
-      <GroundToSkyFlux flux={groundToSkyFlux} fill={fill} />
-      <SkyToGroundFlux flux={skyToGroundFlux} fill={fill} />
-      <SkyToAtmosphereFlux flux={skyToAtmosphereFlux} fill={fill} />
+      <GroundToSkyFlux flux={groundToSkyFlux} fill={groundToSky} />
+      {!isMars && <SkyToGroundFlux flux={skyToGroundFlux} fill={skyToGround} />}
+      {!isMars && (
+        <SkyToAtmosphereFlux
+          flux={skyToAtmosphereFlux}
+          fill={skyToAtmosphere}
+        />
+      )}
     </Group>
   );
 };
@@ -35,7 +36,6 @@ const EarthFluxes = ({ temperature, greenhouseEffect, fluxFill }) => {
 EarthFluxes.propTypes = {
   temperature: PropTypes.number.isRequired,
   greenhouseEffect: PropTypes.number.isRequired,
-  fluxFill: PropTypes.string.isRequired,
 };
 
 export default EarthFluxes;

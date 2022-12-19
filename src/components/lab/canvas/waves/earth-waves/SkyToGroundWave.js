@@ -19,7 +19,7 @@ const SkyToGroundWave = ({ greenhouseEffect }) => {
       waveBeginsY={beginsY}
       waveEndsY={endsY}
       waveColor={EARTH_FLUXES_DEFAULT_COLOR}
-      amplitude={GROUND_TO_SKY_WAVE_AMPLITUDE * (1 - greenhouseEffect)}
+      amplitude={GROUND_TO_SKY_WAVE_AMPLITUDE * greenhouseEffect}
       waveRotation={SKY_TO_GROUND_WAVE_ROTATION}
       startAfterInterval={startsAfterInterval}
       type={INFRARED}

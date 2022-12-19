@@ -8,12 +8,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import FormLabel from '@material-ui/core/FormLabel';
 import { makeStyles } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
-import { SIMULATION_MODES } from '../../config/constants';
-import { setSimulationMode } from '../../actions';
+import { SIMULATION_MODES } from '../../../config/constants';
+import { setFeedbackValues, setSimulationMode } from '../../../actions';
 
 const useStyles = makeStyles((theme) => ({
+  formControl: {
+    width: '100%',
+  },
   radioGroup: {
     flexDirection: 'row',
+    display: 'flex',
+    justifyContent: 'space-between',
   },
   formLabel: {
     color: 'black',
@@ -21,7 +26,14 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(1),
   },
   radioText: {
-    fontSize: '0.84em',
+    fontSize: '0.8em',
+  },
+  radioButton: {
+    paddingRight: 5,
+    '& svg': {
+      width: '0.9em',
+      height: '0.9em',
+    },
   },
 }));
 
@@ -37,10 +49,16 @@ function SimulationMode() {
       ({ name }) => name === e.target.value,
     );
     dispatch(setSimulationMode(values));
+    dispatch(
+      setFeedbackValues({
+        waterVaporFeedbackOn: false,
+        iceCoverFeedbackOn: false,
+      }),
+    );
   };
 
   return (
-    <FormControl component="fieldset">
+    <FormControl component="fieldset" className={classes.formControl}>
       <FormLabel component="legend">
         <Typography variant="body2" className={classes.formLabel}>
           {t('Values in')}
@@ -57,12 +75,18 @@ function SimulationMode() {
           <FormControlLabel
             key={name}
             value={name}
-            control={<Radio color="primary" size="small" />}
+            control={
+              // eslint-disable-next-line react/jsx-wrap-multilines
+              <Radio
+                color="primary"
+                size="small"
+                className={classes.radioButton}
+              />
+            }
             label={
               <Typography className={classes.radioText}>{name}</Typography>
             }
             disabled={!isPaused}
-            className={classes.radioButton}
           />
         ))}
       </RadioGroup>

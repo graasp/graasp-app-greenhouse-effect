@@ -1,45 +1,98 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
 import { Group } from 'react-konva';
-import useInterval from '../../../../hooks/useInterval';
 import EarthFluxes from './earth-fluxes/EarthFluxes';
 import SunFluxes from './sun-fluxes/SunFluxes';
 import {
-  DEFAULT_FILL,
-  DARK_FILL,
-  FLUX_BLINKING_INTERVAL,
-} from '../../../../config/constants';
+  computeAlbedo,
+  computeCTerm,
+  computeGreenhouseEffect,
+  computeTemperature,
+  kelvinToCelsius,
+} from '../../../../utils/greenhouseEffect';
 
-const Fluxes = ({ temperature, greenhouseEffect }) => {
-  const { fluxesBlinking } = useSelector(({ lab }) => lab);
-  const [fluxFill, setFluxFill] = useState(DEFAULT_FILL);
+const Fluxes = () => {
+  const {
+    temporaryCarbonDioxide,
+    temporaryMethane,
+    temporaryIceCover,
+    temporaryCloudCover,
+    cTerm,
+    simulationMode,
+    finalIceCover,
+    finalCloudCover,
+    finalCarbonDioxide,
+    finalMethane,
+    feedback,
+  } = useSelector(({ lab }) => lab);
+  const { waterVaporFeedbackOn } = feedback;
 
-  useInterval(() => {
-    if (fluxesBlinking) {
-      setFluxFill((prevFill) =>
-        prevFill === DEFAULT_FILL ? DARK_FILL : DEFAULT_FILL,
-      );
-    } else {
-      setFluxFill(DEFAULT_FILL);
-    }
-  }, FLUX_BLINKING_INTERVAL);
+  const oldGreenhouseEffect = computeGreenhouseEffect(
+    finalCarbonDioxide,
+    finalMethane,
+    cTerm,
+    simulationMode,
+  );
+
+  const { totalAlbedo: oldAlbedo } = computeAlbedo(
+    finalIceCover,
+    finalCloudCover,
+    simulationMode,
+  );
+
+  const oldTemperature = computeTemperature(
+    oldGreenhouseEffect,
+    oldAlbedo,
+    simulationMode,
+  );
+
+  let adjustedCTerm = cTerm;
+
+  if (
+    waterVaporFeedbackOn &&
+    finalCarbonDioxide === temporaryCarbonDioxide &&
+    finalMethane === temporaryMethane &&
+    finalIceCover === temporaryIceCover &&
+    finalCloudCover === temporaryCloudCover
+  ) {
+    const newGreenhouseEffect = computeGreenhouseEffect(
+      temporaryCarbonDioxide,
+      temporaryMethane,
+      cTerm,
+      simulationMode,
+    );
+
+    const { totalAlbedo } = computeAlbedo(
+      temporaryIceCover,
+      temporaryCloudCover,
+      simulationMode,
+    );
+
+    const newTemperature = computeTemperature(
+      newGreenhouseEffect,
+      totalAlbedo,
+      simulationMode,
+    );
+
+    adjustedCTerm = computeCTerm(kelvinToCelsius(newTemperature));
+  }
+
+  const finalGreenhouseEffect = computeGreenhouseEffect(
+    temporaryCarbonDioxide,
+    temporaryMethane,
+    adjustedCTerm,
+    simulationMode,
+  );
 
   return (
     <Group>
-      <SunFluxes fluxFill={fluxFill} />
+      <SunFluxes />
       <EarthFluxes
-        fluxFill={fluxFill}
-        temperature={temperature}
-        greenhouseEffect={greenhouseEffect}
+        temperature={oldTemperature}
+        greenhouseEffect={finalGreenhouseEffect}
       />
     </Group>
   );
-};
-
-Fluxes.propTypes = {
-  greenhouseEffect: PropTypes.number.isRequired,
-  temperature: PropTypes.number.isRequired,
 };
 
 export default Fluxes;

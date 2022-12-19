@@ -31,6 +31,10 @@ const getActions = async (
   try {
     const { apiHost, spaceId: currentSpaceId } = getApiContext(getState);
 
+    if (!apiHost) {
+      return;
+    }
+
     // by default include current space id
     const completeParams = { ...params };
     if (!completeParams.spaceId || !completeParams.spaceId.length) {

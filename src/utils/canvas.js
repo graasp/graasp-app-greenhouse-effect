@@ -1,5 +1,12 @@
 import _ from 'lodash';
 import {
+  resetFluxesFills,
+  setCTerm,
+  setFinalIceCover,
+  setTemporaryIceCover,
+  toggleFluxesFills,
+} from '../actions';
+import {
   CLOUD_ADJACENT_CIRCLE_RADIUS,
   ATOM_DIMENSIONS,
   CARBON,
@@ -19,6 +26,13 @@ import {
   MINIMUM_THERMOMETER_TEMPERATURE_CELSIUS,
   SCALE_UNITS,
   MAX_TEMPERATURE_DISPLAYED_ON_EARTH_CELSIUS,
+  SIMULATION_MODES,
+  LARGE_FLUX,
+  FLUX_BLINKING_INTERVAL,
+  GROUND_TO_SKY,
+  SKY_TO_GROUND,
+  SKY_TO_ATMOSPHERE,
+  GROUND_TO_ATMOSPHERE,
 } from '../config/constants';
 import { celsiusToKelvin, kelvinToCelsius } from './greenhouseEffect';
 
@@ -286,16 +300,21 @@ export const createTemperatureLabel = (
   temperatureInKelvin,
   scaleName,
   scaleLabel,
+  simulationMode,
 ) => {
   const maxTemperature =
     scaleName === SCALE_UNITS.CELSIUS.name
       ? MAX_TEMPERATURE_DISPLAYED_ON_EARTH_CELSIUS
-      : celsiusToKelvin(MAX_TEMPERATURE_DISPLAYED_ON_EARTH_CELSIUS);
+      : Math.round(celsiusToKelvin(MAX_TEMPERATURE_DISPLAYED_ON_EARTH_CELSIUS));
 
   const temperature =
     scaleName === SCALE_UNITS.CELSIUS.name
       ? kelvinToCelsius(temperatureInKelvin)
       : temperatureInKelvin;
+
+  if (simulationMode === SIMULATION_MODES.VENUS.name) {
+    return `${Math.round(temperature)}${scaleLabel}`;
+  }
 
   return temperature > maxTemperature
     ? `${maxTemperature}${scaleLabel}+`
@@ -523,9 +542,95 @@ export const generateSineCurve = (
 };
 
 export const calculateFluxWidth = (flux, stageWidth) => {
-  // because a flux value can be extremely large (e.g. on Venus), cap its value via Math.min(...) below
+  if (flux > LARGE_FLUX) {
+    // if a flux is LARGE, take maximum possible flux size and scale it by 1.35
+    return stageWidth * MAXIMUM_FLUX_WIDTH_AS_PERCENTAGE_OF_STAGE_WIDTH * 1.35;
+  }
+
+  // to ensure fluxes aren't too large, cap their size via Math.min(...)
   return Math.min(
     flux * FLUX_WIDTH_AS_PERCENTAGE_OF_FLUX_VALUE,
     stageWidth * MAXIMUM_FLUX_WIDTH_AS_PERCENTAGE_OF_STAGE_WIDTH,
   );
+};
+
+export const stopFluxesBlinking = () => {
+  clearInterval(window.fluxBlinkingInterval);
+};
+
+export const keepFluxesBlinking = (fluxes, dispatch) => {
+  stopFluxesBlinking();
+  window.fluxBlinkingInterval = setInterval(() => {
+    dispatch(toggleFluxesFills(fluxes));
+  }, FLUX_BLINKING_INTERVAL);
+};
+
+export const graduallyDispatchValues = (
+  targetValues,
+  originalValues,
+  numIncrements,
+  delay,
+  dispatch,
+  actions,
+  blinkEarthFluxes = true,
+) => {
+  const increments = targetValues.map((value, index) => {
+    if (!originalValues.length) {
+      return value;
+    }
+    return (value - originalValues[index]) / numIncrements;
+  });
+  for (let i = 1; i <= numIncrements; i += 1) {
+    setTimeout(() => {
+      if (blinkEarthFluxes) {
+        dispatch(
+          toggleFluxesFills([GROUND_TO_SKY, SKY_TO_GROUND, SKY_TO_ATMOSPHERE]),
+        );
+      }
+      increments.forEach((increment, index) => {
+        dispatch(actions[index](originalValues[index] + i * increment));
+      });
+      if (i === numIncrements) {
+        dispatch(resetFluxesFills());
+      }
+    }, delay * (i - 1));
+  }
+};
+
+export const graduallyDispatchCTerms = (cTerms, dispatch, delay) => {
+  for (let i = 0; i < cTerms.length; i += 1) {
+    setTimeout(() => {
+      dispatch(
+        toggleFluxesFills([GROUND_TO_SKY, SKY_TO_GROUND, SKY_TO_ATMOSPHERE]),
+      );
+      dispatch(setCTerm(cTerms[i]));
+      if (i === cTerms.length - 1) {
+        dispatch(resetFluxesFills());
+      }
+    }, delay * (i + 1));
+  }
+};
+
+export const graduallyDispatchIceCoverTerms = (
+  iceCoverTerms,
+  dispatch,
+  delay,
+) => {
+  for (let i = 0; i < iceCoverTerms.length; i += 1) {
+    setTimeout(() => {
+      dispatch(
+        toggleFluxesFills([
+          GROUND_TO_SKY,
+          SKY_TO_GROUND,
+          SKY_TO_ATMOSPHERE,
+          GROUND_TO_ATMOSPHERE,
+        ]),
+      );
+      dispatch(setTemporaryIceCover(iceCoverTerms[i]));
+      dispatch(setFinalIceCover(iceCoverTerms[i]));
+      if (i === iceCoverTerms.length - 1) {
+        dispatch(resetFluxesFills());
+      }
+    }, delay * (i + 1));
+  }
 };

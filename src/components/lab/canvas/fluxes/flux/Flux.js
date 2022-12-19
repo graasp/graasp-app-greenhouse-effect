@@ -43,7 +43,7 @@ const Flux = ({
     );
   const bodyWidth = totalWidth * FLUX_BODY_WIDTH_AS_PERCENTAGE_OF_TOTAL_WIDTH;
 
-  if (flux <= 0) {
+  if (flux < 0) {
     return null;
   }
 

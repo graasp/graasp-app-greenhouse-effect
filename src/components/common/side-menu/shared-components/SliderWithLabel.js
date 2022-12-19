@@ -25,9 +25,6 @@ const useStyles = makeStyles((theme) => ({
   slider: {
     width: '50%',
   },
-  indent: {
-    paddingLeft: theme.spacing(1),
-  },
 }));
 
 // this component is used to make the label on the CO2 slider wider when the planet is Mars or Venus
@@ -48,12 +45,12 @@ const SliderWithLabel = ({
   disabled,
   text,
   onChange,
-  indent,
   labelClassName,
   valueLabelDisplay,
   step,
   valueLabelFormat,
   bigLabel,
+  onMouseUp,
 }) => {
   const classes = useStyles();
 
@@ -81,16 +78,12 @@ const SliderWithLabel = ({
       valueLabelFormat={valueLabelFormat}
       ValueLabelComponent={bigLabel ? StyledValueLabel : ValueLabel}
       step={step}
+      onMouseUp={onMouseUp}
     />
   );
 
   const Label = (
-    <Typography
-      variant="body2"
-      className={clsx(classes.label, labelClassName, {
-        [classes.indent]: indent,
-      })}
-    >
+    <Typography variant="body2" className={clsx(classes.label, labelClassName)}>
       {/* set in inner html to allow subscript tags */}
       {/* eslint-disable-next-line react/no-danger */}
       <span dangerouslySetInnerHTML={{ __html: text }} />
@@ -114,17 +107,17 @@ SliderWithLabel.propTypes = {
   disabled: PropTypes.bool,
   text: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   onChange: PropTypes.func,
-  indent: PropTypes.bool,
+
   labelClassName: PropTypes.string,
   valueLabelDisplay: PropTypes.string,
   step: PropTypes.number,
   valueLabelFormat: PropTypes.func,
   bigLabel: PropTypes.bool,
+  onMouseUp: PropTypes.func,
 };
 
 SliderWithLabel.defaultProps = {
   disabled: false,
-  indent: false,
   labelClassName: null,
   valueLabelDisplay: 'auto',
   min: 0,
@@ -132,6 +125,7 @@ SliderWithLabel.defaultProps = {
   onChange: () => {},
   valueLabelFormat: (x) => x,
   bigLabel: false,
+  onMouseUp: () => {},
 };
 
 export default SliderWithLabel;

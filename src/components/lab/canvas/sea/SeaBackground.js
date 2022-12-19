@@ -10,13 +10,13 @@ const SeaBackground = () => {
     SeaDimensionsContext,
   );
 
-  const { isPaused, iceCover } = useSelector(({ lab }) => lab);
+  const { isPaused, temporaryIceCover } = useSelector(({ lab }) => lab);
 
   const { colorRange, colorRangePaused, colorRangeFrozen } = SEA;
 
   const determineSeaColor = () => {
     // if ice cover is 100%, ocean should freeze
-    if (iceCover === 100) {
+    if (temporaryIceCover >= 100) {
       return colorRangeFrozen;
     }
     if (isPaused) {

@@ -1,8 +1,13 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Group, Ellipse } from 'react-konva';
 import { generateCloudCircles } from '../../../../../utils/canvas';
-import { CLOUD_FILL } from '../../../../../config/constants';
+import {
+  DEFAULT_CLOUD_FILL,
+  SIMULATION_MODES,
+  VENUS_CLOUD_FILL,
+} from '../../../../../config/constants';
 
 const Cloud = ({
   cursorBecomesDefault,
@@ -12,6 +17,11 @@ const Cloud = ({
   cloudCentralCircleRadiusX,
   cloudCentralCircleRadiusY,
 }) => {
+  const { simulationMode } = useSelector(({ lab }) => lab);
+  const isVenus = simulationMode === SIMULATION_MODES.VENUS.name;
+
+  const cloudFill = isVenus ? VENUS_CLOUD_FILL : DEFAULT_CLOUD_FILL;
+
   return (
     <Group
       onMouseEnter={cursorBecomesDefault}
@@ -25,7 +35,7 @@ const Cloud = ({
         <Ellipse
           x={x}
           y={cloudCentralCircleY}
-          fill={CLOUD_FILL}
+          fill={cloudFill}
           radiusX={radiusX}
           radiusY={radiusY}
           // eslint-disable-next-line react/no-array-index-key

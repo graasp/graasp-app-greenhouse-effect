@@ -1,26 +1,32 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { Group } from 'react-konva';
 import CloudToAtmosphereFlux from './CloudToAtmosphereFlux';
 import SunToCloudFlux from './SunToCloudFlux';
 import CloudToGroundFlux from './CloudToGroundFlux';
 import GroundToAtmosphereFlux from './GroundToAtmosphereFlux';
-import {
-  DEFAULT_FILL,
-  SOLAR_FLUXES,
-  SUN_FLUXES_DARKENED_COLOR,
-  SUN_FLUXES_DEFAULT_COLOR,
-} from '../../../../../config/constants';
+import { SOLAR_FLUXES } from '../../../../../config/constants';
 import { computeAlbedo } from '../../../../../utils/greenhouseEffect';
+import { FluxesWavesContext } from '../../../../contexts/fluxes-waves/FluxesWavesProvider';
 
-const SunFluxes = ({ fluxFill }) => {
-  const { simulationMode } = useSelector(({ lab }) => lab);
-  const { iceCover, cloudCover } = useSelector(({ lab }) => lab);
+const SunFluxes = () => {
+  const { isMars } = useContext(FluxesWavesContext);
+  const {
+    simulationMode,
+    temporaryIceCover,
+    temporaryCloudCover,
+    fluxesFills,
+  } = useSelector(({ lab }) => lab);
+  const {
+    sunToCloud,
+    cloudToAtmosphere,
+    cloudToGround,
+    groundToAtmosphere,
+  } = fluxesFills;
 
   const { totalAlbedo, cloudAlbedo } = computeAlbedo(
-    iceCover,
-    cloudCover,
+    temporaryIceCover,
+    temporaryCloudCover,
     simulationMode,
   );
 
@@ -29,23 +35,24 @@ const SunFluxes = ({ fluxFill }) => {
   const cloudToGroundFlux = sunToCloudFlux - cloudToAtmosphereFlux;
   const groundToAtmosphereFlux = sunToCloudFlux * (totalAlbedo - cloudAlbedo);
 
-  const fill =
-    fluxFill === DEFAULT_FILL
-      ? SUN_FLUXES_DEFAULT_COLOR
-      : SUN_FLUXES_DARKENED_COLOR;
-
   return (
     <Group>
-      <SunToCloudFlux flux={sunToCloudFlux} fill={fill} />
-      <CloudToAtmosphereFlux flux={cloudToAtmosphereFlux} fill={fill} />
-      <CloudToGroundFlux flux={cloudToGroundFlux} fill={fill} />
-      <GroundToAtmosphereFlux flux={groundToAtmosphereFlux} fill={fill} />
+      <SunToCloudFlux flux={sunToCloudFlux} fill={sunToCloud} />
+      {!isMars && (
+        <CloudToAtmosphereFlux
+          flux={cloudToAtmosphereFlux}
+          fill={cloudToAtmosphere}
+        />
+      )}
+      {!isMars && (
+        <CloudToGroundFlux flux={cloudToGroundFlux} fill={cloudToGround} />
+      )}
+      <GroundToAtmosphereFlux
+        flux={groundToAtmosphereFlux}
+        fill={groundToAtmosphere}
+      />
     </Group>
   );
-};
-
-SunFluxes.propTypes = {
-  fluxFill: PropTypes.string.isRequired,
 };
 
 export default SunFluxes;

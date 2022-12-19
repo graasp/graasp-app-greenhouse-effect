@@ -7,29 +7,20 @@ import Fluxes from './fluxes/Fluxes';
 import Waves from './waves/Waves';
 import FluxesWavesProvider from '../../contexts/fluxes-waves/FluxesWavesProvider';
 
-const Radiation = ({ temperature, greenhouseEffect, cursorBecomesDefault }) => {
+const Radiation = ({ cursorBecomesDefault }) => {
   const { radiationMode } = useSelector(({ lab }) => lab);
 
   return (
     <FluxesWavesProvider>
       <Group onMouseEnter={cursorBecomesDefault}>
-        {radiationMode === RADIATION_MODES.FLUXES && (
-          <Fluxes
-            temperature={temperature}
-            greenhouseEffect={greenhouseEffect}
-          />
-        )}
-        {radiationMode === RADIATION_MODES.WAVES && (
-          <Waves greenhouseEffect={greenhouseEffect} />
-        )}
+        {radiationMode === RADIATION_MODES.FLUXES && <Fluxes />}
+        {radiationMode === RADIATION_MODES.WAVES && <Waves />}
       </Group>
     </FluxesWavesProvider>
   );
 };
 
 Radiation.propTypes = {
-  temperature: PropTypes.number.isRequired,
-  greenhouseEffect: PropTypes.number.isRequired,
   cursorBecomesDefault: PropTypes.func.isRequired,
 };
 

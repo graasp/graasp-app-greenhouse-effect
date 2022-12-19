@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -8,10 +8,13 @@ import { Divider, Typography } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import { toggleSideMenu } from '../../actions';
-import { DRAWER_WIDTH, DEFAULT_THEME_DIRECTION } from '../../config/constants';
+import { toggleSideMenu } from '../../../actions';
+import {
+  DRAWER_WIDTH,
+  DEFAULT_THEME_DIRECTION,
+} from '../../../config/constants';
 import RadiationModeSwitch from './RadiationModeSwitch';
-import FeedbacksSettings from './FeedbacksSettings';
+import FeedbackToggles from './FeedbackToggles';
 import GreenhouseEffectSettings from './GreenhouseEffectSettings';
 import SimulationMode from './SimulationMode';
 import AnimationControls from './AnimationControls';
@@ -42,18 +45,6 @@ const SideMenu = () => {
   const dispatch = useDispatch();
   const theme = useTheme();
   const { showSideMenu } = useSelector(({ layout }) => layout);
-  const { simulationMode, carbonDioxide, methane } = useSelector(
-    ({ lab }) => lab,
-  );
-  const [componentCarbonDioxide, setComponentCarbonDioxide] = useState(
-    carbonDioxide,
-  );
-  const [componentMethane, setComponentMethane] = useState(methane);
-
-  useEffect(() => {
-    setComponentCarbonDioxide(carbonDioxide);
-    setComponentMethane(methane);
-  }, [simulationMode]);
 
   const handleToggleSideMenu = (open) => {
     dispatch(toggleSideMenu(open));
@@ -90,23 +81,14 @@ const SideMenu = () => {
       >
         {renderDrawerHeader()}
         <div className={classes.contentWrapper}>
-          <AnimationControls
-            componentCarbonDioxide={componentCarbonDioxide}
-            setComponentCarbonDioxide={setComponentCarbonDioxide}
-            componentMethane={componentMethane}
-            setComponentMethane={setComponentMethane}
-          />
+          <AnimationControls />
           <RadiationModeSwitch />
           <ScaleUnitSwitch />
           <Divider className={classes.divider} />
           <SimulationMode />
-          <GreenhouseEffectSettings
-            componentCarbonDioxide={componentCarbonDioxide}
-            setComponentCarbonDioxide={setComponentCarbonDioxide}
-            componentMethane={componentMethane}
-            setComponentMethane={setComponentMethane}
-          />
-          <FeedbacksSettings />
+          <GreenhouseEffectSettings />
+          <Divider className={classes.divider} />
+          <FeedbackToggles />
         </div>
       </Drawer>
     </>
