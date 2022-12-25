@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import { useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
 import { Group } from 'react-konva';
 import { STEFAN_BOLTZMANN_CONSTANT } from '../../../../../config/constants';
 import GroundToSkyFlux from './GroundToSkyFlux';
@@ -8,15 +7,19 @@ import SkyToAtmosphereFlux from './SkyToAtmosphereFlux';
 import SkyToGroundFlux from './SkyToGroundFlux';
 import { FluxesWavesContext } from '../../../../contexts/fluxes-waves/FluxesWavesProvider';
 
-const EarthFluxes = ({ temperature, greenhouseEffect }) => {
+const EarthFluxes = () => {
   const { isMars } = useContext(FluxesWavesContext);
-  const { fluxesFills } = useSelector(({ lab }) => lab);
+  const {
+    fluxesFills,
+    impliedGreenhouseEffect,
+    thermometerTemperature,
+  } = useSelector(({ lab }) => lab);
   const { groundToSky, skyToAtmosphere, skyToGround } = fluxesFills;
 
   const groundToSkyFlux = Math.round(
-    STEFAN_BOLTZMANN_CONSTANT * temperature ** 4,
+    STEFAN_BOLTZMANN_CONSTANT * thermometerTemperature ** 4,
   );
-  const skyToGroundFlux = greenhouseEffect * groundToSkyFlux;
+  const skyToGroundFlux = impliedGreenhouseEffect * groundToSkyFlux;
   const skyToAtmosphereFlux = groundToSkyFlux - skyToGroundFlux;
 
   return (
@@ -31,11 +34,6 @@ const EarthFluxes = ({ temperature, greenhouseEffect }) => {
       )}
     </Group>
   );
-};
-
-EarthFluxes.propTypes = {
-  temperature: PropTypes.number.isRequired,
-  greenhouseEffect: PropTypes.number.isRequired,
 };
 
 export default EarthFluxes;

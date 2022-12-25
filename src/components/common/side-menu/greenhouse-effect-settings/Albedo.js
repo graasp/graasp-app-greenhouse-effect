@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core';
 import SliderWithLabel from '../shared-components/SliderWithLabel';
 import { ALBEDO_MAX_VALUE, ON_STRING } from '../../../../config/constants';
-import { computeAlbedo } from '../../../../utils/greenhouseEffect';
 import IceSnowCover from './IceSnowCover';
 import CloudCover from './CloudCover';
 
@@ -19,24 +18,14 @@ const useStyles = makeStyles(() => ({
 const Albedo = ({ disabled }) => {
   const { t } = useTranslation();
   const classes = useStyles();
-  const {
-    temporaryIceCover,
-    temporaryCloudCover,
-    simulationMode,
-  } = useSelector(({ lab }) => lab);
-
-  const { totalAlbedo } = computeAlbedo(
-    temporaryIceCover,
-    temporaryCloudCover,
-    simulationMode,
-  );
+  const { impliedAlbedo } = useSelector(({ lab }) => lab);
 
   return (
     <>
       <SliderWithLabel
         text={t('Albedo (%)')}
         max={ALBEDO_MAX_VALUE}
-        value={parseFloat((totalAlbedo * 100).toFixed(1))}
+        value={parseFloat((impliedAlbedo.totalAlbedo * 100).toFixed(1))}
         labelClassName={classes.title}
         valueLabelDisplay={ON_STRING}
         disabled

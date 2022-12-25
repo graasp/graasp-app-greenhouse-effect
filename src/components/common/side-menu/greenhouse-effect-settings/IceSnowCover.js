@@ -4,9 +4,9 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import SliderWithLabel from '../shared-components/SliderWithLabel';
 import {
-  setTemporaryIceCover,
   toggleFluxesFills,
   resetFluxesFills,
+  setSliderIceCover,
 } from '../../../../actions';
 import {
   ICE_COVER_MAX_VALUE,
@@ -14,17 +14,20 @@ import {
   GROUND_TO_SKY,
   SKY_TO_GROUND,
   SKY_TO_ATMOSPHERE,
+  ON_STRING,
+  AUTO_STRING,
 } from '../../../../config/constants';
 import { keepFluxesBlinking } from '../../../../utils/canvas';
 
 const IceSnowCover = ({ disabled }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { temporaryIceCover } = useSelector(({ lab }) => lab);
+  const { sliderIceCover, feedback } = useSelector(({ lab }) => lab);
+  const { iceCoverFeedbackOn } = feedback;
 
   const onChange = (event, value) => {
     dispatch(toggleFluxesFills([GROUND_TO_ATMOSPHERE]));
-    dispatch(setTemporaryIceCover(value));
+    dispatch(setSliderIceCover(value));
   };
 
   const onMouseUp = () => {
@@ -39,10 +42,11 @@ const IceSnowCover = ({ disabled }) => {
     <SliderWithLabel
       text={t('Ice and Snow Cover (%)')}
       max={ICE_COVER_MAX_VALUE}
-      value={temporaryIceCover}
+      value={Math.round(sliderIceCover)}
       onChange={onChange}
       onMouseUp={onMouseUp}
-      disabled={disabled}
+      disabled={disabled || iceCoverFeedbackOn}
+      valueLabelDisplay={iceCoverFeedbackOn ? ON_STRING : AUTO_STRING}
     />
   );
 };

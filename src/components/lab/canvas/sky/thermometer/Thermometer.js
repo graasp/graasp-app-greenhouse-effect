@@ -21,21 +21,9 @@ import CurrentTemperature from './CurrentTemperature';
 import { SkyDimensionsContext } from '../../../../contexts/canvas-dimensions/SkyDimensionsProvider';
 import ThermometerScale from './ThermometerScale';
 import ThermometerFill from './ThermometerFill';
-import {
-  computeAlbedo,
-  computeGreenhouseEffect,
-  computeTemperature,
-} from '../../../../../utils/greenhouseEffect';
 
 const Thermometer = ({ cursorBecomesDefault, cursorBecomesZoomIn }) => {
-  const {
-    finalCarbonDioxide,
-    finalMethane,
-    cTerm,
-    simulationMode,
-    finalIceCover,
-    finalCloudCover,
-  } = useSelector(({ lab }) => lab);
+  const { thermometerTemperature } = useSelector(({ lab }) => lab);
   const { skyHeight, skyWidth, skyBeginsX, skyBeginsY } = useContext(
     SkyDimensionsContext,
   );
@@ -67,23 +55,6 @@ const Thermometer = ({ cursorBecomesDefault, cursorBecomesZoomIn }) => {
     scaleName,
   );
 
-  const greenhouseEffect = computeGreenhouseEffect(
-    finalCarbonDioxide,
-    finalMethane,
-    cTerm,
-    simulationMode,
-  );
-  const { totalAlbedo } = computeAlbedo(
-    finalIceCover,
-    finalCloudCover,
-    simulationMode,
-  );
-  const temperature = computeTemperature(
-    greenhouseEffect,
-    totalAlbedo,
-    simulationMode,
-  );
-
   return (
     <Group
       onMouseEnter={cursorBecomesDefault}
@@ -103,14 +74,14 @@ const Thermometer = ({ cursorBecomesDefault, cursorBecomesZoomIn }) => {
       <CurrentTemperature
         thermometerBodyHeight={thermometerBodyHeight}
         thermometerBaseWidth={thermometerBaseWidth}
-        temperature={temperature}
+        temperature={thermometerTemperature}
         scaleName={scaleName}
         scaleLabel={scaleLabel}
       />
       <ThermometerFill
         thermometerBodyHeight={thermometerBodyHeight}
         thermometerBaseWidth={thermometerBaseWidth}
-        temperature={temperature}
+        temperature={thermometerTemperature}
         scaleName={scaleName}
         labels={theremometerScaleLabels}
       />

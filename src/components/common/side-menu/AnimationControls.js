@@ -9,12 +9,9 @@ import { green, yellow, orange } from '@material-ui/core/colors';
 import {
   incrementIntervalCount,
   reset,
-  setFinalCarbonDioxide,
   setIsPaused,
-  setFinalMethane,
-  setFinalCloudCover,
-  setFinalIceCover,
   resetFluxesFills,
+  setThermometerValues,
 } from '../../../actions';
 import {
   APPLICATION_INTERVAL,
@@ -24,7 +21,7 @@ import {
 import {
   graduallyDispatchCTerms,
   graduallyDispatchIceCoverTerms,
-  graduallyDispatchValues,
+  graduallyDispatchThermometerValues,
   stopFluxesBlinking,
 } from '../../../utils/canvas';
 import {
@@ -47,17 +44,20 @@ const AnimationControls = () => {
   const dispatch = useDispatch();
   const {
     isPaused,
-    temporaryCarbonDioxide,
-    finalCarbonDioxide,
-    temporaryMethane,
-    finalMethane,
-    temporaryCloudCover,
-    temporaryIceCover,
-    finalIceCover,
-    finalCloudCover,
     feedback,
-    cTerm,
     simulationMode,
+    impliedTemperature,
+    impliedAlbedo,
+    thermometerTemperature,
+    impliedGreenhouseEffect,
+    sliderIceCover,
+    sliderCloudCover,
+    sliderMethane,
+    sliderCarbonDioxide,
+    thermometerIceCover,
+    thermometerCloudCover,
+    thermometerMethane,
+    thermometerCarbonDioxide,
   } = useSelector(({ lab }) => lab);
   const { waterVaporFeedbackOn, iceCoverFeedbackOn } = feedback;
   const applicationInterval = useRef();
@@ -82,17 +82,11 @@ const AnimationControls = () => {
     dispatch(setIsPaused(false));
 
     if (waterVaporFeedbackOn) {
-      dispatch(setFinalIceCover(temporaryIceCover));
-      dispatch(setFinalCloudCover(temporaryCloudCover));
-      dispatch(setFinalCarbonDioxide(temporaryCarbonDioxide));
-      dispatch(setFinalMethane(temporaryMethane));
-
       const cTerms = computeWaterVaporFeedbackCTerms(
-        temporaryIceCover,
-        temporaryCloudCover,
-        temporaryCarbonDioxide,
-        temporaryMethane,
-        cTerm,
+        sliderCarbonDioxide,
+        sliderMethane,
+        impliedAlbedo.totalAlbedo,
+        thermometerTemperature,
         simulationMode,
       );
 
@@ -102,17 +96,19 @@ const AnimationControls = () => {
     }
 
     if (iceCoverFeedbackOn) {
-      dispatch(setFinalIceCover(temporaryIceCover));
-      dispatch(setFinalCloudCover(temporaryCloudCover));
-      dispatch(setFinalCarbonDioxide(temporaryCarbonDioxide));
-      dispatch(setFinalMethane(temporaryMethane));
+      dispatch(
+        setThermometerValues({
+          iceCover: sliderIceCover,
+          cloudCover: sliderCloudCover,
+          carbonDioxide: sliderCarbonDioxide,
+          methane: sliderMethane,
+        }),
+      );
 
       const iceCoverTerms = computeIceCoverFeedbackTerms(
-        temporaryIceCover,
-        temporaryCloudCover,
-        temporaryCarbonDioxide,
-        temporaryMethane,
-        cTerm,
+        impliedTemperature,
+        impliedGreenhouseEffect,
+        sliderCloudCover,
         simulationMode,
       );
 
@@ -125,29 +121,23 @@ const AnimationControls = () => {
       return;
     }
 
-    if (
-      temporaryIceCover !== finalIceCover ||
-      temporaryCloudCover !== finalCloudCover ||
-      temporaryMethane !== finalMethane ||
-      temporaryCarbonDioxide !== finalCarbonDioxide
-    ) {
-      graduallyDispatchValues(
-        [
-          temporaryIceCover,
-          temporaryCloudCover,
-          temporaryMethane,
-          temporaryCarbonDioxide,
-        ],
-        [finalIceCover, finalCloudCover, finalMethane, finalCarbonDioxide],
+    if (thermometerTemperature !== impliedTemperature) {
+      graduallyDispatchThermometerValues(
+        {
+          sliderIceCover,
+          sliderCloudCover,
+          sliderMethane,
+          sliderCarbonDioxide,
+        },
+        {
+          thermometerIceCover,
+          thermometerCloudCover,
+          thermometerMethane,
+          thermometerCarbonDioxide,
+        },
         GRADUAL_UPDATE_NUM_INCREMENTS,
         GRADUAL_UPDATE_INTERVAL,
         dispatch,
-        [
-          setFinalIceCover,
-          setFinalCloudCover,
-          setFinalMethane,
-          setFinalCarbonDioxide,
-        ],
       );
     }
   };

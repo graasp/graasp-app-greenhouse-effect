@@ -7,6 +7,9 @@ import {
   FEEDBACK_EFFECTS_DEFAULT_EPSILON,
   MAX_TEMPERATURE_DISPLAYED_ON_EARTH_CELSIUS,
   MAX_ICE_COVER_POSSIBLE,
+  MIN_ICE_COVER_POSSIBLE,
+  MIN_GREENHOUSE_EFFECT_POSSIBLE,
+  MAX_GREENHOUSE_EFFECT_POSSIBLE,
 } from '../config/constants';
 
 export const computeGreenhouseEffect = (
@@ -25,8 +28,16 @@ export const computeGreenhouseEffect = (
       break;
   }
 
-  // formula given by teachers
-  return 0.0525 * carbonDioxide ** 0.147 + 0.0234 * methane ** 0.225 + cTerm;
+  const greenhouseEffect =
+    0.0525 * carbonDioxide ** 0.147 + 0.0234 * methane ** 0.225 + cTerm;
+  if (greenhouseEffect <= MIN_GREENHOUSE_EFFECT_POSSIBLE) {
+    return MIN_GREENHOUSE_EFFECT_POSSIBLE;
+  }
+  if (greenhouseEffect >= MAX_GREENHOUSE_EFFECT_POSSIBLE) {
+    return MAX_GREENHOUSE_EFFECT_POSSIBLE;
+  }
+
+  return greenhouseEffect;
 };
 
 export const kelvinToCelsius = (k) => k - ZERO_KELVIN_IN_CELISUS;
@@ -81,7 +92,14 @@ export const computeWaterVapor = (temperatureInCelsius) => {
 };
 
 export const computeIceCover = (temperatureInCelsius) => {
-  return Math.round(-1.67 * temperatureInCelsius + 35);
+  const iceCover = -1.67 * temperatureInCelsius + 35;
+  if (iceCover <= MIN_ICE_COVER_POSSIBLE) {
+    return MIN_ICE_COVER_POSSIBLE;
+  }
+  if (iceCover >= MAX_ICE_COVER_POSSIBLE) {
+    return MAX_ICE_COVER_POSSIBLE;
+  }
+  return iceCover;
 };
 
 export const computeCTerm = (temperature) => {
@@ -89,38 +107,18 @@ export const computeCTerm = (temperature) => {
 };
 
 export const computeWaterVaporFeedbackCTerms = (
-  iceCover,
-  cloudCover,
   carbonDioxide,
   methane,
-  cTerm,
+  albedo,
+  temperature,
   simulationMode,
   epsilon = FEEDBACK_EFFECTS_DEFAULT_EPSILON,
 ) => {
-  // calculate albedo, greenhouse effect, and temperature based on new icecover/cloudcover/methane/co2
-  const { totalAlbedo: albedo } = computeAlbedo(
-    iceCover,
-    cloudCover,
-    simulationMode,
-  );
-  const greenhouseEffect = computeGreenhouseEffect(
-    carbonDioxide,
-    methane,
-    cTerm,
-    simulationMode,
-  );
-  const initialTemperature = kelvinToCelsius(
-    computeTemperature(greenhouseEffect, albedo, simulationMode),
-  );
-
-  // under water vapor feedback, cTerms become a function of temperature
-  // thus, new temperature --> new c term --> new greenhouse effect --> new temperature
-  // we run this loop until delta between new and previous temperatures is small
   const cTerms = [];
   let previousTemperature;
   let newTemperature;
   do {
-    previousTemperature = newTemperature || initialTemperature;
+    previousTemperature = newTemperature || kelvinToCelsius(temperature);
     const newCTerm = computeCTerm(previousTemperature);
     const newGreenhouseEffect = computeGreenhouseEffect(
       carbonDioxide,
@@ -131,6 +129,13 @@ export const computeWaterVaporFeedbackCTerms = (
     newTemperature = kelvinToCelsius(
       computeTemperature(newGreenhouseEffect, albedo, simulationMode),
     );
+    if (
+      newGreenhouseEffect >= MAX_GREENHOUSE_EFFECT_POSSIBLE ||
+      newGreenhouseEffect <= MIN_GREENHOUSE_EFFECT_POSSIBLE
+    ) {
+      cTerms.push(newCTerm);
+      break;
+    }
     cTerms.push(newCTerm);
     if (newTemperature > MAX_TEMPERATURE_DISPLAYED_ON_EARTH_CELSIUS) {
       break;
@@ -141,50 +146,36 @@ export const computeWaterVaporFeedbackCTerms = (
 };
 
 export const computeIceCoverFeedbackTerms = (
-  iceCover,
+  temperature,
+  greenhouseEffect,
   cloudCover,
-  carbonDioxide,
-  methane,
-  cTerm,
   simulationMode,
   epsilon = FEEDBACK_EFFECTS_DEFAULT_EPSILON,
 ) => {
-  // calculate albedo, greenhouse effect, and temperature based on new icecover/cloudcover/methane/co2
-  const { totalAlbedo: albedo } = computeAlbedo(
-    iceCover,
-    cloudCover,
-    simulationMode,
-  );
-  const greenhouseEffect = computeGreenhouseEffect(
-    carbonDioxide,
-    methane,
-    cTerm,
-    simulationMode,
-  );
-  const initialTemperature = kelvinToCelsius(
-    computeTemperature(greenhouseEffect, albedo, simulationMode),
-  );
-
   const iceCoverTerms = [];
   let previousTemperature;
   let newTemperature;
   do {
-    previousTemperature = newTemperature || initialTemperature;
+    previousTemperature = newTemperature || kelvinToCelsius(temperature);
     const newIceCover = computeIceCover(previousTemperature);
     const { totalAlbedo: newAlbedo } = computeAlbedo(
       newIceCover,
       cloudCover,
       simulationMode,
     );
-
     newTemperature = kelvinToCelsius(
       computeTemperature(greenhouseEffect, newAlbedo, simulationMode),
     );
+    if (newIceCover >= MAX_ICE_COVER_POSSIBLE) {
+      iceCoverTerms.push(MAX_ICE_COVER_POSSIBLE);
+      break;
+    }
+    if (newIceCover <= MIN_ICE_COVER_POSSIBLE) {
+      iceCoverTerms.push(MIN_ICE_COVER_POSSIBLE);
+      break;
+    }
     iceCoverTerms.push(newIceCover);
-    if (
-      newTemperature > MAX_TEMPERATURE_DISPLAYED_ON_EARTH_CELSIUS ||
-      newIceCover >= MAX_ICE_COVER_POSSIBLE
-    ) {
+    if (newTemperature > MAX_TEMPERATURE_DISPLAYED_ON_EARTH_CELSIUS) {
       break;
     }
   } while (Math.abs(newTemperature - previousTemperature) > epsilon);
