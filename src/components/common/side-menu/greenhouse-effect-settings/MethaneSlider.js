@@ -4,9 +4,9 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import SliderWithLabel from '../shared-components/SliderWithLabel';
 import {
-  setTemporaryMethane,
   toggleFluxesFills,
   resetFluxesFills,
+  setSliderMethane,
 } from '../../../../actions';
 import {
   METHANE_CONCENTRATION_MAX_VALUE,
@@ -27,7 +27,7 @@ import {
 const MethaneSlider = ({ disabled }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { simulationMode, temporaryMethane } = useSelector(({ lab }) => lab);
+  const { simulationMode, sliderMethane } = useSelector(({ lab }) => lab);
 
   const isMarsOrVenus =
     simulationMode === SIMULATION_MODES.MARS.name ||
@@ -36,7 +36,7 @@ const MethaneSlider = ({ disabled }) => {
   const onChange = (event, value) => {
     stopFluxesBlinking();
     dispatch(toggleFluxesFills([SKY_TO_ATMOSPHERE, SKY_TO_GROUND]));
-    dispatch(setTemporaryMethane(value));
+    dispatch(setSliderMethane(value));
   };
 
   const onMouseUp = () => {
@@ -52,7 +52,7 @@ const MethaneSlider = ({ disabled }) => {
       text={t('CH_4 (ppm)', { escapeInterpolation: true })}
       max={METHANE_CONCENTRATION_MAX_VALUE}
       min={METHANE_CONCENTRATION_MIN_VALUE}
-      value={temporaryMethane}
+      value={sliderMethane}
       onChange={onChange}
       onMouseUp={onMouseUp}
       step={METHANE_SLIDER_STEP}

@@ -21,8 +21,8 @@ const IceCover = ({
   mountainBeginsX,
   mountainBeginsY,
 }) => {
-  const { temporaryIceCover } = useSelector(({ lab }) => lab);
-  const icePercentage = computeIcePercentage(temporaryIceCover / 100);
+  const { sliderIceCover } = useSelector(({ lab }) => lab);
+  const icePercentage = computeIcePercentage(sliderIceCover / 100);
   const { iceCoverWidth, iceCoverHeight } = computeMountainIceCoverDimensions(
     mountainWidth,
     mountainHeight,

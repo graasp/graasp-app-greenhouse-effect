@@ -10,9 +10,6 @@ import {
   ON_STRING,
 } from '../../../../config/constants';
 import {
-  computeAlbedo,
-  computeGreenhouseEffect,
-  computeTemperature,
   computeWaterVapor,
   kelvinToCelsius,
   roundToNearestHundred,
@@ -22,11 +19,7 @@ const WaterVapor = () => {
   const { t } = useTranslation();
   const {
     simulationMode,
-    finalIceCover,
-    finalCloudCover,
-    finalCarbonDioxide,
-    finalMethane,
-    cTerm,
+    impliedTemperature,
     waterVapor,
     feedback,
   } = useSelector(({ lab }) => lab);
@@ -40,25 +33,6 @@ const WaterVapor = () => {
     ? WATER_CONCENTRATION_MIN_VALUE_ON_MARS_OR_VENUS
     : WATER_CONCENTRATION_MIN_VALUE_DEFAULT;
 
-  const greenhouseEffect = computeGreenhouseEffect(
-    finalCarbonDioxide,
-    finalMethane,
-    cTerm,
-    simulationMode,
-  );
-
-  const { totalAlbedo } = computeAlbedo(
-    finalIceCover,
-    finalCloudCover,
-    simulationMode,
-  );
-
-  const temperature = computeTemperature(
-    greenhouseEffect,
-    totalAlbedo,
-    simulationMode,
-  );
-
   return (
     <SliderWithLabel
       disabled
@@ -67,7 +41,7 @@ const WaterVapor = () => {
       min={WATER_CONCENTRATION_MIN_VALUE}
       value={roundToNearestHundred(
         waterVaporFeedbackOn
-          ? computeWaterVapor(kelvinToCelsius(temperature))
+          ? computeWaterVapor(kelvinToCelsius(impliedTemperature))
           : waterVapor,
       )}
       valueLabelDisplay={ON_STRING}

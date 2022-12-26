@@ -107,7 +107,6 @@ SliderWithLabel.propTypes = {
   disabled: PropTypes.bool,
   text: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   onChange: PropTypes.func,
-
   labelClassName: PropTypes.string,
   valueLabelDisplay: PropTypes.string,
   step: PropTypes.number,

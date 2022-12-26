@@ -6,17 +6,13 @@ import SunToCloudFlux from './SunToCloudFlux';
 import CloudToGroundFlux from './CloudToGroundFlux';
 import GroundToAtmosphereFlux from './GroundToAtmosphereFlux';
 import { SOLAR_FLUXES } from '../../../../../config/constants';
-import { computeAlbedo } from '../../../../../utils/greenhouseEffect';
 import { FluxesWavesContext } from '../../../../contexts/fluxes-waves/FluxesWavesProvider';
 
 const SunFluxes = () => {
   const { isMars } = useContext(FluxesWavesContext);
-  const {
-    simulationMode,
-    temporaryIceCover,
-    temporaryCloudCover,
-    fluxesFills,
-  } = useSelector(({ lab }) => lab);
+  const { simulationMode, impliedAlbedo, fluxesFills } = useSelector(
+    ({ lab }) => lab,
+  );
   const {
     sunToCloud,
     cloudToAtmosphere,
@@ -24,11 +20,7 @@ const SunFluxes = () => {
     groundToAtmosphere,
   } = fluxesFills;
 
-  const { totalAlbedo, cloudAlbedo } = computeAlbedo(
-    temporaryIceCover,
-    temporaryCloudCover,
-    simulationMode,
-  );
+  const { totalAlbedo, cloudAlbedo } = impliedAlbedo;
 
   const sunToCloudFlux = SOLAR_FLUXES[simulationMode];
   const cloudToAtmosphereFlux = cloudAlbedo * sunToCloudFlux;

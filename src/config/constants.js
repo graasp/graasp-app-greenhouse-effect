@@ -394,6 +394,13 @@ export const SIMULATION_MODES = {
   },
 };
 
+export const INITIAL_SIMULATION_MODE = SIMULATION_MODES.TODAY;
+export const INITIAL_ICE_COVER = INITIAL_SIMULATION_MODE.iceCover;
+export const INITIAL_CLOUD_COVER = INITIAL_SIMULATION_MODE.cloudCover;
+export const INITIAL_CARBON_DIOXIDE = INITIAL_SIMULATION_MODE.carbonDioxide;
+export const INITIAL_METHANE = INITIAL_SIMULATION_MODE.methane;
+export const INITIAL_C_TERM = INITIAL_SIMULATION_MODE.cTerm;
+
 export const TWENTIETH_CENTURY_ALBEDO_OFFSET = -0.006;
 
 export const SOLAR_FLUXES = Object.fromEntries(
@@ -494,6 +501,9 @@ export const WATER_VAPOR_FEEDBACK_UPDATE_INTERVAL = 1000;
 // above this temperature, the earth has heated so much that for all purposes there's no difference
 export const MAX_TEMPERATURE_DISPLAYED_ON_EARTH_CELSIUS = 30;
 export const MAX_ICE_COVER_POSSIBLE = 100;
+export const MIN_ICE_COVER_POSSIBLE = 0;
+export const MAX_GREENHOUSE_EFFECT_POSSIBLE = 1;
+export const MIN_GREENHOUSE_EFFECT_POSSIBLE = 0;
 
 export const SUN_TO_CLOUD = {
   name: 'sunToCloud',

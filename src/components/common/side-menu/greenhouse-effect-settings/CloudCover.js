@@ -4,9 +4,9 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import SliderWithLabel from '../shared-components/SliderWithLabel';
 import {
-  setTemporaryCloudCover,
   toggleFluxesFills,
   resetFluxesFills,
+  setSliderCloudCover,
 } from '../../../../actions';
 import {
   CLOUD_COVER_MAX_VALUE,
@@ -23,7 +23,7 @@ import { keepFluxesBlinking } from '../../../../utils/canvas';
 const CloudCover = ({ disabled }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { temporaryCloudCover } = useSelector(({ lab }) => lab);
+  const { sliderCloudCover } = useSelector(({ lab }) => lab);
 
   const onChange = (event, value) => {
     dispatch(
@@ -33,7 +33,7 @@ const CloudCover = ({ disabled }) => {
         GROUND_TO_ATMOSPHERE,
       ]),
     );
-    dispatch(setTemporaryCloudCover(value));
+    dispatch(setSliderCloudCover(value));
   };
 
   const onMouseUp = () => {
@@ -49,7 +49,7 @@ const CloudCover = ({ disabled }) => {
       text={t('Cloud Cover (%)')}
       min={CLOUD_COVER_MIN_VALUE}
       max={CLOUD_COVER_MAX_VALUE}
-      value={temporaryCloudCover}
+      value={sliderCloudCover}
       onChange={onChange}
       onMouseUp={onMouseUp}
       disabled={disabled}

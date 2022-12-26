@@ -2,8 +2,9 @@ import _ from 'lodash';
 import {
   resetFluxesFills,
   setCTerm,
-  setFinalIceCover,
-  setTemporaryIceCover,
+  setSliderIceCover,
+  setThermometerIceCover,
+  setThermometerValues,
   toggleFluxesFills,
 } from '../actions';
 import {
@@ -565,38 +566,6 @@ export const keepFluxesBlinking = (fluxes, dispatch) => {
   }, FLUX_BLINKING_INTERVAL);
 };
 
-export const graduallyDispatchValues = (
-  targetValues,
-  originalValues,
-  numIncrements,
-  delay,
-  dispatch,
-  actions,
-  blinkEarthFluxes = true,
-) => {
-  const increments = targetValues.map((value, index) => {
-    if (!originalValues.length) {
-      return value;
-    }
-    return (value - originalValues[index]) / numIncrements;
-  });
-  for (let i = 1; i <= numIncrements; i += 1) {
-    setTimeout(() => {
-      if (blinkEarthFluxes) {
-        dispatch(
-          toggleFluxesFills([GROUND_TO_SKY, SKY_TO_GROUND, SKY_TO_ATMOSPHERE]),
-        );
-      }
-      increments.forEach((increment, index) => {
-        dispatch(actions[index](originalValues[index] + i * increment));
-      });
-      if (i === numIncrements) {
-        dispatch(resetFluxesFills());
-      }
-    }, delay * (i - 1));
-  }
-};
-
 export const graduallyDispatchCTerms = (cTerms, dispatch, delay) => {
   for (let i = 0; i < cTerms.length; i += 1) {
     setTimeout(() => {
@@ -626,11 +595,63 @@ export const graduallyDispatchIceCoverTerms = (
           GROUND_TO_ATMOSPHERE,
         ]),
       );
-      dispatch(setTemporaryIceCover(iceCoverTerms[i]));
-      dispatch(setFinalIceCover(iceCoverTerms[i]));
+      dispatch(setSliderIceCover(iceCoverTerms[i]));
+      dispatch(setThermometerIceCover(iceCoverTerms[i]));
       if (i === iceCoverTerms.length - 1) {
         dispatch(resetFluxesFills());
       }
     }, delay * (i + 1));
+  }
+};
+
+export const graduallyDispatchThermometerValues = (
+  targetValues,
+  originalValues,
+  numIncrements,
+  delay,
+  dispatch,
+  blinkEarthFluxes = true,
+) => {
+  const {
+    sliderIceCover,
+    sliderCloudCover,
+    sliderCarbonDioxide,
+    sliderMethane,
+  } = targetValues;
+
+  const {
+    thermometerIceCover,
+    thermometerCloudCover,
+    thermometerCarbonDioxide,
+    thermometerMethane,
+  } = originalValues;
+
+  const iceCoverIncrement =
+    (sliderIceCover - thermometerIceCover) / numIncrements;
+  const cloudCoverIncrement =
+    (sliderCloudCover - thermometerCloudCover) / numIncrements;
+  const carbonDioxideIncrement =
+    (sliderCarbonDioxide - thermometerCarbonDioxide) / numIncrements;
+  const methaneIncrement = (sliderMethane - thermometerMethane) / numIncrements;
+
+  for (let i = 1; i <= numIncrements; i += 1) {
+    setTimeout(() => {
+      if (blinkEarthFluxes) {
+        dispatch(
+          toggleFluxesFills([GROUND_TO_SKY, SKY_TO_GROUND, SKY_TO_ATMOSPHERE]),
+        );
+      }
+      dispatch(
+        setThermometerValues({
+          iceCover: thermometerIceCover + iceCoverIncrement * i,
+          cloudCover: thermometerCloudCover + cloudCoverIncrement * i,
+          carbonDioxide: thermometerCarbonDioxide + carbonDioxideIncrement * i,
+          methane: thermometerMethane + methaneIncrement * i,
+        }),
+      );
+      if (i === numIncrements) {
+        dispatch(resetFluxesFills());
+      }
+    }, delay * (i - 1));
   }
 };

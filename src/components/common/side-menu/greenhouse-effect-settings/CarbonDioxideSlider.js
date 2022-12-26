@@ -4,9 +4,9 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import SliderWithLabel from '../shared-components/SliderWithLabel';
 import {
-  setTemporaryCarbonDioxide,
   toggleFluxesFills,
   resetFluxesFills,
+  setSliderCarbonDioxide,
 } from '../../../../actions';
 import {
   CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE_DEFAULT,
@@ -27,9 +27,7 @@ import {
 const CarbonDioxideSlider = ({ disabled }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { simulationMode, temporaryCarbonDioxide } = useSelector(
-    ({ lab }) => lab,
-  );
+  const { simulationMode, sliderCarbonDioxide } = useSelector(({ lab }) => lab);
 
   const isMarsOrVenus =
     simulationMode === SIMULATION_MODES.MARS.name ||
@@ -53,7 +51,7 @@ const CarbonDioxideSlider = ({ disabled }) => {
   const onChange = (event, value) => {
     stopFluxesBlinking();
     dispatch(toggleFluxesFills([SKY_TO_ATMOSPHERE, SKY_TO_GROUND]));
-    dispatch(setTemporaryCarbonDioxide(value));
+    dispatch(setSliderCarbonDioxide(value));
   };
 
   const onMouseUp = () => {
@@ -69,7 +67,7 @@ const CarbonDioxideSlider = ({ disabled }) => {
       text={t('CO_2 (ppm)', { escapeInterpolation: true })}
       max={CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE}
       min={CARBON_DIOXIDE_CONCENTRATION_MIN_VALUE}
-      value={temporaryCarbonDioxide}
+      value={sliderCarbonDioxide}
       onChange={onChange}
       onMouseUp={onMouseUp}
       disabled={disabled}
