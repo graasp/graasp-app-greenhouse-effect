@@ -20,11 +20,13 @@ import {
 } from '../../../config/constants';
 import {
   graduallyDispatchCTerms,
+  graduallyDispatchFeedbackTerms,
   graduallyDispatchIceCoverTerms,
   graduallyDispatchThermometerValues,
   stopFluxesBlinking,
 } from '../../../utils/canvas';
 import {
+  computeBothFeedbackTerms,
   computeIceCoverFeedbackTerms,
   computeWaterVaporFeedbackCTerms,
 } from '../../../utils/greenhouseEffect';
@@ -80,6 +82,24 @@ const AnimationControls = () => {
     stopFluxesBlinking();
     dispatch(resetFluxesFills());
     dispatch(setIsPaused(false));
+
+    if (waterVaporFeedbackOn && iceCoverFeedbackOn) {
+      const feedbackTerms = computeBothFeedbackTerms(
+        thermometerTemperature,
+        sliderCarbonDioxide,
+        sliderMethane,
+        sliderCloudCover,
+        simulationMode,
+      );
+
+      graduallyDispatchFeedbackTerms(
+        feedbackTerms,
+        dispatch,
+        GRADUAL_UPDATE_INTERVAL,
+      );
+
+      return;
+    }
 
     if (waterVaporFeedbackOn) {
       const cTerms = computeWaterVaporFeedbackCTerms(

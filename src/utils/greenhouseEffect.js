@@ -186,3 +186,62 @@ export const computeIceCoverFeedbackTerms = (
 export const roundToNearestHundred = (num) => {
   return Math.round(num / 100) * 100;
 };
+
+export const computeBothFeedbackTerms = (
+  temperature,
+  carbonDioxide,
+  methane,
+  cloudCover,
+  simulationMode,
+  epsilon = FEEDBACK_EFFECTS_DEFAULT_EPSILON,
+) => {
+  const feedbackTerms = [];
+  let previousTemperature;
+  let newTemperature;
+  do {
+    previousTemperature = newTemperature || kelvinToCelsius(temperature);
+    const newCTerm = computeCTerm(previousTemperature);
+    const newIceCover = computeIceCover(previousTemperature);
+    const newGreenhouseEffect = computeGreenhouseEffect(
+      carbonDioxide,
+      methane,
+      newCTerm,
+      simulationMode,
+    );
+    const { totalAlbedo: newAlbedo } = computeAlbedo(
+      newIceCover,
+      cloudCover,
+      simulationMode,
+    );
+    newTemperature = kelvinToCelsius(
+      computeTemperature(newGreenhouseEffect, newAlbedo, simulationMode),
+    );
+    if (newIceCover >= MAX_ICE_COVER_POSSIBLE) {
+      feedbackTerms.push({ iceCover: MAX_ICE_COVER_POSSIBLE, cTerm: newCTerm });
+      break;
+    }
+    if (newIceCover <= MIN_ICE_COVER_POSSIBLE) {
+      feedbackTerms.push({ iceCover: MIN_ICE_COVER_POSSIBLE, cTerm: newCTerm });
+      break;
+    }
+    if (
+      newGreenhouseEffect >= MAX_GREENHOUSE_EFFECT_POSSIBLE ||
+      newGreenhouseEffect <= MIN_GREENHOUSE_EFFECT_POSSIBLE
+    ) {
+      feedbackTerms.push({ iceCover: newIceCover, cTerm: newCTerm });
+      break;
+    }
+    feedbackTerms.push({
+      iceCover: newIceCover,
+      cTerm: newCTerm,
+      newGreenhouseEffect,
+      newTemperature,
+      newAlbedo,
+    });
+    if (newTemperature > MAX_TEMPERATURE_DISPLAYED_ON_EARTH_CELSIUS) {
+      break;
+    }
+  } while (Math.abs(newTemperature - previousTemperature) > epsilon);
+
+  return feedbackTerms;
+};

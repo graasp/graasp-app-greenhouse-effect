@@ -2,6 +2,7 @@ import _ from 'lodash';
 import {
   resetFluxesFills,
   setCTerm,
+  setIceCoverAndCTerm,
   setSliderIceCover,
   setThermometerIceCover,
   setThermometerValues,
@@ -598,6 +599,29 @@ export const graduallyDispatchIceCoverTerms = (
       dispatch(setSliderIceCover(iceCoverTerms[i]));
       dispatch(setThermometerIceCover(iceCoverTerms[i]));
       if (i === iceCoverTerms.length - 1) {
+        dispatch(resetFluxesFills());
+      }
+    }, delay * (i + 1));
+  }
+};
+
+export const graduallyDispatchFeedbackTerms = (
+  feedbackTerms,
+  dispatch,
+  delay,
+) => {
+  for (let i = 0; i < feedbackTerms.length; i += 1) {
+    setTimeout(() => {
+      dispatch(
+        toggleFluxesFills([
+          GROUND_TO_SKY,
+          SKY_TO_GROUND,
+          SKY_TO_ATMOSPHERE,
+          GROUND_TO_ATMOSPHERE,
+        ]),
+      );
+      dispatch(setIceCoverAndCTerm(feedbackTerms[i]));
+      if (i === feedbackTerms.length - 1) {
         dispatch(resetFluxesFills());
       }
     }, delay * (i + 1));
