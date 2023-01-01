@@ -5,7 +5,7 @@ import {
   SKY_COLOR_RANGES,
   SKY_PAUSED_COLOR_RANGES,
 } from '../../../../config/constants';
-import { toggleZoom } from '../../../../actions';
+import { setIsPaused, toggleZoom } from '../../../../actions';
 import { SkyDimensionsContext } from '../../../contexts/canvas-dimensions/SkyDimensionsProvider';
 
 const SkyBackground = () => {
@@ -30,6 +30,7 @@ const SkyBackground = () => {
       }}
       fillLinearGradientColorStops={isPaused ? colorRangePaused : colorRange}
       onClick={() => {
+        dispatch(setIsPaused(true));
         dispatch(toggleZoom(true));
       }}
     />

@@ -11,6 +11,7 @@ const MoleculesView = ({
   stageWidth,
   cursorBecomesDefault,
   cursorBecomesZoomOut,
+  maxDistribution,
 }) => {
   const dispatch = useDispatch();
   return (
@@ -30,6 +31,7 @@ const MoleculesView = ({
         stageWidth={stageWidth}
         cursorBecomesDefault={cursorBecomesDefault}
         cursorBecomesZoomOut={cursorBecomesZoomOut}
+        maxDistribution={maxDistribution}
       />
     </Layer>
   );
@@ -40,6 +42,7 @@ MoleculesView.propTypes = {
   stageWidth: PropTypes.number.isRequired,
   cursorBecomesDefault: PropTypes.func.isRequired,
   cursorBecomesZoomOut: PropTypes.func.isRequired,
+  maxDistribution: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default MoleculesView;

@@ -6,12 +6,14 @@ import { Stage, Layer } from 'react-konva';
 import {
   BACKGROUND_COLOR,
   DEFAULT_CURSOR,
+  GREENHOUSE_GASES_MAX_COUNTS,
   ZOOM_IN_CURSOR,
   ZOOM_OUT_CURSOR,
 } from '../../config/constants';
 import { setStageDimensions } from '../../actions';
 import CanvasLayout from './canvas/CanvasLayout';
 import MoleculesView from './canvas/MoleculesView';
+import { createMaxDistribution } from '../../utils/canvas';
 
 const styles = () => ({
   container: {
@@ -99,10 +101,12 @@ class Lab extends Component {
               <Provider store={store}>
                 <>
                   <Layer>
-                    <CanvasLayout
-                      cursorBecomesDefault={this.cursorBecomesDefault}
-                      cursorBecomesZoomIn={this.cursorBecomesZoomIn}
-                    />
+                    {!zoomedIn && (
+                      <CanvasLayout
+                        cursorBecomesDefault={this.cursorBecomesDefault}
+                        cursorBecomesZoomIn={this.cursorBecomesZoomIn}
+                      />
+                    )}
                   </Layer>
                   {zoomedIn && (
                     <MoleculesView
@@ -110,6 +114,9 @@ class Lab extends Component {
                       stageHeight={stageHeight}
                       cursorBecomesDefault={this.cursorBecomesDefault}
                       cursorBecomesZoomOut={this.cursorBecomesZoomOut}
+                      maxDistribution={createMaxDistribution(
+                        GREENHOUSE_GASES_MAX_COUNTS,
+                      )}
                     />
                   )}
                 </>

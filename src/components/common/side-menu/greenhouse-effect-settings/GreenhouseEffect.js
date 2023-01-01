@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core';
@@ -7,6 +6,8 @@ import SliderWithLabel from '../shared-components/SliderWithLabel';
 import {
   GREENHOUSE_TOTAL_EFFECT_MAX_VALUE,
   ON_STRING,
+  RADIATION_MODES,
+  SIMULATION_MODES,
 } from '../../../../config/constants';
 import CarbonDioxideSlider from './CarbonDioxideSlider';
 import MethaneSlider from './MethaneSlider';
@@ -19,10 +20,25 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const GreenhouseEffect = ({ disabled }) => {
+const GreenhouseEffect = () => {
   const { t } = useTranslation();
   const classes = useStyles();
-  const { impliedGreenhouseEffect } = useSelector(({ lab }) => lab);
+  const {
+    radiationMode,
+    isPaused,
+    simulationMode,
+    impliedGreenhouseEffect,
+  } = useSelector(({ lab }) => lab);
+  const { zoomedIn } = useSelector(({ layout }) => layout);
+
+  const isMarsOrVenus =
+    simulationMode === SIMULATION_MODES.MARS.name ||
+    simulationMode === SIMULATION_MODES.VENUS.name;
+
+  const disabled =
+    !isPaused ||
+    (radiationMode === RADIATION_MODES.WAVES && !zoomedIn) ||
+    isMarsOrVenus;
 
   return (
     <>
@@ -39,10 +55,6 @@ const GreenhouseEffect = ({ disabled }) => {
       <WaterVapor />
     </>
   );
-};
-
-GreenhouseEffect.propTypes = {
-  disabled: PropTypes.bool.isRequired,
 };
 
 export default GreenhouseEffect;

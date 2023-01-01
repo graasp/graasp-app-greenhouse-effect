@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
 import PauseCircleOutlineIcon from '@material-ui/icons/PauseCircleOutline';
 import RotateLeftIcon from '@material-ui/icons/RotateLeft';
-import { green, yellow, orange } from '@material-ui/core/colors';
+import { green, yellow, orange, grey } from '@material-ui/core/colors';
 import {
   incrementIntervalCount,
   reset,
@@ -44,6 +44,7 @@ const AnimationControls = () => {
   const classes = useStyles();
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const { zoomedIn } = useSelector(({ layout }) => layout);
   const {
     isPaused,
     feedback,
@@ -167,18 +168,18 @@ const AnimationControls = () => {
       {isPaused ? (
         <CustomButton
           title={t('Play')}
-          disabled={!isPaused}
+          disabled={!isPaused || zoomedIn}
           onClick={onClickPlay}
           icon={<PlayCircleOutlineIcon className={classes.button} />}
-          color={green[800]}
+          color={zoomedIn ? grey[400] : green[800]}
         />
       ) : (
         <CustomButton
           title={t('Pause')}
-          disabled={isPaused}
+          disabled={isPaused || zoomedIn}
           onClick={() => dispatch(setIsPaused(true))}
           icon={<PauseCircleOutlineIcon className={classes.button} />}
-          color={yellow[800]}
+          color={zoomedIn ? grey[400] : yellow[800]}
         />
       )}
 

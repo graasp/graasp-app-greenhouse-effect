@@ -470,12 +470,9 @@ export const SKY_PAUSED_COLOR_RANGES = Object.fromEntries(
 
 export const CLOUD_COVER_PERCENTAGE_LIMIT = 50;
 
-export const GREENHOUSE_GASES_DISTRIBUTION = {
-  METHANE: 1,
-  CARBON_DIOXIDE: 10,
-  WATER: 10,
-};
-
+export const carbonDioxideString = 'carbonDioxide';
+export const methaneString = 'methane';
+export const waterString = 'water';
 export const ON_STRING = 'on';
 export const AUTO_STRING = 'auto';
 export const UP_STRING = 'up';
@@ -486,6 +483,21 @@ export const INFRARED = 'infrared';
 export const VISIBLE_LIGHT = 'visible-light';
 export const DEFAULT_FILL = 'default-fill';
 export const DARK_FILL = 'dark-fill';
+
+export const GREENHOUSE_GASES_MAX_COUNTS = [
+  {
+    name: carbonDioxideString,
+    maxCount: CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE_DEFAULT,
+  },
+  { name: methaneString, maxCount: METHANE_CONCENTRATION_MAX_VALUE },
+  { name: waterString, maxCount: WATER_CONCENTRATION_MAX_VALUE },
+];
+
+export const GREENHOUSE_GAS_DISTRIBUTION_SCALE_FACTORS = {};
+
+GREENHOUSE_GAS_DISTRIBUTION_SCALE_FACTORS[carbonDioxideString] = 10;
+GREENHOUSE_GAS_DISTRIBUTION_SCALE_FACTORS[methaneString] = 1;
+GREENHOUSE_GAS_DISTRIBUTION_SCALE_FACTORS[waterString] = 20;
 
 export const APPLICATION_INTERVAL = 50;
 export const Y_SHIFT_PER_INTERVAL = Math.PI;
