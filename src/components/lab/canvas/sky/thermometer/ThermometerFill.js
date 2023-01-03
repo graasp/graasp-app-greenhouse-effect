@@ -5,9 +5,11 @@ import {
   SCALE_UNITS,
   THERMOMETER_BORDER_WIDTH,
   THERMOMETER_FILL,
-} from '../../../../../config/constants';
-import { kelvinToCelsius } from '../../../../../utils/greenhouseEffect';
-import { determineThermometerFillHeight } from '../../../../../utils/canvas';
+} from '../../../../../constants';
+import {
+  kelvinToCelsius,
+  determineThermometerFillHeight,
+} from '../../../../../utils';
 
 const ThermometerFill = ({
   thermometerBodyHeight,

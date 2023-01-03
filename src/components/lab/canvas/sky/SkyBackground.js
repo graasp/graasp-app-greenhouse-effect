@@ -4,7 +4,7 @@ import { Rect } from 'react-konva';
 import {
   SKY_COLOR_RANGES,
   SKY_PAUSED_COLOR_RANGES,
-} from '../../../../config/constants';
+} from '../../../../constants';
 import { setIsPaused, toggleZoom } from '../../../../actions';
 import { SkyDimensionsContext } from '../../../contexts/canvas-dimensions/SkyDimensionsProvider';
 

@@ -3,17 +3,17 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
   ATMOSPHERE,
-  FULL_MOUNTAIN_HEIGHT,
-  FULL_MOUNTAIN_WIDTH,
-  FULL_MOUNTAIN_X_INDENT,
   GROUND,
-  HALF_MOUNTAIN_HEIGHT,
-  HALF_MOUNTAIN_WIDTH,
-  MOUNTAINS_INDENT_Y,
   SEA,
-  SIMULATION_MODES,
   SKY,
-} from '../../../config/constants';
+  FULL_MOUNTAIN_WIDTH,
+  FULL_MOUNTAIN_HEIGHT,
+  HALF_MOUNTAIN_WIDTH,
+  HALF_MOUNTAIN_HEIGHT,
+  FULL_MOUNTAIN_X_INDENT,
+  MOUNTAINS_INDENT_Y,
+  SIMULATION_MODES,
+} from '../../../constants';
 
 export const GroundDimensionsContext = createContext();
 

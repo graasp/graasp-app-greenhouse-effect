@@ -9,11 +9,11 @@ import {
   GREENHOUSE_GASES_MAX_COUNTS,
   ZOOM_IN_CURSOR,
   ZOOM_OUT_CURSOR,
-} from '../../config/constants';
+} from '../../constants';
 import { setStageDimensions } from '../../actions';
 import CanvasLayout from './canvas/CanvasLayout';
 import MoleculesView from './canvas/MoleculesView';
-import { createMaxDistribution } from '../../utils/canvas';
+import { createMaxDistribution } from '../../utils';
 
 const styles = () => ({
   container: {

@@ -5,7 +5,7 @@ import { FluxesWavesContext } from '../../../../contexts/fluxes-waves/FluxesWave
 import {
   GROUND_TO_ATMOSPHERE_FLUX_ROTATION,
   UP_STRING,
-} from '../../../../../config/constants';
+} from '../../../../../constants';
 
 const GroundToAtmosphereFlux = ({ flux, fill }) => {
   const { groundToAtmosphereFlux } = useContext(FluxesWavesContext);

@@ -18,11 +18,8 @@ import {
   GROUND_TO_SKY,
   SKY_TO_GROUND,
   SKY_TO_ATMOSPHERE,
-} from '../../../../config/constants';
-import {
-  keepFluxesBlinking,
-  stopFluxesBlinking,
-} from '../../../../utils/canvas';
+} from '../../../../constants';
+import { keepFluxesBlinking, stopFluxesBlinking } from '../../../../utils';
 
 const MethaneSlider = ({ disabled }) => {
   const { t } = useTranslation();

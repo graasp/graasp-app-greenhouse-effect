@@ -6,7 +6,7 @@ import Atmosphere from './Atmosphere';
 import Ground from './Ground';
 import Sea from './Sea';
 import Sky from './Sky';
-import { SIMULATION_MODES } from '../../../config/constants';
+import { SIMULATION_MODES } from '../../../constants';
 import CanvasDimensionsProvider from '../../contexts/canvas-dimensions/CanvasDimensionsProvider';
 import Radiation from './Radiation';
 

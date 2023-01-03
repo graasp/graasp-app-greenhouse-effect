@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Group } from 'react-konva';
-import { THERMOMETER_SCALE_NUM_GRADES } from '../../../../../config/constants';
+import { THERMOMETER_SCALE_NUM_GRADES } from '../../../../../constants';
 import ThermometerScaleGrade from './ThermometerScaleGrade';
 
 const ThermometerScale = ({ thermometerBodyHeight, labels }) => {

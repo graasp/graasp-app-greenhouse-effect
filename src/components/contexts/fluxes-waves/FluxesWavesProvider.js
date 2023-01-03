@@ -12,7 +12,7 @@ import {
   SKY_TO_GROUND_EARTH_FLUX_ADJUSTMENT,
   TOTAL_INTERVALS_TO_COMPLETE_FLUX,
   Y_SHIFT_PER_INTERVAL,
-} from '../../../config/constants';
+} from '../../../constants';
 
 export const FluxesWavesContext = createContext();
 

@@ -1,8 +1,8 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { setRadiationMode } from '../../../actions/lab';
-import { RADIATION_MODES } from '../../../config/constants';
+import { setRadiationMode } from '../../../actions';
+import { RADIATION_MODES } from '../../../constants';
 import SwitchWithTwoLabels from './shared-components/SwitchWithTwoLabels';
 
 const RadiationModeSwitch = () => {

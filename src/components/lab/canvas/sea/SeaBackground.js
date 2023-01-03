@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { Line } from 'react-konva';
-import { MAX_ICE_COVER_POSSIBLE, SEA } from '../../../../config/constants';
-import { generateSeaPoints } from '../../../../utils/canvas';
+import { ICE_COVER_MAX_VALUE, SEA } from '../../../../constants';
+import { generateSeaPoints } from '../../../../utils';
 import { SeaDimensionsContext } from '../../../contexts/canvas-dimensions/SeaDimensionsProvider';
 
 const SeaBackground = () => {
@@ -15,7 +15,7 @@ const SeaBackground = () => {
   const { colorRange, colorRangePaused, colorRangeFrozen } = SEA;
 
   const determineSeaColor = () => {
-    if (sliderIceCover >= MAX_ICE_COVER_POSSIBLE) {
+    if (sliderIceCover >= ICE_COVER_MAX_VALUE) {
       return colorRangeFrozen;
     }
     if (isPaused) {

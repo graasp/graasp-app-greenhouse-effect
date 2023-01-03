@@ -10,7 +10,7 @@ import {
   SCALE_UNITS,
   SIMULATION_MODES,
   INITIAL_SIMULATION_MODE,
-} from '../config/constants';
+} from '../constants';
 import {
   SET_FEEDBACK_VALUES,
   SET_RADIATION_MODE,
@@ -36,8 +36,8 @@ import {
   computeAlbedo,
   computeGreenhouseEffect,
   computeTemperature,
-} from '../utils/greenhouseEffect';
-import { adjustFluxesFills } from '../utils/reducers';
+  adjustFluxesFills,
+} from '../utils';
 
 const INITIAL_ALBEDO = computeAlbedo(
   INITIAL_ICE_COVER,

@@ -6,7 +6,8 @@ import {
   UNEXPECTED_ERROR_MESSAGE,
 } from '../constants/messages';
 
-const showErrorToast = (payload) => {
+// eslint-disable-next-line import/prefer-default-export
+export const showErrorToast = (payload) => {
   let message = UNEXPECTED_ERROR_MESSAGE;
   if (_.isString(payload)) {
     message = payload;
@@ -25,9 +26,4 @@ const showErrorToast = (payload) => {
     autoClose: true,
     position: 'bottom-right',
   });
-};
-
-export {
-  // eslint-disable-next-line import/prefer-default-export
-  showErrorToast,
 };

@@ -8,7 +8,7 @@ import {
   ON_STRING,
   RADIATION_MODES,
   SIMULATION_MODES,
-} from '../../../../config/constants';
+} from '../../../../constants';
 import CarbonDioxideSlider from './CarbonDioxideSlider';
 import MethaneSlider from './MethaneSlider';
 import WaterVapor from './WaterVapor';

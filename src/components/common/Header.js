@@ -11,8 +11,8 @@ import { withStyles } from '@material-ui/core/styles';
 import { withTranslation } from 'react-i18next';
 import { ReactComponent as Logo } from '../../resources/logo.svg';
 import { toggleSideMenu } from '../../actions';
-import { DRAWER_WIDTH, LOGO_SIZE } from '../../config/constants';
-import { addQueryParamsToUrl } from '../../utils/url';
+import { DRAWER_WIDTH, LOGO_SIZE } from '../../constants';
+import { addQueryParamsToUrl } from '../../utils';
 
 const styles = (theme) => ({
   grow: {

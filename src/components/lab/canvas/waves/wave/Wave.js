@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { Line } from 'react-konva';
-import { generateSineCurve } from '../../../../../utils/canvas';
+import { generateSineCurve } from '../../../../../utils';
 import {
   INFRARED_RADIATION_PERIOD,
   MINIMUM_WAVE_AMPLITUDE,
   VISIBLE_LIGHT,
   VISIBLE_LIGHT_PERIOD,
-} from '../../../../../config/constants';
+} from '../../../../../constants';
 
 const Wave = ({
   waveBeginsX,

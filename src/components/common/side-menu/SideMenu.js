@@ -9,10 +9,7 @@ import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import { toggleSideMenu } from '../../../actions';
-import {
-  DRAWER_WIDTH,
-  DEFAULT_THEME_DIRECTION,
-} from '../../../config/constants';
+import { DRAWER_WIDTH, DEFAULT_THEME_DIRECTION } from '../../../constants';
 import RadiationModeSwitch from './RadiationModeSwitch';
 import FeedbackToggles from './FeedbackToggles';
 import GreenhouseEffectSettings from './GreenhouseEffectSettings';

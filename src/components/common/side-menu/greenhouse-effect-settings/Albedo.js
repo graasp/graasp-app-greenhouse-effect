@@ -8,7 +8,7 @@ import {
   ON_STRING,
   RADIATION_MODES,
   SIMULATION_MODES,
-} from '../../../../config/constants';
+} from '../../../../constants';
 import IceSnowCover from './IceSnowCover';
 import CloudCover from './CloudCover';
 

@@ -4,11 +4,11 @@ import { Group, Line } from 'react-konva';
 import {
   HOUSE_FRONT_ROOF_COLOR,
   HOUSE_SIDE_ROOF_COLOR,
-} from '../../../../../config/constants';
+} from '../../../../../constants';
 import {
   generateHouseFrontRoofPoints,
   generateHouseSideRoofPoints,
-} from '../../../../../utils/canvas';
+} from '../../../../../utils';
 
 const Roof = ({ houseFrontWidth, houseRoofHeight, houseSideWidth, x, y }) => {
   const houseFrontRoofPoints = generateHouseFrontRoofPoints(

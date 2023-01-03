@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Rect } from 'react-konva';
-import { ATMOSPHERE } from '../../../../config/constants';
+import { ATMOSPHERE } from '../../../../constants';
 import { AtmosphereDimensionsContext } from '../../../contexts/canvas-dimensions/AtmosphereDimensionsProvider';
 
 const AtmosphereBackground = () => {

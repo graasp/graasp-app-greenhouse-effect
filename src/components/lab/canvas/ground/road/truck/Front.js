@@ -9,7 +9,7 @@ import {
   WINDOW_FILL,
   WINDOW_HEIGHT,
   WINDOW_WIDTH,
-} from '../../../../../../config/constants';
+} from '../../../../../../constants';
 
 const Front = ({
   truckFrontBeginsX,

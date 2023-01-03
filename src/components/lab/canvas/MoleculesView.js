@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { Layer, Rect } from 'react-konva';
-import { BACKGROUND_COLOR } from '../../../config/constants';
+import { BACKGROUND_COLOR } from '../../../constants';
 import Molecules from './sky/greenhouse-gases/Molecules';
 import { toggleZoom } from '../../../actions';
 

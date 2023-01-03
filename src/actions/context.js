@@ -11,7 +11,7 @@ import {
   STUDENT_MODES,
 } from '../config/settings';
 import { DEFAULT_VIEW } from '../config/views';
-import isInFrame from '../utils/isInFrame';
+import { isInIframe } from '../utils/isInFrame';
 import { patchAppInstance } from './appInstance';
 
 // flags
@@ -53,7 +53,7 @@ const getContext = () => (dispatch) => {
         STUDENT_MODES.includes(mode),
     );
 
-    const standalone = !devBool && !isInFrame();
+    const standalone = !devBool && !isInIframe();
 
     const context = {
       mode,

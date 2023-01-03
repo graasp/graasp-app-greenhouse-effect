@@ -7,7 +7,7 @@ import {
   THERMOMETER_SCALE_STROKE_COLOR,
   THERMOMETER_SCALE_STROKE_WIDTH,
   THERMOMETER_SCALE_GRADE_WIDTH,
-} from '../../../../../config/constants';
+} from '../../../../../constants';
 
 const ThermometerScaleGrade = ({ label, y, step }) => {
   const labelX =

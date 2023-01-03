@@ -10,7 +10,7 @@ import {
   HOUSE_ROW_BEGINS_X,
   X_DISTANCE_BETWEEN_HOUSES,
   SIMULATION_MODES,
-} from '../../../../../config/constants';
+} from '../../../../../constants';
 import House from './House';
 import { GroundDimensionsContext } from '../../../../contexts/canvas-dimensions/GroundDimensionsProvider';
 

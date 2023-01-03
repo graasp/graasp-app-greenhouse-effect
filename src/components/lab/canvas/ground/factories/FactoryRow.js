@@ -11,7 +11,7 @@ import {
   X_DISTANCE_BETWEEN_FACTORIES,
   DEFAULT_NUMBER_OF_FACTORIES_IN_ROW,
   SIMULATION_MODES,
-} from '../../../../../config/constants';
+} from '../../../../../constants';
 import { GroundDimensionsContext } from '../../../../contexts/canvas-dimensions/GroundDimensionsProvider';
 
 const FactoryRow = () => {

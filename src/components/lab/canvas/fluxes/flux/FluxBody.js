@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Rect } from 'react-konva';
-import { UP_STRING } from '../../../../../config/constants';
+import { UP_STRING } from '../../../../../constants';
 
 const FluxBody = ({ bodyWidth, bodyHeight, fill, direction }) => {
   const directedHeight = direction === UP_STRING ? -bodyHeight : bodyHeight;

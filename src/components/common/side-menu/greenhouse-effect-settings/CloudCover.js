@@ -17,8 +17,8 @@ import {
   GROUND_TO_SKY,
   SKY_TO_GROUND,
   SKY_TO_ATMOSPHERE,
-} from '../../../../config/constants';
-import { keepFluxesBlinking } from '../../../../utils/canvas';
+} from '../../../../constants';
+import { keepFluxesBlinking } from '../../../../utils';
 
 const CloudCover = ({ disabled }) => {
   const { t } = useTranslation();

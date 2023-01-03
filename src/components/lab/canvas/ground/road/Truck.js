@@ -11,7 +11,7 @@ import {
   TRUCK_BEGINS_Y,
   TRUCK_CARGO_GAP,
   TRUCK_SIDE_HEIGHT,
-} from '../../../../../config/constants';
+} from '../../../../../constants';
 import Wheels from './truck/Wheels';
 import Front from './truck/Front';
 import Side from './truck/Side';

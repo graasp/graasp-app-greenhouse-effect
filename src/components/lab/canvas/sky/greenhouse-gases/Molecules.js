@@ -8,15 +8,15 @@ import {
   chunkMolecules,
   determineMoleculeRowsCenterYs,
   distributeMolecules,
-} from '../../../../../utils/canvas';
+} from '../../../../../utils';
 import {
-  carbonDioxideString,
+  CARBON_DIOXIDE_STRING,
   CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE_DEFAULT,
-  methaneString,
+  METHANE_STRING,
   METHANE_CONCENTRATION_MAX_VALUE,
-  waterString,
+  WATER_STRING,
   WATER_CONCENTRATION_MAX_VALUE,
-} from '../../../../../config/constants';
+} from '../../../../../constants';
 
 const Molecules = ({
   stageHeight,
@@ -31,18 +31,18 @@ const Molecules = ({
 
   const moleculeDistribution = distributeMolecules(maxDistribution, [
     {
-      name: carbonDioxideString,
+      name: CARBON_DIOXIDE_STRING,
       count: Math.min(
         sliderCarbonDioxide,
         CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE_DEFAULT,
       ),
     },
     {
-      name: methaneString,
+      name: METHANE_STRING,
       count: Math.min(sliderMethane, METHANE_CONCENTRATION_MAX_VALUE),
     },
     {
-      name: waterString,
+      name: WATER_STRING,
       count: Math.min(waterVapor, WATER_CONCENTRATION_MAX_VALUE),
     },
   ]);
@@ -51,9 +51,9 @@ const Molecules = ({
 
   // map each molecule id to the corresponding React component
   const moleculeMap = {};
-  moleculeMap[carbonDioxideString] = CarbonDioxide;
-  moleculeMap[waterString] = Water;
-  moleculeMap[methaneString] = Methane;
+  moleculeMap[CARBON_DIOXIDE_STRING] = CarbonDioxide;
+  moleculeMap[WATER_STRING] = Water;
+  moleculeMap[METHANE_STRING] = Methane;
 
   const molecules = chunkedDistribution.map((moleculeRow, rowIndex) =>
     moleculeRow.map(({ name, switchedOn, centerX, rotation }, index) => {

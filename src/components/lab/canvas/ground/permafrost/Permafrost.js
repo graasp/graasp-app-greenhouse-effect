@@ -4,7 +4,7 @@ import {
   PERMAFROST_FILL,
   PERMAFROST_HEIGHT,
   PERMAFROST_WIDTH,
-} from '../../../../../config/constants';
+} from '../../../../../constants';
 import { GroundDimensionsContext } from '../../../../contexts/canvas-dimensions/GroundDimensionsProvider';
 
 const Permafrost = () => {

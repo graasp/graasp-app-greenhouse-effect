@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Atom from './Atom';
-import { HYDROGEN } from '../../../../../../config/constants';
+import { HYDROGEN } from '../../../../../../constants';
 
 const Hydrogen = ({ coordinates, atomRadius }) => {
   const { x, y } = coordinates;

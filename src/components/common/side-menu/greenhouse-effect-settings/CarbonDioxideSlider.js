@@ -18,11 +18,8 @@ import {
   GROUND_TO_SKY,
   SKY_TO_ATMOSPHERE,
   SKY_TO_GROUND,
-} from '../../../../config/constants';
-import {
-  keepFluxesBlinking,
-  stopFluxesBlinking,
-} from '../../../../utils/canvas';
+} from '../../../../constants';
+import { keepFluxesBlinking, stopFluxesBlinking } from '../../../../utils';
 
 const CarbonDioxideSlider = ({ disabled }) => {
   const { t } = useTranslation();

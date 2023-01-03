@@ -9,12 +9,12 @@ import {
   THERMOMETER_BULB_RADIUS,
   THERMOMETER_HEIGHT,
   THERMOMETER_SCALE_NUM_GRADES,
-} from '../../../../../config/constants';
+} from '../../../../../constants';
 import {
   determineBulbCoordinates,
   generateThermometerLabels,
   generateThermometerRectanglePoints,
-} from '../../../../../utils/canvas';
+} from '../../../../../utils';
 import ThermometerBody from './ThermometerBody';
 import ThermometerBulb from './ThermometerBulb';
 import CurrentTemperature from './CurrentTemperature';

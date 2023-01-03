@@ -12,24 +12,29 @@ import {
   setIsPaused,
   resetFluxesFills,
   setThermometerValues,
+  setCTerm,
+  setSliderIceCover,
+  setThermometerIceCover,
+  setIceCoverAndCTerm,
+  toggleZoom,
 } from '../../../actions';
 import {
   APPLICATION_INTERVAL,
   GRADUAL_UPDATE_INTERVAL,
   GRADUAL_UPDATE_NUM_INCREMENTS,
-} from '../../../config/constants';
+  GROUND_TO_ATMOSPHERE,
+  GROUND_TO_SKY,
+  SKY_TO_ATMOSPHERE,
+  SKY_TO_GROUND,
+} from '../../../constants';
 import {
-  graduallyDispatchCTerms,
   graduallyDispatchFeedbackTerms,
-  graduallyDispatchIceCoverTerms,
-  graduallyDispatchThermometerValues,
-  stopFluxesBlinking,
-} from '../../../utils/canvas';
-import {
   computeBothFeedbackTerms,
   computeIceCoverFeedbackTerms,
   computeWaterVaporFeedbackCTerms,
-} from '../../../utils/greenhouseEffect';
+  stopFluxesBlinking,
+  graduallyDispatchThermometerValues,
+} from '../../../utils';
 import CustomButton from './shared-components/CustomButton';
 
 const useStyles = makeStyles(() => ({
@@ -96,13 +101,10 @@ const AnimationControls = () => {
       graduallyDispatchFeedbackTerms(
         feedbackTerms,
         dispatch,
-        GRADUAL_UPDATE_INTERVAL,
+        [setIceCoverAndCTerm],
+        [GROUND_TO_SKY, SKY_TO_GROUND, SKY_TO_ATMOSPHERE, GROUND_TO_ATMOSPHERE],
       );
-
-      return;
-    }
-
-    if (waterVaporFeedbackOn) {
+    } else if (waterVaporFeedbackOn) {
       const cTerms = computeWaterVaporFeedbackCTerms(
         sliderCarbonDioxide,
         sliderMethane,
@@ -111,12 +113,13 @@ const AnimationControls = () => {
         simulationMode,
       );
 
-      graduallyDispatchCTerms(cTerms, dispatch, GRADUAL_UPDATE_INTERVAL);
-
-      return;
-    }
-
-    if (iceCoverFeedbackOn) {
+      graduallyDispatchFeedbackTerms(
+        cTerms,
+        dispatch,
+        [setCTerm],
+        [GROUND_TO_SKY, SKY_TO_GROUND, SKY_TO_ATMOSPHERE],
+      );
+    } else if (iceCoverFeedbackOn) {
       dispatch(
         setThermometerValues({
           iceCover: sliderIceCover,
@@ -133,16 +136,13 @@ const AnimationControls = () => {
         simulationMode,
       );
 
-      graduallyDispatchIceCoverTerms(
+      graduallyDispatchFeedbackTerms(
         iceCoverTerms,
         dispatch,
-        GRADUAL_UPDATE_INTERVAL,
+        [setSliderIceCover, setThermometerIceCover],
+        [GROUND_TO_SKY, SKY_TO_GROUND, SKY_TO_ATMOSPHERE, GROUND_TO_ATMOSPHERE],
       );
-
-      return;
-    }
-
-    if (thermometerTemperature !== impliedTemperature) {
+    } else if (thermometerTemperature !== impliedTemperature) {
       graduallyDispatchThermometerValues(
         {
           sliderIceCover,
@@ -186,7 +186,10 @@ const AnimationControls = () => {
       <CustomButton
         title={t('Reset')}
         tooltipPlacement="right"
-        onClick={() => dispatch(reset())}
+        onClick={() => {
+          dispatch(reset());
+          dispatch(toggleZoom(false));
+        }}
         icon={<RotateLeftIcon className={classes.button} />}
         color={orange[800]}
       />

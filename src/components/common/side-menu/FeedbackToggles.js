@@ -2,7 +2,7 @@ import React from 'react';
 import { Typography, makeStyles } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { RADIATION_MODES, SIMULATION_MODES } from '../../../config/constants';
+import { RADIATION_MODES, SIMULATION_MODES } from '../../../constants';
 import WaterVaporFeedback from './WaterVaporFeedback';
 import IceCoverFeedback from './IceCoverFeedback';
 

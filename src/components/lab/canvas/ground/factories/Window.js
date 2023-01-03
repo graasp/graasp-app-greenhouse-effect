@@ -5,7 +5,7 @@ import {
   FACTORY_WINDOW_FILL,
   WINDOW_LINES_COLOR,
   WINDOW_LINES_WIDTH,
-} from '../../../../../config/constants';
+} from '../../../../../constants';
 
 const Window = ({ windowWidth, windowHeight, windowX, windowY }) => {
   return (

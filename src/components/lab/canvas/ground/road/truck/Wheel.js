@@ -1,10 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Group, Circle } from 'react-konva';
-import {
-  WHEEL_RIM_FILL,
-  WHEEL_TIRE_FILL,
-} from '../../../../../../config/constants';
+import { WHEEL_RIM_FILL, WHEEL_TIRE_FILL } from '../../../../../../constants';
 
 const Wheel = ({ wheelCenterX, wheelCenterY, wheelRadius }) => {
   return (

@@ -5,7 +5,7 @@ import {
   TRUCK_WHEEL_RADIUS,
   WHEEL_ONE_BEGINS_X,
   WHEEL_TWO_BEGINS_X,
-} from '../../../../../../config/constants';
+} from '../../../../../../constants';
 
 const Wheels = ({
   truckBeginsX,

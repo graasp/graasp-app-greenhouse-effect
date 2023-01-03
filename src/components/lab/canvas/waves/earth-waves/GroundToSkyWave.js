@@ -3,7 +3,7 @@ import {
   EARTH_FLUXES_DEFAULT_COLOR,
   GROUND_TO_SKY_WAVE_AMPLITUDE,
   INFRARED,
-} from '../../../../../config/constants';
+} from '../../../../../constants';
 import Wave from '../wave/Wave';
 import { FluxesWavesContext } from '../../../../contexts/fluxes-waves/FluxesWavesProvider';
 

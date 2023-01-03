@@ -5,7 +5,7 @@ import {
   GROUND_TO_SKY_WAVE_AMPLITUDE,
   INFRARED,
   SKY_TO_ATMOSPHERE_WAVE_ROTATION,
-} from '../../../../../config/constants';
+} from '../../../../../constants';
 import { FluxesWavesContext } from '../../../../contexts/fluxes-waves/FluxesWavesProvider';
 import Wave from '../wave/Wave';
 

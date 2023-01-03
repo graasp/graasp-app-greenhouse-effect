@@ -4,7 +4,7 @@ import { Line } from 'react-konva';
 import {
   THERMOMETER_BORDER_COLOR,
   THERMOMETER_BORDER_WIDTH,
-} from '../../../../../config/constants';
+} from '../../../../../constants';
 
 const ThermometerBody = ({ thermometerRectanglePoints }) => {
   return (

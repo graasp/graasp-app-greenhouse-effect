@@ -1,11 +1,11 @@
 import React, { createContext } from 'react';
 import PropTypes from 'prop-types';
 import {
-  ATMOSPHERE,
-  SUN_CENTER_X,
-  SUN_RADIUS,
   SUN_RAYS_RADIUS,
-} from '../../../config/constants';
+  SUN_RADIUS,
+  SUN_CENTER_X,
+  ATMOSPHERE,
+} from '../../../constants';
 
 export const AtmosphereDimensionsContext = createContext();
 

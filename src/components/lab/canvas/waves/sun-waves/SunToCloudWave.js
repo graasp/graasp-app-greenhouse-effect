@@ -3,7 +3,7 @@ import {
   SUN_FLUXES_DEFAULT_COLOR,
   SUN_TO_CLOUD_WAVE_AMPLITUDE,
   VISIBLE_LIGHT,
-} from '../../../../../config/constants';
+} from '../../../../../constants';
 import Wave from '../wave/Wave';
 import { FluxesWavesContext } from '../../../../contexts/fluxes-waves/FluxesWavesProvider';
 

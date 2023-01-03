@@ -7,8 +7,8 @@ import {
   THERMOMETER_CURRENT_TEMPERATURE_FONT_SIZE,
   THERMOMETER_LABEL_WIDTH,
   THERMOMETER_LABEL_HEIGHT,
-} from '../../../../../config/constants';
-import { createTemperatureLabel } from '../../../../../utils/canvas';
+} from '../../../../../constants';
+import { createTemperatureLabel } from '../../../../../utils';
 
 const CurrentTemperature = ({
   thermometerBaseWidth,
