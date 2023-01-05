@@ -7,7 +7,7 @@ import {
   FACTORY_WINDOW_LENGTH,
   FACTORY_WINDOW_WIDTH,
   X_DISTANCE_BETWEEN_FACTORY_WINDOWS,
-} from '../../../../../config/constants';
+} from '../../../../../constants';
 import Window from './Window';
 
 const Windows = ({

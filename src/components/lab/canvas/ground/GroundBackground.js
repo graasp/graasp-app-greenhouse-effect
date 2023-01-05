@@ -5,8 +5,8 @@ import {
   GROUND_COLOR_RANGES,
   GROUND_PAUSED_COLOR_RANGES,
   ICE_CAP_FILL,
-} from '../../../../config/constants';
-import { computeIcePercentage } from '../../../../utils/canvas';
+} from '../../../../constants';
+import { computeIcePercentage } from '../../../../utils';
 import { GroundDimensionsContext } from '../../../contexts/canvas-dimensions/GroundDimensionsProvider';
 import { SeaDimensionsContext } from '../../../contexts/canvas-dimensions/SeaDimensionsProvider';
 

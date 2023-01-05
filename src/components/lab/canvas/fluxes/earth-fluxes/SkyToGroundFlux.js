@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {
   DOWN_STRING,
   SKY_TO_GROUND_FLUX_ROTATION,
-} from '../../../../../config/constants';
+} from '../../../../../constants';
 import { FluxesWavesContext } from '../../../../contexts/fluxes-waves/FluxesWavesProvider';
 import Flux from '../flux/Flux';
 

@@ -3,12 +3,8 @@ import PropTypes from 'prop-types';
 import { Group } from 'react-konva';
 import Oxygen from '../atoms/OxygenAtom';
 import Hydrogen from '../atoms/HydrogenAtom';
-import {
-  ATOM_DIMENSIONS,
-  HYDROGEN,
-  OXYGEN,
-} from '../../../../../../config/constants';
-import { determineWaterAtomsCoordinates } from '../../../../../../utils/canvas';
+import { ATOM_DIMENSIONS, HYDROGEN, OXYGEN } from '../../../../../../constants';
+import { determineWaterAtomsCoordinates } from '../../../../../../utils';
 
 const Water = ({
   moleculeCenter,

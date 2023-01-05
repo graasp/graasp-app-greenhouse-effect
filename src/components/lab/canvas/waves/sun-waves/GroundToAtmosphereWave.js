@@ -4,7 +4,7 @@ import {
   GROUND_TO_ATMOSPHERE_WAVE_ROTATION,
   SUN_FLUXES_DEFAULT_COLOR,
   VISIBLE_LIGHT,
-} from '../../../../../config/constants';
+} from '../../../../../constants';
 import { FluxesWavesContext } from '../../../../contexts/fluxes-waves/FluxesWavesProvider';
 import Wave from '../wave/Wave';
 

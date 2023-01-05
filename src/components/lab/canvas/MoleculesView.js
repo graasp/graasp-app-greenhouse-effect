@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { Layer, Rect } from 'react-konva';
-import { BACKGROUND_COLOR } from '../../../config/constants';
+import { BACKGROUND_COLOR } from '../../../constants';
 import Molecules from './sky/greenhouse-gases/Molecules';
 import { toggleZoom } from '../../../actions';
 
@@ -11,6 +11,7 @@ const MoleculesView = ({
   stageWidth,
   cursorBecomesDefault,
   cursorBecomesZoomOut,
+  maxDistribution,
 }) => {
   const dispatch = useDispatch();
   return (
@@ -30,6 +31,7 @@ const MoleculesView = ({
         stageWidth={stageWidth}
         cursorBecomesDefault={cursorBecomesDefault}
         cursorBecomesZoomOut={cursorBecomesZoomOut}
+        maxDistribution={maxDistribution}
       />
     </Layer>
   );
@@ -40,6 +42,7 @@ MoleculesView.propTypes = {
   stageWidth: PropTypes.number.isRequired,
   cursorBecomesDefault: PropTypes.func.isRequired,
   cursorBecomesZoomOut: PropTypes.func.isRequired,
+  maxDistribution: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default MoleculesView;

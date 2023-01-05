@@ -9,20 +9,21 @@ import {
   setValuesTemporarilyViaIceCover,
 } from '../../../actions';
 import SwitchWithLabel from './shared-components/SwitchWithLabel';
-import { keepFluxesBlinking, stopFluxesBlinking } from '../../../utils/canvas';
+import {
+  keepFluxesBlinking,
+  stopFluxesBlinking,
+  computeAlbedo,
+  computeIceCover,
+  computeTemperature,
+  kelvinToCelsius,
+} from '../../../utils';
 import {
   FEEDBACK_EFFECTS_DEFAULT_EPSILON,
   GROUND_TO_ATMOSPHERE,
   GROUND_TO_SKY,
   SKY_TO_ATMOSPHERE,
   SKY_TO_GROUND,
-} from '../../../config/constants';
-import {
-  computeAlbedo,
-  computeIceCover,
-  computeTemperature,
-  kelvinToCelsius,
-} from '../../../utils/greenhouseEffect';
+} from '../../../constants';
 
 const IceCoverFeedback = ({ disabled }) => {
   const { t } = useTranslation();
@@ -95,8 +96,7 @@ const IceCoverFeedback = ({ disabled }) => {
           dispatch(setValuesTemporarilyViaIceCover(projectedIceCover));
         }
       }
-    }
-    if (!checked) {
+    } else {
       if (significantTemperatureChangeProjected) {
         dispatch(setValuesTemporarilyViaIceCover(initialIceCover));
       }

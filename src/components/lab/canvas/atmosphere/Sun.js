@@ -5,7 +5,7 @@ import {
   SUN_RAYS_NUMBER_OF_RAYS,
   SUN_BORDER_COLOR,
   SUN_BORDER,
-} from '../../../../config/constants';
+} from '../../../../constants';
 import { AtmosphereDimensionsContext } from '../../../contexts/canvas-dimensions/AtmosphereDimensionsProvider';
 
 const Sun = () => {

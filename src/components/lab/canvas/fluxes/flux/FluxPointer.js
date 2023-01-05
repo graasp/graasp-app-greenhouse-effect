@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Group, Line, Text } from 'react-konva';
-import { generateFluxPointerPoints } from '../../../../../utils/canvas';
+import { generateFluxPointerPoints } from '../../../../../utils';
 import {
   BOTTOM_STRING,
   FLUX_LABEL_LARGE_FONT_SIZE,
@@ -9,7 +9,7 @@ import {
   TOP_STRING,
   UP_STRING,
   WIDE_FLUX_MINIMUM_WIDTH,
-} from '../../../../../config/constants';
+} from '../../../../../constants';
 
 const FluxPointer = ({
   pointerWidth,

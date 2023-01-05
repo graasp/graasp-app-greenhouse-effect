@@ -6,13 +6,13 @@ import {
   FULL_MOUNTAIN,
   ICE_COVER_FILL,
   ICE_COVER_LINES_TENSION,
-} from '../../../../../config/constants';
+} from '../../../../../constants';
 import {
   computeIcePercentage,
   computeMountainIceCoverDimensions,
   generateFullMountainPoints,
   generateHalfMountainPoints,
-} from '../../../../../utils/canvas';
+} from '../../../../../utils';
 
 const IceCover = ({
   mountainType,

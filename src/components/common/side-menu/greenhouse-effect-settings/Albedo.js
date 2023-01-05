@@ -1,10 +1,14 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core';
 import SliderWithLabel from '../shared-components/SliderWithLabel';
-import { ALBEDO_MAX_VALUE, ON_STRING } from '../../../../config/constants';
+import {
+  ALBEDO_MAX_VALUE,
+  ON_STRING,
+  RADIATION_MODES,
+  SIMULATION_MODES,
+} from '../../../../constants';
 import IceSnowCover from './IceSnowCover';
 import CloudCover from './CloudCover';
 
@@ -15,10 +19,26 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const Albedo = ({ disabled }) => {
+const Albedo = () => {
   const { t } = useTranslation();
   const classes = useStyles();
-  const { impliedAlbedo } = useSelector(({ lab }) => lab);
+  const {
+    radiationMode,
+    isPaused,
+    simulationMode,
+    impliedAlbedo,
+  } = useSelector(({ lab }) => lab);
+  const { zoomedIn } = useSelector(({ layout }) => layout);
+
+  const isMarsOrVenus =
+    simulationMode === SIMULATION_MODES.MARS.name ||
+    simulationMode === SIMULATION_MODES.VENUS.name;
+
+  const disabled =
+    !isPaused ||
+    radiationMode === RADIATION_MODES.WAVES ||
+    isMarsOrVenus ||
+    zoomedIn;
 
   return (
     <>
@@ -34,10 +54,6 @@ const Albedo = ({ disabled }) => {
       <CloudCover disabled={disabled} />
     </>
   );
-};
-
-Albedo.propTypes = {
-  disabled: PropTypes.bool.isRequired,
 };
 
 export default Albedo;

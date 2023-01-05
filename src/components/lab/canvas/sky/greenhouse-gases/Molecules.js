@@ -6,51 +6,73 @@ import Water from './molecules/Water';
 import Methane from './molecules/Methane';
 import {
   chunkMolecules,
-  determineMoleculesWithinRowCenterXs,
   determineMoleculeRowsCenterYs,
-  adjustGreenhouseGasesDistribution,
-} from '../../../../../utils/canvas';
+  distributeMolecules,
+} from '../../../../../utils';
+import {
+  CARBON_DIOXIDE_STRING,
+  CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE_DEFAULT,
+  METHANE_STRING,
+  METHANE_CONCENTRATION_MAX_VALUE,
+  WATER_STRING,
+  WATER_CONCENTRATION_MAX_VALUE,
+} from '../../../../../constants';
 
 const Molecules = ({
   stageHeight,
   stageWidth,
   cursorBecomesDefault,
   cursorBecomesZoomOut,
+  maxDistribution,
 }) => {
-  // determine a random molecule distribution
-  // only compute this distribution once on component mount, so that it isn't re-computed when e.g. screen size changes
-  // TBD: If/how to modify this when we allow for MOLECULE_DISTRIBUTION to change via redux (e.g. 'add more methane')
-  const greenhouseGases = useSelector(({ lab }) => lab.greenhouseGasesValues);
-  const adjustedGreenhouseGases = adjustGreenhouseGasesDistribution(
-    greenhouseGases,
+  const { sliderCarbonDioxide, sliderMethane, waterVapor } = useSelector(
+    ({ lab }) => lab,
   );
-  const moleculeDistribution = chunkMolecules(adjustedGreenhouseGases);
-  const xPoints = determineMoleculesWithinRowCenterXs(moleculeDistribution);
+
+  const moleculeDistribution = distributeMolecules(maxDistribution, [
+    {
+      name: CARBON_DIOXIDE_STRING,
+      count: Math.min(
+        sliderCarbonDioxide,
+        CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE_DEFAULT,
+      ),
+    },
+    {
+      name: METHANE_STRING,
+      count: Math.min(sliderMethane, METHANE_CONCENTRATION_MAX_VALUE),
+    },
+    {
+      name: WATER_STRING,
+      count: Math.min(waterVapor, WATER_CONCENTRATION_MAX_VALUE),
+    },
+  ]);
+  const chunkedDistribution = chunkMolecules(moleculeDistribution);
   const yPoints = determineMoleculeRowsCenterYs();
 
   // map each molecule id to the corresponding React component
-  const moleculeMap = {
-    carbonDioxide: CarbonDioxide,
-    water: Water,
-    methane: Methane,
-  };
+  const moleculeMap = {};
+  moleculeMap[CARBON_DIOXIDE_STRING] = CarbonDioxide;
+  moleculeMap[WATER_STRING] = Water;
+  moleculeMap[METHANE_STRING] = Methane;
 
-  const molecules = moleculeDistribution.map((moleculeRow, rowIndex) =>
-    moleculeRow.map((moleculeName, index) => {
-      const MoleculeToDisplay = moleculeMap[moleculeName];
+  const molecules = chunkedDistribution.map((moleculeRow, rowIndex) =>
+    moleculeRow.map(({ name, switchedOn, centerX, rotation }, index) => {
+      const MoleculeToDisplay = moleculeMap[name];
       return (
-        <MoleculeToDisplay
-          moleculeCenter={{
-            x: xPoints[rowIndex][index] * stageWidth,
-            y: yPoints[rowIndex] * stageHeight,
-          }}
-          stageHeight={stageHeight}
-          cursorBecomesDefault={cursorBecomesDefault}
-          cursorBecomesZoomOut={cursorBecomesZoomOut}
-          // eslint-disable-next-line react/no-array-index-key
-          key={index}
-          rotation={Math.random() * 180}
-        />
+        switchedOn && (
+          <MoleculeToDisplay
+            moleculeCenter={{
+              x: centerX * stageWidth,
+              y: yPoints[rowIndex] * stageHeight,
+            }}
+            stageHeight={stageHeight}
+            cursorBecomesDefault={cursorBecomesDefault}
+            cursorBecomesZoomOut={cursorBecomesZoomOut}
+            // eslint-disable-next-line react/no-array-index-key
+            key={index}
+            rotation={rotation}
+          />
+        )
       );
     }),
   );
@@ -63,6 +85,7 @@ Molecules.propTypes = {
   stageWidth: PropTypes.number.isRequired,
   cursorBecomesDefault: PropTypes.func.isRequired,
   cursorBecomesZoomOut: PropTypes.func.isRequired,
+  maxDistribution: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default Molecules;

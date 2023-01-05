@@ -1,11 +1,8 @@
 import React, { useContext } from 'react';
 import { useSelector } from 'react-redux';
 import IceCapRow from './IceCapRow';
-import { ICE_CAP_ROWS_BEGIN } from '../../../../../config/constants';
-import {
-  computeNumIceCaps,
-  distributeIceCaps,
-} from '../../../../../utils/canvas';
+import { ICE_CAP_ROWS_BEGIN } from '../../../../../constants';
+import { computeNumIceCaps, distributeIceCaps } from '../../../../../utils';
 import { SeaDimensionsContext } from '../../../../contexts/canvas-dimensions/SeaDimensionsProvider';
 
 const IceCaps = () => {

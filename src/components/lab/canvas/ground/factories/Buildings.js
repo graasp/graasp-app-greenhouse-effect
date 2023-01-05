@@ -4,7 +4,7 @@ import { Group, Rect } from 'react-konva';
 import {
   FACTORY_MAIN_BUILDING_COLOR,
   FACTORY_SIDE_BUILDING_COLOR,
-} from '../../../../../config/constants';
+} from '../../../../../constants';
 
 const Buildings = ({
   mainBuildingWidth,

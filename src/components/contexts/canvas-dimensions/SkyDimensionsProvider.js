@@ -11,7 +11,7 @@ import {
   SECOND_CLOUD_CENTRAL_CIRCLE_X,
   SECOND_CLOUD_CENTRAL_CIRCLE_Y,
   SKY,
-} from '../../../config/constants';
+} from '../../../constants';
 
 export const SkyDimensionsContext = createContext();
 

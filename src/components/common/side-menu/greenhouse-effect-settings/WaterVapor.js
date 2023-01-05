@@ -8,12 +8,12 @@ import {
   SIMULATION_MODES,
   WATER_CONCENTRATION_MIN_VALUE_ON_MARS_OR_VENUS,
   ON_STRING,
-} from '../../../../config/constants';
+} from '../../../../constants';
 import {
   computeWaterVapor,
   kelvinToCelsius,
   roundToNearestHundred,
-} from '../../../../utils/greenhouseEffect';
+} from '../../../../utils';
 
 const WaterVapor = () => {
   const { t } = useTranslation();

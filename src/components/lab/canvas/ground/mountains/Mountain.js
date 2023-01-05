@@ -6,7 +6,7 @@ import {
   MOUNTAIN_FILL,
   MOUNTAIN_FILL_PAUSED,
   MOUNTAIN_LINES_TENSION,
-} from '../../../../../config/constants';
+} from '../../../../../constants';
 
 const Mountain = ({ mountainPoints, mountainBeginsX, mountainBeginsY }) => {
   const isPaused = useSelector(({ lab }) => lab.isPaused);

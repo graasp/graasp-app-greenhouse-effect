@@ -6,7 +6,7 @@ import {
   FACTORY_CHIMNEY_WIDTH,
   FACTORY_CHIMNEY_FILL,
   FACTORY_CHIMNEY_BEGINS_X,
-} from '../../../../../config/constants';
+} from '../../../../../constants';
 
 const Chimney = ({
   buildingWidth,

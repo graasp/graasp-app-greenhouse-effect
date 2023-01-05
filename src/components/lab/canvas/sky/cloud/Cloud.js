@@ -2,12 +2,12 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Group, Ellipse } from 'react-konva';
-import { generateCloudCircles } from '../../../../../utils/canvas';
+import { generateCloudCircles } from '../../../../../utils';
 import {
   DEFAULT_CLOUD_FILL,
   SIMULATION_MODES,
   VENUS_CLOUD_FILL,
-} from '../../../../../config/constants';
+} from '../../../../../constants';
 
 const Cloud = ({
   cursorBecomesDefault,

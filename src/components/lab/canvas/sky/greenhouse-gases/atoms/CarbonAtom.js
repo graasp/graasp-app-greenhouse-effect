@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Atom from './Atom';
-import { CARBON } from '../../../../../../config/constants';
+import { CARBON } from '../../../../../../constants';
 
 const Carbon = ({ coordinates, atomRadius }) => {
   const { x, y } = coordinates;

@@ -10,7 +10,7 @@ import {
   SCALE_UNITS,
   SIMULATION_MODES,
   INITIAL_SIMULATION_MODE,
-} from '../config/constants';
+} from '../constants';
 import {
   SET_FEEDBACK_VALUES,
   SET_RADIATION_MODE,
@@ -30,13 +30,14 @@ import {
   SET_C_TERM,
   SET_VALUES_TEMPORARILY_VIA_ICE_COVER,
   SET_THERMOMETER_ICE_COVER,
+  SET_ICE_COVER_AND_C_TERM,
 } from '../types';
 import {
   computeAlbedo,
   computeGreenhouseEffect,
   computeTemperature,
-} from '../utils/greenhouseEffect';
-import { adjustFluxesFills } from '../utils/reducers';
+  adjustFluxesFills,
+} from '../utils';
 
 const INITIAL_ALBEDO = computeAlbedo(
   INITIAL_ICE_COVER,
@@ -318,6 +319,37 @@ export default (state = INITIAL_STATE, { type, payload }) => {
         sliderIceCover: payload,
         impliedAlbedo,
         impliedTemperature,
+      };
+    }
+    case SET_ICE_COVER_AND_C_TERM: {
+      const { iceCover, cTerm } = payload;
+      const albedo = computeAlbedo(
+        iceCover,
+        state.sliderCloudCover,
+        state.simulationMode,
+      );
+      const greenhouseEffect = computeGreenhouseEffect(
+        state.sliderCarbonDioxide,
+        state.sliderMethane,
+        cTerm,
+        state.simulationMode,
+      );
+      const temperature = computeTemperature(
+        greenhouseEffect,
+        albedo.totalAlbedo,
+        state.simulationMode,
+      );
+      return {
+        ...state,
+        impliedTemperature: temperature,
+        thermometerTemperature: temperature,
+        impliedAlbedo: albedo,
+        thermometerAlbedo: albedo,
+        impliedGreenhouseEffect: greenhouseEffect,
+        thermometerGreenhouseEffect: greenhouseEffect,
+        sliderIceCover: iceCover,
+        thermometerIceCover: iceCover,
+        cTerm,
       };
     }
     case INCREMENT_INTERVAL_COUNT:

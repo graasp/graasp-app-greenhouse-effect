@@ -1,0 +1,25 @@
+/* ------THERMOMETER CONSTANTS------ */
+export const THERMOMETER_BEGINS_X = 0.95;
+export const THERMOMETER_BEGINS_Y = 0.48;
+export const THERMOMETER_BASE_WIDTH = 0.015;
+export const THERMOMETER_HEIGHT = 0.4;
+export const THERMOMETER_BORDER_COLOR = '#282828';
+export const THERMOMETER_BORDER_WIDTH = 1;
+export const THERMOMETER_BULB_RADIUS = 0.015;
+export const THERMOMETER_FILL = '#CD4646';
+export const THERMOMETER_SCALE_NUM_GRADES = 6;
+export const THERMOMETER_SCALE_LABEL_WIDTH = 30;
+export const THERMOMETER_SCALE_LABEL_PADDING_RIGHT = 5;
+export const THERMOMETER_SCALE_GRADE_WIDTH = 5;
+export const THERMOMETER_SCALE_STROKE_WIDTH = 0.5;
+export const THERMOMETER_SCALE_STROKE_COLOR = 'black';
+export const MINIMUM_THERMOMETER_TEMPERATURE_CELSIUS = -20;
+export const THERMOMETER_SCALE_STEP = 10;
+export const SCALE_UNITS = {
+  KELVIN: { name: 'kelvin', label: 'K' },
+  CELSIUS: { name: 'celsius', label: '°C' },
+};
+export const THERMOMETER_CURRENT_TEMPERATURE_FONT_SIZE = 20;
+export const THERMOMETER_LABEL_WIDTH = 100;
+export const THERMOMETER_LABEL_HEIGHT = 40;
+export const THERMOMETER_LABEL_PADDING_BOTTOM = 7.5;

@@ -1,8 +1,8 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { setScaleUnit } from '../../../actions/lab';
-import { SCALE_UNITS } from '../../../config/constants';
+import { setScaleUnit } from '../../../actions';
+import { SCALE_UNITS } from '../../../constants';
 import SwitchWithTwoLabels from './shared-components/SwitchWithTwoLabels';
 
 const ScaleUnitSwitch = () => {

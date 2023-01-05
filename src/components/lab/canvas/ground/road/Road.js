@@ -7,7 +7,7 @@ import {
   ROAD_HEIGHT,
   ROAD_LINE_COLOR,
   ROAD_LINE_DASH,
-} from '../../../../../config/constants';
+} from '../../../../../constants';
 import Truck from './Truck';
 import { GroundDimensionsContext } from '../../../../contexts/canvas-dimensions/GroundDimensionsProvider';
 

@@ -3,12 +3,8 @@ import PropTypes from 'prop-types';
 import { Group } from 'react-konva';
 import Carbon from '../atoms/CarbonAtom';
 import Hydrogen from '../atoms/HydrogenAtom';
-import {
-  ATOM_DIMENSIONS,
-  CARBON,
-  HYDROGEN,
-} from '../../../../../../config/constants';
-import { determineMethaneAtomsCoordinates } from '../../../../../../utils/canvas';
+import { ATOM_DIMENSIONS, CARBON, HYDROGEN } from '../../../../../../constants';
+import { determineMethaneAtomsCoordinates } from '../../../../../../utils';
 
 const Methane = ({
   moleculeCenter,

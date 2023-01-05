@@ -3,12 +3,8 @@ import PropTypes from 'prop-types';
 import { Group } from 'react-konva';
 import Carbon from '../atoms/CarbonAtom';
 import Oxygen from '../atoms/OxygenAtom';
-import { determineCarbonDioxideAtomsCoordinates } from '../../../../../../utils/canvas';
-import {
-  ATOM_DIMENSIONS,
-  CARBON,
-  OXYGEN,
-} from '../../../../../../config/constants';
+import { determineCarbonDioxideAtomsCoordinates } from '../../../../../../utils';
+import { ATOM_DIMENSIONS, CARBON, OXYGEN } from '../../../../../../constants';
 
 const CarbonDioxide = ({
   moleculeCenter,

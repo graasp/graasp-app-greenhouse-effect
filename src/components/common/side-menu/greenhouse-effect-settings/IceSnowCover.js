@@ -16,8 +16,8 @@ import {
   SKY_TO_ATMOSPHERE,
   ON_STRING,
   AUTO_STRING,
-} from '../../../../config/constants';
-import { keepFluxesBlinking } from '../../../../utils/canvas';
+} from '../../../../constants';
+import { keepFluxesBlinking } from '../../../../utils';
 
 const IceSnowCover = ({ disabled }) => {
   const { t } = useTranslation();

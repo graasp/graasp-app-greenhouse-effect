@@ -9,19 +9,20 @@ import {
   setIsPaused,
   resetFluxesFills,
 } from '../../../actions';
-import { keepFluxesBlinking, stopFluxesBlinking } from '../../../utils/canvas';
+import {
+  keepFluxesBlinking,
+  stopFluxesBlinking,
+  computeCTerm,
+  computeGreenhouseEffect,
+  computeTemperature,
+  kelvinToCelsius,
+} from '../../../utils';
 import {
   FEEDBACK_EFFECTS_DEFAULT_EPSILON,
   GROUND_TO_SKY,
   SKY_TO_ATMOSPHERE,
   SKY_TO_GROUND,
-} from '../../../config/constants';
-import {
-  computeCTerm,
-  computeGreenhouseEffect,
-  computeTemperature,
-  kelvinToCelsius,
-} from '../../../utils/greenhouseEffect';
+} from '../../../constants';
 
 const WaterVaporFeedback = ({ disabled }) => {
   const { t } = useTranslation();
@@ -76,8 +77,7 @@ const WaterVaporFeedback = ({ disabled }) => {
         );
         dispatch(setValuesTemporarilyViaCTerm(projectedCTerm));
       }
-    }
-    if (!checked) {
+    } else {
       if (significantTemperatureChangeProjected) {
         dispatch(setValuesTemporarilyViaCTerm(initialCTerm));
       }

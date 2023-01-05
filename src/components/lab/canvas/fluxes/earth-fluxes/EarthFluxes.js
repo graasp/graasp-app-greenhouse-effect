@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { Group } from 'react-konva';
-import { STEFAN_BOLTZMANN_CONSTANT } from '../../../../../config/constants';
+import { STEFAN_BOLTZMANN_CONSTANT } from '../../../../../constants';
 import GroundToSkyFlux from './GroundToSkyFlux';
 import SkyToAtmosphereFlux from './SkyToAtmosphereFlux';
 import SkyToGroundFlux from './SkyToGroundFlux';

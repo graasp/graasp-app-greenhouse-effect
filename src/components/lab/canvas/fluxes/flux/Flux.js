@@ -4,13 +4,13 @@ import PropTypes from 'prop-types';
 import { Group } from 'react-konva';
 import FluxBody from './FluxBody';
 import FluxPointer from './FluxPointer';
-import { calculateFluxWidth } from '../../../../../utils/canvas';
+import { calculateFluxWidth } from '../../../../../utils';
 import {
   FLUX_BODY_WIDTH_AS_PERCENTAGE_OF_TOTAL_WIDTH,
   FLUX_POINTER_HEIGHT_AS_PERCENTAGE_OF_POINTER_WIDTH,
   MINIMUM_FLUX_POINTER_HEIGHT,
   TOTAL_INTERVALS_TO_COMPLETE_FLUX,
-} from '../../../../../config/constants';
+} from '../../../../../constants';
 
 const Flux = ({
   x,

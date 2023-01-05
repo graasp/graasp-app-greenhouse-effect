@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { UP_STRING } from '../../../../../config/constants';
+import { UP_STRING } from '../../../../../constants';
 import { FluxesWavesContext } from '../../../../contexts/fluxes-waves/FluxesWavesProvider';
 import Flux from '../flux/Flux';
 

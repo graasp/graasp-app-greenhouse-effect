@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { DEFAULT_HEADER_VISIBLE } from '../config/constants';
+import { DEFAULT_HEADER_VISIBLE } from '../constants';
 import {
   GET_APP_INSTANCE_FAILED,
   GET_APP_INSTANCE_SUCCEEDED,

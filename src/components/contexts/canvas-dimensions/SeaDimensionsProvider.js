@@ -9,7 +9,7 @@ import {
   SKY,
   X_DISTANCE_BETWEEN_ICE_CAPS,
   Y_DISTANCE_BETWEEN_ICE_CAPS,
-} from '../../../config/constants';
+} from '../../../constants';
 
 export const SeaDimensionsContext = createContext();
 

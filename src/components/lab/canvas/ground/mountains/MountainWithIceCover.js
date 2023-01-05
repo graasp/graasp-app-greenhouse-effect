@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import { Group } from 'react-konva';
 import Mountain from './Mountain';
 import IceCover from './IceCover';
-import { FULL_MOUNTAIN } from '../../../../../config/constants';
+import { FULL_MOUNTAIN } from '../../../../../constants';
 import {
   generateFullMountainPoints,
   generateHalfMountainPoints,
-} from '../../../../../utils/canvas';
+} from '../../../../../utils';
 
 const MountainWithIceCover = ({
   mountainType,

@@ -6,7 +6,7 @@ import {
   ICE_CAP_BORDER_WIDTH,
   ICE_CAP_FILL,
   ICE_CAP_LINES_TENSION,
-} from '../../../../../config/constants';
+} from '../../../../../constants';
 
 const IceCap = ({ x, y, iceCapPoints }) => {
   return (

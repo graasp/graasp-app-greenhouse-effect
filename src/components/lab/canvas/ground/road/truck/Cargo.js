@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Rect } from 'react-konva';
-import { TRUCK_CARGO_FILL } from '../../../../../../config/constants';
+import { TRUCK_CARGO_FILL } from '../../../../../../constants';
 
 const Cargo = ({
   truckCargoBeginsX,

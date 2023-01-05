@@ -8,7 +8,7 @@ import {
   HOUSE_DOOR_WIDTH,
   HOUSE_FRONT_COLOR,
   HOUSE_SIDE_COLOR,
-} from '../../../../../config/constants';
+} from '../../../../../constants';
 
 const FrontAndSide = ({
   houseFrontWidth,

@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Group } from 'react-konva';
-import { FULL_MOUNTAIN, HALF_MOUNTAIN } from '../../../../../config/constants';
+import { FULL_MOUNTAIN, HALF_MOUNTAIN } from '../../../../../constants';
 import MountainWithIceCover from './MountainWithIceCover';
 import { GroundDimensionsContext } from '../../../../contexts/canvas-dimensions/GroundDimensionsProvider';
 

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Group } from 'react-konva';
 import { useSelector } from 'react-redux';
-import { RADIATION_MODES } from '../../../config/constants';
+import { RADIATION_MODES } from '../../../constants';
 import Fluxes from './fluxes/Fluxes';
 import Waves from './waves/Waves';
 import FluxesWavesProvider from '../../contexts/fluxes-waves/FluxesWavesProvider';

@@ -5,7 +5,7 @@ import CloudToAtmosphereFlux from './CloudToAtmosphereFlux';
 import SunToCloudFlux from './SunToCloudFlux';
 import CloudToGroundFlux from './CloudToGroundFlux';
 import GroundToAtmosphereFlux from './GroundToAtmosphereFlux';
-import { SOLAR_FLUXES } from '../../../../../config/constants';
+import { SOLAR_FLUXES } from '../../../../../constants';
 import { FluxesWavesContext } from '../../../../contexts/fluxes-waves/FluxesWavesProvider';
 
 const SunFluxes = () => {

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import IceCap from './IceCap';
-import { generateIceCapPoints } from '../../../../../utils/canvas';
+import { generateIceCapPoints } from '../../../../../utils';
 import { SeaDimensionsContext } from '../../../../contexts/canvas-dimensions/SeaDimensionsProvider';
 
 const IceCapRow = ({ iceCapRowBeginsX, iceCapRowBeginsY, numberOfIceCaps }) => {

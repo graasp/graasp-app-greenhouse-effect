@@ -5,7 +5,7 @@ import {
   THERMOMETER_BORDER_COLOR,
   THERMOMETER_BORDER_WIDTH,
   THERMOMETER_FILL,
-} from '../../../../../config/constants';
+} from '../../../../../constants';
 
 const ThermometerBulb = ({
   thermometerBulbBeginsX,

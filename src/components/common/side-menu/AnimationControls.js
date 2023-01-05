@@ -5,29 +5,36 @@ import { makeStyles } from '@material-ui/core/styles';
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
 import PauseCircleOutlineIcon from '@material-ui/icons/PauseCircleOutline';
 import RotateLeftIcon from '@material-ui/icons/RotateLeft';
-import { green, yellow, orange } from '@material-ui/core/colors';
+import { green, yellow, orange, grey } from '@material-ui/core/colors';
 import {
   incrementIntervalCount,
   reset,
   setIsPaused,
   resetFluxesFills,
   setThermometerValues,
+  setCTerm,
+  setSliderIceCover,
+  setThermometerIceCover,
+  setIceCoverAndCTerm,
+  toggleZoom,
 } from '../../../actions';
 import {
   APPLICATION_INTERVAL,
   GRADUAL_UPDATE_INTERVAL,
   GRADUAL_UPDATE_NUM_INCREMENTS,
-} from '../../../config/constants';
+  GROUND_TO_ATMOSPHERE,
+  GROUND_TO_SKY,
+  SKY_TO_ATMOSPHERE,
+  SKY_TO_GROUND,
+} from '../../../constants';
 import {
-  graduallyDispatchCTerms,
-  graduallyDispatchIceCoverTerms,
-  graduallyDispatchThermometerValues,
-  stopFluxesBlinking,
-} from '../../../utils/canvas';
-import {
+  graduallyDispatchFeedbackTerms,
+  computeBothFeedbackTerms,
   computeIceCoverFeedbackTerms,
   computeWaterVaporFeedbackCTerms,
-} from '../../../utils/greenhouseEffect';
+  stopFluxesBlinking,
+  graduallyDispatchThermometerValues,
+} from '../../../utils';
 import CustomButton from './shared-components/CustomButton';
 
 const useStyles = makeStyles(() => ({
@@ -42,6 +49,7 @@ const AnimationControls = () => {
   const classes = useStyles();
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const { zoomedIn } = useSelector(({ layout }) => layout);
   const {
     isPaused,
     feedback,
@@ -81,7 +89,22 @@ const AnimationControls = () => {
     dispatch(resetFluxesFills());
     dispatch(setIsPaused(false));
 
-    if (waterVaporFeedbackOn) {
+    if (waterVaporFeedbackOn && iceCoverFeedbackOn) {
+      const feedbackTerms = computeBothFeedbackTerms(
+        thermometerTemperature,
+        sliderCarbonDioxide,
+        sliderMethane,
+        sliderCloudCover,
+        simulationMode,
+      );
+
+      graduallyDispatchFeedbackTerms(
+        feedbackTerms,
+        dispatch,
+        [setIceCoverAndCTerm],
+        [GROUND_TO_SKY, SKY_TO_GROUND, SKY_TO_ATMOSPHERE, GROUND_TO_ATMOSPHERE],
+      );
+    } else if (waterVaporFeedbackOn) {
       const cTerms = computeWaterVaporFeedbackCTerms(
         sliderCarbonDioxide,
         sliderMethane,
@@ -90,12 +113,13 @@ const AnimationControls = () => {
         simulationMode,
       );
 
-      graduallyDispatchCTerms(cTerms, dispatch, GRADUAL_UPDATE_INTERVAL);
-
-      return;
-    }
-
-    if (iceCoverFeedbackOn) {
+      graduallyDispatchFeedbackTerms(
+        cTerms,
+        dispatch,
+        [setCTerm],
+        [GROUND_TO_SKY, SKY_TO_GROUND, SKY_TO_ATMOSPHERE],
+      );
+    } else if (iceCoverFeedbackOn) {
       dispatch(
         setThermometerValues({
           iceCover: sliderIceCover,
@@ -112,16 +136,13 @@ const AnimationControls = () => {
         simulationMode,
       );
 
-      graduallyDispatchIceCoverTerms(
+      graduallyDispatchFeedbackTerms(
         iceCoverTerms,
         dispatch,
-        GRADUAL_UPDATE_INTERVAL,
+        [setSliderIceCover, setThermometerIceCover],
+        [GROUND_TO_SKY, SKY_TO_GROUND, SKY_TO_ATMOSPHERE, GROUND_TO_ATMOSPHERE],
       );
-
-      return;
-    }
-
-    if (thermometerTemperature !== impliedTemperature) {
+    } else if (thermometerTemperature !== impliedTemperature) {
       graduallyDispatchThermometerValues(
         {
           sliderIceCover,
@@ -147,25 +168,28 @@ const AnimationControls = () => {
       {isPaused ? (
         <CustomButton
           title={t('Play')}
-          disabled={!isPaused}
+          disabled={!isPaused || zoomedIn}
           onClick={onClickPlay}
           icon={<PlayCircleOutlineIcon className={classes.button} />}
-          color={green[800]}
+          color={zoomedIn ? grey[400] : green[800]}
         />
       ) : (
         <CustomButton
           title={t('Pause')}
-          disabled={isPaused}
+          disabled={isPaused || zoomedIn}
           onClick={() => dispatch(setIsPaused(true))}
           icon={<PauseCircleOutlineIcon className={classes.button} />}
-          color={yellow[800]}
+          color={zoomedIn ? grey[400] : yellow[800]}
         />
       )}
 
       <CustomButton
         title={t('Reset')}
         tooltipPlacement="right"
-        onClick={() => dispatch(reset())}
+        onClick={() => {
+          dispatch(reset());
+          dispatch(toggleZoom(false));
+        }}
         icon={<RotateLeftIcon className={classes.button} />}
         color={orange[800]}
       />
