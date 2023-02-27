@@ -25,7 +25,7 @@ const Molecules = ({
   cursorBecomesZoomOut,
   maxDistribution,
 }) => {
-  const { sliderCarbonDioxide, sliderMethane, waterVapor } = useSelector(
+  const { sliderCarbonDioxide, sliderMethane, impliedWaterVapor } = useSelector(
     ({ lab }) => lab,
   );
 
@@ -43,7 +43,7 @@ const Molecules = ({
     },
     {
       name: WATER_STRING,
-      count: Math.min(waterVapor, WATER_CONCENTRATION_MAX_VALUE),
+      count: Math.min(impliedWaterVapor, WATER_CONCENTRATION_MAX_VALUE),
     },
   ]);
   const chunkedDistribution = chunkMolecules(moleculeDistribution);

@@ -31,12 +31,15 @@ import {
   SET_VALUES_TEMPORARILY_VIA_ICE_COVER,
   SET_THERMOMETER_ICE_COVER,
   SET_ICE_COVER_AND_C_TERM,
+  SET_IMPLIED_WATER_VAPOR,
 } from '../types';
 import {
   computeAlbedo,
   computeGreenhouseEffect,
   computeTemperature,
   adjustFluxesFills,
+  computeWaterVapor,
+  kelvinToCelsius,
 } from '../utils';
 
 const INITIAL_ALBEDO = computeAlbedo(
@@ -56,6 +59,10 @@ export const INITIAL_TEMPERATURE = computeTemperature(
   INITIAL_GREENHOUSE_EFFECT,
   INITIAL_ALBEDO.totalAlbedo,
   INITIAL_SIMULATION_MODE.name,
+);
+
+const INITIAL_WATER_VAPOR = computeWaterVapor(
+  kelvinToCelsius(INITIAL_TEMPERATURE),
 );
 
 const INITIAL_STATE = {
@@ -80,7 +87,8 @@ const INITIAL_STATE = {
   impliedTemperature: INITIAL_TEMPERATURE,
   thermometerTemperature: INITIAL_TEMPERATURE,
   cTerm: SIMULATION_MODES.TODAY.cTerm,
-  waterVapor: SIMULATION_MODES.TODAY.waterVapor,
+  impliedWaterVapor: INITIAL_WATER_VAPOR,
+  thermometerWaterVapor: INITIAL_WATER_VAPOR,
   feedback: {
     waterVaporFeedbackOn: false,
     iceCoverFeedbackOn: false,
@@ -117,6 +125,8 @@ export default (state = INITIAL_STATE, { type, payload }) => {
         state.impliedAlbedo.totalAlbedo,
         state.simulationMode,
       );
+      const newWaterVapor = computeWaterVapor(kelvinToCelsius(temperature));
+
       return {
         ...state,
         impliedGreenhouseEffect: greenhouseEffect,
@@ -124,6 +134,8 @@ export default (state = INITIAL_STATE, { type, payload }) => {
         impliedTemperature: temperature,
         thermometerTemperature: temperature,
         cTerm: payload,
+        impliedWaterVapor: newWaterVapor,
+        thermometerWaterVapor: newWaterVapor,
       };
     }
     case SET_SIMULATION_MODE: {
@@ -164,7 +176,8 @@ export default (state = INITIAL_STATE, { type, payload }) => {
         impliedTemperature: temperature,
         thermometerTemperature: temperature,
         cTerm: payload.cTerm,
-        waterVapor: payload.waterVapor,
+        impliedWaterVapor: payload.waterVapor,
+        thermometerWaterVapor: payload.waterVapor,
       };
     }
     case SET_SLIDER_ICE_COVER: {
@@ -352,6 +365,8 @@ export default (state = INITIAL_STATE, { type, payload }) => {
         cTerm,
       };
     }
+    case SET_IMPLIED_WATER_VAPOR:
+      return { ...state, impliedWaterVapor: payload };
     case INCREMENT_INTERVAL_COUNT:
       return { ...state, intervalCount: state.intervalCount + 1 };
     case RESET:

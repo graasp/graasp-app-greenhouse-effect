@@ -9,21 +9,11 @@ import {
   WATER_CONCENTRATION_MIN_VALUE_ON_MARS_OR_VENUS,
   ON_STRING,
 } from '../../../../constants';
-import {
-  computeWaterVapor,
-  kelvinToCelsius,
-  roundToNearestHundred,
-} from '../../../../utils';
+import { roundToNearestHundred } from '../../../../utils';
 
 const WaterVapor = () => {
   const { t } = useTranslation();
-  const {
-    simulationMode,
-    impliedTemperature,
-    waterVapor,
-    feedback,
-  } = useSelector(({ lab }) => lab);
-  const { waterVaporFeedbackOn } = feedback;
+  const { simulationMode, impliedWaterVapor } = useSelector(({ lab }) => lab);
 
   const isMarsOrVenus =
     simulationMode === SIMULATION_MODES.MARS.name ||
@@ -39,11 +29,7 @@ const WaterVapor = () => {
       text={t('H_2O (ppm)', { escapeInterpolation: true })}
       max={WATER_CONCENTRATION_MAX_VALUE}
       min={WATER_CONCENTRATION_MIN_VALUE}
-      value={roundToNearestHundred(
-        waterVaporFeedbackOn
-          ? computeWaterVapor(kelvinToCelsius(impliedTemperature))
-          : waterVapor,
-      )}
+      value={roundToNearestHundred(impliedWaterVapor)}
       valueLabelDisplay={ON_STRING}
     />
   );

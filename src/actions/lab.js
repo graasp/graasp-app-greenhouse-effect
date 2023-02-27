@@ -18,6 +18,7 @@ import {
   SET_VALUES_TEMPORARILY_VIA_ICE_COVER,
   SET_THERMOMETER_ICE_COVER,
   SET_ICE_COVER_AND_C_TERM,
+  SET_IMPLIED_WATER_VAPOR,
 } from '../types';
 
 export const setFeedbackValues = (payload) => (dispatch) => {
@@ -85,3 +86,6 @@ export const setThermometerIceCover = (payload) => (dispatch) =>
 
 export const setIceCoverAndCTerm = (payload) => (dispatch) =>
   dispatch({ type: SET_ICE_COVER_AND_C_TERM, payload });
+
+export const setImpliedWaterVapor = (payload) => (dispatch) =>
+  dispatch({ type: SET_IMPLIED_WATER_VAPOR, payload });

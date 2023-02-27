@@ -8,6 +8,7 @@ import {
   setFeedbackValues,
   setIsPaused,
   resetFluxesFills,
+  setImpliedWaterVapor,
 } from '../../../actions';
 import {
   keepFluxesBlinking,
@@ -16,6 +17,7 @@ import {
   computeGreenhouseEffect,
   computeTemperature,
   kelvinToCelsius,
+  computeWaterVapor,
 } from '../../../utils';
 import {
   FEEDBACK_EFFECTS_DEFAULT_EPSILON,
@@ -40,6 +42,7 @@ const WaterVaporFeedback = ({ disabled }) => {
     thermometerCloudCover,
     simulationMode,
     thermometerAlbedo,
+    thermometerWaterVapor: initialWaterVapor,
   } = useSelector(({ lab }) => lab);
   const { waterVaporFeedbackOn } = feedback;
   const dispatch = useDispatch();
@@ -65,6 +68,9 @@ const WaterVaporFeedback = ({ disabled }) => {
   const significantTemperatureChangeProjected =
     Math.abs(projectedTemperature - thermometerTemperature) >
     FEEDBACK_EFFECTS_DEFAULT_EPSILON;
+  const projectedWaterVapor = computeWaterVapor(
+    kelvinToCelsius(projectedTemperature),
+  );
 
   const onToggle = (checked) => {
     dispatch(setFeedbackValues({ waterVaporFeedbackOn: checked }));
@@ -76,10 +82,12 @@ const WaterVaporFeedback = ({ disabled }) => {
           dispatch,
         );
         dispatch(setValuesTemporarilyViaCTerm(projectedCTerm));
+        dispatch(setImpliedWaterVapor(projectedWaterVapor));
       }
     } else {
       if (significantTemperatureChangeProjected) {
         dispatch(setValuesTemporarilyViaCTerm(initialCTerm));
+        dispatch(setImpliedWaterVapor(initialWaterVapor));
       }
       // if all slider values are equal to corresponding thermometer values, it means we are at equilibrium, so no fluxes should blink
       // on the other hand, if e.g. sliderCO2 !== thermometerCO2, it means the user has changed CO2 without clicking play
