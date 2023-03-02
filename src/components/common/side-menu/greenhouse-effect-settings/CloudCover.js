@@ -18,12 +18,14 @@ import {
   SKY_TO_GROUND,
   SKY_TO_ATMOSPHERE,
 } from '../../../../constants';
-import { keepFluxesBlinking } from '../../../../utils';
+import { keepFluxesBlinking, stopFluxesBlinking } from '../../../../utils';
 
-const CloudCover = ({ disabled }) => {
+const CloudCover = ({ disabled, settingsUnchanged }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { sliderCloudCover } = useSelector(({ lab }) => lab);
+  const { sliderCloudCover, thermometerCloudCover } = useSelector(
+    ({ lab }) => lab,
+  );
 
   const onChange = (event, value) => {
     dispatch(
@@ -36,12 +38,17 @@ const CloudCover = ({ disabled }) => {
     dispatch(setSliderCloudCover(value));
   };
 
-  const onMouseUp = () => {
+  const onRelease = () => {
     dispatch(resetFluxesFills());
-    keepFluxesBlinking(
-      [GROUND_TO_SKY, SKY_TO_GROUND, SKY_TO_ATMOSPHERE],
-      dispatch,
-    );
+    if (sliderCloudCover !== thermometerCloudCover) {
+      keepFluxesBlinking(
+        [GROUND_TO_SKY, SKY_TO_GROUND, SKY_TO_ATMOSPHERE],
+        dispatch,
+      );
+    }
+    if (settingsUnchanged) {
+      stopFluxesBlinking();
+    }
   };
 
   return (
@@ -51,7 +58,7 @@ const CloudCover = ({ disabled }) => {
       max={CLOUD_COVER_MAX_VALUE}
       value={sliderCloudCover}
       onChange={onChange}
-      onMouseUp={onMouseUp}
+      onRelease={onRelease}
       disabled={disabled}
     />
   );
@@ -59,6 +66,7 @@ const CloudCover = ({ disabled }) => {
 
 CloudCover.propTypes = {
   disabled: PropTypes.bool.isRequired,
+  settingsUnchanged: PropTypes.bool.isRequired,
 };
 
 export default CloudCover;

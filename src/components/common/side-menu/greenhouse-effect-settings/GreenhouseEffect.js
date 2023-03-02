@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core';
@@ -20,7 +21,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const GreenhouseEffect = () => {
+const GreenhouseEffect = ({ settingsUnchanged }) => {
   const { t } = useTranslation();
   const classes = useStyles();
   const {
@@ -50,11 +51,21 @@ const GreenhouseEffect = () => {
         valueLabelDisplay={ON_STRING}
         labelClassName={classes.title}
       />
-      <CarbonDioxideSlider disabled={disabled} />
-      <MethaneSlider disabled={disabled} />
+      <CarbonDioxideSlider
+        disabled={disabled}
+        settingsUnchanged={settingsUnchanged}
+      />
+      <MethaneSlider
+        disabled={disabled}
+        settingsUnchanged={settingsUnchanged}
+      />
       <WaterVapor />
     </>
   );
+};
+
+GreenhouseEffect.propTypes = {
+  settingsUnchanged: PropTypes.bool.isRequired,
 };
 
 export default GreenhouseEffect;

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core';
@@ -19,7 +20,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const Albedo = () => {
+const Albedo = ({ settingsUnchanged }) => {
   const { t } = useTranslation();
   const classes = useStyles();
   const {
@@ -50,10 +51,14 @@ const Albedo = () => {
         valueLabelDisplay={ON_STRING}
         disabled
       />
-      <IceSnowCover disabled={disabled} />
-      <CloudCover disabled={disabled} />
+      <IceSnowCover disabled={disabled} settingsUnchanged={settingsUnchanged} />
+      <CloudCover disabled={disabled} settingsUnchanged={settingsUnchanged} />
     </>
   );
+};
+
+Albedo.propTypes = {
+  settingsUnchanged: PropTypes.bool.isRequired,
 };
 
 export default Albedo;

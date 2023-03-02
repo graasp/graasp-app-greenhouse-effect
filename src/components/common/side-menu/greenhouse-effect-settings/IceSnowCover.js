@@ -17,12 +17,14 @@ import {
   ON_STRING,
   AUTO_STRING,
 } from '../../../../constants';
-import { keepFluxesBlinking } from '../../../../utils';
+import { keepFluxesBlinking, stopFluxesBlinking } from '../../../../utils';
 
-const IceSnowCover = ({ disabled }) => {
+const IceSnowCover = ({ disabled, settingsUnchanged }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { sliderIceCover, feedback } = useSelector(({ lab }) => lab);
+  const { sliderIceCover, thermometerIceCover, feedback } = useSelector(
+    ({ lab }) => lab,
+  );
   const { iceCoverFeedbackOn } = feedback;
 
   const onChange = (event, value) => {
@@ -30,12 +32,17 @@ const IceSnowCover = ({ disabled }) => {
     dispatch(setSliderIceCover(value));
   };
 
-  const onMouseUp = () => {
+  const onRelease = () => {
     dispatch(resetFluxesFills());
-    keepFluxesBlinking(
-      [GROUND_TO_SKY, SKY_TO_GROUND, SKY_TO_ATMOSPHERE],
-      dispatch,
-    );
+    if (sliderIceCover !== thermometerIceCover) {
+      keepFluxesBlinking(
+        [GROUND_TO_SKY, SKY_TO_GROUND, SKY_TO_ATMOSPHERE],
+        dispatch,
+      );
+    }
+    if (settingsUnchanged) {
+      stopFluxesBlinking();
+    }
   };
 
   return (
@@ -44,7 +51,7 @@ const IceSnowCover = ({ disabled }) => {
       max={ICE_COVER_MAX_VALUE}
       value={Math.round(sliderIceCover)}
       onChange={onChange}
-      onMouseUp={onMouseUp}
+      onRelease={onRelease}
       disabled={disabled || iceCoverFeedbackOn}
       valueLabelDisplay={iceCoverFeedbackOn ? ON_STRING : AUTO_STRING}
     />
@@ -53,6 +60,7 @@ const IceSnowCover = ({ disabled }) => {
 
 IceSnowCover.propTypes = {
   disabled: PropTypes.bool.isRequired,
+  settingsUnchanged: PropTypes.bool.isRequired,
 };
 
 export default IceSnowCover;
