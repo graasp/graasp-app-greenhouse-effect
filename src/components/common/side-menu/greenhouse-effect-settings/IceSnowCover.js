@@ -6,7 +6,7 @@ import SliderWithLabel from '../shared-components/SliderWithLabel';
 import {
   toggleFluxesFills,
   resetFluxesFills,
-  setSliderIceCover,
+  setVariable,
 } from '../../../../actions';
 import {
   ICE_COVER_MAX_VALUE,
@@ -16,20 +16,21 @@ import {
   SKY_TO_ATMOSPHERE,
   ON_STRING,
   AUTO_STRING,
+  SLIDERS,
 } from '../../../../constants';
 import { keepFluxesBlinking, stopFluxesBlinking } from '../../../../utils';
 
 const IceSnowCover = ({ disabled, settingsUnchanged }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { sliderIceCover, thermometerIceCover, feedback } = useSelector(
-    ({ lab }) => lab,
-  );
+  const { sliders, thermometer, feedback } = useSelector(({ lab }) => lab);
   const { iceCoverFeedbackOn } = feedback;
+  const { iceCover: sliderIceCover } = sliders;
+  const { iceCover: thermometerIceCover } = thermometer;
 
   const onChange = (event, value) => {
     dispatch(toggleFluxesFills([GROUND_TO_ATMOSPHERE]));
-    dispatch(setSliderIceCover(value));
+    dispatch(setVariable([{ iceCover: value }, SLIDERS]));
   };
 
   const onRelease = () => {

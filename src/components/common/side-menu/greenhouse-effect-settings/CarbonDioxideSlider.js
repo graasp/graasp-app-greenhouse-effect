@@ -6,7 +6,7 @@ import SliderWithLabel from '../shared-components/SliderWithLabel';
 import {
   toggleFluxesFills,
   resetFluxesFills,
-  setSliderCarbonDioxide,
+  setVariable,
 } from '../../../../actions';
 import {
   CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE_DEFAULT,
@@ -18,17 +18,18 @@ import {
   GROUND_TO_SKY,
   SKY_TO_ATMOSPHERE,
   SKY_TO_GROUND,
+  SLIDERS,
 } from '../../../../constants';
 import { keepFluxesBlinking, stopFluxesBlinking } from '../../../../utils';
 
 const CarbonDioxideSlider = ({ disabled, settingsUnchanged }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const {
-    simulationMode,
-    sliderCarbonDioxide,
-    thermometerCarbonDioxide,
-  } = useSelector(({ lab }) => lab);
+  const { simulationMode, sliders, thermometer } = useSelector(
+    ({ lab }) => lab,
+  );
+  const { carbonDioxide: sliderCarbonDioxide } = sliders;
+  const { carbonDioxide: thermometerCarbonDioxide } = thermometer;
 
   const isMarsOrVenus =
     simulationMode === SIMULATION_MODES.MARS.name ||
@@ -52,7 +53,7 @@ const CarbonDioxideSlider = ({ disabled, settingsUnchanged }) => {
   const onChange = (event, value) => {
     stopFluxesBlinking();
     dispatch(toggleFluxesFills([SKY_TO_ATMOSPHERE, SKY_TO_GROUND]));
-    dispatch(setSliderCarbonDioxide(value));
+    dispatch(setVariable([{ carbonDioxide: value }, SLIDERS]));
   };
 
   const onRelease = () => {

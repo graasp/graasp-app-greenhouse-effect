@@ -4,16 +4,21 @@ import Albedo from './greenhouse-effect-settings/Albedo';
 import GreenhouseEffect from './greenhouse-effect-settings/GreenhouseEffect';
 
 const GreenhouseEffectSettings = () => {
+  const { sliders, thermometer } = useSelector(({ lab }) => lab);
+
   const {
-    sliderIceCover,
-    thermometerIceCover,
-    sliderCloudCover,
-    thermometerCloudCover,
-    sliderCarbonDioxide,
-    thermometerCarbonDioxide,
-    sliderMethane,
-    thermometerMethane,
-  } = useSelector(({ lab }) => lab);
+    iceCover: sliderIceCover,
+    cloudCover: sliderCloudCover,
+    methane: sliderMethane,
+    carbonDioxide: sliderCarbonDioxide,
+  } = sliders;
+
+  const {
+    iceCover: thermometerIceCover,
+    cloudCover: thermometerCloudCover,
+    methane: thermometerMethane,
+    carbonDioxide: thermometerCarbonDioxide,
+  } = thermometer;
 
   const settingsUnchanged =
     sliderIceCover === thermometerIceCover &&

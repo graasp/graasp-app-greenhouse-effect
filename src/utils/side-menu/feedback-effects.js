@@ -1,4 +1,8 @@
-import { resetFluxesFills, toggleFluxesFills } from '../../actions';
+import {
+  resetFluxesFills,
+  setVariable,
+  toggleFluxesFills,
+} from '../../actions';
 import {
   FEEDBACK_EFFECTS_DEFAULT_EPSILON,
   MAX_TEMPERATURE_DISPLAYED_ON_EARTH_CELSIUS,
@@ -7,6 +11,7 @@ import {
   GREENHOUSE_EFFECT_MIN_VALUE,
   GREENHOUSE_EFFECT_MAX_VALUE,
   GRADUAL_UPDATE_INTERVAL,
+  GRADUAL_UPDATE_NUM_INCREMENTS,
 } from '../../constants';
 import {
   computeAlbedo,
@@ -44,10 +49,10 @@ export const computeWaterVaporFeedbackCTerms = (
       newGreenhouseEffect >= GREENHOUSE_EFFECT_MAX_VALUE ||
       newGreenhouseEffect <= GREENHOUSE_EFFECT_MIN_VALUE
     ) {
-      cTerms.push(newCTerm);
+      cTerms.push({ cTerm: newCTerm });
       break;
     }
-    cTerms.push(newCTerm);
+    cTerms.push({ cTerm: newCTerm });
     if (newTemperature > MAX_TEMPERATURE_DISPLAYED_ON_EARTH_CELSIUS) {
       break;
     }
@@ -78,14 +83,14 @@ export const computeIceCoverFeedbackTerms = (
       computeTemperature(greenhouseEffect, newAlbedo, simulationMode),
     );
     if (newIceCover >= ICE_COVER_MAX_VALUE) {
-      iceCoverTerms.push(ICE_COVER_MAX_VALUE);
+      iceCoverTerms.push({ iceCover: ICE_COVER_MAX_VALUE });
       break;
     }
     if (newIceCover <= ICE_COVER_MIN_VALUE) {
-      iceCoverTerms.push(ICE_COVER_MIN_VALUE);
+      iceCoverTerms.push({ iceCover: ICE_COVER_MIN_VALUE });
       break;
     }
-    iceCoverTerms.push(newIceCover);
+    iceCoverTerms.push({ iceCover: newIceCover });
     if (newTemperature > MAX_TEMPERATURE_DISPLAYED_ON_EARTH_CELSIUS) {
       break;
     }
@@ -153,17 +158,60 @@ export const computeBothFeedbackTerms = (
   return feedbackTerms;
 };
 
-export const graduallyDispatchFeedbackTerms = (
+export const computeIncrements = (
+  targetValues,
+  originalValues,
+  numIncrements = GRADUAL_UPDATE_NUM_INCREMENTS,
+) => {
+  const {
+    sliderIceCover,
+    sliderCloudCover,
+    sliderCarbonDioxide,
+    sliderMethane,
+  } = targetValues;
+
+  const {
+    thermometerIceCover,
+    thermometerCloudCover,
+    thermometerCarbonDioxide,
+    thermometerMethane,
+  } = originalValues;
+
+  const increments = [];
+  for (let i = 1; i <= numIncrements; i += 1) {
+    increments.push({
+      iceCover:
+        thermometerIceCover +
+        ((sliderIceCover - thermometerIceCover) / numIncrements) * i,
+      cloudCover:
+        thermometerCloudCover +
+        ((sliderCloudCover - thermometerCloudCover) / numIncrements) * i,
+      carbonDioxide:
+        thermometerCarbonDioxide +
+        ((sliderCarbonDioxide - thermometerCarbonDioxide) / numIncrements) * i,
+      methane:
+        thermometerMethane +
+        ((sliderMethane - thermometerMethane) / numIncrements) * i,
+    });
+  }
+
+  return increments;
+};
+
+export const graduallyDispatchTerms = (
   terms,
   dispatch,
-  actions,
+  sections,
   fluxesToToggle,
+  updateWaterVapor = false,
   delay = GRADUAL_UPDATE_INTERVAL,
 ) => {
   for (let i = 0; i < terms.length; i += 1) {
     setTimeout(() => {
       dispatch(toggleFluxesFills(fluxesToToggle));
-      actions.forEach((action) => dispatch(action(terms[i])));
+      sections.forEach((section) =>
+        dispatch(setVariable([terms[i], section, updateWaterVapor])),
+      );
       if (i === terms.length - 1) {
         dispatch(resetFluxesFills());
       }

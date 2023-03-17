@@ -6,7 +6,7 @@ import SliderWithLabel from '../shared-components/SliderWithLabel';
 import {
   toggleFluxesFills,
   resetFluxesFills,
-  setSliderCloudCover,
+  setVariable,
 } from '../../../../actions';
 import {
   CLOUD_COVER_MAX_VALUE,
@@ -17,15 +17,16 @@ import {
   GROUND_TO_SKY,
   SKY_TO_GROUND,
   SKY_TO_ATMOSPHERE,
+  SLIDERS,
 } from '../../../../constants';
 import { keepFluxesBlinking, stopFluxesBlinking } from '../../../../utils';
 
 const CloudCover = ({ disabled, settingsUnchanged }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { sliderCloudCover, thermometerCloudCover } = useSelector(
-    ({ lab }) => lab,
-  );
+  const { sliders, thermometer } = useSelector(({ lab }) => lab);
+  const { cloudCover: sliderCloudCover } = sliders;
+  const { cloudCover: thermometerCloudCover } = thermometer;
 
   const onChange = (event, value) => {
     dispatch(
@@ -35,7 +36,7 @@ const CloudCover = ({ disabled, settingsUnchanged }) => {
         GROUND_TO_ATMOSPHERE,
       ]),
     );
-    dispatch(setSliderCloudCover(value));
+    dispatch(setVariable([{ cloudCover: value }, SLIDERS]));
   };
 
   const onRelease = () => {

@@ -6,7 +6,7 @@ import {
   resetFluxesFills,
   setFeedbackValues,
   setIsPaused,
-  setValuesTemporarilyViaIceCover,
+  setValuesTemporarily,
 } from '../../../actions';
 import SwitchWithLabel from './shared-components/SwitchWithLabel';
 import {
@@ -27,24 +27,28 @@ import {
 
 const IceCoverFeedback = ({ disabled }) => {
   const { t } = useTranslation();
-  const {
-    feedback,
-    thermometerTemperature,
-    sliderCarbonDioxide,
-    thermometerCarbonDioxide,
-    sliderMethane,
-    thermometerMethane,
-    sliderCloudCover,
-    thermometerCloudCover,
-    sliderIceCover,
-    thermometerIceCover,
-    thermometerGreenhouseEffect,
-    simulationMode,
-    thermometerIceCover: initialIceCover,
-    impliedTemperature,
-  } = useSelector(({ lab }) => lab);
+  const { feedback, sliders, thermometer, simulationMode } = useSelector(
+    ({ lab }) => lab,
+  );
   const { iceCoverFeedbackOn } = feedback;
   const dispatch = useDispatch();
+
+  const {
+    iceCover: sliderIceCover,
+    cloudCover: sliderCloudCover,
+    methane: sliderMethane,
+    carbonDioxide: sliderCarbonDioxide,
+    temperature: impliedTemperature,
+  } = sliders;
+
+  const {
+    iceCover: initialIceCover,
+    cloudCover: thermometerCloudCover,
+    methane: thermometerMethane,
+    carbonDioxide: thermometerCarbonDioxide,
+    temperature: thermometerTemperature,
+    greenhouseEffect: thermometerGreenhouseEffect,
+  } = thermometer;
 
   // under ice cover vapor feedback, ice cover becomes a function of temperature
   // first, we compute ice cover term as a function of current temperature
@@ -79,7 +83,7 @@ const IceCoverFeedback = ({ disabled }) => {
         sliderCarbonDioxide !== thermometerCarbonDioxide ||
         sliderMethane !== thermometerMethane ||
         sliderCloudCover !== thermometerCloudCover ||
-        sliderIceCover !== thermometerIceCover
+        sliderIceCover !== initialIceCover
       ) {
         stopFluxesBlinking();
         dispatch(resetFluxesFills());
@@ -93,12 +97,12 @@ const IceCoverFeedback = ({ disabled }) => {
           dispatch,
         );
         if (significantTemperatureChangeProjected) {
-          dispatch(setValuesTemporarilyViaIceCover(projectedIceCover));
+          dispatch(setValuesTemporarily({ iceCover: projectedIceCover }));
         }
       }
     } else {
       if (significantTemperatureChangeProjected) {
-        dispatch(setValuesTemporarilyViaIceCover(initialIceCover));
+        dispatch(setValuesTemporarily({ iceCover: initialIceCover }));
       }
       // if we are out of equilibrium, keep the infrared fluxes blinking after toggling off ice cover feedback
       if (impliedTemperature !== thermometerTemperature) {

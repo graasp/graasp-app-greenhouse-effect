@@ -10,7 +10,7 @@ import { FluxesWavesContext } from '../../../../contexts/fluxes-waves/FluxesWave
 
 const SunFluxes = () => {
   const { isMars } = useContext(FluxesWavesContext);
-  const { simulationMode, impliedAlbedo, fluxesFills } = useSelector(
+  const { simulationMode, sliders, fluxesFills } = useSelector(
     ({ lab }) => lab,
   );
   const {
@@ -19,7 +19,7 @@ const SunFluxes = () => {
     cloudToGround,
     groundToAtmosphere,
   } = fluxesFills;
-
+  const { albedo: impliedAlbedo } = sliders;
   const { totalAlbedo, cloudAlbedo } = impliedAlbedo;
 
   const sunToCloudFlux = SOLAR_FLUXES[simulationMode];

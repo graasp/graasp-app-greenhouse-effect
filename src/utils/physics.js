@@ -1,14 +1,14 @@
 import {
   STEFAN_BOLTZMANN_CONSTANT,
   ZERO_KELVIN_IN_CELISUS,
-  SIMULATION_MODES,
   TWENTIETH_CENTURY_ALBEDO_OFFSET,
-  SOLAR_FLUXES,
   ICE_COVER_MAX_VALUE,
   ICE_COVER_MIN_VALUE,
   GREENHOUSE_EFFECT_MIN_VALUE,
   GREENHOUSE_EFFECT_MAX_VALUE,
-} from '../constants';
+  SOLAR_FLUXES,
+} from '../constants/physics';
+import { VENUS, MARS, TWENTIETH_CENTURY } from '../constants/strings';
 
 export const computeGreenhouseEffect = (
   carbonDioxide,
@@ -18,9 +18,9 @@ export const computeGreenhouseEffect = (
 ) => {
   // if either Venus or Mars are selected, greenhouse effect value is hard-coded
   switch (simulationMode) {
-    case SIMULATION_MODES.VENUS.name:
+    case VENUS:
       return 0.99106;
-    case SIMULATION_MODES.MARS.name:
+    case MARS:
       return 0;
     default:
       break;
@@ -58,9 +58,9 @@ export const computeTemperature = (
 export const computeAlbedo = (iceCover, cloudCover, simulationMode) => {
   // if either Venus or Mars are selected, albedo value is hard-coded
   switch (simulationMode) {
-    case SIMULATION_MODES.VENUS.name:
+    case VENUS:
       return { totalAlbedo: 0.77, cloudAlbedo: 1 };
-    case SIMULATION_MODES.MARS.name:
+    case MARS:
       return { totalAlbedo: 0.25, cloudAlbedo: 0 };
     default:
       break;
@@ -74,7 +74,7 @@ export const computeAlbedo = (iceCover, cloudCover, simulationMode) => {
     cloudAlbedo +
     ((1 - cloudAlbedo) ** 2 * iceAlbedo) / (1 - iceAlbedo * cloudAlbedo);
 
-  if (simulationMode === SIMULATION_MODES.TWENTIETH_CENTURY.name) {
+  if (simulationMode === TWENTIETH_CENTURY) {
     totalAlbedo += TWENTIETH_CENTURY_ALBEDO_OFFSET;
   }
 
@@ -106,4 +106,22 @@ export const computeCTerm = (temperature) => {
 
 export const roundToNearestHundred = (num) => {
   return Math.round(num / 100) * 100;
+};
+
+export const computeAllOutputs = (values, simulationMode) => {
+  const { iceCover, cloudCover, carbonDioxide, methane, cTerm } = values;
+  const albedo = computeAlbedo(iceCover, cloudCover, simulationMode);
+  const greenhouseEffect = computeGreenhouseEffect(
+    carbonDioxide,
+    methane,
+    cTerm,
+    simulationMode,
+  );
+  const temperature = computeTemperature(
+    greenhouseEffect,
+    albedo.totalAlbedo,
+    simulationMode,
+  );
+  const waterVapor = computeWaterVapor(kelvinToCelsius(temperature));
+  return { albedo, greenhouseEffect, temperature, waterVapor };
 };

@@ -11,29 +11,24 @@ import {
   reset,
   setIsPaused,
   resetFluxesFills,
-  setThermometerValues,
-  setCTerm,
-  setSliderIceCover,
-  setThermometerIceCover,
-  setIceCoverAndCTerm,
   toggleZoom,
 } from '../../../actions';
 import {
   APPLICATION_INTERVAL,
-  GRADUAL_UPDATE_INTERVAL,
-  GRADUAL_UPDATE_NUM_INCREMENTS,
   GROUND_TO_ATMOSPHERE,
   GROUND_TO_SKY,
   SKY_TO_ATMOSPHERE,
   SKY_TO_GROUND,
+  THERMOMETER,
+  SLIDERS,
 } from '../../../constants';
 import {
-  graduallyDispatchFeedbackTerms,
+  graduallyDispatchTerms,
   computeBothFeedbackTerms,
   computeIceCoverFeedbackTerms,
   computeWaterVaporFeedbackCTerms,
   stopFluxesBlinking,
-  graduallyDispatchThermometerValues,
+  computeIncrements,
 } from '../../../utils';
 import CustomButton from './shared-components/CustomButton';
 
@@ -54,21 +49,29 @@ const AnimationControls = () => {
     isPaused,
     feedback,
     simulationMode,
-    impliedTemperature,
-    impliedAlbedo,
-    thermometerTemperature,
-    impliedGreenhouseEffect,
-    sliderIceCover,
-    sliderCloudCover,
-    sliderMethane,
-    sliderCarbonDioxide,
-    thermometerIceCover,
-    thermometerCloudCover,
-    thermometerMethane,
-    thermometerCarbonDioxide,
+    sliders,
+    thermometer,
   } = useSelector(({ lab }) => lab);
   const { waterVaporFeedbackOn, iceCoverFeedbackOn } = feedback;
   const applicationInterval = useRef();
+
+  const {
+    iceCover: sliderIceCover,
+    cloudCover: sliderCloudCover,
+    methane: sliderMethane,
+    carbonDioxide: sliderCarbonDioxide,
+    temperature: impliedTemperature,
+    greenhouseEffect: impliedGreenhouseEffect,
+    albedo: impliedAlbedo,
+  } = sliders;
+
+  const {
+    iceCover: thermometerIceCover,
+    cloudCover: thermometerCloudCover,
+    methane: thermometerMethane,
+    carbonDioxide: thermometerCarbonDioxide,
+    temperature: thermometerTemperature,
+  } = thermometer;
 
   const startInterval = () => {
     applicationInterval.current = setInterval(() => {
@@ -98,10 +101,10 @@ const AnimationControls = () => {
         simulationMode,
       );
 
-      graduallyDispatchFeedbackTerms(
+      graduallyDispatchTerms(
         feedbackTerms,
         dispatch,
-        [setIceCoverAndCTerm],
+        [SLIDERS, THERMOMETER],
         [GROUND_TO_SKY, SKY_TO_GROUND, SKY_TO_ATMOSPHERE, GROUND_TO_ATMOSPHERE],
       );
     } else if (waterVaporFeedbackOn) {
@@ -113,22 +116,14 @@ const AnimationControls = () => {
         simulationMode,
       );
 
-      graduallyDispatchFeedbackTerms(
+      graduallyDispatchTerms(
         cTerms,
         dispatch,
-        [setCTerm],
+        [SLIDERS, THERMOMETER],
         [GROUND_TO_SKY, SKY_TO_GROUND, SKY_TO_ATMOSPHERE],
+        true,
       );
     } else if (iceCoverFeedbackOn) {
-      dispatch(
-        setThermometerValues({
-          iceCover: sliderIceCover,
-          cloudCover: sliderCloudCover,
-          carbonDioxide: sliderCarbonDioxide,
-          methane: sliderMethane,
-        }),
-      );
-
       const iceCoverTerms = computeIceCoverFeedbackTerms(
         impliedTemperature,
         impliedGreenhouseEffect,
@@ -136,14 +131,14 @@ const AnimationControls = () => {
         simulationMode,
       );
 
-      graduallyDispatchFeedbackTerms(
+      graduallyDispatchTerms(
         iceCoverTerms,
         dispatch,
-        [setSliderIceCover, setThermometerIceCover],
+        [SLIDERS, THERMOMETER],
         [GROUND_TO_SKY, SKY_TO_GROUND, SKY_TO_ATMOSPHERE, GROUND_TO_ATMOSPHERE],
       );
     } else if (thermometerTemperature !== impliedTemperature) {
-      graduallyDispatchThermometerValues(
+      const valuesToDispatch = computeIncrements(
         {
           sliderIceCover,
           sliderCloudCover,
@@ -156,9 +151,12 @@ const AnimationControls = () => {
           thermometerMethane,
           thermometerCarbonDioxide,
         },
-        GRADUAL_UPDATE_NUM_INCREMENTS,
-        GRADUAL_UPDATE_INTERVAL,
+      );
+      graduallyDispatchTerms(
+        valuesToDispatch,
         dispatch,
+        [THERMOMETER],
+        [GROUND_TO_SKY, SKY_TO_GROUND, SKY_TO_ATMOSPHERE],
       );
     }
   };

@@ -10,7 +10,9 @@ import { FluxesWavesContext } from '../../../../contexts/fluxes-waves/FluxesWave
 import Wave from '../wave/Wave';
 
 const SkyToAtmosphereWave = () => {
-  const { thermometerGreenhouseEffect } = useSelector(({ lab }) => lab);
+  const { greenhouseEffect: thermometerGreenhouseEffect } = useSelector(
+    ({ lab }) => lab.thermometer,
+  );
   const { skyToAtmosphereWave } = useContext(FluxesWavesContext);
   const { beginsX, beginsY, endsY, startsAfterInterval } = skyToAtmosphereWave;
 

@@ -23,13 +23,11 @@ const useStyles = makeStyles(() => ({
 const Albedo = ({ settingsUnchanged }) => {
   const { t } = useTranslation();
   const classes = useStyles();
-  const {
-    radiationMode,
-    isPaused,
-    simulationMode,
-    impliedAlbedo,
-  } = useSelector(({ lab }) => lab);
+  const { radiationMode, isPaused, simulationMode, sliders } = useSelector(
+    ({ lab }) => lab,
+  );
   const { zoomedIn } = useSelector(({ layout }) => layout);
+  const { albedo } = sliders;
 
   const isMarsOrVenus =
     simulationMode === SIMULATION_MODES.MARS.name ||
@@ -46,7 +44,7 @@ const Albedo = ({ settingsUnchanged }) => {
       <SliderWithLabel
         text={t('Albedo (%)')}
         max={ALBEDO_MAX_VALUE}
-        value={parseFloat((impliedAlbedo.totalAlbedo * 100).toFixed(1))}
+        value={parseFloat((albedo.totalAlbedo * 100).toFixed(1))}
         labelClassName={classes.title}
         valueLabelDisplay={ON_STRING}
         disabled

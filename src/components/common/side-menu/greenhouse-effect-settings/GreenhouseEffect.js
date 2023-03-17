@@ -24,13 +24,11 @@ const useStyles = makeStyles(() => ({
 const GreenhouseEffect = ({ settingsUnchanged }) => {
   const { t } = useTranslation();
   const classes = useStyles();
-  const {
-    radiationMode,
-    isPaused,
-    simulationMode,
-    impliedGreenhouseEffect,
-  } = useSelector(({ lab }) => lab);
+  const { radiationMode, isPaused, simulationMode, sliders } = useSelector(
+    ({ lab }) => lab,
+  );
   const { zoomedIn } = useSelector(({ layout }) => layout);
+  const { greenhouseEffect } = sliders;
 
   const isMarsOrVenus =
     simulationMode === SIMULATION_MODES.MARS.name ||
@@ -47,7 +45,7 @@ const GreenhouseEffect = ({ settingsUnchanged }) => {
         disabled
         text={t('Greenhouse Effect (%)')}
         max={GREENHOUSE_TOTAL_EFFECT_MAX_VALUE}
-        value={+(impliedGreenhouseEffect * 100).toFixed(1)}
+        value={+(greenhouseEffect * 100).toFixed(1)}
         valueLabelDisplay={ON_STRING}
         labelClassName={classes.title}
       />

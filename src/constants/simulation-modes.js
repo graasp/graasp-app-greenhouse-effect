@@ -1,4 +1,13 @@
 import { GROUND, SKY } from './canvas/backgrounds';
+import { ICE_AGE, MARS, TODAY, TWENTIETH_CENTURY, VENUS } from './strings';
+import { SOLAR_FLUXES } from './physics';
+import {
+  computeAlbedo,
+  computeGreenhouseEffect,
+  computeTemperature,
+  computeWaterVapor,
+  kelvinToCelsius,
+} from '../utils/physics';
 
 export const RADIATION_MODES = {
   WAVES: 'waves',
@@ -7,70 +16,70 @@ export const RADIATION_MODES = {
 
 export const SIMULATION_MODES = {
   ICE_AGE: {
-    name: 'Ice Age',
+    name: ICE_AGE,
     carbonDioxide: 200,
     methane: 0.4,
     waterVapor: 5066,
     iceCover: 20,
     cloudCover: 30,
     cTerm: 0.204,
-    solarFlux: 340,
+    solarFlux: SOLAR_FLUXES[ICE_AGE],
     groundColorRange: GROUND.colorRange.earth,
     groundColorRangePaused: GROUND.colorRangePaused.earth,
     skyColorRange: SKY.colorRange.earth,
     skyColorRangePaused: SKY.colorRangePaused.earth,
   },
   TWENTIETH_CENTURY: {
-    name: '1900',
+    name: TWENTIETH_CENTURY,
     carbonDioxide: 290,
     methane: 1,
     waterVapor: 7253,
     iceCover: 10,
     cloudCover: 40,
     cTerm: 0.227,
-    solarFlux: 340,
+    solarFlux: SOLAR_FLUXES[TWENTIETH_CENTURY],
     groundColorRange: GROUND.colorRange.earth,
     groundColorRangePaused: GROUND.colorRangePaused.earth,
     skyColorRange: SKY.colorRange.earth,
     skyColorRangePaused: SKY.colorRangePaused.earth,
   },
   TODAY: {
-    name: '2020',
+    name: TODAY,
     carbonDioxide: 413.2,
     methane: 1.9,
     waterVapor: 7748,
     iceCover: 10,
     cloudCover: 40,
     cTerm: 0.231,
-    solarFlux: 340,
+    solarFlux: SOLAR_FLUXES[TODAY],
     groundColorRange: GROUND.colorRange.earth,
     groundColorRangePaused: GROUND.colorRangePaused.earth,
     skyColorRange: SKY.colorRange.earth,
     skyColorRangePaused: SKY.colorRangePaused.earth,
   },
   MARS: {
-    name: 'Mars',
+    name: MARS,
     carbonDioxide: 965000,
     methane: 0,
     waterVapor: 210,
     iceCover: 2,
     cloudCover: 0,
     cTerm: 0,
-    solarFlux: 147,
+    solarFlux: SOLAR_FLUXES[MARS],
     groundColorRange: GROUND.colorRange.mars,
     groundColorRangePaused: GROUND.colorRangePaused.mars,
     skyColorRange: SKY.colorRange.mars,
     skyColorRangePaused: SKY.colorRangePaused.mars,
   },
   VENUS: {
-    name: 'Venus',
+    name: VENUS,
     carbonDioxide: 965000,
     methane: 0,
     waterVapor: 20,
     iceCover: 0,
     cloudCover: 100,
     cTerm: 0,
-    solarFlux: 650,
+    solarFlux: SOLAR_FLUXES[VENUS],
     groundColorRange: GROUND.colorRange.venus,
     groundColorRangePaused: GROUND.colorRangePaused.venus,
     skyColorRange: SKY.colorRange.venus,
@@ -79,21 +88,41 @@ export const SIMULATION_MODES = {
 };
 
 export const INITIAL_SIMULATION_MODE = SIMULATION_MODES.TODAY;
-export const INITIAL_ICE_COVER = INITIAL_SIMULATION_MODE.iceCover;
-export const INITIAL_CLOUD_COVER = INITIAL_SIMULATION_MODE.cloudCover;
-export const INITIAL_CARBON_DIOXIDE = INITIAL_SIMULATION_MODE.carbonDioxide;
-export const INITIAL_METHANE = INITIAL_SIMULATION_MODE.methane;
-export const INITIAL_C_TERM = INITIAL_SIMULATION_MODE.cTerm;
-
-export const SOLAR_FLUXES = Object.fromEntries(
-  Object.entries(
-    SIMULATION_MODES,
-    // eslint-disable-next-line no-unused-vars
-  ).map(([simulationMode, simulationModeDetails]) => [
-    simulationModeDetails.name,
-    simulationModeDetails.solarFlux,
-  ]),
+const INITIAL_ICE_COVER = INITIAL_SIMULATION_MODE.iceCover;
+const INITIAL_CLOUD_COVER = INITIAL_SIMULATION_MODE.cloudCover;
+const INITIAL_CARBON_DIOXIDE = INITIAL_SIMULATION_MODE.carbonDioxide;
+const INITIAL_METHANE = INITIAL_SIMULATION_MODE.methane;
+const INITIAL_C_TERM = INITIAL_SIMULATION_MODE.cTerm;
+const INITIAL_ALBEDO = computeAlbedo(
+  INITIAL_ICE_COVER,
+  INITIAL_CLOUD_COVER,
+  INITIAL_SIMULATION_MODE.name,
 );
+const INITIAL_GREENHOUSE_EFFECT = computeGreenhouseEffect(
+  INITIAL_CARBON_DIOXIDE,
+  INITIAL_METHANE,
+  INITIAL_C_TERM,
+  INITIAL_SIMULATION_MODE.name,
+);
+const INITIAL_TEMPERATURE = computeTemperature(
+  INITIAL_GREENHOUSE_EFFECT,
+  INITIAL_ALBEDO.totalAlbedo,
+  INITIAL_SIMULATION_MODE.name,
+);
+const INITIAL_WATER_VAPOR = computeWaterVapor(
+  kelvinToCelsius(INITIAL_TEMPERATURE),
+);
+export const INITIAL_VARIABLES = {
+  iceCover: INITIAL_ICE_COVER,
+  cloudCover: INITIAL_CLOUD_COVER,
+  carbonDioxide: INITIAL_CARBON_DIOXIDE,
+  methane: INITIAL_METHANE,
+  greenhouseEffect: INITIAL_GREENHOUSE_EFFECT,
+  albedo: INITIAL_ALBEDO,
+  temperature: INITIAL_TEMPERATURE,
+  waterVapor: INITIAL_WATER_VAPOR,
+  cTerm: INITIAL_C_TERM,
+};
 
 export const GROUND_COLOR_RANGES = Object.fromEntries(
   Object.entries(

@@ -9,11 +9,9 @@ import { FluxesWavesContext } from '../../../../contexts/fluxes-waves/FluxesWave
 
 const EarthFluxes = () => {
   const { isMars } = useContext(FluxesWavesContext);
-  const {
-    fluxesFills,
-    impliedGreenhouseEffect,
-    thermometerTemperature,
-  } = useSelector(({ lab }) => lab);
+  const { fluxesFills, sliders, thermometer } = useSelector(({ lab }) => lab);
+  const { temperature: thermometerTemperature } = thermometer;
+  const { greenhouseEffect: impliedGreenhouseEffect } = sliders;
   const { groundToSky, skyToAtmosphere, skyToGround } = fluxesFills;
 
   const groundToSkyFlux = Math.round(
