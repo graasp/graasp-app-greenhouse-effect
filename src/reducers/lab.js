@@ -19,6 +19,10 @@ import {
   RESET_FLUXES_FILL,
   SET_VALUES_TEMPORARILY,
   SET_VARIABLE,
+  SET_PREVIOUS_SETTINGS,
+  RESTORE_PREVIOUS_SETTINGS,
+  CLEAR_PREVIOUS_SETTINGS,
+  SET_ANIMATION_PLAYING,
 } from '../types';
 import { adjustFluxesFills, computeAllOutputs } from '../utils';
 
@@ -40,6 +44,8 @@ const INITIAL_STATE = {
   scaleUnit: SCALE_UNITS.CELSIUS,
   intervalCount: 0,
   fluxesFills: INITIAL_FLUX_FILLS,
+  previousSettings: {},
+  animationPlaying: false,
 };
 
 export default (state = INITIAL_STATE, { type, payload }) => {
@@ -76,6 +82,7 @@ export default (state = INITIAL_STATE, { type, payload }) => {
         simulationMode: payload.name,
         sliders: updatedValues,
         thermometer: updatedValues,
+        previousSettings: {},
       };
     }
     case SET_VARIABLE: {
@@ -128,6 +135,20 @@ export default (state = INITIAL_STATE, { type, payload }) => {
         },
       };
     }
+    case SET_PREVIOUS_SETTINGS:
+      return {
+        ...state,
+        previousSettings: { ...state.previousSettings, ...payload },
+      };
+    case RESTORE_PREVIOUS_SETTINGS:
+      return {
+        ...state,
+        sliders: payload.sliders,
+        thermometer: payload.thermometer,
+        feedback: payload.feedback,
+      };
+    case CLEAR_PREVIOUS_SETTINGS:
+      return { ...state, previousSettings: {} };
     case INCREMENT_INTERVAL_COUNT:
       return { ...state, intervalCount: state.intervalCount + 1 };
     case RESET:
@@ -139,6 +160,8 @@ export default (state = INITIAL_STATE, { type, payload }) => {
       };
     case RESET_FLUXES_FILL:
       return { ...state, fluxesFills: INITIAL_FLUX_FILLS };
+    case SET_ANIMATION_PLAYING:
+      return { ...state, animationPlaying: payload };
     default:
       return state;
   }

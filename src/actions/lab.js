@@ -10,6 +10,10 @@ import {
   RESET_FLUXES_FILL,
   SET_VALUES_TEMPORARILY,
   SET_VARIABLE,
+  SET_PREVIOUS_SETTINGS,
+  RESTORE_PREVIOUS_SETTINGS,
+  CLEAR_PREVIOUS_SETTINGS,
+  SET_ANIMATION_PLAYING,
 } from '../types';
 
 export const setFeedbackValues = (payload) => (dispatch) => {
@@ -31,8 +35,8 @@ export const setIsPaused = (payload) => (dispatch) =>
     payload,
   });
 
-export const reset = (payload) => (dispatch) => {
-  dispatch({ type: RESET, payload });
+export const reset = () => (dispatch) => {
+  dispatch({ type: RESET });
 };
 
 export const setSimulationMode = (payload) => (dispatch) => {
@@ -45,11 +49,23 @@ export const incrementIntervalCount = () => (dispatch) =>
 export const toggleFluxesFills = (payload) => (dispatch) =>
   dispatch({ type: TOGGLE_FLUXES_FILLS, payload });
 
-export const resetFluxesFills = (payload) => (dispatch) =>
-  dispatch({ type: RESET_FLUXES_FILL, payload });
+export const resetFluxesFills = () => (dispatch) =>
+  dispatch({ type: RESET_FLUXES_FILL });
 
 export const setVariable = (payload) => (dispatch) =>
   dispatch({ type: SET_VARIABLE, payload });
 
 export const setValuesTemporarily = (payload) => (dispatch) =>
   dispatch({ type: SET_VALUES_TEMPORARILY, payload });
+
+export const setPreviousSettings = (payload) => (dispatch) =>
+  dispatch({ type: SET_PREVIOUS_SETTINGS, payload });
+
+export const restorePreviousSettings = (payload) => (dispatch) =>
+  dispatch({ type: RESTORE_PREVIOUS_SETTINGS, payload });
+
+export const clearPreviousSettings = () => (dispatch) =>
+  dispatch({ type: CLEAR_PREVIOUS_SETTINGS });
+
+export const setAnimationPlaying = (payload) => (dispatch) =>
+  dispatch({ type: SET_ANIMATION_PLAYING, payload });

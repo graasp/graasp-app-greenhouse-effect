@@ -1,5 +1,6 @@
 import {
   resetFluxesFills,
+  setAnimationPlaying,
   setVariable,
   toggleFluxesFills,
 } from '../../actions';
@@ -206,6 +207,7 @@ export const graduallyDispatchTerms = (
   updateWaterVapor = false,
   delay = GRADUAL_UPDATE_INTERVAL,
 ) => {
+  dispatch(setAnimationPlaying(true));
   for (let i = 0; i < terms.length; i += 1) {
     setTimeout(() => {
       dispatch(toggleFluxesFills(fluxesToToggle));
@@ -214,6 +216,7 @@ export const graduallyDispatchTerms = (
       );
       if (i === terms.length - 1) {
         dispatch(resetFluxesFills());
+        dispatch(setAnimationPlaying(false));
       }
     }, delay * (i + 1));
   }
