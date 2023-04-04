@@ -17,7 +17,7 @@ const FluxPointer = ({
   bodyHeight,
   direction,
   fill,
-  flux,
+  energy,
 }) => {
   const y = direction === UP_STRING ? -bodyHeight - pointerHeight : bodyHeight;
   const verticalAlign = direction === UP_STRING ? BOTTOM_STRING : TOP_STRING;
@@ -41,7 +41,7 @@ const FluxPointer = ({
       />
       <Text
         x={-pointerWidth / 2}
-        text={flux && flux.toFixed(0)}
+        text={energy && energy.toFixed(0)}
         width={pointerWidth}
         align="center"
         height={pointerHeight}
@@ -62,7 +62,7 @@ FluxPointer.propTypes = {
   bodyHeight: PropTypes.number.isRequired,
   direction: PropTypes.string.isRequired,
   fill: PropTypes.string.isRequired,
-  flux: PropTypes.number.isRequired,
+  energy: PropTypes.number.isRequired,
 };
 
 export default FluxPointer;

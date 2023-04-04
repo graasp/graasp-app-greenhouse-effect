@@ -7,7 +7,7 @@ import {
   RESET,
   INCREMENT_INTERVAL_COUNT,
   TOGGLE_FLUXES_FILLS,
-  RESET_FLUXES_FILL,
+  RESET_FLUXES_FILLS,
   SET_VALUES_TEMPORARILY,
   SET_VARIABLE,
   SET_PREVIOUS_SETTINGS,
@@ -50,7 +50,7 @@ export const toggleFluxesFills = (payload) => (dispatch) =>
   dispatch({ type: TOGGLE_FLUXES_FILLS, payload });
 
 export const resetFluxesFills = () => (dispatch) =>
-  dispatch({ type: RESET_FLUXES_FILL });
+  dispatch({ type: RESET_FLUXES_FILLS });
 
 export const setVariable = (payload) => (dispatch) =>
   dispatch({ type: SET_VARIABLE, payload });

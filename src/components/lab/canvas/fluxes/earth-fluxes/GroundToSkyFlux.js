@@ -4,7 +4,7 @@ import { UP_STRING } from '../../../../../constants';
 import { FluxesWavesContext } from '../../../../contexts/fluxes-waves/FluxesWavesProvider';
 import Flux from '../flux/Flux';
 
-const GroundToSkyFlux = ({ flux, fill }) => {
+const GroundToSkyFlux = ({ energy, fill }) => {
   const { groundToSkyFlux } = useContext(FluxesWavesContext);
   const { beginsX, beginsY, height, startsAfterInterval } = groundToSkyFlux;
 
@@ -15,14 +15,14 @@ const GroundToSkyFlux = ({ flux, fill }) => {
       totalHeight={height}
       fill={fill}
       direction={UP_STRING}
-      flux={flux}
+      energy={energy}
       startAfterInterval={startsAfterInterval}
     />
   );
 };
 
 GroundToSkyFlux.propTypes = {
-  flux: PropTypes.number.isRequired,
+  energy: PropTypes.number.isRequired,
   fill: PropTypes.string.isRequired,
 };
 

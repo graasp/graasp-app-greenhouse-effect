@@ -16,7 +16,7 @@ import {
   RESET,
   INCREMENT_INTERVAL_COUNT,
   TOGGLE_FLUXES_FILLS,
-  RESET_FLUXES_FILL,
+  RESET_FLUXES_FILLS,
   SET_VALUES_TEMPORARILY,
   SET_VARIABLE,
   SET_PREVIOUS_SETTINGS,
@@ -158,7 +158,7 @@ export default (state = INITIAL_STATE, { type, payload }) => {
         ...state,
         fluxesFills: adjustFluxesFills(state.fluxesFills, payload),
       };
-    case RESET_FLUXES_FILL:
+    case RESET_FLUXES_FILLS:
       return { ...state, fluxesFills: INITIAL_FLUX_FILLS };
     case SET_ANIMATION_PLAYING:
       return { ...state, animationPlaying: payload };

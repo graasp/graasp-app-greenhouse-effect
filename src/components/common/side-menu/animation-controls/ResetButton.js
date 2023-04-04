@@ -6,6 +6,7 @@ import RotateLeftIcon from '@material-ui/icons/RotateLeft';
 import { orange } from '@material-ui/core/colors';
 import CustomButton from '../shared-components/CustomButton';
 import { reset, toggleZoom } from '../../../../actions';
+import { EMPTY_STRING } from '../../../../constants';
 
 const ResetButton = ({ className }) => {
   const { t } = useTranslation();
@@ -24,7 +25,7 @@ const ResetButton = ({ className }) => {
       tooltipPlacement="right"
       onClick={onReset}
       icon={<RotateLeftIcon className={className} />}
-      color={!animationPlaying && orange[800]}
+      color={!animationPlaying ? orange[800] : EMPTY_STRING}
     />
   );
 };

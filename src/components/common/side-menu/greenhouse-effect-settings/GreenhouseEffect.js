@@ -7,7 +7,6 @@ import SliderWithLabel from '../shared-components/SliderWithLabel';
 import {
   GREENHOUSE_TOTAL_EFFECT_MAX_VALUE,
   ON_STRING,
-  RADIATION_MODES,
   SIMULATION_MODES,
 } from '../../../../constants';
 import CarbonDioxideSlider from './CarbonDioxideSlider';
@@ -24,20 +23,14 @@ const useStyles = makeStyles(() => ({
 const GreenhouseEffect = ({ settingsUnchanged }) => {
   const { t } = useTranslation();
   const classes = useStyles();
-  const { radiationMode, isPaused, simulationMode, sliders } = useSelector(
-    ({ lab }) => lab,
-  );
-  const { zoomedIn } = useSelector(({ layout }) => layout);
+  const { isPaused, simulationMode, sliders } = useSelector(({ lab }) => lab);
   const { greenhouseEffect } = sliders;
 
   const isMarsOrVenus =
     simulationMode === SIMULATION_MODES.MARS.name ||
     simulationMode === SIMULATION_MODES.VENUS.name;
 
-  const disabled =
-    !isPaused ||
-    (radiationMode === RADIATION_MODES.WAVES && !zoomedIn) ||
-    isMarsOrVenus;
+  const disabled = !isPaused || isMarsOrVenus;
 
   return (
     <>

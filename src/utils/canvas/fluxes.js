@@ -1,10 +1,14 @@
 import { toggleFluxesFills } from '../../actions';
 import {
   FLUX_BLINKING_INTERVAL,
-  FLUX_WIDTH_AS_PERCENTAGE_OF_FLUX_VALUE,
-  LARGE_FLUX,
-  MAXIMUM_FLUX_WIDTH_AS_PERCENTAGE_OF_STAGE_WIDTH,
+  ENERGY_WIDTH_AS_PERCENTAGE_OF_ENERGY_VALUE,
+  LARGE_ENERGY,
+  LARGE_ENERGY_WIDTH_AS_PERCENTAGE_OF_STAGE_WIDTH,
+  SOLAR_FLUXES,
+  STEFAN_BOLTZMANN_CONSTANT,
   UP_STRING,
+  EXTRA_LARGE_ENERGY,
+  EXTRA_LARGE_ENERGY_WIDTH_AS_PERCENTAGE_OF_STAGE_WIDTH,
 } from '../../constants';
 
 export const generateFluxPointerPoints = (
@@ -17,17 +21,16 @@ export const generateFluxPointerPoints = (
     : [0, 0, pointerWidth / 2, 0, 0, pointerHeight, -pointerWidth / 2, 0];
 };
 
-export const calculateFluxWidth = (flux, stageWidth) => {
-  if (flux > LARGE_FLUX) {
-    // if a flux is LARGE, take maximum possible flux size and scale it by 1.35
-    return stageWidth * MAXIMUM_FLUX_WIDTH_AS_PERCENTAGE_OF_STAGE_WIDTH * 1.35;
+export const calculateEnergyWidth = (energy, stageWidth) => {
+  if (energy >= EXTRA_LARGE_ENERGY) {
+    return stageWidth * EXTRA_LARGE_ENERGY_WIDTH_AS_PERCENTAGE_OF_STAGE_WIDTH;
   }
 
-  // to ensure fluxes aren't too large, cap their size via Math.min(...)
-  return Math.min(
-    flux * FLUX_WIDTH_AS_PERCENTAGE_OF_FLUX_VALUE,
-    stageWidth * MAXIMUM_FLUX_WIDTH_AS_PERCENTAGE_OF_STAGE_WIDTH,
-  );
+  if (energy >= LARGE_ENERGY) {
+    return stageWidth * LARGE_ENERGY_WIDTH_AS_PERCENTAGE_OF_STAGE_WIDTH;
+  }
+
+  return energy * ENERGY_WIDTH_AS_PERCENTAGE_OF_ENERGY_VALUE;
 };
 
 export const stopFluxesBlinking = () => {
@@ -39,4 +42,23 @@ export const keepFluxesBlinking = (fluxes, dispatch) => {
   window.fluxBlinkingInterval = setInterval(() => {
     dispatch(toggleFluxesFills(fluxes));
   }, FLUX_BLINKING_INTERVAL);
+};
+
+export const computeEarthEnergies = (temperature, greenhouseEffect) => {
+  const groundToSky = Math.round(STEFAN_BOLTZMANN_CONSTANT * temperature ** 4);
+  const skyToGround = greenhouseEffect * groundToSky;
+  const skyToAtmosphere = groundToSky - skyToGround;
+  return { groundToSky, skyToGround, skyToAtmosphere };
+};
+
+export const computeSunEnergies = (
+  cloudAlbedo,
+  totalAlbedo,
+  simulationMode,
+) => {
+  const sunToCloud = SOLAR_FLUXES[simulationMode];
+  const cloudToAtmosphere = cloudAlbedo * sunToCloud;
+  const cloudToGround = sunToCloud - cloudToAtmosphere;
+  const groundToAtmosphere = sunToCloud * (totalAlbedo - cloudAlbedo);
+  return { sunToCloud, cloudToAtmosphere, cloudToGround, groundToAtmosphere };
 };

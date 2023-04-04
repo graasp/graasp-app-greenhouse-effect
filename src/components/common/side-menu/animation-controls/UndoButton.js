@@ -11,6 +11,7 @@ import {
   setIsPaused,
 } from '../../../../actions';
 import { keepFluxesBlinking } from '../../../../utils';
+import { EMPTY_STRING } from '../../../../constants';
 
 const UndoButton = ({ className }) => {
   const { t } = useTranslation();
@@ -34,7 +35,11 @@ const UndoButton = ({ className }) => {
       disabled={undoImpossible || zoomedIn || animationPlaying}
       onClick={onUndo}
       icon={<UndoIcon className={className} />}
-      color={!undoImpossible && !animationPlaying && !zoomedIn && teal[900]}
+      color={
+        !undoImpossible && !animationPlaying && !zoomedIn
+          ? teal[900]
+          : EMPTY_STRING
+      }
     />
   );
 };

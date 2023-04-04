@@ -6,6 +6,7 @@ import PauseCircleOutlineIcon from '@material-ui/icons/PauseCircleOutline';
 import { yellow } from '@material-ui/core/colors';
 import CustomButton from '../shared-components/CustomButton';
 import { setIsPaused } from '../../../../actions';
+import { EMPTY_STRING } from '../../../../constants';
 
 const PauseButton = ({ className }) => {
   const { t } = useTranslation();
@@ -19,7 +20,7 @@ const PauseButton = ({ className }) => {
       disabled={isPaused || zoomedIn || animationPlaying}
       onClick={() => dispatch(setIsPaused(true))}
       icon={<PauseCircleOutlineIcon className={className} />}
-      color={!zoomedIn && !animationPlaying && yellow[800]}
+      color={!zoomedIn && !animationPlaying ? yellow[800] : EMPTY_STRING}
     />
   );
 };

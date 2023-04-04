@@ -17,6 +17,7 @@ import {
   handleStandardCase,
   handleWaterVaporFeedback,
 } from '../../../../utils/side-menu/play-button';
+import { EMPTY_STRING, RADIATION_MODES } from '../../../../constants';
 
 const PlayButton = ({ className }) => {
   const { t } = useTranslation();
@@ -26,6 +27,7 @@ const PlayButton = ({ className }) => {
     isPaused,
     feedback,
     simulationMode,
+    radiationMode,
     sliders,
     thermometer,
     animationPlaying,
@@ -35,25 +37,29 @@ const PlayButton = ({ className }) => {
   const { temperature: thermometerTemperature } = thermometer;
 
   const onClickPlay = () => {
+    dispatch(setIsPaused(false));
     stopFluxesBlinking();
     dispatch(resetFluxesFills());
-    dispatch(setIsPaused(false));
 
     if (thermometerTemperature !== impliedTemperature) {
       dispatch(setPreviousSettings({ sliders, thermometer, feedback }));
-      if (waterVaporFeedbackOn && iceCoverFeedbackOn) {
-        handleBothFeedbacks(sliders, thermometer, dispatch, simulationMode);
-      } else if (waterVaporFeedbackOn) {
-        handleWaterVaporFeedback(
-          sliders,
-          thermometer,
-          dispatch,
-          simulationMode,
-        );
-      } else if (iceCoverFeedbackOn) {
-        handleIceCoverFeedback(sliders, dispatch, simulationMode);
-      } else {
+      if (radiationMode === RADIATION_MODES.WAVES) {
         handleStandardCase(sliders, thermometer, dispatch);
+      } else if (radiationMode === RADIATION_MODES.FLUXES) {
+        if (waterVaporFeedbackOn && iceCoverFeedbackOn) {
+          handleBothFeedbacks(sliders, thermometer, dispatch, simulationMode);
+        } else if (waterVaporFeedbackOn) {
+          handleWaterVaporFeedback(
+            sliders,
+            thermometer,
+            dispatch,
+            simulationMode,
+          );
+        } else if (iceCoverFeedbackOn) {
+          handleIceCoverFeedback(sliders, dispatch, simulationMode);
+        } else {
+          handleStandardCase(sliders, thermometer, dispatch);
+        }
       }
     }
   };
@@ -64,7 +70,7 @@ const PlayButton = ({ className }) => {
       disabled={!isPaused || zoomedIn || animationPlaying}
       onClick={onClickPlay}
       icon={<PlayCircleOutlineIcon className={className} />}
-      color={!zoomedIn && !animationPlaying && green[800]}
+      color={!zoomedIn && !animationPlaying ? green[800] : EMPTY_STRING}
     />
   );
 };

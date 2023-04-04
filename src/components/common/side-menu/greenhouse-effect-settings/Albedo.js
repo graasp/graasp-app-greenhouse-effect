@@ -7,7 +7,6 @@ import SliderWithLabel from '../shared-components/SliderWithLabel';
 import {
   ALBEDO_MAX_VALUE,
   ON_STRING,
-  RADIATION_MODES,
   SIMULATION_MODES,
 } from '../../../../constants';
 import IceSnowCover from './IceSnowCover';
@@ -23,9 +22,7 @@ const useStyles = makeStyles(() => ({
 const Albedo = ({ settingsUnchanged }) => {
   const { t } = useTranslation();
   const classes = useStyles();
-  const { radiationMode, isPaused, simulationMode, sliders } = useSelector(
-    ({ lab }) => lab,
-  );
+  const { isPaused, simulationMode, sliders } = useSelector(({ lab }) => lab);
   const { zoomedIn } = useSelector(({ layout }) => layout);
   const { albedo } = sliders;
 
@@ -33,11 +30,7 @@ const Albedo = ({ settingsUnchanged }) => {
     simulationMode === SIMULATION_MODES.MARS.name ||
     simulationMode === SIMULATION_MODES.VENUS.name;
 
-  const disabled =
-    !isPaused ||
-    radiationMode === RADIATION_MODES.WAVES ||
-    isMarsOrVenus ||
-    zoomedIn;
+  const disabled = !isPaused || isMarsOrVenus || zoomedIn;
 
   return (
     <>

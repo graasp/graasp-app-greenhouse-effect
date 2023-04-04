@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { Group } from 'react-konva';
-import { STEFAN_BOLTZMANN_CONSTANT } from '../../../../../constants';
 import GroundToSkyFlux from './GroundToSkyFlux';
 import SkyToAtmosphereFlux from './SkyToAtmosphereFlux';
 import SkyToGroundFlux from './SkyToGroundFlux';
 import { FluxesWavesContext } from '../../../../contexts/fluxes-waves/FluxesWavesProvider';
+import { computeEarthEnergies } from '../../../../../utils';
 
 const EarthFluxes = () => {
   const { isMars } = useContext(FluxesWavesContext);
@@ -14,19 +14,21 @@ const EarthFluxes = () => {
   const { greenhouseEffect: impliedGreenhouseEffect } = sliders;
   const { groundToSky, skyToAtmosphere, skyToGround } = fluxesFills;
 
-  const groundToSkyFlux = Math.round(
-    STEFAN_BOLTZMANN_CONSTANT * thermometerTemperature ** 4,
-  );
-  const skyToGroundFlux = impliedGreenhouseEffect * groundToSkyFlux;
-  const skyToAtmosphereFlux = groundToSkyFlux - skyToGroundFlux;
+  const {
+    groundToSky: groundToSkyEnergy,
+    skyToGround: skyToGroundEnergy,
+    skyToAtmosphere: skyToAtmosphereEnergy,
+  } = computeEarthEnergies(thermometerTemperature, impliedGreenhouseEffect);
 
   return (
     <Group>
-      <GroundToSkyFlux flux={groundToSkyFlux} fill={groundToSky} />
-      {!isMars && <SkyToGroundFlux flux={skyToGroundFlux} fill={skyToGround} />}
+      <GroundToSkyFlux energy={groundToSkyEnergy} fill={groundToSky} />
+      {!isMars && (
+        <SkyToGroundFlux energy={skyToGroundEnergy} fill={skyToGround} />
+      )}
       {!isMars && (
         <SkyToAtmosphereFlux
-          flux={skyToAtmosphereFlux}
+          energy={skyToAtmosphereEnergy}
           fill={skyToAtmosphere}
         />
       )}

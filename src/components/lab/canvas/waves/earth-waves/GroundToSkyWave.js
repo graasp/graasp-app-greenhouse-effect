@@ -1,13 +1,10 @@
 import React, { useContext } from 'react';
-import {
-  EARTH_FLUXES_DEFAULT_COLOR,
-  GROUND_TO_SKY_WAVE_AMPLITUDE,
-  INFRARED,
-} from '../../../../../constants';
+import PropTypes from 'prop-types';
+import { EARTH_FLUXES_DEFAULT_COLOR, INFRARED } from '../../../../../constants';
 import Wave from '../wave/Wave';
 import { FluxesWavesContext } from '../../../../contexts/fluxes-waves/FluxesWavesProvider';
 
-const GroundToSkyWave = () => {
+const GroundToSkyWave = ({ energy }) => {
   const { groundToSkyWave } = useContext(FluxesWavesContext);
   const { beginsX, beginsY, endsY, startsAfterInterval } = groundToSkyWave;
 
@@ -17,11 +14,15 @@ const GroundToSkyWave = () => {
       waveBeginsY={beginsY}
       waveEndsY={endsY}
       waveColor={EARTH_FLUXES_DEFAULT_COLOR}
-      amplitude={GROUND_TO_SKY_WAVE_AMPLITUDE}
+      energy={energy}
       startAfterInterval={startsAfterInterval}
       type={INFRARED}
     />
   );
+};
+
+GroundToSkyWave.propTypes = {
+  energy: PropTypes.number.isRequired,
 };
 
 export default GroundToSkyWave;

@@ -21,3 +21,4 @@ export const MARS = 'Mars';
 export const VENUS = 'Venus';
 export const THERMOMETER = 'thermometer';
 export const SLIDERS = 'sliders';
+export const EMPTY_STRING = '';
