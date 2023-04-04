@@ -1,16 +1,14 @@
 import React, { useContext } from 'react';
-import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import {
   EARTH_FLUXES_DEFAULT_COLOR,
-  GROUND_TO_SKY_WAVE_AMPLITUDE,
   INFRARED,
-  SKY_TO_ATMOSPHERE_WAVE_ROTATION,
+  SKY_TO_ATMOSPHERE_FLUX_ROTATION,
 } from '../../../../../constants';
 import { FluxesWavesContext } from '../../../../contexts/fluxes-waves/FluxesWavesProvider';
 import Wave from '../wave/Wave';
 
-const SkyToAtmosphereWave = () => {
-  const { thermometerGreenhouseEffect } = useSelector(({ lab }) => lab);
+const SkyToAtmosphereWave = ({ energy }) => {
   const { skyToAtmosphereWave } = useContext(FluxesWavesContext);
   const { beginsX, beginsY, endsY, startsAfterInterval } = skyToAtmosphereWave;
 
@@ -20,14 +18,16 @@ const SkyToAtmosphereWave = () => {
       waveBeginsY={beginsY}
       waveEndsY={endsY}
       waveColor={EARTH_FLUXES_DEFAULT_COLOR}
-      amplitude={
-        GROUND_TO_SKY_WAVE_AMPLITUDE * (1 - thermometerGreenhouseEffect)
-      }
+      energy={energy}
       startAfterInterval={startsAfterInterval}
-      waveRotation={SKY_TO_ATMOSPHERE_WAVE_ROTATION}
+      waveRotation={SKY_TO_ATMOSPHERE_FLUX_ROTATION}
       type={INFRARED}
     />
   );
+};
+
+SkyToAtmosphereWave.propTypes = {
+  energy: PropTypes.number.isRequired,
 };
 
 export default SkyToAtmosphereWave;

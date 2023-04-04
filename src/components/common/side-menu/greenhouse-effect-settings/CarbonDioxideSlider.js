@@ -6,7 +6,7 @@ import SliderWithLabel from '../shared-components/SliderWithLabel';
 import {
   toggleFluxesFills,
   resetFluxesFills,
-  setSliderCarbonDioxide,
+  setVariable,
 } from '../../../../actions';
 import {
   CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE_DEFAULT,
@@ -18,13 +18,18 @@ import {
   GROUND_TO_SKY,
   SKY_TO_ATMOSPHERE,
   SKY_TO_GROUND,
+  SLIDERS,
 } from '../../../../constants';
 import { keepFluxesBlinking, stopFluxesBlinking } from '../../../../utils';
 
-const CarbonDioxideSlider = ({ disabled }) => {
+const CarbonDioxideSlider = ({ disabled, settingsUnchanged }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { simulationMode, sliderCarbonDioxide } = useSelector(({ lab }) => lab);
+  const { simulationMode, sliders, thermometer } = useSelector(
+    ({ lab }) => lab,
+  );
+  const { carbonDioxide: sliderCarbonDioxide } = sliders;
+  const { carbonDioxide: thermometerCarbonDioxide } = thermometer;
 
   const isMarsOrVenus =
     simulationMode === SIMULATION_MODES.MARS.name ||
@@ -48,15 +53,20 @@ const CarbonDioxideSlider = ({ disabled }) => {
   const onChange = (event, value) => {
     stopFluxesBlinking();
     dispatch(toggleFluxesFills([SKY_TO_ATMOSPHERE, SKY_TO_GROUND]));
-    dispatch(setSliderCarbonDioxide(value));
+    dispatch(setVariable([{ carbonDioxide: value }, SLIDERS]));
   };
 
-  const onMouseUp = () => {
+  const onRelease = () => {
     dispatch(resetFluxesFills());
-    keepFluxesBlinking(
-      [GROUND_TO_SKY, SKY_TO_GROUND, SKY_TO_ATMOSPHERE],
-      dispatch,
-    );
+    if (sliderCarbonDioxide !== thermometerCarbonDioxide) {
+      keepFluxesBlinking(
+        [GROUND_TO_SKY, SKY_TO_GROUND, SKY_TO_ATMOSPHERE],
+        dispatch,
+      );
+    }
+    if (settingsUnchanged) {
+      stopFluxesBlinking();
+    }
   };
 
   return (
@@ -66,7 +76,7 @@ const CarbonDioxideSlider = ({ disabled }) => {
       min={CARBON_DIOXIDE_CONCENTRATION_MIN_VALUE}
       value={sliderCarbonDioxide}
       onChange={onChange}
-      onMouseUp={onMouseUp}
+      onRelease={onRelease}
       disabled={disabled}
       valueLabelDisplay={isMarsOrVenus ? ON_STRING : AUTO_STRING}
       bigLabel={isMarsOrVenus}
@@ -77,6 +87,7 @@ const CarbonDioxideSlider = ({ disabled }) => {
 
 CarbonDioxideSlider.propTypes = {
   disabled: PropTypes.bool.isRequired,
+  settingsUnchanged: PropTypes.bool.isRequired,
 };
 
 export default CarbonDioxideSlider;

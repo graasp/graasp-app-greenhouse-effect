@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { Line } from 'react-konva';
-import { generateSineCurve } from '../../../../../utils';
+import { calculateEnergyWidth, generateSineCurve } from '../../../../../utils';
 import {
+  FLUX_BODY_WIDTH_AS_PERCENTAGE_OF_TOTAL_WIDTH,
   INFRARED_RADIATION_PERIOD,
-  MINIMUM_WAVE_AMPLITUDE,
   VISIBLE_LIGHT,
   VISIBLE_LIGHT_PERIOD,
 } from '../../../../../constants';
@@ -16,16 +16,20 @@ const Wave = ({
   waveEndsY,
   waveColor,
   waveRotation,
-  amplitude,
+  energy,
   startAfterInterval,
   type,
 }) => {
   const { intervalCount } = useSelector(({ lab }) => lab);
+  const { width: stageWidth } = useSelector(
+    ({ layout }) => layout.lab.stageDimensions,
+  );
 
   const period =
     type === VISIBLE_LIGHT ? VISIBLE_LIGHT_PERIOD : INFRARED_RADIATION_PERIOD;
-
-  const waveAmplitude = Math.max(amplitude, MINIMUM_WAVE_AMPLITUDE);
+  const totalWidth = calculateEnergyWidth(energy, stageWidth);
+  const amplitude =
+    (totalWidth / 2) * FLUX_BODY_WIDTH_AS_PERCENTAGE_OF_TOTAL_WIDTH;
 
   const wavePoints =
     intervalCount > startAfterInterval
@@ -33,7 +37,7 @@ const Wave = ({
           intervalCount - startAfterInterval,
           waveBeginsY,
           waveEndsY,
-          waveAmplitude,
+          amplitude,
           period,
         )
       : [];
@@ -55,7 +59,7 @@ Wave.propTypes = {
   waveEndsY: PropTypes.number.isRequired,
   waveColor: PropTypes.string.isRequired,
   waveRotation: PropTypes.number,
-  amplitude: PropTypes.number.isRequired,
+  energy: PropTypes.number.isRequired,
   startAfterInterval: PropTypes.number.isRequired,
   type: PropTypes.string.isRequired,
 };

@@ -19,13 +19,15 @@ export const WIDE_FLUX_MINIMUM_WIDTH = 25;
 export const FLUX_LABEL_LARGE_FONT_SIZE = 16;
 export const FLUX_LABEL_SMALL_FONT_SIZE = 13;
 
-// constants used in the creation of custom flux arrow
-export const FLUX_WIDTH_AS_PERCENTAGE_OF_FLUX_VALUE = 0.7;
-export const MAXIMUM_FLUX_WIDTH_AS_PERCENTAGE_OF_STAGE_WIDTH = 0.2;
+// constants used in the creation of waves and flux arrows
+export const ENERGY_WIDTH_AS_PERCENTAGE_OF_ENERGY_VALUE = 0.55;
+export const LARGE_ENERGY_WIDTH_AS_PERCENTAGE_OF_STAGE_WIDTH = 0.25;
+export const EXTRA_LARGE_ENERGY_WIDTH_AS_PERCENTAGE_OF_STAGE_WIDTH = 0.3;
 export const FLUX_POINTER_HEIGHT_AS_PERCENTAGE_OF_POINTER_WIDTH = 0.4;
 export const MINIMUM_FLUX_POINTER_HEIGHT = 22.5;
 export const FLUX_BODY_WIDTH_AS_PERCENTAGE_OF_TOTAL_WIDTH = 0.7;
-export const LARGE_FLUX = 1000;
+export const LARGE_ENERGY = 600;
+export const EXTRA_LARGE_ENERGY = 1000;
 
 export const SUN_TO_CLOUD = {
   name: 'sunToCloud',

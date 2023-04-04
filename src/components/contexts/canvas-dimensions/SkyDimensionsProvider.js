@@ -16,7 +16,7 @@ import {
 export const SkyDimensionsContext = createContext();
 
 const SkyDimensionsProvider = ({ children, stageHeight, stageWidth }) => {
-  const { sliderCloudCover } = useSelector(({ lab }) => lab);
+  const { cloudCover } = useSelector(({ lab }) => lab.sliders);
 
   // sky dimensions in /constants.js are stated as a percentage of canvas dimensions
   const { height: skyHeightPercentage, width: skyWidthPercentage } = SKY;
@@ -43,18 +43,16 @@ const SkyDimensionsProvider = ({ children, stageHeight, stageWidth }) => {
 
   // first cloud radiuses
   const firstCloudCentralCircleRadiusX =
-    CLOUD_CENTRAL_CIRCLE_RADIUS *
-    (skyHeight + skyWidth) *
-    (sliderCloudCover / 100);
+    CLOUD_CENTRAL_CIRCLE_RADIUS * (skyHeight + skyWidth) * (cloudCover / 100);
   const firstCloudCentralCircleRadiusY =
     CLOUD_CENTRAL_CIRCLE_RADIUS *
     ((skyHeight + skyWidth) / CLOUD_RESPONSIVE_ADJUSTMENT_FACTOR) *
-    (sliderCloudCover / 100);
+    (cloudCover / 100);
 
   // second cloud radiuses
   const modifiedCloudCover =
-    sliderCloudCover >= CLOUD_COVER_PERCENTAGE_LIMIT &&
-    (sliderCloudCover - CLOUD_COVER_PERCENTAGE_LIMIT) * 2;
+    cloudCover >= CLOUD_COVER_PERCENTAGE_LIMIT &&
+    (cloudCover - CLOUD_COVER_PERCENTAGE_LIMIT) * 2;
   const secondCloudCentralCircleRadiusX =
     CLOUD_CENTRAL_CIRCLE_RADIUS *
     (skyHeight + skyWidth) *

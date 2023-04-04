@@ -10,12 +10,13 @@ const SeaBackground = () => {
     SeaDimensionsContext,
   );
 
-  const { isPaused, sliderIceCover } = useSelector(({ lab }) => lab);
+  const { isPaused, sliders } = useSelector(({ lab }) => lab);
+  const { iceCover } = sliders;
 
   const { colorRange, colorRangePaused, colorRangeFrozen } = SEA;
 
   const determineSeaColor = () => {
-    if (sliderIceCover >= ICE_COVER_MAX_VALUE) {
+    if (iceCover >= ICE_COVER_MAX_VALUE) {
       return colorRangeFrozen;
     }
     if (isPaused) {

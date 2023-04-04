@@ -1,14 +1,14 @@
 import React, { useContext } from 'react';
+import PropTypes from 'prop-types';
 import {
-  CLOUD_TO_ATMOSPHERE_WAVE_AMPLITUDE,
-  CLOUD_TO_ATMOSPHERE_WAVE_ROTATION,
+  CLOUD_TO_ATMOSPHERE_FLUX_ROTATION,
   SUN_FLUXES_DEFAULT_COLOR,
   VISIBLE_LIGHT,
 } from '../../../../../constants';
 import { FluxesWavesContext } from '../../../../contexts/fluxes-waves/FluxesWavesProvider';
 import Wave from '../wave/Wave';
 
-const CloudToAtmosphereWave = () => {
+const CloudToAtmosphereWave = ({ energy }) => {
   const { cloudToAtmosphereWave } = useContext(FluxesWavesContext);
   const {
     beginsX,
@@ -23,12 +23,16 @@ const CloudToAtmosphereWave = () => {
       waveBeginsY={beginsY}
       waveEndsY={endsY}
       waveColor={SUN_FLUXES_DEFAULT_COLOR}
-      amplitude={CLOUD_TO_ATMOSPHERE_WAVE_AMPLITUDE}
-      waveRotation={CLOUD_TO_ATMOSPHERE_WAVE_ROTATION}
+      energy={energy}
+      waveRotation={CLOUD_TO_ATMOSPHERE_FLUX_ROTATION}
       startAfterInterval={startsAfterInterval}
       type={VISIBLE_LIGHT}
     />
   );
+};
+
+CloudToAtmosphereWave.propTypes = {
+  energy: PropTypes.number.isRequired,
 };
 
 export default CloudToAtmosphereWave;

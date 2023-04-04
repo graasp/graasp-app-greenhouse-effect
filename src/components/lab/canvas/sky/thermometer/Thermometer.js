@@ -23,7 +23,9 @@ import ThermometerScale from './ThermometerScale';
 import ThermometerFill from './ThermometerFill';
 
 const Thermometer = ({ cursorBecomesDefault, cursorBecomesZoomIn }) => {
-  const { thermometerTemperature } = useSelector(({ lab }) => lab);
+  const { temperature: thermometerTemperature } = useSelector(
+    ({ lab }) => lab.thermometer,
+  );
   const { skyHeight, skyWidth, skyBeginsX, skyBeginsY } = useContext(
     SkyDimensionsContext,
   );

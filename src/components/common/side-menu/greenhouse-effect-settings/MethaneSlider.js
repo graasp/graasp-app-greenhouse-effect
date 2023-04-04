@@ -6,7 +6,7 @@ import SliderWithLabel from '../shared-components/SliderWithLabel';
 import {
   toggleFluxesFills,
   resetFluxesFills,
-  setSliderMethane,
+  setVariable,
 } from '../../../../actions';
 import {
   METHANE_CONCENTRATION_MAX_VALUE,
@@ -18,13 +18,18 @@ import {
   GROUND_TO_SKY,
   SKY_TO_GROUND,
   SKY_TO_ATMOSPHERE,
+  SLIDERS,
 } from '../../../../constants';
 import { keepFluxesBlinking, stopFluxesBlinking } from '../../../../utils';
 
-const MethaneSlider = ({ disabled }) => {
+const MethaneSlider = ({ disabled, settingsUnchanged }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { simulationMode, sliderMethane } = useSelector(({ lab }) => lab);
+  const { simulationMode, sliders, thermometer } = useSelector(
+    ({ lab }) => lab,
+  );
+  const { methane: sliderMethane } = sliders;
+  const { methane: thermometerMethane } = thermometer;
 
   const isMarsOrVenus =
     simulationMode === SIMULATION_MODES.MARS.name ||
@@ -33,15 +38,20 @@ const MethaneSlider = ({ disabled }) => {
   const onChange = (event, value) => {
     stopFluxesBlinking();
     dispatch(toggleFluxesFills([SKY_TO_ATMOSPHERE, SKY_TO_GROUND]));
-    dispatch(setSliderMethane(value));
+    dispatch(setVariable([{ methane: value }, SLIDERS]));
   };
 
-  const onMouseUp = () => {
+  const onRelease = () => {
     dispatch(resetFluxesFills());
-    keepFluxesBlinking(
-      [GROUND_TO_SKY, SKY_TO_GROUND, SKY_TO_ATMOSPHERE],
-      dispatch,
-    );
+    if (sliderMethane !== thermometerMethane) {
+      keepFluxesBlinking(
+        [GROUND_TO_SKY, SKY_TO_GROUND, SKY_TO_ATMOSPHERE],
+        dispatch,
+      );
+    }
+    if (settingsUnchanged) {
+      stopFluxesBlinking();
+    }
   };
 
   return (
@@ -51,7 +61,7 @@ const MethaneSlider = ({ disabled }) => {
       min={METHANE_CONCENTRATION_MIN_VALUE}
       value={sliderMethane}
       onChange={onChange}
-      onMouseUp={onMouseUp}
+      onRelease={onRelease}
       step={METHANE_SLIDER_STEP}
       disabled={disabled}
       valueLabelDisplay={isMarsOrVenus ? ON_STRING : AUTO_STRING}
@@ -61,6 +71,7 @@ const MethaneSlider = ({ disabled }) => {
 
 MethaneSlider.propTypes = {
   disabled: PropTypes.bool.isRequired,
+  settingsUnchanged: PropTypes.bool.isRequired,
 };
 
 export default MethaneSlider;

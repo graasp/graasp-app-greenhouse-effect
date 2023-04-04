@@ -50,9 +50,9 @@ class Lab extends Component {
   }
 
   checkSize = () => {
-    const { dispatchSetStageDimensions } = this.props;
-    const stageWidth = this.container?.offsetWidth;
-    const stageHeight = this.container?.offsetHeight;
+    const { dispatchSetStageDimensions, stageDimensions } = this.props;
+    const stageWidth = this.container?.offsetWidth || stageDimensions.width;
+    const stageHeight = this.container?.offsetHeight || stageDimensions.height;
     dispatchSetStageDimensions({
       width: stageWidth,
       height: stageHeight,

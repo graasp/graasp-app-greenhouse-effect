@@ -25,21 +25,21 @@ const Molecules = ({
   cursorBecomesZoomOut,
   maxDistribution,
 }) => {
-  const { sliderCarbonDioxide, sliderMethane, waterVapor } = useSelector(
-    ({ lab }) => lab,
-  );
+  const { sliders } = useSelector(({ lab }) => lab);
+
+  const { carbonDioxide, methane, waterVapor } = sliders;
 
   const moleculeDistribution = distributeMolecules(maxDistribution, [
     {
       name: CARBON_DIOXIDE_STRING,
       count: Math.min(
-        sliderCarbonDioxide,
+        carbonDioxide,
         CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE_DEFAULT,
       ),
     },
     {
       name: METHANE_STRING,
-      count: Math.min(sliderMethane, METHANE_CONCENTRATION_MAX_VALUE),
+      count: Math.min(methane, METHANE_CONCENTRATION_MAX_VALUE),
     },
     {
       name: WATER_STRING,

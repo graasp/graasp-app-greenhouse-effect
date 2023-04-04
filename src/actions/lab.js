@@ -7,17 +7,13 @@ import {
   RESET,
   INCREMENT_INTERVAL_COUNT,
   TOGGLE_FLUXES_FILLS,
-  RESET_FLUXES_FILL,
-  SET_SLIDER_ICE_COVER,
-  SET_SLIDER_CLOUD_COVER,
-  SET_SLIDER_CARBON_DIOXIDE,
-  SET_SLIDER_METHANE,
-  SET_THERMOMETER_VALUES,
-  SET_C_TERM,
-  SET_VALUES_TEMPORARILY_VIA_C_TERM,
-  SET_VALUES_TEMPORARILY_VIA_ICE_COVER,
-  SET_THERMOMETER_ICE_COVER,
-  SET_ICE_COVER_AND_C_TERM,
+  RESET_FLUXES_FILLS,
+  SET_VALUES_TEMPORARILY,
+  SET_VARIABLE,
+  SET_PREVIOUS_SETTINGS,
+  RESTORE_PREVIOUS_SETTINGS,
+  CLEAR_PREVIOUS_SETTINGS,
+  SET_ANIMATION_PLAYING,
 } from '../types';
 
 export const setFeedbackValues = (payload) => (dispatch) => {
@@ -39,8 +35,8 @@ export const setIsPaused = (payload) => (dispatch) =>
     payload,
   });
 
-export const reset = (payload) => (dispatch) => {
-  dispatch({ type: RESET, payload });
+export const reset = () => (dispatch) => {
+  dispatch({ type: RESET });
 };
 
 export const setSimulationMode = (payload) => (dispatch) => {
@@ -50,38 +46,26 @@ export const setSimulationMode = (payload) => (dispatch) => {
 export const incrementIntervalCount = () => (dispatch) =>
   dispatch({ type: INCREMENT_INTERVAL_COUNT });
 
-export const setValuesTemporarilyViaCTerm = (payload) => (dispatch) =>
-  dispatch({ type: SET_VALUES_TEMPORARILY_VIA_C_TERM, payload });
-
-export const setValuesTemporarilyViaIceCover = (payload) => (dispatch) =>
-  dispatch({ type: SET_VALUES_TEMPORARILY_VIA_ICE_COVER, payload });
-
-export const setCTerm = (payload) => (dispatch) =>
-  dispatch({ type: SET_C_TERM, payload });
-
 export const toggleFluxesFills = (payload) => (dispatch) =>
   dispatch({ type: TOGGLE_FLUXES_FILLS, payload });
 
-export const resetFluxesFills = (payload) => (dispatch) =>
-  dispatch({ type: RESET_FLUXES_FILL, payload });
+export const resetFluxesFills = () => (dispatch) =>
+  dispatch({ type: RESET_FLUXES_FILLS });
 
-export const setSliderIceCover = (payload) => (dispatch) =>
-  dispatch({ type: SET_SLIDER_ICE_COVER, payload });
+export const setVariable = (payload) => (dispatch) =>
+  dispatch({ type: SET_VARIABLE, payload });
 
-export const setSliderCloudCover = (payload) => (dispatch) =>
-  dispatch({ type: SET_SLIDER_CLOUD_COVER, payload });
+export const setValuesTemporarily = (payload) => (dispatch) =>
+  dispatch({ type: SET_VALUES_TEMPORARILY, payload });
 
-export const setSliderCarbonDioxide = (payload) => (dispatch) =>
-  dispatch({ type: SET_SLIDER_CARBON_DIOXIDE, payload });
+export const setPreviousSettings = (payload) => (dispatch) =>
+  dispatch({ type: SET_PREVIOUS_SETTINGS, payload });
 
-export const setSliderMethane = (payload) => (dispatch) =>
-  dispatch({ type: SET_SLIDER_METHANE, payload });
+export const restorePreviousSettings = (payload) => (dispatch) =>
+  dispatch({ type: RESTORE_PREVIOUS_SETTINGS, payload });
 
-export const setThermometerValues = (payload) => (dispatch) =>
-  dispatch({ type: SET_THERMOMETER_VALUES, payload });
+export const clearPreviousSettings = () => (dispatch) =>
+  dispatch({ type: CLEAR_PREVIOUS_SETTINGS });
 
-export const setThermometerIceCover = (payload) => (dispatch) =>
-  dispatch({ type: SET_THERMOMETER_ICE_COVER, payload });
-
-export const setIceCoverAndCTerm = (payload) => (dispatch) =>
-  dispatch({ type: SET_ICE_COVER_AND_C_TERM, payload });
+export const setAnimationPlaying = (payload) => (dispatch) =>
+  dispatch({ type: SET_ANIMATION_PLAYING, payload });

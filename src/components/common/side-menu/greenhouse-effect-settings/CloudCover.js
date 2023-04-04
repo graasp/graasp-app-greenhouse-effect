@@ -6,7 +6,7 @@ import SliderWithLabel from '../shared-components/SliderWithLabel';
 import {
   toggleFluxesFills,
   resetFluxesFills,
-  setSliderCloudCover,
+  setVariable,
 } from '../../../../actions';
 import {
   CLOUD_COVER_MAX_VALUE,
@@ -17,13 +17,16 @@ import {
   GROUND_TO_SKY,
   SKY_TO_GROUND,
   SKY_TO_ATMOSPHERE,
+  SLIDERS,
 } from '../../../../constants';
-import { keepFluxesBlinking } from '../../../../utils';
+import { keepFluxesBlinking, stopFluxesBlinking } from '../../../../utils';
 
-const CloudCover = ({ disabled }) => {
+const CloudCover = ({ disabled, settingsUnchanged }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { sliderCloudCover } = useSelector(({ lab }) => lab);
+  const { sliders, thermometer } = useSelector(({ lab }) => lab);
+  const { cloudCover: sliderCloudCover } = sliders;
+  const { cloudCover: thermometerCloudCover } = thermometer;
 
   const onChange = (event, value) => {
     dispatch(
@@ -33,15 +36,20 @@ const CloudCover = ({ disabled }) => {
         GROUND_TO_ATMOSPHERE,
       ]),
     );
-    dispatch(setSliderCloudCover(value));
+    dispatch(setVariable([{ cloudCover: value }, SLIDERS]));
   };
 
-  const onMouseUp = () => {
+  const onRelease = () => {
     dispatch(resetFluxesFills());
-    keepFluxesBlinking(
-      [GROUND_TO_SKY, SKY_TO_GROUND, SKY_TO_ATMOSPHERE],
-      dispatch,
-    );
+    if (sliderCloudCover !== thermometerCloudCover) {
+      keepFluxesBlinking(
+        [GROUND_TO_SKY, SKY_TO_GROUND, SKY_TO_ATMOSPHERE],
+        dispatch,
+      );
+    }
+    if (settingsUnchanged) {
+      stopFluxesBlinking();
+    }
   };
 
   return (
@@ -51,7 +59,7 @@ const CloudCover = ({ disabled }) => {
       max={CLOUD_COVER_MAX_VALUE}
       value={sliderCloudCover}
       onChange={onChange}
-      onMouseUp={onMouseUp}
+      onRelease={onRelease}
       disabled={disabled}
     />
   );
@@ -59,6 +67,7 @@ const CloudCover = ({ disabled }) => {
 
 CloudCover.propTypes = {
   disabled: PropTypes.bool.isRequired,
+  settingsUnchanged: PropTypes.bool.isRequired,
 };
 
 export default CloudCover;

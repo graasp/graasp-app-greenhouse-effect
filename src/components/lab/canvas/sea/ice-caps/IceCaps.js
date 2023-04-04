@@ -7,11 +7,12 @@ import { SeaDimensionsContext } from '../../../../contexts/canvas-dimensions/Sea
 
 const IceCaps = () => {
   const { seaWidth, seaHeight, seaBeginsY } = useContext(SeaDimensionsContext);
-  const { sliderIceCover } = useSelector(({ lab }) => lab);
+  const { sliders } = useSelector(({ lab }) => lab);
+  const { iceCover } = sliders;
 
   // number of ice caps computed based on iceCover
   // iceCapDist is array of the form [x, y], where array[i] is # of ice caps in row i
-  const numIceCaps = computeNumIceCaps(sliderIceCover);
+  const numIceCaps = computeNumIceCaps(iceCover);
   const iceCapDist = distributeIceCaps(numIceCaps);
 
   const iceCapRows = iceCapDist.map((numIceCapsInRow, index) => {

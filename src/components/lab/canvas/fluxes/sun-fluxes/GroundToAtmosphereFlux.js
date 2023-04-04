@@ -7,7 +7,7 @@ import {
   UP_STRING,
 } from '../../../../../constants';
 
-const GroundToAtmosphereFlux = ({ flux, fill }) => {
+const GroundToAtmosphereFlux = ({ energy, fill }) => {
   const { groundToAtmosphereFlux } = useContext(FluxesWavesContext);
   const {
     beginsX,
@@ -24,14 +24,14 @@ const GroundToAtmosphereFlux = ({ flux, fill }) => {
       rotation={GROUND_TO_ATMOSPHERE_FLUX_ROTATION}
       fill={fill}
       direction={UP_STRING}
-      flux={flux}
+      energy={energy}
       startAfterInterval={startsAfterInterval}
     />
   );
 };
 
 GroundToAtmosphereFlux.propTypes = {
-  flux: PropTypes.number.isRequired,
+  energy: PropTypes.number.isRequired,
   fill: PropTypes.string.isRequired,
 };
 

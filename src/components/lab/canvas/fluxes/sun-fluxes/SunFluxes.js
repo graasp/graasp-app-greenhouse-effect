@@ -5,12 +5,12 @@ import CloudToAtmosphereFlux from './CloudToAtmosphereFlux';
 import SunToCloudFlux from './SunToCloudFlux';
 import CloudToGroundFlux from './CloudToGroundFlux';
 import GroundToAtmosphereFlux from './GroundToAtmosphereFlux';
-import { SOLAR_FLUXES } from '../../../../../constants';
 import { FluxesWavesContext } from '../../../../contexts/fluxes-waves/FluxesWavesProvider';
+import { computeSunEnergies } from '../../../../../utils';
 
 const SunFluxes = () => {
   const { isMars } = useContext(FluxesWavesContext);
-  const { simulationMode, impliedAlbedo, fluxesFills } = useSelector(
+  const { simulationMode, sliders, fluxesFills } = useSelector(
     ({ lab }) => lab,
   );
   const {
@@ -19,28 +19,30 @@ const SunFluxes = () => {
     cloudToGround,
     groundToAtmosphere,
   } = fluxesFills;
-
+  const { albedo: impliedAlbedo } = sliders;
   const { totalAlbedo, cloudAlbedo } = impliedAlbedo;
 
-  const sunToCloudFlux = SOLAR_FLUXES[simulationMode];
-  const cloudToAtmosphereFlux = cloudAlbedo * sunToCloudFlux;
-  const cloudToGroundFlux = sunToCloudFlux - cloudToAtmosphereFlux;
-  const groundToAtmosphereFlux = sunToCloudFlux * (totalAlbedo - cloudAlbedo);
+  const {
+    sunToCloud: sunToCloudEnergy,
+    cloudToAtmosphere: cloudToAtmosphereEnergy,
+    cloudToGround: cloudToGroundEnergy,
+    groundToAtmosphere: groundToAtmosphereEnergy,
+  } = computeSunEnergies(cloudAlbedo, totalAlbedo, simulationMode);
 
   return (
     <Group>
-      <SunToCloudFlux flux={sunToCloudFlux} fill={sunToCloud} />
+      <SunToCloudFlux energy={sunToCloudEnergy} fill={sunToCloud} />
       {!isMars && (
         <CloudToAtmosphereFlux
-          flux={cloudToAtmosphereFlux}
+          energy={cloudToAtmosphereEnergy}
           fill={cloudToAtmosphere}
         />
       )}
       {!isMars && (
-        <CloudToGroundFlux flux={cloudToGroundFlux} fill={cloudToGround} />
+        <CloudToGroundFlux energy={cloudToGroundEnergy} fill={cloudToGround} />
       )}
       <GroundToAtmosphereFlux
-        flux={groundToAtmosphereFlux}
+        energy={groundToAtmosphereEnergy}
         fill={groundToAtmosphere}
       />
     </Group>

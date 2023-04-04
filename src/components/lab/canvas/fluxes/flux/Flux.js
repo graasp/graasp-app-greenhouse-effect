@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Group } from 'react-konva';
 import FluxBody from './FluxBody';
 import FluxPointer from './FluxPointer';
-import { calculateFluxWidth } from '../../../../../utils';
+import { calculateEnergyWidth } from '../../../../../utils';
 import {
   FLUX_BODY_WIDTH_AS_PERCENTAGE_OF_TOTAL_WIDTH,
   FLUX_POINTER_HEIGHT_AS_PERCENTAGE_OF_POINTER_WIDTH,
@@ -19,7 +19,7 @@ const Flux = ({
   fill,
   rotation,
   direction,
-  flux,
+  energy,
   startAfterInterval,
 }) => {
   const { width: stageWidth } = useSelector(
@@ -27,7 +27,7 @@ const Flux = ({
   );
   const { intervalCount } = useSelector(({ lab }) => lab);
 
-  const totalWidth = calculateFluxWidth(flux, stageWidth);
+  const totalWidth = calculateEnergyWidth(energy, stageWidth);
   const pointerWidth = totalWidth;
   // because some flux values are small, use Math.max() to ensure pointer has a minimal size that can accomodate its label
   const pointerHeight = Math.max(
@@ -43,7 +43,7 @@ const Flux = ({
     );
   const bodyWidth = totalWidth * FLUX_BODY_WIDTH_AS_PERCENTAGE_OF_TOTAL_WIDTH;
 
-  if (flux < 0) {
+  if (energy <= 0) {
     return null;
   }
 
@@ -62,7 +62,7 @@ const Flux = ({
           pointerHeight={pointerHeight}
           fill={fill}
           direction={direction}
-          flux={flux}
+          energy={energy}
         />
       </Group>
     )
@@ -76,7 +76,7 @@ Flux.propTypes = {
   fill: PropTypes.string.isRequired,
   rotation: PropTypes.number,
   direction: PropTypes.string.isRequired,
-  flux: PropTypes.number.isRequired,
+  energy: PropTypes.number.isRequired,
   startAfterInterval: PropTypes.number.isRequired,
 };
 

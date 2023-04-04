@@ -4,10 +4,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import SwitchWithLabel from './shared-components/SwitchWithLabel';
 import {
-  setValuesTemporarilyViaCTerm,
   setFeedbackValues,
   setIsPaused,
   resetFluxesFills,
+  setValuesTemporarily,
 } from '../../../actions';
 import {
   keepFluxesBlinking,
@@ -26,23 +26,28 @@ import {
 
 const WaterVaporFeedback = ({ disabled }) => {
   const { t } = useTranslation();
-  const {
-    sliderCarbonDioxide,
-    sliderMethane,
-    sliderIceCover,
-    sliderCloudCover,
-    thermometerTemperature,
-    feedback,
-    cTerm: initialCTerm,
-    thermometerCarbonDioxide,
-    thermometerMethane,
-    thermometerIceCover,
-    thermometerCloudCover,
-    simulationMode,
-    thermometerAlbedo,
-  } = useSelector(({ lab }) => lab);
+  const { feedback, simulationMode, sliders, thermometer } = useSelector(
+    ({ lab }) => lab,
+  );
   const { waterVaporFeedbackOn } = feedback;
   const dispatch = useDispatch();
+
+  const {
+    iceCover: sliderIceCover,
+    cloudCover: sliderCloudCover,
+    methane: sliderMethane,
+    carbonDioxide: sliderCarbonDioxide,
+    cTerm: initialCTerm,
+  } = sliders;
+
+  const {
+    iceCover: thermometerIceCover,
+    cloudCover: thermometerCloudCover,
+    methane: thermometerMethane,
+    carbonDioxide: thermometerCarbonDioxide,
+    temperature: thermometerTemperature,
+    albedo: thermometerAlbedo,
+  } = thermometer;
 
   // under water vapor feedback, the 'c' term in the equation determining greenhouse effect becomes a function of temperature
   // first, we compute the c term as a function of current temperature
@@ -75,11 +80,11 @@ const WaterVaporFeedback = ({ disabled }) => {
           [GROUND_TO_SKY, SKY_TO_GROUND, SKY_TO_ATMOSPHERE],
           dispatch,
         );
-        dispatch(setValuesTemporarilyViaCTerm(projectedCTerm));
+        dispatch(setValuesTemporarily({ cTerm: projectedCTerm, checked }));
       }
     } else {
       if (significantTemperatureChangeProjected) {
-        dispatch(setValuesTemporarilyViaCTerm(initialCTerm));
+        dispatch(setValuesTemporarily({ cTerm: initialCTerm, checked }));
       }
       // if all slider values are equal to corresponding thermometer values, it means we are at equilibrium, so no fluxes should blink
       // on the other hand, if e.g. sliderCO2 !== thermometerCO2, it means the user has changed CO2 without clicking play
