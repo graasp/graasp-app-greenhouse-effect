@@ -9,12 +9,13 @@ import { computeEarthEnergies } from '../../../../../utils';
 
 const EarthWaves = () => {
   const { isMars } = useContext(FluxesWavesContext);
-  const { sliders } = useSelector(({ lab }) => lab);
-  const { temperature, greenhouseEffect } = sliders;
+  const { sliders, thermometer } = useSelector(({ lab }) => lab);
+  const { temperature: thermometerTemperature } = thermometer;
+  const { greenhouseEffect: impliedGreenhouseEffect } = sliders;
 
   const { groundToSky, skyToAtmosphere, skyToGround } = computeEarthEnergies(
-    temperature,
-    greenhouseEffect,
+    thermometerTemperature,
+    impliedGreenhouseEffect,
   );
 
   return (
