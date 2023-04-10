@@ -30,7 +30,7 @@ const FeedbackToggles = () => {
   return (
     <>
       <Typography variant="body2" className={classes.heading}>
-        {t('Feedback')}
+        {t('Feedbacks')}
       </Typography>
       <WaterVaporFeedback disabled={toggleDisabled} />
       <IceCoverFeedback disabled={toggleDisabled} />

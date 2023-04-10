@@ -127,7 +127,7 @@ const IceCoverFeedback = ({ disabled }) => {
 
   return (
     <SwitchWithLabel
-      switchLabel={t('Ice and Snow Cover')}
+      switchLabel={t('Ice and Snow')}
       onToggle={onToggle}
       isChecked={iceCoverFeedbackOn}
       disabled={disabled}

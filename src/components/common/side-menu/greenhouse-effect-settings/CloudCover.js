@@ -54,7 +54,7 @@ const CloudCover = ({ disabled, settingsUnchanged }) => {
 
   return (
     <SliderWithLabel
-      text={t('Cloud Cover (%)')}
+      text={t('Cloud (%)')}
       min={CLOUD_COVER_MIN_VALUE}
       max={CLOUD_COVER_MAX_VALUE}
       value={sliderCloudCover}

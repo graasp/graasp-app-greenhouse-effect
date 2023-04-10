@@ -66,7 +66,7 @@ function SimulationMode() {
     <FormControl component="fieldset" className={classes.formControl}>
       <FormLabel component="legend">
         <Typography variant="body2" className={classes.formLabel}>
-          {t('Values in')}
+          {t('Period or Planet')}
         </Typography>
       </FormLabel>
       <RadioGroup
