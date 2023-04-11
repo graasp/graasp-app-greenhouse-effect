@@ -23,6 +23,7 @@ import {
   RESTORE_PREVIOUS_SETTINGS,
   CLEAR_PREVIOUS_SETTINGS,
   SET_ANIMATION_PLAYING,
+  SHOW_RUNAWAY_WARNING,
 } from '../types';
 import { adjustFluxesFills, computeAllOutputs } from '../utils';
 
@@ -46,6 +47,7 @@ const INITIAL_STATE = {
   fluxesFills: INITIAL_FLUX_FILLS,
   previousSettings: {},
   animationPlaying: false,
+  showRunawayWarning: false,
 };
 
 export default (state = INITIAL_STATE, { type, payload }) => {
@@ -83,6 +85,7 @@ export default (state = INITIAL_STATE, { type, payload }) => {
         sliders: updatedValues,
         thermometer: updatedValues,
         previousSettings: {},
+        showRunawayWarning: false,
       };
     }
     case SET_VARIABLE: {
@@ -146,6 +149,7 @@ export default (state = INITIAL_STATE, { type, payload }) => {
         sliders: payload.sliders,
         thermometer: payload.thermometer,
         feedback: payload.feedback,
+        showRunawayWarning: false,
       };
     case CLEAR_PREVIOUS_SETTINGS:
       return { ...state, previousSettings: {} };
@@ -162,6 +166,8 @@ export default (state = INITIAL_STATE, { type, payload }) => {
       return { ...state, fluxesFills: INITIAL_FLUX_FILLS };
     case SET_ANIMATION_PLAYING:
       return { ...state, animationPlaying: payload };
+    case SHOW_RUNAWAY_WARNING:
+      return { ...state, showRunawayWarning: payload };
     default:
       return state;
   }

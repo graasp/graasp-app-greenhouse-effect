@@ -2,6 +2,7 @@ import {
   resetFluxesFills,
   setAnimationPlaying,
   setVariable,
+  showRunawayWarning,
   toggleFluxesFills,
 } from '../../actions';
 import {
@@ -34,6 +35,7 @@ export const computeWaterVaporFeedbackCTerms = (
   const cTerms = [];
   let previousTemperature;
   let newTemperature;
+  let runawayGreenhouseEffect = false;
   do {
     previousTemperature = newTemperature || kelvinToCelsius(temperature);
     const newCTerm = computeCTerm(previousTemperature);
@@ -55,11 +57,12 @@ export const computeWaterVaporFeedbackCTerms = (
     }
     cTerms.push({ cTerm: newCTerm });
     if (newTemperature > MAX_TEMPERATURE_DISPLAYED_ON_EARTH_CELSIUS) {
+      runawayGreenhouseEffect = true;
       break;
     }
   } while (Math.abs(newTemperature - previousTemperature) > epsilon);
 
-  return cTerms;
+  return { cTerms, runawayGreenhouseEffect };
 };
 
 export const computeIceCoverFeedbackTerms = (
@@ -72,6 +75,7 @@ export const computeIceCoverFeedbackTerms = (
   const iceCoverTerms = [];
   let previousTemperature;
   let newTemperature;
+  let runawayGreenhouseEffect = false;
   do {
     previousTemperature = newTemperature || kelvinToCelsius(temperature);
     const newIceCover = computeIceCover(previousTemperature);
@@ -93,11 +97,12 @@ export const computeIceCoverFeedbackTerms = (
     }
     iceCoverTerms.push({ iceCover: newIceCover });
     if (newTemperature > MAX_TEMPERATURE_DISPLAYED_ON_EARTH_CELSIUS) {
+      runawayGreenhouseEffect = true;
       break;
     }
   } while (Math.abs(newTemperature - previousTemperature) > epsilon);
 
-  return iceCoverTerms;
+  return { iceCoverTerms, runawayGreenhouseEffect };
 };
 
 export const computeBothFeedbackTerms = (
@@ -111,6 +116,7 @@ export const computeBothFeedbackTerms = (
   const feedbackTerms = [];
   let previousTemperature;
   let newTemperature;
+  let runawayGreenhouseEffect = false;
   do {
     previousTemperature = newTemperature || kelvinToCelsius(temperature);
     const newCTerm = computeCTerm(previousTemperature);
@@ -152,11 +158,12 @@ export const computeBothFeedbackTerms = (
       newAlbedo,
     });
     if (newTemperature > MAX_TEMPERATURE_DISPLAYED_ON_EARTH_CELSIUS) {
+      runawayGreenhouseEffect = true;
       break;
     }
   } while (Math.abs(newTemperature - previousTemperature) > epsilon);
 
-  return feedbackTerms;
+  return { feedbackTerms, runawayGreenhouseEffect };
 };
 
 export const computeIncrements = (
@@ -204,6 +211,7 @@ export const graduallyDispatchTerms = (
   dispatch,
   sections,
   fluxesToToggle,
+  runawayGreenhouseEffect = false,
   updateWaterVapor = false,
   delay = GRADUAL_UPDATE_INTERVAL,
 ) => {
@@ -217,6 +225,9 @@ export const graduallyDispatchTerms = (
       if (i === terms.length - 1) {
         dispatch(resetFluxesFills());
         dispatch(setAnimationPlaying(false));
+        if (runawayGreenhouseEffect) {
+          dispatch(showRunawayWarning(true));
+        }
       }
     }, delay * (i + 1));
   }

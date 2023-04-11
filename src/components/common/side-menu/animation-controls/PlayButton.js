@@ -9,6 +9,7 @@ import {
   setIsPaused,
   resetFluxesFills,
   setPreviousSettings,
+  showRunawayWarning,
 } from '../../../../actions';
 import { stopFluxesBlinking } from '../../../../utils';
 import {
@@ -40,6 +41,7 @@ const PlayButton = ({ className }) => {
     dispatch(setIsPaused(false));
     stopFluxesBlinking();
     dispatch(resetFluxesFills());
+    dispatch(showRunawayWarning(false));
 
     if (thermometerTemperature !== impliedTemperature) {
       dispatch(setPreviousSettings({ sliders, thermometer, feedback }));
