@@ -17,7 +17,9 @@ const useStyles = makeStyles((theme) => ({
 const FeedbackToggles = () => {
   const { t } = useTranslation();
   const classes = useStyles();
-  const { radiationMode, simulationMode } = useSelector(({ lab }) => lab);
+  const { radiationMode, simulationMode, animationPlaying } = useSelector(
+    ({ lab }) => lab,
+  );
 
   const isEarth =
     simulationMode !== SIMULATION_MODES.MARS.name &&
@@ -25,7 +27,7 @@ const FeedbackToggles = () => {
 
   const isFluxMode = radiationMode === RADIATION_MODES.FLUXES;
 
-  const toggleDisabled = !isEarth || !isFluxMode;
+  const toggleDisabled = !isEarth || !isFluxMode || animationPlaying;
 
   return (
     <>
