@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import Typography from '@material-ui/core/Typography';
+import { EMPTY_STRING } from '../../../../constants';
 
 const useStyles = makeStyles((theme) => ({
   switch: {
@@ -32,6 +33,7 @@ const SwitchWithTwoLabels = ({
   leftLabel,
   rightLabel,
   disabled,
+  radiationModeSwitch,
 }) => {
   const classes = useStyles();
 
@@ -52,9 +54,11 @@ const SwitchWithTwoLabels = ({
     </Typography>
   );
   const RightLabel = (
-    <Typography variant="body2" className={classes.label}>
-      {rightLabel}
-    </Typography>
+    <div className={radiationModeSwitch ? 'fluxes' : EMPTY_STRING}>
+      <Typography variant="body2" className={classes.label}>
+        {rightLabel}
+      </Typography>
+    </div>
   );
 
   const leftLabelComponent = (
@@ -83,10 +87,12 @@ SwitchWithTwoLabels.propTypes = {
   rightLabel: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
     .isRequired,
   disabled: PropTypes.bool,
+  radiationModeSwitch: PropTypes.bool,
 };
 
 SwitchWithTwoLabels.defaultProps = {
   disabled: false,
+  radiationModeSwitch: false,
 };
 
 export default SwitchWithTwoLabels;

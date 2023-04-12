@@ -25,6 +25,16 @@
     "Simulation mode": "Mode simulation",
     "Pause": "Pause",
     "Ice and Snow": "Glace et neige",
-    "Runaway greenhouse effect!": "Emballement de l'effet de serre!"
+    "Runaway greenhouse effect!": "Emballement de l'effet de serre!",
+    "By default, the simulation begins in equilibrium on Earth in the year 2020, but you can select a different period or planet": "A",
+    "You can display radiation flows as either Waves (qualitative) or Fluxes (quantitative)": "B",
+    "Click Play to begin the simulation": "C",
+    "To observe how the Earth's climate is impacted by different physical conditions, pause the simulation, alter one or more variables, then click Play again": "D",
+    "When variables are changed in Fluxes mode, radiation arrows on the canvas will begin blinking, indicating that their energies are projected to change": "E",
+    "Next": "Suivant",
+    "Back": "Précédent",
+    "Skip": "Passer",
+    "End tour": "Terminer la visite",
+    "Start tour": "Commencer la visite"
   }
 }

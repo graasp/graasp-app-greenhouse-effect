@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -16,6 +16,8 @@ import GreenhouseEffectSettings from './GreenhouseEffectSettings';
 import SimulationMode from './SimulationMode';
 import AnimationControls from './AnimationControls';
 import ScaleUnitSwitch from './ScaleUnitSwitch';
+import Tour from './Tour';
+import TOUR_STEPS from '../../../config/tour-steps';
 
 const useStyles = makeStyles((theme) => ({
   drawerPaper: {
@@ -42,6 +44,22 @@ const SideMenu = () => {
   const dispatch = useDispatch();
   const theme = useTheme();
   const { showSideMenu } = useSelector(({ layout }) => layout);
+  const INITIAL_TOUR_STATE = {
+    run: false,
+    continuous: true,
+    loading: false,
+    stepIndex: 0,
+    steps: TOUR_STEPS,
+  };
+  const [tourState, setTourState] = useState(INITIAL_TOUR_STATE);
+  const startTour = () => {
+    setTourState((prevState) => ({
+      ...prevState,
+      stepIndex: 0,
+      run: true,
+      loading: false,
+    }));
+  };
 
   const handleToggleSideMenu = (open) => {
     dispatch(toggleSideMenu(open));
@@ -59,6 +77,9 @@ const SideMenu = () => {
             )}
           </IconButton>
           <Typography variant="h5">{t('Observe')}</Typography>
+          <div>
+            <Tour tourState={tourState} setTourState={setTourState} />
+          </div>
         </div>
         <Divider />
       </>
@@ -78,12 +99,20 @@ const SideMenu = () => {
       >
         {renderDrawerHeader()}
         <div className={classes.contentWrapper}>
-          <AnimationControls />
-          <RadiationModeSwitch />
+          <div className="controls">
+            <AnimationControls startTour={startTour} />
+          </div>
+          <div className="radiation-mode">
+            <RadiationModeSwitch />
+          </div>
           <ScaleUnitSwitch />
           <Divider className={classes.divider} />
-          <SimulationMode />
-          <GreenhouseEffectSettings />
+          <div className="epoch">
+            <SimulationMode />
+          </div>
+          <div className="settings">
+            <GreenhouseEffectSettings />
+          </div>
           <Divider className={classes.divider} />
           <FeedbackToggles />
         </div>
