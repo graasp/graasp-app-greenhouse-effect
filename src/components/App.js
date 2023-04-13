@@ -7,7 +7,6 @@ import { getContext, getAppInstance } from '../actions';
 import { DEFAULT_LANG, DEFAULT_MODE, MODES } from '../config/settings';
 import { DEFAULT_VIEW } from '../config/views';
 import TeacherMode from './modes/teacher/TeacherMode';
-import Loader from './common/Loader';
 import ProgressScreen from './common/LoadingScreen';
 
 export class App extends Component {
@@ -16,14 +15,9 @@ export class App extends Component {
       defaultNS: PropTypes.string,
       changeLanguage: PropTypes.func,
     }).isRequired,
-    dispatchGetContext: PropTypes.func.isRequired,
-    dispatchGetAppInstance: PropTypes.func.isRequired,
-    appInstanceId: PropTypes.string,
     lang: PropTypes.string,
     mode: PropTypes.string,
     view: PropTypes.string,
-    ready: PropTypes.bool.isRequired,
-    standalone: PropTypes.bool.isRequired,
     loading: PropTypes.bool,
   };
 
@@ -31,17 +25,8 @@ export class App extends Component {
     lang: DEFAULT_LANG,
     mode: DEFAULT_MODE,
     view: DEFAULT_VIEW,
-    appInstanceId: null,
     loading: true,
   };
-
-  constructor(props) {
-    super(props);
-    // first thing to do is get the context
-    props.dispatchGetContext();
-    // then get the app instance
-    props.dispatchGetAppInstance();
-  }
 
   componentDidMount() {
     const { lang } = this.props;
@@ -49,15 +34,11 @@ export class App extends Component {
     this.handleChangeLang(lang);
   }
 
-  componentDidUpdate({ lang: prevLang, appInstanceId: prevAppInstanceId }) {
-    const { lang, appInstanceId, dispatchGetAppInstance } = this.props;
+  componentDidUpdate({ lang: prevLang }) {
+    const { lang } = this.props;
     // handle a change of language
     if (lang !== prevLang) {
       this.handleChangeLang(lang);
-    }
-    // handle receiving the app instance id
-    if (appInstanceId !== prevAppInstanceId) {
-      dispatchGetAppInstance();
     }
   }
 
@@ -67,14 +48,10 @@ export class App extends Component {
   };
 
   render() {
-    const { mode, view, ready, standalone, loading } = this.props;
+    const { mode, view, loading } = this.props;
 
     if (loading) {
       return <ProgressScreen />;
-    }
-
-    if (!standalone && !ready) {
-      return <Loader />;
     }
 
     switch (mode) {
