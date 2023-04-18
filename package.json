@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "author": "EPFL",
+  "engines": {
+    "node": "16"
+  },
   "contributors": [
     "Juan Carlos Farah",
     "Hagop Taminian",

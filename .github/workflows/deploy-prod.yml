@@ -2,10 +2,9 @@ name: Deploy to production environment
 
 # Controls when the action will run
 on:
-  # Triggers the workflow on push events only for the main branch
-  push:
-    branches:
-      - main
+  # Triggers the workflow on repository-dispatch event
+  repository_dispatch:
+    types: [production-deployment]
 
 jobs:
   deploy-app:
