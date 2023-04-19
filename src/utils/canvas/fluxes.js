@@ -9,6 +9,7 @@ import {
   UP_STRING,
   EXTRA_LARGE_ENERGY,
   EXTRA_LARGE_ENERGY_WIDTH_AS_PERCENTAGE_OF_STAGE_WIDTH,
+  ENERGY_WIDTH_AS_PERCENTAGE_OF_STAGE_WIDTH,
 } from '../../constants';
 
 export const generateFluxPointerPoints = (
@@ -30,7 +31,12 @@ export const calculateEnergyWidth = (energy, stageWidth) => {
     return stageWidth * LARGE_ENERGY_WIDTH_AS_PERCENTAGE_OF_STAGE_WIDTH;
   }
 
-  return energy * ENERGY_WIDTH_AS_PERCENTAGE_OF_ENERGY_VALUE;
+  return (
+    energy *
+    ENERGY_WIDTH_AS_PERCENTAGE_OF_ENERGY_VALUE *
+    stageWidth *
+    ENERGY_WIDTH_AS_PERCENTAGE_OF_STAGE_WIDTH
+  );
 };
 
 export const stopFluxesBlinking = () => {

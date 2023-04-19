@@ -9,9 +9,10 @@ import Sky from './Sky';
 import { SIMULATION_MODES } from '../../../constants';
 import CanvasDimensionsProvider from '../../contexts/canvas-dimensions/CanvasDimensionsProvider';
 import Radiation from './Radiation';
+import Warning from './Warning';
 
 const CanvasLayout = ({ cursorBecomesDefault, cursorBecomesZoomIn }) => {
-  const { simulationMode } = useSelector(({ lab }) => lab);
+  const { simulationMode, showRunawayWarning } = useSelector(({ lab }) => lab);
   const isEarth =
     simulationMode !== SIMULATION_MODES.MARS.name &&
     simulationMode !== SIMULATION_MODES.VENUS.name;
@@ -27,6 +28,9 @@ const CanvasLayout = ({ cursorBecomesDefault, cursorBecomesZoomIn }) => {
         <Radiation cursorBecomesDefault={cursorBecomesDefault} />
         <Ground cursorBecomesDefault={cursorBecomesDefault} />
         {isEarth && <Sea cursorBecomesDefault={cursorBecomesDefault} />}
+        {showRunawayWarning && (
+          <Warning cursorBecomesDefault={cursorBecomesDefault} />
+        )}
       </CanvasDimensionsProvider>
     </Group>
   );

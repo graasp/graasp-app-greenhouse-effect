@@ -33,6 +33,7 @@ const RadiationModeSwitch = () => {
       onSwitchToggle={onToggle}
       isChecked={radiationMode === RADIATION_MODES.FLUXES}
       disabled={animationPlaying}
+      radiationModeSwitch
     />
   );
 };

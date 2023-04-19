@@ -48,7 +48,7 @@ const IceSnowCover = ({ disabled, settingsUnchanged }) => {
 
   return (
     <SliderWithLabel
-      text={t('Ice and Snow Cover (%)')}
+      text={t('Ice and Snow (%)')}
       max={ICE_COVER_MAX_VALUE}
       value={Math.round(sliderIceCover)}
       onChange={onChange}

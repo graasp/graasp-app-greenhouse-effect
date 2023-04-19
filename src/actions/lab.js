@@ -14,6 +14,7 @@ import {
   RESTORE_PREVIOUS_SETTINGS,
   CLEAR_PREVIOUS_SETTINGS,
   SET_ANIMATION_PLAYING,
+  SHOW_RUNAWAY_WARNING,
 } from '../types';
 
 export const setFeedbackValues = (payload) => (dispatch) => {
@@ -69,3 +70,6 @@ export const clearPreviousSettings = () => (dispatch) =>
 
 export const setAnimationPlaying = (payload) => (dispatch) =>
   dispatch({ type: SET_ANIMATION_PLAYING, payload });
+
+export const showRunawayWarning = (payload) => (dispatch) =>
+  dispatch({ type: SHOW_RUNAWAY_WARNING, payload });
