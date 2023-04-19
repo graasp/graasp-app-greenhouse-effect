@@ -11,3 +11,4 @@ export * from './canvas/sky';
 export * from './canvas/sun';
 export * from './canvas/thermometer';
 export * from './joyride';
+export * from './tour';
