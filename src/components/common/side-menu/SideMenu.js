@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
     width: DRAWER_WIDTH,
   },
   contentWrapper: {
-    margin: theme.spacing(2),
+    margin: theme.spacing(1.5, 2),
   },
   divider: {
     marginBottom: theme.spacing(2),

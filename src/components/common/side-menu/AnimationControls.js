@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
 import { Tooltip } from '@material-ui/core';
-import { incrementIntervalCount } from '../../../actions';
+import { incrementIntervalCount, setIsPaused } from '../../../actions';
 import { APPLICATION_INTERVAL, INITIAL_TOUR_STATE } from '../../../constants';
 import PlayButton from './animation-controls/PlayButton';
 import PauseButton from './animation-controls/PauseButton';
@@ -60,6 +60,7 @@ const AnimationControls = () => {
       run: true,
       loading: false,
     }));
+    dispatch(setIsPaused(true));
   };
 
   return (

@@ -81,7 +81,7 @@ const Tour = ({ tourState, setTourState }) => {
 };
 
 Tour.propTypes = {
-  tourState: PropTypes.objectOf().isRequired,
+  tourState: PropTypes.shape().isRequired,
   setTourState: PropTypes.func.isRequired,
 };
 
