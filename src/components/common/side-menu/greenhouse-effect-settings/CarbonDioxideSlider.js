@@ -10,7 +10,6 @@ import {
 } from '../../../../actions';
 import {
   CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE_DEFAULT,
-  CARBON_DIOXIDE_CONCENTRATION_MIN_VALUE,
   SIMULATION_MODES,
   CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE_ON_MARS_OR_VENUS,
   ON_STRING,
@@ -73,7 +72,6 @@ const CarbonDioxideSlider = ({ disabled, settingsUnchanged }) => {
     <SliderWithLabel
       text={t('CO_2 (ppm)', { escapeInterpolation: true })}
       max={CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE}
-      min={CARBON_DIOXIDE_CONCENTRATION_MIN_VALUE}
       value={sliderCarbonDioxide}
       onChange={onChange}
       onRelease={onRelease}
