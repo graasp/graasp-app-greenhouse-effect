@@ -40,9 +40,9 @@ const FluxPointer = ({
         strokeWidth={1}
       />
       <Text
-        x={-pointerWidth / 2}
+        x={-pointerWidth * 2}
         text={energy && energy.toFixed(0)}
-        width={pointerWidth}
+        width={pointerWidth * 4}
         align="center"
         height={pointerHeight}
         verticalAlign={verticalAlign}
