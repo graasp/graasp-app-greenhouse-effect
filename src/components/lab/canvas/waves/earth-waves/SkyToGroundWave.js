@@ -8,7 +8,7 @@ import {
 import { FluxesWavesContext } from '../../../../contexts/fluxes-waves/FluxesWavesProvider';
 import Wave from '../wave/Wave';
 
-const SkyToGroundWave = ({ energy }) => {
+const SkyToGroundWave = ({ energy, initial, amplify }) => {
   const { skyToGroundWave } = useContext(FluxesWavesContext);
   const { beginsX, beginsY, endsY, startsAfterInterval } = skyToGroundWave;
 
@@ -19,6 +19,8 @@ const SkyToGroundWave = ({ energy }) => {
       waveEndsY={endsY}
       waveColor={EARTH_FLUXES_DEFAULT_COLOR}
       energy={energy}
+      initial={initial}
+      amplify={amplify}
       waveRotation={SKY_TO_GROUND_FLUX_ROTATION}
       startAfterInterval={startsAfterInterval}
       type={INFRARED}
@@ -28,6 +30,12 @@ const SkyToGroundWave = ({ energy }) => {
 
 SkyToGroundWave.propTypes = {
   energy: PropTypes.number.isRequired,
+  initial: PropTypes.number.isRequired,
+  amplify: PropTypes.bool,
+};
+
+SkyToGroundWave.defaultProps = {
+  amplify: false,
 };
 
 export default SkyToGroundWave;
