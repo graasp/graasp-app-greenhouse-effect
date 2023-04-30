@@ -82,3 +82,13 @@ export const computeIcePercentage = (iceCover) => {
   // remaining case is when iceCover >= 0.55, in which case ice coverage is 100%
   return 1;
 };
+
+export const generateRoadPoints = (roadWidth, roadHeight, roadIndent) => {
+  const pointZero = [0, 0];
+
+  const pointOne = [roadIndent, roadHeight];
+  const pointTwo = [roadWidth, roadHeight];
+  const pointThree = [roadWidth, 0];
+
+  return [...pointZero, ...pointOne, ...pointTwo, ...pointThree];
+};

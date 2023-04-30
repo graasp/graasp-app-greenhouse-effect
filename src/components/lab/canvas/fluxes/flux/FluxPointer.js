@@ -5,6 +5,7 @@ import { generateFluxPointerPoints } from '../../../../../utils';
 import {
   BOTTOM_STRING,
   FLUX_LABEL_LARGE_FONT_SIZE,
+  FLUX_LABEL_MARGIN,
   FLUX_LABEL_SMALL_FONT_SIZE,
   TOP_STRING,
   UP_STRING,
@@ -40,9 +41,9 @@ const FluxPointer = ({
         strokeWidth={1}
       />
       <Text
-        x={-pointerWidth * 2}
+        x={-(pointerWidth + FLUX_LABEL_MARGIN) / 2}
         text={energy && energy.toFixed(0)}
-        width={pointerWidth * 4}
+        width={pointerWidth + FLUX_LABEL_MARGIN}
         align="center"
         height={pointerHeight}
         verticalAlign={verticalAlign}

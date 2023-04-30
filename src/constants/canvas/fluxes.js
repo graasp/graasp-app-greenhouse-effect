@@ -29,6 +29,7 @@ export const MINIMUM_FLUX_POINTER_HEIGHT = 22.5;
 export const FLUX_BODY_WIDTH_AS_PERCENTAGE_OF_TOTAL_WIDTH = 0.7;
 export const LARGE_ENERGY = 600;
 export const EXTRA_LARGE_ENERGY = 1000;
+export const FLUX_LABEL_MARGIN = 20;
 
 export const SUN_TO_CLOUD = {
   name: 'sunToCloud',

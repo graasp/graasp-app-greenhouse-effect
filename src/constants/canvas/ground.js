@@ -2,9 +2,10 @@
 export const ROAD_BEGINS_X = 0.18;
 export const ROAD_BEGINS_Y = 0.6;
 export const ROAD_HEIGHT = 0.3;
-export const ROAD_FILL = 'grey';
+export const ROAD_FILL = '#C0C0C0';
 export const ROAD_LINE_COLOR = 'white';
 export const ROAD_LINE_DASH = [10, 10];
+export const ROAD_INDENT = 0.02;
 
 /* ------HOUSE CONSTANTS------ */
 export const DEFAULT_NUMBER_OF_HOUSES_IN_ROW = 3;
@@ -33,8 +34,8 @@ export const FACTORY_SIDE_BUILDING_WIDTH = 0.04;
 export const FACTORY_MAIN_BUILDING_WIDTH = 0.1;
 export const FACTORY_SIDE_BUILDING_HEIGHT = 0.3;
 export const FACTORY_MAIN_BUILDING_HEIGHT = 0.6;
-export const FACTORY_SIDE_BUILDING_COLOR = '#181818';
-export const FACTORY_MAIN_BUILDING_COLOR = '#303030';
+export const FACTORY_SIDE_BUILDING_COLOR = '#898989';
+export const FACTORY_MAIN_BUILDING_COLOR = '#6D6D6D';
 export const FACTORY_ROW_BEGINS_Y = 0.4;
 export const FACTORY_ROW_BEGINS_X = 0.2;
 export const X_DISTANCE_BETWEEN_FACTORIES = 0.025;
