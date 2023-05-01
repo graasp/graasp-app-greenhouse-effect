@@ -2,13 +2,6 @@ import React, { useContext } from 'react';
 import { useSelector } from 'react-redux';
 import Factory from './Factory';
 import {
-  FACTORY_MAIN_BUILDING_WIDTH,
-  FACTORY_MAIN_BUILDING_HEIGHT,
-  FACTORY_SIDE_BUILDING_WIDTH,
-  FACTORY_SIDE_BUILDING_HEIGHT,
-  FACTORY_ROW_BEGINS_Y,
-  FACTORY_ROW_BEGINS_X,
-  X_DISTANCE_BETWEEN_FACTORIES,
   DEFAULT_NUMBER_OF_FACTORIES_IN_ROW,
   SIMULATION_MODES,
 } from '../../../../../constants';
@@ -16,24 +9,16 @@ import { GroundDimensionsContext } from '../../../../contexts/canvas-dimensions/
 
 const FactoryRow = () => {
   const {
-    groundHeight,
-    groundWidth,
-    groundBeginsX,
-    groundBeginsY,
+    factoryRowBeginsY,
+    factoryRowBeginsX,
+    xDistanceBetweenFactories,
+    mainBuildingWidth,
+    mainBuildingHeight,
+    sideBuildingWidth,
+    sideBuildingHeight,
+    totalBuildingsWidth,
   } = useContext(GroundDimensionsContext);
   const { simulationMode } = useSelector(({ lab }) => lab);
-
-  // factory dimensions
-  const mainBuildingWidth = FACTORY_MAIN_BUILDING_WIDTH * groundWidth;
-  const mainBuildingHeight = FACTORY_MAIN_BUILDING_HEIGHT * groundHeight;
-  const sideBuildingWidth = FACTORY_SIDE_BUILDING_WIDTH * groundWidth;
-  const sideBuildingHeight = FACTORY_SIDE_BUILDING_HEIGHT * groundHeight;
-  const totalBuildingsWidth = sideBuildingWidth + mainBuildingWidth;
-
-  //   factory positioning
-  const factoryRowBeginsY = groundBeginsY + FACTORY_ROW_BEGINS_Y * groundHeight;
-  const factoryRowBeginsX = groundBeginsX + FACTORY_ROW_BEGINS_X * groundWidth;
-  const xDistanceBetweenFactories = X_DISTANCE_BETWEEN_FACTORIES * groundWidth;
 
   const numFactoriesInRow =
     simulationMode !== SIMULATION_MODES.TWENTIETH_CENTURY.name

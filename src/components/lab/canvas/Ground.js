@@ -10,6 +10,7 @@ import MountainRange from './ground/mountains/MountainRange';
 import Permafrost from './ground/permafrost/Permafrost';
 import { GroundDimensionsContext } from '../../contexts/canvas-dimensions/GroundDimensionsProvider';
 import { SIMULATION_MODES } from '../../../constants';
+import Trees from './ground/trees/Trees';
 
 const Ground = ({ cursorBecomesDefault }) => {
   const { isEarth, isIceAge } = useContext(GroundDimensionsContext);
@@ -24,6 +25,7 @@ const Ground = ({ cursorBecomesDefault }) => {
       {!isIceAge && isToday && <Road />}
       {!isIceAge && isToday && <FactoryRow />}
       {!isIceAge && isEarth && <HouseRow />}
+      <Trees />
     </Group>
   );
 };
