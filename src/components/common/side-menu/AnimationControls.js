@@ -9,7 +9,7 @@ import { incrementIntervalCount, setIsPaused } from '../../../actions';
 import { APPLICATION_INTERVAL, INITIAL_TOUR_STATE } from '../../../constants';
 import PlayButton from './animation-controls/PlayButton';
 import PauseButton from './animation-controls/PauseButton';
-import UndoButton from './animation-controls/UndoButton';
+import RewindButton from './animation-controls/RewindButton';
 import ResetButton from './animation-controls/ResetButton';
 import CloseSideMenu from './animation-controls/CloseSideMenu';
 import Tour from './Tour';
@@ -74,7 +74,7 @@ const AnimationControls = () => {
         ) : (
           <PauseButton className={classes.button} />
         )}
-        <UndoButton className={classes.button} />
+        <RewindButton className={classes.button} />
         <ResetButton className={classes.button} />
       </div>
       <div className={classes.sideContainer}>

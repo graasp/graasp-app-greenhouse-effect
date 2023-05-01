@@ -1,10 +1,11 @@
 /* ------ROAD CONSTANTS------ */
 export const ROAD_BEGINS_X = 0.18;
-export const ROAD_BEGINS_Y = 0.6;
+export const ROAD_BEGINS_Y = 0.625;
 export const ROAD_HEIGHT = 0.3;
-export const ROAD_FILL = 'grey';
+export const ROAD_FILL = '#C0C0C0';
 export const ROAD_LINE_COLOR = 'white';
 export const ROAD_LINE_DASH = [10, 10];
+export const ROAD_INDENT = 0.02;
 
 /* ------HOUSE CONSTANTS------ */
 export const DEFAULT_NUMBER_OF_HOUSES_IN_ROW = 3;
@@ -22,7 +23,7 @@ export const HOUSE_SIDE_ROOF_COLOR = '#C2B280';
 export const HOUSE_DOOR_WIDTH = 0.2;
 export const HOUSE_DOOR_HEIGHT = 0.5;
 export const HOUSE_DOOR_FILL = '#4B371C';
-export const HOUSE_ROW_BEGINS_Y = 0.25;
+export const HOUSE_ROW_BEGINS_Y = 0.275;
 export const HOUSE_ROW_BEGINS_X = 0.625;
 export const X_DISTANCE_BETWEEN_HOUSES = 0.025;
 export const HOUSE_DOOR_BEGINS_X = 0.15;
@@ -33,8 +34,8 @@ export const FACTORY_SIDE_BUILDING_WIDTH = 0.04;
 export const FACTORY_MAIN_BUILDING_WIDTH = 0.1;
 export const FACTORY_SIDE_BUILDING_HEIGHT = 0.3;
 export const FACTORY_MAIN_BUILDING_HEIGHT = 0.6;
-export const FACTORY_SIDE_BUILDING_COLOR = '#181818';
-export const FACTORY_MAIN_BUILDING_COLOR = '#303030';
+export const FACTORY_SIDE_BUILDING_COLOR = '#898989';
+export const FACTORY_MAIN_BUILDING_COLOR = '#6D6D6D';
 export const FACTORY_ROW_BEGINS_Y = 0.4;
 export const FACTORY_ROW_BEGINS_X = 0.2;
 export const X_DISTANCE_BETWEEN_FACTORIES = 0.025;
@@ -98,3 +99,21 @@ export const WINDOW_FILL = '#D3D3D3';
 export const PERMAFROST_WIDTH = 1;
 export const PERMAFROST_HEIGHT = 0.05;
 export const PERMAFROST_FILL = '#F5F5F5';
+
+/* ------TREE CONSTANTS------ */
+export const TREE_BARK_FILL = '#331800';
+export const TREE_CROWN_FILL = '#11220B';
+export const TREE_BASE_LINE_TENSION = 0.25;
+export const TREE_BARK_WIDTH_PERCENTAGE = 0.0075;
+export const TREE_BARK_HEIGHT_PERCENTAGE = 0.025;
+export const TREE_ROW_BEGINS_Y = 0.05;
+export const ROW_ONE_CIRCLES = 4;
+export const ROW_TWO_CIRCLES = 5;
+export const ROW_THREE_CIRCLES = 4;
+export const ROW_FOUR_CIRCLES = 2;
+export const MAX_CIRCLES = Math.max(
+  ROW_ONE_CIRCLES,
+  ROW_TWO_CIRCLES,
+  ROW_THREE_CIRCLES,
+  ROW_FOUR_CIRCLES,
+);

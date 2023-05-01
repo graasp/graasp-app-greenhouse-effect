@@ -10,10 +10,12 @@ import { makeStyles } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import { SIMULATION_MODES } from '../../../constants';
 import {
+  resetFluxesFills,
   setFeedbackValues,
   setSimulationMode,
   toggleZoom,
 } from '../../../actions';
+import { stopFluxesBlinking } from '../../../utils';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -53,6 +55,8 @@ function SimulationMode() {
       ({ name }) => name === e.target.value,
     );
     dispatch(setSimulationMode(values));
+    stopFluxesBlinking();
+    dispatch(resetFluxesFills());
     dispatch(
       setFeedbackValues({
         waterVaporFeedbackOn: false,

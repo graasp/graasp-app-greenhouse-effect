@@ -8,7 +8,7 @@ import {
 import { FluxesWavesContext } from '../../../../contexts/fluxes-waves/FluxesWavesProvider';
 import Wave from '../wave/Wave';
 
-const CloudToAtmosphereWave = ({ energy }) => {
+const CloudToAtmosphereWave = ({ energy, initial }) => {
   const { cloudToAtmosphereWave } = useContext(FluxesWavesContext);
   const {
     beginsX,
@@ -24,6 +24,7 @@ const CloudToAtmosphereWave = ({ energy }) => {
       waveEndsY={endsY}
       waveColor={SUN_FLUXES_DEFAULT_COLOR}
       energy={energy}
+      initial={initial}
       waveRotation={CLOUD_TO_ATMOSPHERE_FLUX_ROTATION}
       startAfterInterval={startsAfterInterval}
       type={VISIBLE_LIGHT}
@@ -33,6 +34,7 @@ const CloudToAtmosphereWave = ({ energy }) => {
 
 CloudToAtmosphereWave.propTypes = {
   energy: PropTypes.number.isRequired,
+  initial: PropTypes.number.isRequired,
 };
 
 export default CloudToAtmosphereWave;

@@ -7,7 +7,7 @@ import {
 import { FluxesWavesContext } from '../../../../contexts/fluxes-waves/FluxesWavesProvider';
 import Wave from '../wave/Wave';
 
-const CloudToGroundWave = ({ energy }) => {
+const CloudToGroundWave = ({ energy, initial }) => {
   const { cloudToGroundWave, isVenus } = useContext(FluxesWavesContext);
   const { beginsX, beginsY, endsY, startsAfterInterval } = cloudToGroundWave;
 
@@ -19,6 +19,7 @@ const CloudToGroundWave = ({ energy }) => {
         waveEndsY={endsY}
         waveColor={SUN_FLUXES_DEFAULT_COLOR}
         energy={energy}
+        initial={initial}
         startAfterInterval={startsAfterInterval}
         type={VISIBLE_LIGHT}
       />
@@ -28,6 +29,7 @@ const CloudToGroundWave = ({ energy }) => {
 
 CloudToGroundWave.propTypes = {
   energy: PropTypes.number.isRequired,
+  initial: PropTypes.number.isRequired,
 };
 
 export default CloudToGroundWave;

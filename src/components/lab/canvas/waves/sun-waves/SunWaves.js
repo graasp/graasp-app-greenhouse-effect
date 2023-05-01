@@ -7,6 +7,7 @@ import CloudToAtmosphereWave from './CloudToAtmosphereWave';
 import CloudToGroundWave from './CloudToGroundWave';
 import GroundToAtmosphereWave from './GroundToAtmosphereWave';
 import SunToCloudWave from './SunToCloudWave';
+import { INITIAL_ALBEDO } from '../../../../../constants';
 
 const SunWaves = () => {
   const { isMars } = useContext(FluxesWavesContext);
@@ -21,12 +22,36 @@ const SunWaves = () => {
     groundToAtmosphere,
   } = computeSunEnergies(cloudAlbedo, totalAlbedo, simulationMode);
 
+  const {
+    sunToCloud: sunToCloudInitial,
+    cloudToAtmosphere: cloudToAtmosphereInitial,
+    cloudToGround: cloudToGroundInitial,
+    groundToAtmosphere: groundToAtmosphereInitial,
+  } = computeSunEnergies(
+    INITIAL_ALBEDO.cloudAlbedo,
+    INITIAL_ALBEDO.totalAlbedo,
+    simulationMode,
+  );
+
   return (
     <Group>
-      <SunToCloudWave energy={sunToCloud} />
-      {!isMars && <CloudToGroundWave energy={cloudToGround} />}
-      {!isMars && <CloudToAtmosphereWave energy={cloudToAtmosphere} />}
-      <GroundToAtmosphereWave energy={groundToAtmosphere} />
+      <SunToCloudWave energy={sunToCloud} initial={sunToCloudInitial} />
+      {!isMars && (
+        <CloudToGroundWave
+          energy={cloudToGround}
+          initial={cloudToGroundInitial}
+        />
+      )}
+      {!isMars && (
+        <CloudToAtmosphereWave
+          energy={cloudToAtmosphere}
+          initial={cloudToAtmosphereInitial}
+        />
+      )}
+      <GroundToAtmosphereWave
+        energy={groundToAtmosphere}
+        initial={groundToAtmosphereInitial}
+      />
     </Group>
   );
 };

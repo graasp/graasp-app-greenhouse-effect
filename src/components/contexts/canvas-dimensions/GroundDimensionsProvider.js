@@ -13,6 +13,13 @@ import {
   FULL_MOUNTAIN_X_INDENT,
   MOUNTAINS_INDENT_Y,
   SIMULATION_MODES,
+  FACTORY_ROW_BEGINS_Y,
+  FACTORY_ROW_BEGINS_X,
+  X_DISTANCE_BETWEEN_FACTORIES,
+  FACTORY_MAIN_BUILDING_WIDTH,
+  FACTORY_MAIN_BUILDING_HEIGHT,
+  FACTORY_SIDE_BUILDING_WIDTH,
+  FACTORY_SIDE_BUILDING_HEIGHT,
 } from '../../../constants';
 
 export const GroundDimensionsContext = createContext();
@@ -55,6 +62,18 @@ const GroundDimensionsProvider = ({ children, stageHeight, stageWidth }) => {
     fullMountainBeginsX + FULL_MOUNTAIN_X_INDENT * fullMountainWidth;
   const mountainsBeginY = groundBeginsY + MOUNTAINS_INDENT_Y * groundHeight;
 
+  //   factories
+  const factoryRowBeginsY = groundBeginsY + FACTORY_ROW_BEGINS_Y * groundHeight;
+  const factoryRowBeginsX = groundBeginsX + FACTORY_ROW_BEGINS_X * groundWidth;
+  const xDistanceBetweenFactories = X_DISTANCE_BETWEEN_FACTORIES * groundWidth;
+  const mainBuildingWidth = FACTORY_MAIN_BUILDING_WIDTH * groundWidth;
+  const mainBuildingHeight = FACTORY_MAIN_BUILDING_HEIGHT * groundHeight;
+  const sideBuildingWidth = FACTORY_SIDE_BUILDING_WIDTH * groundWidth;
+  const sideBuildingHeight = FACTORY_SIDE_BUILDING_HEIGHT * groundHeight;
+  const totalBuildingsWidth = sideBuildingWidth + mainBuildingWidth;
+  const factoryRowWidth =
+    totalBuildingsWidth + xDistanceBetweenFactories + totalBuildingsWidth;
+
   return (
     <GroundDimensionsContext.Provider
       value={{
@@ -71,6 +90,15 @@ const GroundDimensionsProvider = ({ children, stageHeight, stageWidth }) => {
         fullMountainBeginsX,
         halfMountainBeginsX,
         mountainsBeginY,
+        factoryRowBeginsY,
+        factoryRowBeginsX,
+        xDistanceBetweenFactories,
+        mainBuildingWidth,
+        mainBuildingHeight,
+        sideBuildingWidth,
+        sideBuildingHeight,
+        totalBuildingsWidth,
+        factoryRowWidth,
       }}
     >
       {children}

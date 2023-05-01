@@ -6,8 +6,10 @@ import { calculateEnergyWidth, generateSineCurve } from '../../../../../utils';
 import {
   FLUX_BODY_WIDTH_AS_PERCENTAGE_OF_TOTAL_WIDTH,
   INFRARED_RADIATION_PERIOD,
+  MINIMUM_WAVE_AMPLITUDE,
   VISIBLE_LIGHT,
   VISIBLE_LIGHT_PERIOD,
+  WAVE_AMPLIFICATION_FACTOR,
 } from '../../../../../constants';
 
 const Wave = ({
@@ -17,6 +19,8 @@ const Wave = ({
   waveColor,
   waveRotation,
   energy,
+  initial,
+  amplify,
   startAfterInterval,
   type,
 }) => {
@@ -27,9 +31,15 @@ const Wave = ({
 
   const period =
     type === VISIBLE_LIGHT ? VISIBLE_LIGHT_PERIOD : INFRARED_RADIATION_PERIOD;
-  const totalWidth = calculateEnergyWidth(energy, stageWidth);
-  const amplitude =
-    (totalWidth / 2) * FLUX_BODY_WIDTH_AS_PERCENTAGE_OF_TOTAL_WIDTH;
+  const initialWidth = calculateEnergyWidth(initial, stageWidth);
+  const currentWidth = calculateEnergyWidth(energy, stageWidth);
+  const adjustedWidth = amplify
+    ? initialWidth + WAVE_AMPLIFICATION_FACTOR * (currentWidth - initialWidth)
+    : currentWidth;
+  const amplitude = Math.max(
+    (adjustedWidth / 2) * FLUX_BODY_WIDTH_AS_PERCENTAGE_OF_TOTAL_WIDTH,
+    MINIMUM_WAVE_AMPLITUDE,
+  );
 
   const wavePoints =
     intervalCount > startAfterInterval
@@ -60,12 +70,15 @@ Wave.propTypes = {
   waveColor: PropTypes.string.isRequired,
   waveRotation: PropTypes.number,
   energy: PropTypes.number.isRequired,
+  initial: PropTypes.number.isRequired,
+  amplify: PropTypes.bool,
   startAfterInterval: PropTypes.number.isRequired,
   type: PropTypes.string.isRequired,
 };
 
 Wave.defaultProps = {
   waveRotation: 0,
+  amplify: false,
 };
 
 export default Wave;

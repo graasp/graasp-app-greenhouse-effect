@@ -4,14 +4,14 @@ const TOUR_STEPS = [
   {
     target: '.epoch',
     content: i18n.t(
-      'By default, the simulation begins in equilibrium on Earth in the year 2020, but you can select a different period or planet',
+      'By default, the simulation starts on Earth in 2020, but you can select a different period or planet',
     ),
     disableBeacon: true,
   },
   {
     target: '.radiation-mode',
     content: i18n.t(
-      'You can display radiation flows as either Waves (qualitative) or Fluxes (quantitative)',
+      'Display radiation as either Waves (qualitative) or Fluxes arrows (quantitative)',
     ),
   },
   {
@@ -21,13 +21,13 @@ const TOUR_STEPS = [
   {
     target: '.settings',
     content: i18n.t(
-      "To observe how the Earth's climate is impacted by different physical conditions, pause the simulation, alter one or more variables, then click Play again",
+      "To change Earth's climate, pause the simulation, alter one or more variables, then click Play again",
     ),
   },
   {
     target: '.fluxes',
     content: i18n.t(
-      'When variables are changed in Fluxes mode, radiation arrows on the canvas will begin blinking, indicating that their energies are projected to change',
+      'When variables are changed in Fluxes mode, arrows will begin blinking, indicating that these fluxes are projected to change',
     ),
   },
 ];

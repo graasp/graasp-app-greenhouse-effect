@@ -10,7 +10,6 @@ import {
 } from '../../../../actions';
 import {
   METHANE_CONCENTRATION_MAX_VALUE,
-  METHANE_CONCENTRATION_MIN_VALUE,
   SIMULATION_MODES,
   ON_STRING,
   AUTO_STRING,
@@ -58,7 +57,6 @@ const MethaneSlider = ({ disabled, settingsUnchanged }) => {
     <SliderWithLabel
       text={t('CH_4 (ppm)', { escapeInterpolation: true })}
       max={METHANE_CONCENTRATION_MAX_VALUE}
-      min={METHANE_CONCENTRATION_MIN_VALUE}
       value={sliderMethane}
       onChange={onChange}
       onRelease={onRelease}

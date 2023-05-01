@@ -6,6 +6,10 @@ import SkyToAtmosphereWave from './SkyToAtmosphereWave';
 import SkyToGroundWave from './SkyToGroundWave';
 import { FluxesWavesContext } from '../../../../contexts/fluxes-waves/FluxesWavesProvider';
 import { computeEarthEnergies } from '../../../../../utils';
+import {
+  INITIAL_GREENHOUSE_EFFECT,
+  INITIAL_TEMPERATURE,
+} from '../../../../../constants';
 
 const EarthWaves = () => {
   const { isMars } = useContext(FluxesWavesContext);
@@ -18,11 +22,33 @@ const EarthWaves = () => {
     impliedGreenhouseEffect,
   );
 
+  const {
+    groundToSky: groundToSkyInitial,
+    skyToAtmosphere: skyToAtmosphereInitial,
+    skyToGround: skyToGroundInitial,
+  } = computeEarthEnergies(INITIAL_TEMPERATURE, INITIAL_GREENHOUSE_EFFECT);
+
   return (
     <Group>
-      <GroundToSkyWave energy={groundToSky} />
-      {!isMars && <SkyToAtmosphereWave energy={skyToAtmosphere} />}
-      {!isMars && <SkyToGroundWave energy={skyToGround} />}
+      <GroundToSkyWave
+        energy={groundToSky}
+        initial={groundToSkyInitial}
+        amplify
+      />
+      {!isMars && (
+        <SkyToAtmosphereWave
+          energy={skyToAtmosphere}
+          initial={skyToAtmosphereInitial}
+          amplify
+        />
+      )}
+      {!isMars && (
+        <SkyToGroundWave
+          energy={skyToGround}
+          initial={skyToGroundInitial}
+          amplify
+        />
+      )}
     </Group>
   );
 };
