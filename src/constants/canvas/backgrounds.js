@@ -40,12 +40,12 @@ export const GROUND = {
   height: 0.15,
   width: { earth: 0.6, nonEarth: 1 },
   colorRange: {
-    earth: [0, '#1A3310', 1, '#2C561B'],
+    earth: [0, '#2E5A1C', 1, '#386D22'],
     venus: [0, '#AF854B', 1, '#795C34'],
     mars: [0, '#87270E', 1, '#A05006'],
   },
   colorRangePaused: {
-    earth: [0, '#234516', 1, '#2C561B'],
+    earth: [0, '#2E5A1C', 1, '#428028'],
     venus: [0, '#E2B87E', 1, '#93764E'],
     mars: [0, '#A04027', 1, '#B9691F'],
   },
