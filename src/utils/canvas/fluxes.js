@@ -10,6 +10,7 @@ import {
   EXTRA_LARGE_ENERGY,
   EXTRA_LARGE_ENERGY_WIDTH_AS_PERCENTAGE_OF_STAGE_WIDTH,
   ENERGY_WIDTH_AS_PERCENTAGE_OF_STAGE_WIDTH,
+  SIMULATION_MODES,
 } from '../../constants';
 
 export const generateFluxPointerPoints = (
@@ -63,8 +64,14 @@ export const computeSunEnergies = (
   simulationMode,
 ) => {
   const sunToCloud = SOLAR_FLUXES[simulationMode];
-  const cloudToAtmosphere = cloudAlbedo * sunToCloud;
+  let cloudToAtmosphere = cloudAlbedo * sunToCloud;
+  if (simulationMode === SIMULATION_MODES.VENUS.name) {
+    cloudToAtmosphere = totalAlbedo * sunToCloud;
+  }
   const cloudToGround = sunToCloud - cloudToAtmosphere;
-  const groundToAtmosphere = sunToCloud * (totalAlbedo - cloudAlbedo);
+  let groundToAtmosphere = sunToCloud * (totalAlbedo - cloudAlbedo);
+  if (simulationMode === SIMULATION_MODES.VENUS.name) {
+    groundToAtmosphere = 0;
+  }
   return { sunToCloud, cloudToAtmosphere, cloudToGround, groundToAtmosphere };
 };
