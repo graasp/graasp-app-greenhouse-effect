@@ -8,22 +8,20 @@ import { FluxesWavesContext } from '../../../../contexts/fluxes-waves/FluxesWave
 import Wave from '../wave/Wave';
 
 const CloudToGroundWave = ({ energy, initial }) => {
-  const { cloudToGroundWave, isVenus } = useContext(FluxesWavesContext);
+  const { cloudToGroundWave } = useContext(FluxesWavesContext);
   const { beginsX, beginsY, endsY, startsAfterInterval } = cloudToGroundWave;
 
   return (
-    !isVenus && (
-      <Wave
-        waveBeginsX={beginsX}
-        waveBeginsY={beginsY}
-        waveEndsY={endsY}
-        waveColor={SUN_FLUXES_DEFAULT_COLOR}
-        energy={energy}
-        initial={initial}
-        startAfterInterval={startsAfterInterval}
-        type={VISIBLE_LIGHT}
-      />
-    )
+    <Wave
+      waveBeginsX={beginsX}
+      waveBeginsY={beginsY}
+      waveEndsY={endsY}
+      waveColor={SUN_FLUXES_DEFAULT_COLOR}
+      energy={energy}
+      initial={initial}
+      startAfterInterval={startsAfterInterval}
+      type={VISIBLE_LIGHT}
+    />
   );
 };
 

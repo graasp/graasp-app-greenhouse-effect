@@ -12,7 +12,7 @@ import {
 } from '../../../../../constants';
 
 const EarthWaves = () => {
-  const { isMars } = useContext(FluxesWavesContext);
+  const { isMars, isVenus } = useContext(FluxesWavesContext);
   const { sliders, thermometer } = useSelector(({ lab }) => lab);
   const { temperature: thermometerTemperature } = thermometer;
   const { greenhouseEffect: impliedGreenhouseEffect } = sliders;
@@ -33,20 +33,20 @@ const EarthWaves = () => {
       <GroundToSkyWave
         energy={groundToSky}
         initial={groundToSkyInitial}
-        amplify
+        amplify={!isVenus}
       />
       {!isMars && (
         <SkyToAtmosphereWave
           energy={skyToAtmosphere}
           initial={skyToAtmosphereInitial}
-          amplify
+          amplify={!isVenus}
         />
       )}
       {!isMars && (
         <SkyToGroundWave
           energy={skyToGround}
           initial={skyToGroundInitial}
-          amplify
+          amplify={!isVenus}
         />
       )}
     </Group>
