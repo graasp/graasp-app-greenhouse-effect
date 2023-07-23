@@ -27,6 +27,27 @@ const useStyles = makeStyles((theme) => ({
 const SideMenu = () => {
   const classes = useStyles();
   const { showSideMenu } = useSelector(({ layout }) => layout);
+  const { sliders, thermometer } = useSelector(({ lab }) => lab);
+
+  const {
+    iceCover: sliderIceCover,
+    cloudCover: sliderCloudCover,
+    methane: sliderMethane,
+    carbonDioxide: sliderCarbonDioxide,
+  } = sliders;
+
+  const {
+    iceCover: thermometerIceCover,
+    cloudCover: thermometerCloudCover,
+    methane: thermometerMethane,
+    carbonDioxide: thermometerCarbonDioxide,
+  } = thermometer;
+
+  const settingsUnchanged =
+    sliderIceCover === thermometerIceCover &&
+    sliderCloudCover === thermometerCloudCover &&
+    sliderCarbonDioxide === thermometerCarbonDioxide &&
+    sliderMethane === thermometerMethane;
 
   return (
     <>
@@ -41,7 +62,7 @@ const SideMenu = () => {
       >
         <div className={classes.contentWrapper}>
           <div className="controls">
-            <AnimationControls />
+            <AnimationControls settingsUnchanged={settingsUnchanged} />
           </div>
           <div className="radiation-mode">
             <RadiationModeSwitch />
@@ -52,7 +73,7 @@ const SideMenu = () => {
             <SimulationMode />
           </div>
           <div className="settings">
-            <GreenhouseEffectSettings />
+            <GreenhouseEffectSettings settingsUnchanged={settingsUnchanged} />
           </div>
           <Divider className={classes.divider} />
           <FeedbackToggles />

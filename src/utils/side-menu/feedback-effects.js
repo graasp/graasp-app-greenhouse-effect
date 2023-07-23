@@ -105,67 +105,6 @@ export const computeIceCoverFeedbackTerms = (
   return { iceCoverTerms, runawayGreenhouseEffect };
 };
 
-export const computeBothFeedbackTerms = (
-  temperature,
-  carbonDioxide,
-  methane,
-  cloudCover,
-  simulationMode,
-  epsilon = FEEDBACK_EFFECTS_DEFAULT_EPSILON,
-) => {
-  const feedbackTerms = [];
-  let previousTemperature;
-  let newTemperature;
-  let runawayGreenhouseEffect = false;
-  do {
-    previousTemperature = newTemperature || kelvinToCelsius(temperature);
-    const newCTerm = computeCTerm(previousTemperature);
-    const newIceCover = computeIceCover(previousTemperature);
-    const newGreenhouseEffect = computeGreenhouseEffect(
-      carbonDioxide,
-      methane,
-      newCTerm,
-      simulationMode,
-    );
-    const { totalAlbedo: newAlbedo } = computeAlbedo(
-      newIceCover,
-      cloudCover,
-      simulationMode,
-    );
-    newTemperature = kelvinToCelsius(
-      computeTemperature(newGreenhouseEffect, newAlbedo, simulationMode),
-    );
-    if (newIceCover >= ICE_COVER_MAX_VALUE) {
-      feedbackTerms.push({ iceCover: ICE_COVER_MAX_VALUE, cTerm: newCTerm });
-      break;
-    }
-    if (newIceCover <= ICE_COVER_MIN_VALUE) {
-      feedbackTerms.push({ iceCover: ICE_COVER_MIN_VALUE, cTerm: newCTerm });
-      break;
-    }
-    if (
-      newGreenhouseEffect >= GREENHOUSE_EFFECT_MAX_VALUE ||
-      newGreenhouseEffect <= GREENHOUSE_EFFECT_MIN_VALUE
-    ) {
-      feedbackTerms.push({ iceCover: newIceCover, cTerm: newCTerm });
-      break;
-    }
-    feedbackTerms.push({
-      iceCover: newIceCover,
-      cTerm: newCTerm,
-      newGreenhouseEffect,
-      newTemperature,
-      newAlbedo,
-    });
-    if (newTemperature > MAX_TEMPERATURE_DISPLAYED_ON_EARTH_CELSIUS) {
-      runawayGreenhouseEffect = true;
-      break;
-    }
-  } while (Math.abs(newTemperature - previousTemperature) > epsilon);
-
-  return { feedbackTerms, runawayGreenhouseEffect };
-};
-
 export const computeIncrements = (
   targetValues,
   originalValues,
@@ -186,6 +125,16 @@ export const computeIncrements = (
   } = originalValues;
 
   const increments = [];
+
+  if (
+    sliderIceCover === thermometerIceCover &&
+    sliderCloudCover === thermometerCloudCover &&
+    sliderCarbonDioxide === thermometerCarbonDioxide &&
+    sliderMethane === thermometerMethane
+  ) {
+    return increments;
+  }
+
   for (let i = 1; i <= numIncrements; i += 1) {
     increments.push({
       iceCover:
@@ -211,6 +160,7 @@ export const graduallyDispatchTerms = (
   dispatch,
   sections,
   fluxesToToggle,
+  callback,
   runawayGreenhouseEffect = false,
   updateWaterVapor = false,
   delay = GRADUAL_UPDATE_INTERVAL,
@@ -225,10 +175,14 @@ export const graduallyDispatchTerms = (
       if (i === terms.length - 1) {
         dispatch(resetFluxesFills());
         dispatch(setAnimationPlaying(false));
+        callback();
         if (runawayGreenhouseEffect) {
           dispatch(showRunawayWarning(true));
         }
       }
     }, delay * (i + 1));
+  }
+  if (!terms.length) {
+    callback();
   }
 };

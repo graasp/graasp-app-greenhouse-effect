@@ -17,9 +17,14 @@ const useStyles = makeStyles((theme) => ({
 const FeedbackToggles = () => {
   const { t } = useTranslation();
   const classes = useStyles();
-  const { radiationMode, simulationMode, animationPlaying } = useSelector(
-    ({ lab }) => lab,
-  );
+  const {
+    radiationMode,
+    simulationMode,
+    animationPlaying,
+    feedback,
+  } = useSelector(({ lab }) => lab);
+
+  const { waterVaporFeedbackOn, iceCoverFeedbackOn } = feedback;
 
   const isEarth =
     simulationMode !== SIMULATION_MODES.MARS.name &&
@@ -34,8 +39,8 @@ const FeedbackToggles = () => {
       <Typography variant="body2" className={classes.heading}>
         {t('Feedbacks')}
       </Typography>
-      <WaterVaporFeedback disabled={toggleDisabled} />
-      <IceCoverFeedback disabled={toggleDisabled} />
+      <WaterVaporFeedback disabled={toggleDisabled || iceCoverFeedbackOn} />
+      <IceCoverFeedback disabled={toggleDisabled || waterVaporFeedbackOn} />
     </>
   );
 };
