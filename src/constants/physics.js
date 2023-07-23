@@ -2,7 +2,7 @@ import { ICE_AGE, MARS, TODAY, TWENTIETH_CENTURY, VENUS } from './strings';
 
 export const STEFAN_BOLTZMANN_CONSTANT = 5.670367e-8;
 export const ZERO_KELVIN_IN_CELISUS = 273.15;
-export const TWENTIETH_CENTURY_ALBEDO_OFFSET = -0.006;
+export const TWENTIETH_CENTURY_ALBEDO_OFFSET = -0.005;
 
 // above this temperature, the earth has heated so much that for all purposes there's no difference
 export const MAX_TEMPERATURE_DISPLAYED_ON_EARTH_CELSIUS = 30;
@@ -22,7 +22,7 @@ export const METHANE_CONCENTRATION_MAX_VALUE = 5;
 export const METHANE_SLIDER_STEP = 0.1;
 export const WATER_CONCENTRATION_MIN_VALUE_DEFAULT = 3000;
 export const WATER_CONCENTRATION_MIN_VALUE_ON_MARS_OR_VENUS = 0;
-export const WATER_CONCENTRATION_MAX_VALUE = 13000;
+export const WATER_CONCENTRATION_MAX_VALUE = 19000;
 export const CLOUD_COVER_MAX_VALUE = 100;
 export const CLOUD_COVER_MIN_VALUE = 20;
 

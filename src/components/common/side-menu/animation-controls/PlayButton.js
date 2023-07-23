@@ -13,14 +13,13 @@ import {
 } from '../../../../actions';
 import { stopFluxesBlinking } from '../../../../utils';
 import {
-  handleBothFeedbacks,
   handleIceCoverFeedback,
   handleStandardCase,
   handleWaterVaporFeedback,
 } from '../../../../utils/side-menu/play-button';
 import { EMPTY_STRING, RADIATION_MODES } from '../../../../constants';
 
-const PlayButton = ({ className }) => {
+const PlayButton = ({ className, settingsUnchanged }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { zoomedIn } = useSelector(({ layout }) => layout);
@@ -32,6 +31,7 @@ const PlayButton = ({ className }) => {
     sliders,
     thermometer,
     animationPlaying,
+    iceCoverTemporary,
   } = useSelector(({ lab }) => lab);
   const { waterVaporFeedbackOn, iceCoverFeedbackOn } = feedback;
   const { temperature: impliedTemperature } = sliders;
@@ -48,17 +48,48 @@ const PlayButton = ({ className }) => {
       if (radiationMode === RADIATION_MODES.WAVES) {
         handleStandardCase(sliders, thermometer, dispatch);
       } else if (radiationMode === RADIATION_MODES.FLUXES) {
-        if (waterVaporFeedbackOn && iceCoverFeedbackOn) {
-          handleBothFeedbacks(sliders, thermometer, dispatch, simulationMode);
-        } else if (waterVaporFeedbackOn) {
-          handleWaterVaporFeedback(
-            sliders,
-            thermometer,
-            dispatch,
-            simulationMode,
-          );
+        if (waterVaporFeedbackOn) {
+          let targetTemperature;
+          if (settingsUnchanged) {
+            targetTemperature = thermometerTemperature;
+            handleWaterVaporFeedback(
+              sliders,
+              targetTemperature,
+              dispatch,
+              simulationMode,
+            );
+          } else {
+            targetTemperature = impliedTemperature;
+            handleStandardCase(sliders, thermometer, dispatch, () => {
+              handleWaterVaporFeedback(
+                sliders,
+                targetTemperature,
+                dispatch,
+                simulationMode,
+              );
+            });
+          }
         } else if (iceCoverFeedbackOn) {
-          handleIceCoverFeedback(sliders, dispatch, simulationMode);
+          let targetTemperature;
+          if (iceCoverTemporary) {
+            targetTemperature = thermometerTemperature;
+            handleIceCoverFeedback(
+              sliders,
+              targetTemperature,
+              dispatch,
+              simulationMode,
+            );
+          } else {
+            targetTemperature = impliedTemperature;
+            handleStandardCase(sliders, thermometer, dispatch, () => {
+              handleIceCoverFeedback(
+                sliders,
+                targetTemperature,
+                dispatch,
+                simulationMode,
+              );
+            });
+          }
         } else {
           handleStandardCase(sliders, thermometer, dispatch);
         }
@@ -79,6 +110,7 @@ const PlayButton = ({ className }) => {
 
 PlayButton.propTypes = {
   className: PropTypes.string.isRequired,
+  settingsUnchanged: PropTypes.bool.isRequired,
 };
 
 export default PlayButton;

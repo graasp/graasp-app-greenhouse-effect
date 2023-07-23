@@ -48,6 +48,7 @@ const INITIAL_STATE = {
   previousSettings: {},
   animationPlaying: false,
   showRunawayWarning: false,
+  iceCoverTemporary: false,
 };
 
 export default (state = INITIAL_STATE, { type, payload }) => {
@@ -136,6 +137,7 @@ export default (state = INITIAL_STATE, { type, payload }) => {
               ? newWaterVapor
               : state.thermometer.waterVapor,
         },
+        iceCoverTemporary: payload.iceCoverTemporary || false,
       };
     }
     case SET_PREVIOUS_SETTINGS:

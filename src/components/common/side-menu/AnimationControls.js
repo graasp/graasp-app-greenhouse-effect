@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
@@ -31,7 +32,7 @@ const useStyles = makeStyles(() => ({
   button: { fontSize: '1.75em' },
 }));
 
-const AnimationControls = () => {
+const AnimationControls = ({ settingsUnchanged }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { isPaused } = useSelector(({ lab }) => lab);
@@ -70,7 +71,10 @@ const AnimationControls = () => {
       </div>
       <div className={classes.centerContainer}>
         {isPaused ? (
-          <PlayButton className={classes.button} />
+          <PlayButton
+            className={classes.button}
+            settingsUnchanged={settingsUnchanged}
+          />
         ) : (
           <PauseButton className={classes.button} />
         )}
@@ -87,6 +91,10 @@ const AnimationControls = () => {
       </div>
     </div>
   );
+};
+
+AnimationControls.propTypes = {
+  settingsUnchanged: PropTypes.bool.isRequired,
 };
 
 export default AnimationControls;

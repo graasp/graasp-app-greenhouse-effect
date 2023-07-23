@@ -78,17 +78,7 @@ export const computeMountainIceCoverDimensions = (
 // given an ice cover %, calculate how much of land and mountains is covered by ice
 // formula provided by teachers
 export const computeIcePercentage = (iceCover) => {
-  if (iceCover >= 0.1 && iceCover < 0.55) {
-    return 2 * iceCover - 0.1;
-  }
-  if (iceCover < 0.1 && iceCover >= 0.05) {
-    return 0.05;
-  }
-  if (iceCover < 0.05) {
-    return 0;
-  }
-  // remaining case is when iceCover >= 0.55, in which case ice coverage is 100%
-  return 1;
+  return iceCover >= 0.1 ? Math.min(2 * iceCover - 0.1, 1) : iceCover;
 };
 
 export const generateRoadPoints = (roadWidth, roadHeight, roadIndent) => {

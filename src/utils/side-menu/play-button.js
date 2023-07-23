@@ -8,53 +8,18 @@ import {
   THERMOMETER,
 } from '../../constants';
 import {
-  computeBothFeedbackTerms,
   computeIceCoverFeedbackTerms,
   computeIncrements,
   computeWaterVaporFeedbackCTerms,
   graduallyDispatchTerms,
 } from './feedback-effects';
 
-export const handleBothFeedbacks = (
-  sliders,
-  thermometer,
-  dispatch,
-  simulationMode,
-) => {
-  const { temperature } = thermometer;
-  const { carbonDioxide, methane, cloudCover } = sliders;
-  const fluxesToBlink = [
-    GROUND_TO_SKY,
-    SKY_TO_GROUND,
-    SKY_TO_ATMOSPHERE,
-    GROUND_TO_ATMOSPHERE,
-  ];
-  dispatch(setPreviousSettings({ fluxesToBlink }));
-
-  const { feedbackTerms, runawayGreenhouseEffect } = computeBothFeedbackTerms(
-    temperature,
-    carbonDioxide,
-    methane,
-    cloudCover,
-    simulationMode,
-  );
-
-  return graduallyDispatchTerms(
-    feedbackTerms,
-    dispatch,
-    [SLIDERS, THERMOMETER],
-    fluxesToBlink,
-    runawayGreenhouseEffect,
-  );
-};
-
 export const handleWaterVaporFeedback = (
   sliders,
-  thermometer,
+  targetTemperature,
   dispatch,
   simulationMode,
 ) => {
-  const { temperature } = thermometer;
   const { carbonDioxide, methane, albedo } = sliders;
   const fluxesToBlink = [GROUND_TO_SKY, SKY_TO_GROUND, SKY_TO_ATMOSPHERE];
   dispatch(setPreviousSettings({ fluxesToBlink }));
@@ -63,7 +28,7 @@ export const handleWaterVaporFeedback = (
     carbonDioxide,
     methane,
     albedo.totalAlbedo,
-    temperature,
+    targetTemperature,
     simulationMode,
   );
 
@@ -72,13 +37,19 @@ export const handleWaterVaporFeedback = (
     dispatch,
     [SLIDERS, THERMOMETER],
     fluxesToBlink,
+    () => {},
     runawayGreenhouseEffect,
     true,
   );
 };
 
-export const handleIceCoverFeedback = (sliders, dispatch, simulationMode) => {
-  const { temperature, greenhouseEffect, cloudCover } = sliders;
+export const handleIceCoverFeedback = (
+  sliders,
+  targetTemperature,
+  dispatch,
+  simulationMode,
+) => {
+  const { greenhouseEffect, cloudCover } = sliders;
   const fluxesToBlink = [
     GROUND_TO_SKY,
     SKY_TO_GROUND,
@@ -91,7 +62,7 @@ export const handleIceCoverFeedback = (sliders, dispatch, simulationMode) => {
     iceCoverTerms,
     runawayGreenhouseEffect,
   } = computeIceCoverFeedbackTerms(
-    temperature,
+    targetTemperature,
     greenhouseEffect,
     cloudCover,
     simulationMode,
@@ -102,11 +73,17 @@ export const handleIceCoverFeedback = (sliders, dispatch, simulationMode) => {
     dispatch,
     [SLIDERS, THERMOMETER],
     fluxesToBlink,
+    () => {},
     runawayGreenhouseEffect,
   );
 };
 
-export const handleStandardCase = (sliders, thermometer, dispatch) => {
+export const handleStandardCase = (
+  sliders,
+  thermometer,
+  dispatch,
+  callback = () => {},
+) => {
   const {
     iceCover: sliderIceCover,
     cloudCover: sliderCloudCover,
@@ -143,5 +120,6 @@ export const handleStandardCase = (sliders, thermometer, dispatch) => {
     dispatch,
     [THERMOMETER],
     fluxesToBlink,
+    callback,
   );
 };

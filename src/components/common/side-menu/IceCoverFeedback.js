@@ -97,12 +97,26 @@ const IceCoverFeedback = ({ disabled }) => {
           dispatch,
         );
         if (significantTemperatureChangeProjected) {
-          dispatch(setValuesTemporarily({ iceCover: projectedIceCover }));
+          dispatch(
+            setValuesTemporarily({
+              iceCover: projectedIceCover,
+              iceCoverTemporary: true,
+            }),
+          );
         }
       }
     } else {
+      dispatch(
+        setValuesTemporarily({
+          iceCoverTemporary: false,
+        }),
+      );
       if (significantTemperatureChangeProjected) {
-        dispatch(setValuesTemporarily({ iceCover: initialIceCover }));
+        dispatch(
+          setValuesTemporarily({
+            iceCover: initialIceCover,
+          }),
+        );
       }
       // if we are out of equilibrium, keep the infrared fluxes blinking after toggling off ice cover feedback
       if (impliedTemperature !== thermometerTemperature) {
