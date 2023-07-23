@@ -157,8 +157,30 @@ export default (state = INITIAL_STATE, { type, payload }) => {
       return { ...state, previousSettings: {} };
     case INCREMENT_INTERVAL_COUNT:
       return { ...state, intervalCount: state.intervalCount + 1 };
-    case RESET:
-      return INITIAL_STATE;
+    case RESET: {
+      const { greenhouseEffect, albedo, temperature } = computeAllOutputs(
+        payload,
+        payload.name,
+      );
+      const updatedValues = {
+        iceCover: payload.iceCover,
+        cloudCover: payload.cloudCover,
+        carbonDioxide: payload.carbonDioxide,
+        methane: payload.methane,
+        greenhouseEffect,
+        albedo,
+        temperature,
+        waterVapor: payload.waterVapor,
+        cTerm: payload.cTerm,
+      };
+      return {
+        ...INITIAL_STATE,
+        simulationMode: payload.name,
+        sliders: updatedValues,
+        thermometer: updatedValues,
+        radiationMode: state.radiationMode,
+      };
+    }
     case TOGGLE_FLUXES_FILLS:
       return {
         ...state,

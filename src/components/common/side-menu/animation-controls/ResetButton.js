@@ -6,15 +6,18 @@ import RotateLeftIcon from '@material-ui/icons/RotateLeft';
 import { orange } from '@material-ui/core/colors';
 import CustomButton from '../shared-components/CustomButton';
 import { reset, toggleZoom } from '../../../../actions';
-import { EMPTY_STRING } from '../../../../constants';
+import { EMPTY_STRING, SIMULATION_MODES } from '../../../../constants';
 
 const ResetButton = ({ className }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { animationPlaying } = useSelector(({ lab }) => lab);
+  const { animationPlaying, simulationMode } = useSelector(({ lab }) => lab);
 
   const onReset = () => {
-    dispatch(reset());
+    const originalMode = Object.values(SIMULATION_MODES).find(
+      ({ name }) => name === simulationMode,
+    );
+    dispatch(reset(originalMode));
     dispatch(toggleZoom(false));
   };
 

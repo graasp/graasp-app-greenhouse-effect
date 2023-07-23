@@ -2,13 +2,15 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { reset, setRadiationMode } from '../../../actions';
-import { RADIATION_MODES } from '../../../constants';
+import { RADIATION_MODES, SIMULATION_MODES } from '../../../constants';
 import SwitchWithTwoLabels from './shared-components/SwitchWithTwoLabels';
 
 const RadiationModeSwitch = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { animationPlaying, radiationMode } = useSelector(({ lab }) => lab);
+  const { animationPlaying, radiationMode, simulationMode } = useSelector(
+    ({ lab }) => lab,
+  );
 
   const rightLabel = (
     <span
@@ -20,7 +22,10 @@ const RadiationModeSwitch = () => {
   );
 
   const onToggle = (e) => {
-    dispatch(reset());
+    const originalMode = Object.values(SIMULATION_MODES).find(
+      ({ name }) => name === simulationMode,
+    );
+    dispatch(reset(originalMode));
     const { checked } = e.target;
     const mode = checked ? RADIATION_MODES.FLUXES : RADIATION_MODES.WAVES;
     dispatch(setRadiationMode(mode));

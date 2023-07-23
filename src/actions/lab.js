@@ -36,8 +36,8 @@ export const setIsPaused = (payload) => (dispatch) =>
     payload,
   });
 
-export const reset = () => (dispatch) => {
-  dispatch({ type: RESET });
+export const reset = (payload) => (dispatch) => {
+  dispatch({ type: RESET, payload });
 };
 
 export const setSimulationMode = (payload) => (dispatch) => {
