@@ -38,7 +38,6 @@ const FluxesWavesProvider = ({ children }) => {
   } = useContext(SkyDimensionsContext);
   const {
     firstIceCapRowBeginsX,
-    firstIceCapRowBeginsY,
     iceCapHeight,
     iceCapBaseWidth,
     seaWidth,
@@ -64,7 +63,7 @@ const FluxesWavesProvider = ({ children }) => {
   const cloudToGroundFluxBeginsX = sunCenterX;
   const cloudToGroundFluxBeginsY = cloudBottomY;
   const cloudToGroundFluxHeight =
-    skyBeginsY + skyHeight - cloudBottomY - iceCapHeight;
+    skyBeginsY + skyHeight - cloudBottomY - 2 * iceCapHeight;
   const cloudToGroundFluxStartsAfterInterval = sunToCloudFluxReachesEnd;
   const cloudToGroundFluxReachesEnd =
     sunToCloudFluxReachesEnd + TOTAL_INTERVALS_TO_COMPLETE_FLUX;
@@ -76,11 +75,9 @@ const FluxesWavesProvider = ({ children }) => {
   const cloudToAtmosphereFluxStartsAfterInterval = sunToCloudFluxReachesEnd;
 
   const groundToAtmosphereFluxBeginsX =
-    firstIceCapRowBeginsX + iceCapBaseWidth / 2;
-  const groundToAtmosphereFluxBeginsY = isMars
-    ? groundBeginsY
-    : firstIceCapRowBeginsY - iceCapHeight;
-  const groundToAtmosphereFluxHeight = skyHeight;
+    firstIceCapRowBeginsX + iceCapBaseWidth * 2;
+  const groundToAtmosphereFluxBeginsY = groundBeginsY;
+  const groundToAtmosphereFluxHeight = skyHeight + iceCapHeight * 1.5;
   const groundToAtmosphereFluxStartsAfterInterval = isMars
     ? sunToCloudFluxReachesEnd
     : cloudToGroundFluxReachesEnd;
@@ -133,16 +130,13 @@ const FluxesWavesProvider = ({ children }) => {
   const cloudToAtmosphereWaveBeginsX =
     firstCloudCentralCircleX - firstCloudCentralCircleRadiusX;
   const cloudToAtmosphereWaveBeginsY = firstCloudCentralCircleY;
-  const cloudToAtmosphereWaveEndsY = sunCenterY;
+  const cloudToAtmosphereWaveEndsY = -20;
   const cloudToAtmosphereWaveStartsAfterInterval = sunToCloudWaveReachesEnd;
 
   const groundToAtmosphereWaveBeginsX =
-    firstIceCapRowBeginsX + iceCapBaseWidth / 2;
-  const groundToAtmosphereWaveBeginsY = isMars
-    ? groundBeginsY
-    : firstIceCapRowBeginsY - iceCapHeight;
-  const groundToAtmosphereWaveEndsY =
-    firstIceCapRowBeginsY - iceCapHeight - skyHeight;
+    firstIceCapRowBeginsX + iceCapBaseWidth * 2;
+  const groundToAtmosphereWaveBeginsY = groundBeginsY;
+  const groundToAtmosphereWaveEndsY = -35;
   const groundToAtmosphereWaveStartsAfterInterval = isMars
     ? sunToCloudWaveReachesEnd
     : cloudToGroundWaveReachesEnd;
@@ -171,7 +165,7 @@ const FluxesWavesProvider = ({ children }) => {
   const skyToAtmosphereWaveBeginsX =
     SKY_TO_ATMOSPHERE_EARTH_FLUX_ADJUSTMENT * (stageWidth - seaWidth);
   const skyToAtmosphereWaveBeginsY = firstCloudCentralCircleY;
-  const skyToAtmosphereWaveEndsY = sunCenterY;
+  const skyToAtmosphereWaveEndsY = -20;
   const skyToAtmosphereWaveStartsAfterInterval = groundToSkyWaveReachesEnd;
 
   return (
