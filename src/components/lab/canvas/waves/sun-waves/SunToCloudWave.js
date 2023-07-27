@@ -8,8 +8,8 @@ import Wave from '../wave/Wave';
 import { FluxesWavesContext } from '../../../../contexts/fluxes-waves/FluxesWavesProvider';
 
 const SunToCloudWave = ({ energy, initial }) => {
-  const { sunToCloudWave } = useContext(FluxesWavesContext);
-  const { beginsX, beginsY, endsY, startsAfterInterval } = sunToCloudWave;
+  const { sunToCloud } = useContext(FluxesWavesContext);
+  const { beginsX, beginsY, endsY, startsAfterInterval } = sunToCloud;
 
   return (
     <Wave
@@ -19,7 +19,7 @@ const SunToCloudWave = ({ energy, initial }) => {
       waveColor={SUN_FLUXES_DEFAULT_COLOR}
       energy={energy}
       initial={initial}
-      startAfterInterval={startsAfterInterval}
+      startAfterInterval={startsAfterInterval.wave}
       type={VISIBLE_LIGHT}
     />
   );

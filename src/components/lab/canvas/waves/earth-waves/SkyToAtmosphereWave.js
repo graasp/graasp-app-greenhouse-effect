@@ -9,8 +9,8 @@ import { FluxesWavesContext } from '../../../../contexts/fluxes-waves/FluxesWave
 import Wave from '../wave/Wave';
 
 const SkyToAtmosphereWave = ({ energy, initial, amplify }) => {
-  const { skyToAtmosphereWave } = useContext(FluxesWavesContext);
-  const { beginsX, beginsY, endsY, startsAfterInterval } = skyToAtmosphereWave;
+  const { skyToAtmosphere } = useContext(FluxesWavesContext);
+  const { beginsX, beginsY, endsY, startsAfterInterval } = skyToAtmosphere;
 
   return (
     <Wave
@@ -21,7 +21,7 @@ const SkyToAtmosphereWave = ({ energy, initial, amplify }) => {
       energy={energy}
       initial={initial}
       amplify={amplify}
-      startAfterInterval={startsAfterInterval}
+      startAfterInterval={startsAfterInterval.wave}
       waveRotation={SKY_TO_ATMOSPHERE_FLUX_ROTATION}
       type={INFRARED}
     />
