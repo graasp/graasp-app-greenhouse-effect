@@ -1,5 +1,5 @@
 import { GROUND, SKY } from './canvas/backgrounds';
-import { ICE_AGE, MARS, TODAY, TWENTIETH_CENTURY, VENUS } from './strings';
+import { ICE_AGE, MARS, TODAY, PRE_INDUSTRIAL, VENUS } from './strings';
 import { SOLAR_FLUXES } from './physics';
 import {
   computeAlbedo,
@@ -29,15 +29,15 @@ export const SIMULATION_MODES = {
     skyColorRange: SKY.colorRange.earth,
     skyColorRangePaused: SKY.colorRangePaused.earth,
   },
-  TWENTIETH_CENTURY: {
-    name: TWENTIETH_CENTURY,
+  PRE_INDUSTRIAL: {
+    name: PRE_INDUSTRIAL,
     carbonDioxide: 290,
     methane: 1,
     waterVapor: 7253,
     iceCover: 10,
     cloudCover: 40,
     cTerm: 0.227,
-    solarFlux: SOLAR_FLUXES[TWENTIETH_CENTURY],
+    solarFlux: SOLAR_FLUXES[PRE_INDUSTRIAL],
     groundColorRange: GROUND.colorRange.earth,
     groundColorRangePaused: GROUND.colorRangePaused.earth,
     skyColorRange: SKY.colorRange.earth,
@@ -87,7 +87,7 @@ export const SIMULATION_MODES = {
   },
 };
 
-export const INITIAL_SIMULATION_MODE = SIMULATION_MODES.TODAY;
+export const INITIAL_SIMULATION_MODE = SIMULATION_MODES.PRE_INDUSTRIAL;
 const INITIAL_ICE_COVER = INITIAL_SIMULATION_MODE.iceCover;
 const INITIAL_CLOUD_COVER = INITIAL_SIMULATION_MODE.cloudCover;
 const INITIAL_CARBON_DIOXIDE = INITIAL_SIMULATION_MODE.carbonDioxide;

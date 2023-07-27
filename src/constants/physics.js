@@ -1,8 +1,8 @@
-import { ICE_AGE, MARS, TODAY, TWENTIETH_CENTURY, VENUS } from './strings';
+import { ICE_AGE, MARS, TODAY, PRE_INDUSTRIAL, VENUS } from './strings';
 
 export const STEFAN_BOLTZMANN_CONSTANT = 5.670367e-8;
 export const ZERO_KELVIN_IN_CELISUS = 273.15;
-export const TWENTIETH_CENTURY_ALBEDO_OFFSET = -0.005;
+export const PRE_INDUSTRIAL_ALBEDO_OFFSET = -0.005;
 
 // above this temperature, the earth has heated so much that for all purposes there's no difference
 export const MAX_TEMPERATURE_DISPLAYED_ON_EARTH_CELSIUS = 30;
@@ -28,7 +28,7 @@ export const CLOUD_COVER_MIN_VALUE = 20;
 
 export const SOLAR_FLUXES = {};
 SOLAR_FLUXES[ICE_AGE] = 340;
-SOLAR_FLUXES[TWENTIETH_CENTURY] = 340;
+SOLAR_FLUXES[PRE_INDUSTRIAL] = 340;
 SOLAR_FLUXES[TODAY] = 340;
 SOLAR_FLUXES[MARS] = 147;
 SOLAR_FLUXES[VENUS] = 650;

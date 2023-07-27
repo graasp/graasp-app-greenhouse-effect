@@ -27,7 +27,7 @@ const Trees = () => {
       rowWidth: fullMountainWidth + halfMountainWidth,
     },
   ];
-  trees[SIMULATION_MODES.TWENTIETH_CENTURY.name] = [
+  trees[SIMULATION_MODES.PRE_INDUSTRIAL.name] = [
     {
       rowBeginsX: fullMountainBeginsX,
       rowBeginsY: groundBeginsY,

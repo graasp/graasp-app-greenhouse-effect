@@ -36,7 +36,7 @@ const HouseRow = () => {
   const xDistanceBetweenHouses = X_DISTANCE_BETWEEN_HOUSES * groundWidth;
 
   const numHousesInRow =
-    simulationMode !== SIMULATION_MODES.TWENTIETH_CENTURY.name
+    simulationMode !== SIMULATION_MODES.PRE_INDUSTRIAL.name
       ? DEFAULT_NUMBER_OF_HOUSES_IN_ROW
       : DEFAULT_NUMBER_OF_HOUSES_IN_ROW - 1;
 

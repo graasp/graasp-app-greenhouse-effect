@@ -1,14 +1,14 @@
 import {
   STEFAN_BOLTZMANN_CONSTANT,
   ZERO_KELVIN_IN_CELISUS,
-  TWENTIETH_CENTURY_ALBEDO_OFFSET,
+  PRE_INDUSTRIAL_ALBEDO_OFFSET,
   ICE_COVER_MAX_VALUE,
   ICE_COVER_MIN_VALUE,
   GREENHOUSE_EFFECT_MIN_VALUE,
   GREENHOUSE_EFFECT_MAX_VALUE,
   SOLAR_FLUXES,
 } from '../constants/physics';
-import { VENUS, MARS, TWENTIETH_CENTURY } from '../constants/strings';
+import { VENUS, MARS, PRE_INDUSTRIAL } from '../constants/strings';
 
 export const computeGreenhouseEffect = (
   carbonDioxide,
@@ -74,8 +74,8 @@ export const computeAlbedo = (iceCover, cloudCover, simulationMode) => {
     cloudAlbedo +
     ((1 - cloudAlbedo) ** 2 * iceAlbedo) / (1 - iceAlbedo * cloudAlbedo);
 
-  if (simulationMode === TWENTIETH_CENTURY) {
-    totalAlbedo += TWENTIETH_CENTURY_ALBEDO_OFFSET;
+  if (simulationMode === PRE_INDUSTRIAL) {
+    totalAlbedo += PRE_INDUSTRIAL_ALBEDO_OFFSET;
   }
 
   return { totalAlbedo, cloudAlbedo };
