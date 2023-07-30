@@ -7,12 +7,12 @@ import {
   TREE_BASE_LINE_TENSION,
 } from '../../../../../constants';
 
-const Base = ({ radius, treeBaseWidth, treeBaseHeight, barkHeight }) => {
+const Base = ({ treeBaseWidth, treeBaseHeight, barkHeight }) => {
   return (
     <Line
       points={generateTreeBase(treeBaseWidth, treeBaseHeight)}
       fill={TREE_BARK_FILL}
-      x={-radius / 2}
+      x={-treeBaseWidth / 2}
       y={barkHeight}
       closed
       tension={TREE_BASE_LINE_TENSION}
@@ -21,7 +21,6 @@ const Base = ({ radius, treeBaseWidth, treeBaseHeight, barkHeight }) => {
 };
 
 Base.propTypes = {
-  radius: PropTypes.number.isRequired,
   treeBaseWidth: PropTypes.number.isRequired,
   treeBaseHeight: PropTypes.number.isRequired,
   barkHeight: PropTypes.number.isRequired,

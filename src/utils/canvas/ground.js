@@ -1,14 +1,6 @@
 // the base of the house is composed of two rectangles; the 'front' of the house is the smaller rectangle
 // the roof of this smaller rectangle is a triangle
 // this function calculates the points of that triangle given the width of the base and the desired roof height
-
-import {
-  ROW_FOUR_CIRCLES,
-  ROW_ONE_CIRCLES,
-  ROW_THREE_CIRCLES,
-  ROW_TWO_CIRCLES,
-} from '../../constants';
-
 // the points returned are used to draw a Konva line; with a property of 'closed', it becomes a triangle
 export const generateHouseFrontRoofPoints = (houseFrontWidth, roofHeight) => {
   // first point of line is (0, 0), i.e. start drawing shape at (0, 0) offset from shape origin (specified in x/y props)
@@ -89,23 +81,6 @@ export const generateRoadPoints = (roadWidth, roadHeight, roadIndent) => {
   const pointThree = [roadWidth, 0];
 
   return [...pointZero, ...pointOne, ...pointTwo, ...pointThree];
-};
-
-export const generateTreeCrownCoordinates = (radius) => {
-  const rowOne = new Array(ROW_ONE_CIRCLES)
-    .fill()
-    .map((emptyElement, index) => [index * radius, radius]);
-  const rowTwo = new Array(ROW_TWO_CIRCLES)
-    .fill()
-    .map((emptyElement, index) => [-radius / 2 + index * radius, 0]);
-  const rowThree = new Array(ROW_THREE_CIRCLES)
-    .fill()
-    .map((emptyElement, index) => [index * radius, -radius]);
-  const rowFour = new Array(ROW_FOUR_CIRCLES)
-    .fill()
-    .map((emptyElement, index) => [(index + 1) * radius, -radius * 2]);
-
-  return [rowOne, rowTwo, rowThree, rowFour];
 };
 
 export const generateTreeBase = (baseWidth, baseHeight) => {

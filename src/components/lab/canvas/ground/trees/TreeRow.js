@@ -1,7 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import {
-  MAX_CIRCLES,
   TREE_BARK_HEIGHT_PERCENTAGE,
   TREE_BARK_WIDTH_PERCENTAGE,
 } from '../../../../../constants';
@@ -14,10 +13,10 @@ const TreeRow = ({ rowWidth, rowBeginsX, rowBeginsY }) => {
 
   const barkWidth = stageWidth * TREE_BARK_WIDTH_PERCENTAGE;
   const barkHeight = stageHeight * TREE_BARK_HEIGHT_PERCENTAGE;
-  const radius = barkWidth / 2;
+  const crownRadius = barkWidth * 1.25;
   const treeBaseWidth = barkWidth * 2;
   const treeBaseHeight = barkHeight / 3;
-  const totalTreeWidth = radius * MAX_CIRCLES;
+  const totalTreeWidth = crownRadius * 2;
   const numTrees = totalTreeWidth && Math.floor(rowWidth / totalTreeWidth) + 1;
 
   const treesArray = new Array(numTrees).fill();
@@ -29,7 +28,7 @@ const TreeRow = ({ rowWidth, rowBeginsX, rowBeginsY }) => {
       <Tree
         barkWidth={barkWidth}
         barkHeight={barkHeight}
-        radius={radius}
+        crownRadius={crownRadius}
         treeBaseWidth={treeBaseWidth}
         treeBaseHeight={treeBaseHeight}
         x={rowBeginsX + totalTreeWidth * index}
