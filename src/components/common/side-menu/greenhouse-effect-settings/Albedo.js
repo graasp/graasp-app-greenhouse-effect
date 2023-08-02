@@ -22,7 +22,12 @@ const useStyles = makeStyles(() => ({
 const Albedo = ({ settingsUnchanged }) => {
   const { t } = useTranslation();
   const classes = useStyles();
-  const { isPaused, simulationMode, sliders } = useSelector(({ lab }) => lab);
+  const {
+    isPaused,
+    simulationMode,
+    sliders,
+    propagationComplete,
+  } = useSelector(({ lab }) => lab);
   const { zoomedIn } = useSelector(({ layout }) => layout);
   const { albedo } = sliders;
 
@@ -30,7 +35,8 @@ const Albedo = ({ settingsUnchanged }) => {
     simulationMode === SIMULATION_MODES.MARS.name ||
     simulationMode === SIMULATION_MODES.VENUS.name;
 
-  const disabled = !isPaused || isMarsOrVenus || zoomedIn;
+  const disabled =
+    !isPaused || isMarsOrVenus || zoomedIn || !propagationComplete;
 
   return (
     <>

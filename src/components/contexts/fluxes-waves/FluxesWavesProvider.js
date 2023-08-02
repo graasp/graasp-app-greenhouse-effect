@@ -145,6 +145,14 @@ const FluxesWavesProvider = ({ children }) => {
         Math.abs(groundToSky.endsY - groundToSky.beginsY) /
           Y_SHIFT_PER_INTERVAL,
     },
+    endsAfterInterval: {
+      flux: TOTAL_INTERVALS_TO_COMPLETE_FLUX * 4,
+      wave:
+        groundToSky.startsAfterInterval.wave +
+        Math.abs(groundToSky.endsY - groundToSky.beginsY) /
+          Y_SHIFT_PER_INTERVAL +
+        Math.abs(-20 - firstCloudCentralCircleY) / Y_SHIFT_PER_INTERVAL,
+    },
   };
 
   return (

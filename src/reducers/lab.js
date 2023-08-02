@@ -24,6 +24,7 @@ import {
   CLEAR_PREVIOUS_SETTINGS,
   SET_ANIMATION_PLAYING,
   SHOW_RUNAWAY_WARNING,
+  SET_PROPAGATION_COMPLETE,
 } from '../types';
 import { adjustFluxesFills, computeAllOutputs } from '../utils';
 
@@ -49,6 +50,7 @@ const INITIAL_STATE = {
   animationPlaying: false,
   showRunawayWarning: false,
   iceCoverTemporary: false,
+  propagationComplete: false,
 };
 
 export default (state = INITIAL_STATE, { type, payload }) => {
@@ -192,6 +194,8 @@ export default (state = INITIAL_STATE, { type, payload }) => {
       return { ...state, animationPlaying: payload };
     case SHOW_RUNAWAY_WARNING:
       return { ...state, showRunawayWarning: payload };
+    case SET_PROPAGATION_COMPLETE:
+      return { ...state, propagationComplete: payload };
     default:
       return state;
   }

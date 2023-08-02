@@ -1,4 +1,5 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
   SKY_TO_ATMOSPHERE_FLUX_ROTATION,
@@ -6,10 +7,26 @@ import {
 } from '../../../../../constants';
 import { FluxesWavesContext } from '../../../../contexts/fluxes-waves/FluxesWavesProvider';
 import Flux from '../flux/Flux';
+import { setIsPaused, setPropagationComplete } from '../../../../../actions';
 
 const SkyToAtmosphereFlux = ({ energy, fill }) => {
+  const dispatch = useDispatch();
+  const { intervalCount, propagationComplete } = useSelector(({ lab }) => lab);
   const { skyToAtmosphere } = useContext(FluxesWavesContext);
-  const { beginsX, beginsY, height, startsAfterInterval } = skyToAtmosphere;
+  const {
+    beginsX,
+    beginsY,
+    height,
+    startsAfterInterval,
+    endsAfterInterval,
+  } = skyToAtmosphere;
+
+  useEffect(() => {
+    if (!propagationComplete && intervalCount >= endsAfterInterval.flux) {
+      dispatch(setPropagationComplete(true));
+      dispatch(setIsPaused(true));
+    }
+  }, [intervalCount]);
 
   return (
     <Flux

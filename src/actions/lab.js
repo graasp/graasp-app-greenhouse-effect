@@ -15,6 +15,7 @@ import {
   CLEAR_PREVIOUS_SETTINGS,
   SET_ANIMATION_PLAYING,
   SHOW_RUNAWAY_WARNING,
+  SET_PROPAGATION_COMPLETE,
 } from '../types';
 
 export const setFeedbackValues = (payload) => (dispatch) => {
@@ -73,3 +74,6 @@ export const setAnimationPlaying = (payload) => (dispatch) =>
 
 export const showRunawayWarning = (payload) => (dispatch) =>
   dispatch({ type: SHOW_RUNAWAY_WARNING, payload });
+
+export const setPropagationComplete = (payload) => (dispatch) =>
+  dispatch({ type: SET_PROPAGATION_COMPLETE, payload });

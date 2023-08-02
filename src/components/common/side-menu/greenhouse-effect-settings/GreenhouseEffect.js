@@ -23,14 +23,19 @@ const useStyles = makeStyles(() => ({
 const GreenhouseEffect = ({ settingsUnchanged }) => {
   const { t } = useTranslation();
   const classes = useStyles();
-  const { isPaused, simulationMode, sliders } = useSelector(({ lab }) => lab);
+  const {
+    isPaused,
+    simulationMode,
+    sliders,
+    propagationComplete,
+  } = useSelector(({ lab }) => lab);
   const { greenhouseEffect } = sliders;
 
   const isMarsOrVenus =
     simulationMode === SIMULATION_MODES.MARS.name ||
     simulationMode === SIMULATION_MODES.VENUS.name;
 
-  const disabled = !isPaused || isMarsOrVenus;
+  const disabled = !isPaused || isMarsOrVenus || !propagationComplete;
 
   return (
     <>
