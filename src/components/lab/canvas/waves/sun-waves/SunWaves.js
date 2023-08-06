@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import PropTypes from 'prop-types';
 import { Group } from 'react-konva';
 import { useSelector } from 'react-redux';
 import { computeSunEnergies } from '../../../../../utils';
@@ -9,18 +10,16 @@ import GroundToAtmosphereWave from './GroundToAtmosphereWave';
 import SunToCloudWave from './SunToCloudWave';
 import { INITIAL_ALBEDO } from '../../../../../constants';
 
-const SunWaves = () => {
+const SunWaves = ({ sunEnergies }) => {
   const { isMars } = useContext(FluxesWavesContext);
-  const { sliders, simulationMode } = useSelector(({ lab }) => lab);
-  const { albedo } = sliders;
-  const { totalAlbedo, cloudAlbedo } = albedo;
+  const { simulationMode } = useSelector(({ lab }) => lab);
 
   const {
     sunToCloud,
     cloudToAtmosphere,
     cloudToGround,
     groundToAtmosphere,
-  } = computeSunEnergies(cloudAlbedo, totalAlbedo, simulationMode);
+  } = sunEnergies;
 
   const {
     sunToCloud: sunToCloudInitial,
@@ -54,6 +53,10 @@ const SunWaves = () => {
       />
     </Group>
   );
+};
+
+SunWaves.propTypes = {
+  sunEnergies: PropTypes.objectOf(PropTypes.number).isRequired,
 };
 
 export default SunWaves;

@@ -36,6 +36,8 @@
     "End tour": "Terminer la visite",
     "Start tour": "Commencer la visite",
     "Open side menu": "Ouvrir le menu latéral",
-    "Close side menu": "Fermer le menu latéral"
+    "Close side menu": "Fermer le menu latéral",
+    "Show net flux": "Montrer flux net",
+    "Hide net flux": "Cacher net flux"
   }
 }

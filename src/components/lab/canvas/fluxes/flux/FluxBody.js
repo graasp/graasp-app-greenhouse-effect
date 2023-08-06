@@ -1,18 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Rect } from 'react-konva';
+import { Group, Rect } from 'react-konva';
 import { UP_STRING } from '../../../../../constants';
+import EquilibriumSymbol from '../EquilibriumSymbol';
 
-const FluxBody = ({ bodyWidth, bodyHeight, fill, direction }) => {
+const FluxBody = ({
+  bodyWidth,
+  bodyHeight,
+  fill,
+  direction,
+  showEquilibriumSign,
+}) => {
   const directedHeight = direction === UP_STRING ? -bodyHeight : bodyHeight;
 
   return (
-    <Rect
-      x={-bodyWidth / 2}
-      width={bodyWidth}
-      height={directedHeight}
-      fill={fill}
-    />
+    <Group x={-bodyWidth / 2}>
+      <Rect width={bodyWidth} height={directedHeight} fill={fill} />
+      {showEquilibriumSign && (
+        <EquilibriumSymbol bodyWidth={bodyWidth} bodyHeight={directedHeight} />
+      )}
+    </Group>
   );
 };
 
@@ -21,6 +28,11 @@ FluxBody.propTypes = {
   bodyHeight: PropTypes.number.isRequired,
   fill: PropTypes.string.isRequired,
   direction: PropTypes.string.isRequired,
+  showEquilibriumSign: PropTypes.bool,
+};
+
+FluxBody.defaultProps = {
+  showEquilibriumSign: false,
 };
 
 export default FluxBody;

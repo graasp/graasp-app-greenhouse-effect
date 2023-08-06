@@ -36,6 +36,8 @@
     "End tour": "End tour",
     "Start tour": "Start tour",
     "Open side menu": "Open side menu",
-    "Close side menu": "Close side menu"
+    "Close side menu": "Close side menu",
+    "Show net flux": "Show net flux",
+    "Hide net flux": "Hide net flux"
   }
 }

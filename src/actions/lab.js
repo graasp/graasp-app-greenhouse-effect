@@ -16,6 +16,7 @@ import {
   SET_ANIMATION_PLAYING,
   SHOW_RUNAWAY_WARNING,
   SET_PROPAGATION_COMPLETE,
+  SET_SHOW_NET_FLUX,
 } from '../types';
 
 export const setFeedbackValues = (payload) => (dispatch) => {
@@ -77,3 +78,6 @@ export const showRunawayWarning = (payload) => (dispatch) =>
 
 export const setPropagationComplete = (payload) => (dispatch) =>
   dispatch({ type: SET_PROPAGATION_COMPLETE, payload });
+
+export const setShowNetFlux = (payload) => (dispatch) =>
+  dispatch({ type: SET_SHOW_NET_FLUX, payload });
