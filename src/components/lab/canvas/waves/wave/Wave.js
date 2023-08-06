@@ -21,7 +21,7 @@ const Wave = ({
   energy,
   initial,
   amplify,
-  startAfterInterval,
+  startsAfterInterval,
   type,
 }) => {
   const { intervalCount } = useSelector(({ lab }) => lab);
@@ -42,9 +42,9 @@ const Wave = ({
   );
 
   const wavePoints =
-    intervalCount > startAfterInterval
+    intervalCount > startsAfterInterval
       ? generateSineCurve(
-          intervalCount - startAfterInterval,
+          intervalCount - startsAfterInterval,
           waveBeginsY,
           waveEndsY,
           amplitude,
@@ -72,7 +72,7 @@ Wave.propTypes = {
   energy: PropTypes.number.isRequired,
   initial: PropTypes.number.isRequired,
   amplify: PropTypes.bool,
-  startAfterInterval: PropTypes.number.isRequired,
+  startsAfterInterval: PropTypes.number.isRequired,
   type: PropTypes.string.isRequired,
 };
 

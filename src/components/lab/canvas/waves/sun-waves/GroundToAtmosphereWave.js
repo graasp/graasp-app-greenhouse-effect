@@ -22,7 +22,7 @@ const GroundToAtmosphereWave = ({ energy, initial }) => {
         energy={energy}
         initial={initial}
         waveRotation={GROUND_TO_ATMOSPHERE_FLUX_ROTATION}
-        startAfterInterval={startsAfterInterval.wave}
+        startsAfterInterval={startsAfterInterval.wave}
         type={VISIBLE_LIGHT}
       />
     )

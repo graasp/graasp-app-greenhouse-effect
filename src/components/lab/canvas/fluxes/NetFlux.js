@@ -30,7 +30,7 @@ const NetFlux = ({ sunEnergies, earthEnergies }) => {
       fill={NET_FLUX_FILL}
       direction={netEnergy < 0 ? UP_STRING : DOWN_STRING}
       energy={netEnergy}
-      startAfterInterval={
+      startsAfterInterval={
         radiationMode === RADIATION_MODES.FLUXES
           ? startsAfterInterval.flux
           : startsAfterInterval.wave

@@ -22,7 +22,7 @@ const Flux = ({
   rotation,
   direction,
   energy,
-  startAfterInterval,
+  startsAfterInterval,
   animateFlux,
   netFlux,
 }) => {
@@ -45,7 +45,8 @@ const Flux = ({
     ? (totalHeight - pointerHeight) *
       Math.min(
         1,
-        (intervalCount - startAfterInterval) / TOTAL_INTERVALS_TO_COMPLETE_FLUX,
+        (intervalCount - startsAfterInterval) /
+          TOTAL_INTERVALS_TO_COMPLETE_FLUX,
       )
     : totalHeight - pointerHeight;
   const bodyWidth = totalWidth * FLUX_BODY_WIDTH_AS_PERCENTAGE_OF_TOTAL_WIDTH;
@@ -61,7 +62,7 @@ const Flux = ({
   }
 
   return (
-    intervalCount > startAfterInterval && (
+    intervalCount > startsAfterInterval && (
       <Group x={x} y={adjustedY} rotation={rotation}>
         <FluxBody
           bodyWidth={bodyWidth}
@@ -97,7 +98,7 @@ Flux.propTypes = {
   rotation: PropTypes.number,
   direction: PropTypes.string.isRequired,
   energy: PropTypes.number.isRequired,
-  startAfterInterval: PropTypes.number.isRequired,
+  startsAfterInterval: PropTypes.number.isRequired,
   animateFlux: PropTypes.bool,
   netFlux: PropTypes.bool,
 };

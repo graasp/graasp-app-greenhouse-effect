@@ -17,7 +17,7 @@ const GroundToSkyWave = ({ energy, initial, amplify }) => {
       energy={energy}
       initial={initial}
       amplify={amplify}
-      startAfterInterval={startsAfterInterval.wave}
+      startsAfterInterval={startsAfterInterval.wave}
       type={INFRARED}
     />
   );

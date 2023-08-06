@@ -37,7 +37,7 @@ const SkyToAtmosphereWave = ({ energy, initial, amplify }) => {
       energy={energy}
       initial={initial}
       amplify={amplify}
-      startAfterInterval={startsAfterInterval.wave}
+      startsAfterInterval={startsAfterInterval.wave}
       waveRotation={SKY_TO_ATMOSPHERE_FLUX_ROTATION}
       type={INFRARED}
     />

@@ -16,7 +16,7 @@ const CloudToGroundFlux = ({ energy, fill }) => {
       fill={fill}
       direction={DOWN_STRING}
       energy={energy}
-      startAfterInterval={startsAfterInterval.flux}
+      startsAfterInterval={startsAfterInterval.flux}
     />
   );
 };

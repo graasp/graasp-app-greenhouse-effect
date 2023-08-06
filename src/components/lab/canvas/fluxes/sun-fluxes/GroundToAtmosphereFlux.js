@@ -20,7 +20,7 @@ const GroundToAtmosphereFlux = ({ energy, fill }) => {
       fill={fill}
       direction={UP_STRING}
       energy={energy}
-      startAfterInterval={startsAfterInterval.flux}
+      startsAfterInterval={startsAfterInterval.flux}
     />
   );
 };

@@ -22,7 +22,7 @@ const SkyToGroundWave = ({ energy, initial, amplify }) => {
       initial={initial}
       amplify={amplify}
       waveRotation={SKY_TO_GROUND_FLUX_ROTATION}
-      startAfterInterval={startsAfterInterval.wave}
+      startsAfterInterval={startsAfterInterval.wave}
       type={INFRARED}
     />
   );

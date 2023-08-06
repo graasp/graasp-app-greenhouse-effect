@@ -19,7 +19,7 @@ const SunToCloudWave = ({ energy, initial }) => {
       waveColor={SUN_FLUXES_DEFAULT_COLOR}
       energy={energy}
       initial={initial}
-      startAfterInterval={startsAfterInterval.wave}
+      startsAfterInterval={startsAfterInterval.wave}
       type={VISIBLE_LIGHT}
     />
   );
