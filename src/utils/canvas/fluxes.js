@@ -11,6 +11,7 @@ import {
   EXTRA_LARGE_ENERGY_WIDTH_AS_PERCENTAGE_OF_STAGE_WIDTH,
   ENERGY_WIDTH_AS_PERCENTAGE_OF_STAGE_WIDTH,
   SIMULATION_MODES,
+  NET_FLUX_FIXED_WIDTH,
 } from '../../constants';
 
 export const generateFluxPointerPoints = (
@@ -23,7 +24,11 @@ export const generateFluxPointerPoints = (
     : [0, 0, pointerWidth / 2, 0, 0, pointerHeight, -pointerWidth / 2, 0];
 };
 
-export const calculateEnergyWidth = (energy, stageWidth) => {
+export const calculateEnergyWidth = (energy, stageWidth, netFlux = false) => {
+  if (netFlux) {
+    return NET_FLUX_FIXED_WIDTH;
+  }
+
   if (energy >= EXTRA_LARGE_ENERGY) {
     return stageWidth * EXTRA_LARGE_ENERGY_WIDTH_AS_PERCENTAGE_OF_STAGE_WIDTH;
   }

@@ -8,7 +8,7 @@ import Base from './Base';
 const Tree = ({
   barkWidth,
   barkHeight,
-  radius,
+  crownRadius,
   treeBaseWidth,
   treeBaseHeight,
   x,
@@ -16,10 +16,9 @@ const Tree = ({
 }) => {
   return (
     <Group x={x} y={y}>
-      <Bark radius={radius} barkWidth={barkWidth} barkHeight={barkHeight} />
-      <Crown radius={radius} />
+      <Bark barkWidth={barkWidth} barkHeight={barkHeight} />
+      <Crown crownRadius={crownRadius} />
       <Base
-        radius={radius}
         treeBaseWidth={treeBaseWidth}
         treeBaseHeight={treeBaseHeight}
         barkHeight={barkHeight}
@@ -33,7 +32,7 @@ Tree.propTypes = {
   y: PropTypes.number.isRequired,
   barkWidth: PropTypes.number.isRequired,
   barkHeight: PropTypes.number.isRequired,
-  radius: PropTypes.number.isRequired,
+  crownRadius: PropTypes.number.isRequired,
   treeBaseWidth: PropTypes.number.isRequired,
   treeBaseHeight: PropTypes.number.isRequired,
 };

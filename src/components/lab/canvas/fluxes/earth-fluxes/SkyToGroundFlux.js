@@ -8,8 +8,8 @@ import { FluxesWavesContext } from '../../../../contexts/fluxes-waves/FluxesWave
 import Flux from '../flux/Flux';
 
 const SkyToGroundFlux = ({ energy, fill }) => {
-  const { skyToGroundFlux } = useContext(FluxesWavesContext);
-  const { beginsX, beginsY, height, startsAfterInterval } = skyToGroundFlux;
+  const { skyToGround } = useContext(FluxesWavesContext);
+  const { beginsX, beginsY, height, startsAfterInterval } = skyToGround;
 
   return (
     <Flux
@@ -20,7 +20,7 @@ const SkyToGroundFlux = ({ energy, fill }) => {
       fill={fill}
       direction={DOWN_STRING}
       energy={energy}
-      startAfterInterval={startsAfterInterval}
+      startsAfterInterval={startsAfterInterval.flux}
     />
   );
 };

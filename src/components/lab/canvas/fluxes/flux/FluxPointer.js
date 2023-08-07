@@ -1,12 +1,15 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Group, Line, Text } from 'react-konva';
 import { generateFluxPointerPoints } from '../../../../../utils';
 import {
   BOTTOM_STRING,
+  EMPTY_STRING,
   FLUX_LABEL_LARGE_FONT_SIZE,
   FLUX_LABEL_MARGIN,
   FLUX_LABEL_SMALL_FONT_SIZE,
+  RADIATION_MODES,
   TOP_STRING,
   UP_STRING,
   WIDE_FLUX_MINIMUM_WIDTH,
@@ -19,7 +22,10 @@ const FluxPointer = ({
   direction,
   fill,
   energy,
+  fontColor,
+  netFlux,
 }) => {
+  const { radiationMode } = useSelector(({ lab }) => lab);
   const y = direction === UP_STRING ? -bodyHeight - pointerHeight : bodyHeight;
   const verticalAlign = direction === UP_STRING ? BOTTOM_STRING : TOP_STRING;
 
@@ -28,6 +34,9 @@ const FluxPointer = ({
     pointerWidth,
     pointerHeight,
   );
+
+  const showLabel =
+    !netFlux || (netFlux && radiationMode === RADIATION_MODES.FLUXES);
 
   return (
     <Group y={y}>
@@ -42,7 +51,7 @@ const FluxPointer = ({
       />
       <Text
         x={-(pointerWidth + FLUX_LABEL_MARGIN) / 2}
-        text={energy && energy.toFixed(0)}
+        text={showLabel ? energy && energy.toFixed(0) : EMPTY_STRING}
         width={pointerWidth + FLUX_LABEL_MARGIN}
         align="center"
         height={pointerHeight}
@@ -52,6 +61,7 @@ const FluxPointer = ({
             ? FLUX_LABEL_LARGE_FONT_SIZE
             : FLUX_LABEL_SMALL_FONT_SIZE
         }
+        fill={fontColor}
       />
     </Group>
   );
@@ -64,6 +74,8 @@ FluxPointer.propTypes = {
   direction: PropTypes.string.isRequired,
   fill: PropTypes.string.isRequired,
   energy: PropTypes.number.isRequired,
+  fontColor: PropTypes.string.isRequired,
+  netFlux: PropTypes.bool.isRequired,
 };
 
 export default FluxPointer;

@@ -1,14 +1,17 @@
 import {
   STEFAN_BOLTZMANN_CONSTANT,
   ZERO_KELVIN_IN_CELISUS,
-  TWENTIETH_CENTURY_ALBEDO_OFFSET,
   ICE_COVER_MAX_VALUE,
   ICE_COVER_MIN_VALUE,
   GREENHOUSE_EFFECT_MIN_VALUE,
   GREENHOUSE_EFFECT_MAX_VALUE,
   SOLAR_FLUXES,
+  CRYOSPHERE_ALBEDO,
+  SOIL_ALBEDO_TODAY,
+  SOIL_ALBEDO_PREVIOUS_ERAS,
+  CLOUD_ALBEDO,
 } from '../constants/physics';
-import { VENUS, MARS, TWENTIETH_CENTURY } from '../constants/strings';
+import { VENUS, MARS, TODAY } from '../constants/strings';
 
 export const computeGreenhouseEffect = (
   carbonDioxide,
@@ -27,7 +30,7 @@ export const computeGreenhouseEffect = (
   }
 
   const greenhouseEffect =
-    0.0525 * carbonDioxide ** 0.147 + 0.0234 * methane ** 0.225 + cTerm;
+    0.0499 * carbonDioxide ** 0.157 + 0.0242 * methane ** 0.191 + cTerm;
   if (greenhouseEffect <= GREENHOUSE_EFFECT_MIN_VALUE) {
     return GREENHOUSE_EFFECT_MIN_VALUE;
   }
@@ -66,17 +69,14 @@ export const computeAlbedo = (iceCover, cloudCover, simulationMode) => {
       break;
   }
 
-  const iceAlbedo = (iceCover / 100) * 0.7 + (1 - iceCover / 100) * 0.09;
-
-  const cloudAlbedo = (0.48 * cloudCover) / 100;
-
-  let totalAlbedo =
+  const soilAlbedo =
+    simulationMode === TODAY ? SOIL_ALBEDO_TODAY : SOIL_ALBEDO_PREVIOUS_ERAS;
+  const iceAlbedo =
+    (iceCover / 100) * CRYOSPHERE_ALBEDO + (1 - iceCover / 100) * soilAlbedo;
+  const cloudAlbedo = (CLOUD_ALBEDO * cloudCover) / 100;
+  const totalAlbedo =
     cloudAlbedo +
     ((1 - cloudAlbedo) ** 2 * iceAlbedo) / (1 - iceAlbedo * cloudAlbedo);
-
-  if (simulationMode === TWENTIETH_CENTURY) {
-    totalAlbedo += TWENTIETH_CENTURY_ALBEDO_OFFSET;
-  }
 
   return { totalAlbedo, cloudAlbedo };
 };

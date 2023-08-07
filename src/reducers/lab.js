@@ -24,6 +24,8 @@ import {
   CLEAR_PREVIOUS_SETTINGS,
   SET_ANIMATION_PLAYING,
   SHOW_RUNAWAY_WARNING,
+  SET_PROPAGATION_COMPLETE,
+  SET_SHOW_NET_FLUX,
 } from '../types';
 import { adjustFluxesFills, computeAllOutputs } from '../utils';
 
@@ -49,6 +51,8 @@ const INITIAL_STATE = {
   animationPlaying: false,
   showRunawayWarning: false,
   iceCoverTemporary: false,
+  propagationComplete: false,
+  showNetFlux: true,
 };
 
 export default (state = INITIAL_STATE, { type, payload }) => {
@@ -157,8 +161,30 @@ export default (state = INITIAL_STATE, { type, payload }) => {
       return { ...state, previousSettings: {} };
     case INCREMENT_INTERVAL_COUNT:
       return { ...state, intervalCount: state.intervalCount + 1 };
-    case RESET:
-      return INITIAL_STATE;
+    case RESET: {
+      const { greenhouseEffect, albedo, temperature } = computeAllOutputs(
+        payload,
+        payload.name,
+      );
+      const updatedValues = {
+        iceCover: payload.iceCover,
+        cloudCover: payload.cloudCover,
+        carbonDioxide: payload.carbonDioxide,
+        methane: payload.methane,
+        greenhouseEffect,
+        albedo,
+        temperature,
+        waterVapor: payload.waterVapor,
+        cTerm: payload.cTerm,
+      };
+      return {
+        ...INITIAL_STATE,
+        simulationMode: payload.name,
+        sliders: updatedValues,
+        thermometer: updatedValues,
+        radiationMode: state.radiationMode,
+      };
+    }
     case TOGGLE_FLUXES_FILLS:
       return {
         ...state,
@@ -170,6 +196,10 @@ export default (state = INITIAL_STATE, { type, payload }) => {
       return { ...state, animationPlaying: payload };
     case SHOW_RUNAWAY_WARNING:
       return { ...state, showRunawayWarning: payload };
+    case SET_PROPAGATION_COMPLETE:
+      return { ...state, propagationComplete: payload };
+    case SET_SHOW_NET_FLUX:
+      return { ...state, showNetFlux: payload };
     default:
       return state;
   }

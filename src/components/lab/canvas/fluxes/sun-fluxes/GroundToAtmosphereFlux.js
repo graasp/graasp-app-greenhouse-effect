@@ -8,13 +8,8 @@ import {
 } from '../../../../../constants';
 
 const GroundToAtmosphereFlux = ({ energy, fill }) => {
-  const { groundToAtmosphereFlux } = useContext(FluxesWavesContext);
-  const {
-    beginsX,
-    beginsY,
-    height,
-    startsAfterInterval,
-  } = groundToAtmosphereFlux;
+  const { groundToAtmosphere } = useContext(FluxesWavesContext);
+  const { beginsX, beginsY, height, startsAfterInterval } = groundToAtmosphere;
 
   return (
     <Flux
@@ -25,7 +20,7 @@ const GroundToAtmosphereFlux = ({ energy, fill }) => {
       fill={fill}
       direction={UP_STRING}
       energy={energy}
-      startAfterInterval={startsAfterInterval}
+      startsAfterInterval={startsAfterInterval.flux}
     />
   );
 };

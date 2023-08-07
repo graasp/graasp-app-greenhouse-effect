@@ -61,9 +61,7 @@ const SideMenu = () => {
         }}
       >
         <div className={classes.contentWrapper}>
-          <div className="controls">
-            <AnimationControls settingsUnchanged={settingsUnchanged} />
-          </div>
+          <AnimationControls settingsUnchanged={settingsUnchanged} />
           <div className="radiation-mode">
             <RadiationModeSwitch />
           </div>

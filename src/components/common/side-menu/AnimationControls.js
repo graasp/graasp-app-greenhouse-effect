@@ -14,18 +14,19 @@ import RewindButton from './animation-controls/RewindButton';
 import ResetButton from './animation-controls/ResetButton';
 import CloseSideMenu from './animation-controls/CloseSideMenu';
 import Tour from './Tour';
+import NetFluxToggle from './NetFluxToggle';
 
 const useStyles = makeStyles(() => ({
   buttonContainer: {
     display: 'flex',
   },
   sideContainer: {
-    width: '10%',
+    width: '20%',
     display: 'flex',
     alignItems: 'center',
   },
   centerContainer: {
-    width: '80%',
+    width: '60%',
     display: 'flex',
     justifyContent: 'center',
   },
@@ -82,6 +83,7 @@ const AnimationControls = ({ settingsUnchanged }) => {
         <ResetButton className={classes.button} />
       </div>
       <div className={classes.sideContainer}>
+        <NetFluxToggle />
         <Tour tourState={tourState} setTourState={setTourState} />
         <Tooltip title={t('Start tour')} placement="left">
           <IconButton onClick={startTour}>

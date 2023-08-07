@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import { Group } from 'react-konva';
 import GroundToSkyWave from './GroundToSkyWave';
 import SkyToAtmosphereWave from './SkyToAtmosphereWave';
@@ -11,16 +11,9 @@ import {
   INITIAL_TEMPERATURE,
 } from '../../../../../constants';
 
-const EarthWaves = () => {
+const EarthWaves = ({ earthEnergies }) => {
   const { isMars, isVenus } = useContext(FluxesWavesContext);
-  const { sliders, thermometer } = useSelector(({ lab }) => lab);
-  const { temperature: thermometerTemperature } = thermometer;
-  const { greenhouseEffect: impliedGreenhouseEffect } = sliders;
-
-  const { groundToSky, skyToAtmosphere, skyToGround } = computeEarthEnergies(
-    thermometerTemperature,
-    impliedGreenhouseEffect,
-  );
+  const { groundToSky, skyToAtmosphere, skyToGround } = earthEnergies;
 
   const {
     groundToSky: groundToSkyInitial,
@@ -51,6 +44,10 @@ const EarthWaves = () => {
       )}
     </Group>
   );
+};
+
+EarthWaves.propTypes = {
+  earthEnergies: PropTypes.objectOf(PropTypes.number).isRequired,
 };
 
 export default EarthWaves;

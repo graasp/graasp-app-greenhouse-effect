@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import { Rect } from 'react-konva';
 import { TREE_BARK_FILL } from '../../../../../constants';
 
-const Bark = ({ radius, barkWidth, barkHeight }) => {
+const Bark = ({ barkWidth, barkHeight }) => {
   return (
     <Rect
-      x={radius / 2}
+      x={-barkWidth / 2}
       width={barkWidth}
       height={barkHeight}
       fill={TREE_BARK_FILL}
@@ -15,7 +15,6 @@ const Bark = ({ radius, barkWidth, barkHeight }) => {
 };
 
 Bark.propTypes = {
-  radius: PropTypes.number.isRequired,
   barkWidth: PropTypes.number.isRequired,
   barkHeight: PropTypes.number.isRequired,
 };

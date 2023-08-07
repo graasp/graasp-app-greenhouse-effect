@@ -9,13 +9,8 @@ import { FluxesWavesContext } from '../../../../contexts/fluxes-waves/FluxesWave
 import Wave from '../wave/Wave';
 
 const GroundToAtmosphereWave = ({ energy, initial }) => {
-  const { groundToAtmosphereWave, isVenus } = useContext(FluxesWavesContext);
-  const {
-    beginsX,
-    beginsY,
-    endsY,
-    startsAfterInterval,
-  } = groundToAtmosphereWave;
+  const { groundToAtmosphere, isVenus } = useContext(FluxesWavesContext);
+  const { beginsX, beginsY, endsY, startsAfterInterval } = groundToAtmosphere;
 
   return (
     !isVenus && (
@@ -27,7 +22,7 @@ const GroundToAtmosphereWave = ({ energy, initial }) => {
         energy={energy}
         initial={initial}
         waveRotation={GROUND_TO_ATMOSPHERE_FLUX_ROTATION}
-        startAfterInterval={startsAfterInterval}
+        startsAfterInterval={startsAfterInterval.wave}
         type={VISIBLE_LIGHT}
       />
     )

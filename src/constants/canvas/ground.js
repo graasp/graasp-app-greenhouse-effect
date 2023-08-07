@@ -107,13 +107,3 @@ export const TREE_BASE_LINE_TENSION = 0.25;
 export const TREE_BARK_WIDTH_PERCENTAGE = 0.0075;
 export const TREE_BARK_HEIGHT_PERCENTAGE = 0.025;
 export const TREE_ROW_BEGINS_Y = 0.05;
-export const ROW_ONE_CIRCLES = 4;
-export const ROW_TWO_CIRCLES = 5;
-export const ROW_THREE_CIRCLES = 4;
-export const ROW_FOUR_CIRCLES = 2;
-export const MAX_CIRCLES = Math.max(
-  ROW_ONE_CIRCLES,
-  ROW_TWO_CIRCLES,
-  ROW_THREE_CIRCLES,
-  ROW_FOUR_CIRCLES,
-);

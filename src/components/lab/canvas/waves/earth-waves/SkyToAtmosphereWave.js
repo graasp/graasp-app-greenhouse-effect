@@ -1,4 +1,5 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
   EARTH_FLUXES_DEFAULT_COLOR,
@@ -7,10 +8,25 @@ import {
 } from '../../../../../constants';
 import { FluxesWavesContext } from '../../../../contexts/fluxes-waves/FluxesWavesProvider';
 import Wave from '../wave/Wave';
+import { setPropagationComplete } from '../../../../../actions';
 
 const SkyToAtmosphereWave = ({ energy, initial, amplify }) => {
-  const { skyToAtmosphereWave } = useContext(FluxesWavesContext);
-  const { beginsX, beginsY, endsY, startsAfterInterval } = skyToAtmosphereWave;
+  const dispatch = useDispatch();
+  const { propagationComplete, intervalCount } = useSelector(({ lab }) => lab);
+  const { skyToAtmosphere } = useContext(FluxesWavesContext);
+  const {
+    beginsX,
+    beginsY,
+    endsY,
+    startsAfterInterval,
+    endsAfterInterval,
+  } = skyToAtmosphere;
+
+  useEffect(() => {
+    if (!propagationComplete && intervalCount >= endsAfterInterval.wave) {
+      dispatch(setPropagationComplete(true));
+    }
+  }, [intervalCount]);
 
   return (
     <Wave
@@ -21,7 +37,7 @@ const SkyToAtmosphereWave = ({ energy, initial, amplify }) => {
       energy={energy}
       initial={initial}
       amplify={amplify}
-      startAfterInterval={startsAfterInterval}
+      startsAfterInterval={startsAfterInterval.wave}
       waveRotation={SKY_TO_ATMOSPHERE_FLUX_ROTATION}
       type={INFRARED}
     />

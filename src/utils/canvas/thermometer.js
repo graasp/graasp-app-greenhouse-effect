@@ -81,5 +81,5 @@ export const createTemperatureLabel = (
 
   return temperature > maxTemperature
     ? `${maxTemperature}${scaleLabel}+`
-    : `${temperature.toFixed(1)}${scaleLabel}`;
+    : `${temperature.toFixed(2)}${scaleLabel}`;
 };

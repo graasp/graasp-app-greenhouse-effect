@@ -1,15 +1,45 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
+  GROUND_TO_SKY,
+  SIMULATION_MODES,
+  SKY_TO_ATMOSPHERE,
   SKY_TO_ATMOSPHERE_FLUX_ROTATION,
+  SKY_TO_GROUND,
   UP_STRING,
 } from '../../../../../constants';
 import { FluxesWavesContext } from '../../../../contexts/fluxes-waves/FluxesWavesProvider';
 import Flux from '../flux/Flux';
+import { setIsPaused, setPropagationComplete } from '../../../../../actions';
+import { keepFluxesBlinking } from '../../../../../utils';
 
 const SkyToAtmosphereFlux = ({ energy, fill }) => {
-  const { skyToAtmosphereFlux } = useContext(FluxesWavesContext);
-  const { beginsX, beginsY, height, startsAfterInterval } = skyToAtmosphereFlux;
+  const dispatch = useDispatch();
+  const { intervalCount, propagationComplete, simulationMode } = useSelector(
+    ({ lab }) => lab,
+  );
+  const { skyToAtmosphere } = useContext(FluxesWavesContext);
+  const {
+    beginsX,
+    beginsY,
+    height,
+    startsAfterInterval,
+    endsAfterInterval,
+  } = skyToAtmosphere;
+
+  useEffect(() => {
+    if (!propagationComplete && intervalCount >= endsAfterInterval.flux) {
+      dispatch(setPropagationComplete(true));
+      dispatch(setIsPaused(true));
+      if (simulationMode === SIMULATION_MODES.TODAY.name) {
+        keepFluxesBlinking(
+          [GROUND_TO_SKY, SKY_TO_GROUND, SKY_TO_ATMOSPHERE],
+          dispatch,
+        );
+      }
+    }
+  }, [intervalCount]);
 
   return (
     <Flux
@@ -20,7 +50,7 @@ const SkyToAtmosphereFlux = ({ energy, fill }) => {
       fill={fill}
       direction={UP_STRING}
       energy={energy}
-      startAfterInterval={startsAfterInterval}
+      startsAfterInterval={startsAfterInterval.flux}
     />
   );
 };

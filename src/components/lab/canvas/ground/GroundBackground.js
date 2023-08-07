@@ -5,6 +5,7 @@ import {
   GROUND_COLOR_RANGES,
   GROUND_PAUSED_COLOR_RANGES,
   ICE_CAP_FILL,
+  SIMULATION_MODES,
 } from '../../../../constants';
 import { computeIcePercentage } from '../../../../utils';
 import { GroundDimensionsContext } from '../../../contexts/canvas-dimensions/GroundDimensionsProvider';
@@ -23,6 +24,7 @@ const GroundBackground = () => {
   const icePercentage = computeIcePercentage(iceCover / 100);
   const colorRange = GROUND_COLOR_RANGES[simulationMode];
   const colorRangePaused = GROUND_PAUSED_COLOR_RANGES[simulationMode];
+  const isMars = simulationMode === SIMULATION_MODES.MARS.name;
 
   return (
     <Group>
@@ -38,7 +40,7 @@ const GroundBackground = () => {
         fillLinearGradientEndPoint={{ x: 0, y: groundHeight }}
         fillLinearGradientColorStops={isPaused ? colorRangePaused : colorRange}
       />
-      {icePercentage > 0 && (
+      {!isMars && icePercentage > 0 && (
         <Shape
           sceneFunc={(context, shape) => {
             const width = groundWidth * icePercentage;

@@ -15,6 +15,8 @@ import {
   CLEAR_PREVIOUS_SETTINGS,
   SET_ANIMATION_PLAYING,
   SHOW_RUNAWAY_WARNING,
+  SET_PROPAGATION_COMPLETE,
+  SET_SHOW_NET_FLUX,
 } from '../types';
 
 export const setFeedbackValues = (payload) => (dispatch) => {
@@ -36,8 +38,8 @@ export const setIsPaused = (payload) => (dispatch) =>
     payload,
   });
 
-export const reset = () => (dispatch) => {
-  dispatch({ type: RESET });
+export const reset = (payload) => (dispatch) => {
+  dispatch({ type: RESET, payload });
 };
 
 export const setSimulationMode = (payload) => (dispatch) => {
@@ -73,3 +75,9 @@ export const setAnimationPlaying = (payload) => (dispatch) =>
 
 export const showRunawayWarning = (payload) => (dispatch) =>
   dispatch({ type: SHOW_RUNAWAY_WARNING, payload });
+
+export const setPropagationComplete = (payload) => (dispatch) =>
+  dispatch({ type: SET_PROPAGATION_COMPLETE, payload });
+
+export const setShowNetFlux = (payload) => (dispatch) =>
+  dispatch({ type: SET_SHOW_NET_FLUX, payload });

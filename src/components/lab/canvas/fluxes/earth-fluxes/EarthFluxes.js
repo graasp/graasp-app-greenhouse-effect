@@ -1,24 +1,22 @@
 import React, { useContext } from 'react';
+import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { Group } from 'react-konva';
 import GroundToSkyFlux from './GroundToSkyFlux';
 import SkyToAtmosphereFlux from './SkyToAtmosphereFlux';
 import SkyToGroundFlux from './SkyToGroundFlux';
 import { FluxesWavesContext } from '../../../../contexts/fluxes-waves/FluxesWavesProvider';
-import { computeEarthEnergies } from '../../../../../utils';
 
-const EarthFluxes = () => {
+const EarthFluxes = ({ earthEnergies }) => {
   const { isMars } = useContext(FluxesWavesContext);
-  const { fluxesFills, sliders, thermometer } = useSelector(({ lab }) => lab);
-  const { temperature: thermometerTemperature } = thermometer;
-  const { greenhouseEffect: impliedGreenhouseEffect } = sliders;
+  const { fluxesFills } = useSelector(({ lab }) => lab);
   const { groundToSky, skyToAtmosphere, skyToGround } = fluxesFills;
 
   const {
     groundToSky: groundToSkyEnergy,
     skyToGround: skyToGroundEnergy,
     skyToAtmosphere: skyToAtmosphereEnergy,
-  } = computeEarthEnergies(thermometerTemperature, impliedGreenhouseEffect);
+  } = earthEnergies;
 
   return (
     <Group>
@@ -34,6 +32,10 @@ const EarthFluxes = () => {
       )}
     </Group>
   );
+};
+
+EarthFluxes.propTypes = {
+  earthEnergies: PropTypes.objectOf(PropTypes.number).isRequired,
 };
 
 export default EarthFluxes;

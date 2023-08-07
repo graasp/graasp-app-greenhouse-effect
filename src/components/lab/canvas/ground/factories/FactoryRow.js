@@ -21,7 +21,7 @@ const FactoryRow = () => {
   const { simulationMode } = useSelector(({ lab }) => lab);
 
   const numFactoriesInRow =
-    simulationMode !== SIMULATION_MODES.TWENTIETH_CENTURY.name
+    simulationMode !== SIMULATION_MODES.PRE_INDUSTRIAL.name
       ? DEFAULT_NUMBER_OF_FACTORIES_IN_ROW
       : DEFAULT_NUMBER_OF_FACTORIES_IN_ROW - 1;
 
