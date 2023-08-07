@@ -4,7 +4,7 @@ const TOUR_STEPS = [
   {
     target: '.epoch',
     content: i18n.t(
-      'By default, the simulation starts on Earth in 2020, but you can select a different period or planet',
+      'By default, the simulation starts at equilibrium on Earth in 1850, but you can select a different period or planet',
     ),
     disableBeacon: true,
   },
@@ -15,19 +15,25 @@ const TOUR_STEPS = [
     ),
   },
   {
-    target: '.controls',
+    target: '.play-button',
     content: i18n.t('Click Play to begin the simulation'),
   },
   {
     target: '.settings',
     content: i18n.t(
-      "To change Earth's climate, pause the simulation, alter one or more variables, then click Play again",
+      "To change Earth's climate, pause the simulation and alter one or more variables",
     ),
   },
   {
     target: '.fluxes',
     content: i18n.t(
-      'When variables are changed in Fluxes mode, arrows will begin blinking, indicating that these fluxes are projected to change',
+      'Blinking flux arrows indicate that the Earth is not at equilibrium and that these fluxes are projected to change',
+    ),
+  },
+  {
+    target: '.play-button',
+    content: i18n.t(
+      'Click Play again to see how the temperature and the fluxes evolve',
     ),
   },
 ];

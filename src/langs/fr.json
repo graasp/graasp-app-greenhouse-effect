@@ -25,11 +25,12 @@
     "Pause": "Pause",
     "Ice and Snow": "Glace et neige",
     "Runaway greenhouse effect!": "Emballement de l'effet de serre!",
-    "By default, the simulation starts on Earth in 2020, but you can select a different period or planet": "Par défaut, la simulation démarre sur Terre en 2020, mais vous pouvez choisir une autre période ou une autre planète",
-    "Display radiation as either Waves (qualitative) or Fluxes arrows (quantitative)": "Afficher le rayonnement sous forme d'Ondes (qualitatif) ou de flèches de Flux (quantitatif).",
+    "By default, the simulation starts at equilibrium on Earth in 1850, but you can select a different period or planet": "Par défaut, la simulation démarre à l’équilibre sur Terre en 1850, mais vous pouvez choisir une autre période ou planète",
+    "Display radiation as either Waves (qualitative) or Fluxes arrows (quantitative)": "Afficher le rayonnement sous forme d'Ondes (qualitatif) ou de flèches de Flux (quantitatif)",
     "Click Play to begin the simulation": "Cliquer sur Play pour commencer la simulation",
-    "To change Earth's climate, pause the simulation, alter one or more variables, then click Play again": "Pour modifier le climat de la Terre, mettre la simulation en pause, modifier une ou plusieurs variables, puis cliquer à nouveau sur Play",
-    "When variables are changed in Fluxes mode, arrows will begin blinking, indicating that these fluxes are projected to change": "Lorsque des variables sont modifiées en mode Flux, les flèches qui se mettent à clignoter indiquent que ces flux vont changer",
+    "To change Earth's climate, pause the simulation and alter one or more variables": "Pour modifier le climat de la Terre, mettre la simulation en pause, modifier une ou plusieurs variables",
+    "Blinking flux arrows indicate that the Earth is not at equilibrium and that these fluxes are projected to change": "Des flèches de flux clignotantes indiquent que la Terre n'est pas à l'équilibre et que ces flux devraient changer",
+    "Click Play again to see how the temperature and the fluxes evolve": "Cliquer sur Play pour voir l'évolution de la température et des flux",
     "Next": "Suivant",
     "Back": "Précédent",
     "Skip": "Passer",
@@ -38,6 +39,6 @@
     "Open side menu": "Ouvrir le menu latéral",
     "Close side menu": "Fermer le menu latéral",
     "Show net flux": "Montrer flux net",
-    "Hide net flux": "Cacher net flux"
+    "Hide net flux": "Cacher flux net"
   }
 }

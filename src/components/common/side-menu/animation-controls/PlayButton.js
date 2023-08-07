@@ -104,13 +104,15 @@ const PlayButton = ({ className, settingsUnchanged }) => {
   };
 
   return (
-    <CustomButton
-      title={t('Play')}
-      disabled={!isPaused || zoomedIn || animationPlaying}
-      onClick={onClickPlay}
-      icon={<PlayCircleOutlineIcon className={className} />}
-      color={!zoomedIn && !animationPlaying ? green[800] : EMPTY_STRING}
-    />
+    <div className="play-button">
+      <CustomButton
+        title={t('Play')}
+        disabled={!isPaused || zoomedIn || animationPlaying}
+        onClick={onClickPlay}
+        icon={<PlayCircleOutlineIcon className={className} />}
+        color={!zoomedIn && !animationPlaying ? green[800] : EMPTY_STRING}
+      />
+    </div>
   );
 };
 
