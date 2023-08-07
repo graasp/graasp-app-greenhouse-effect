@@ -2,16 +2,23 @@ import React, { useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
+  GROUND_TO_SKY,
+  SIMULATION_MODES,
+  SKY_TO_ATMOSPHERE,
   SKY_TO_ATMOSPHERE_FLUX_ROTATION,
+  SKY_TO_GROUND,
   UP_STRING,
 } from '../../../../../constants';
 import { FluxesWavesContext } from '../../../../contexts/fluxes-waves/FluxesWavesProvider';
 import Flux from '../flux/Flux';
 import { setIsPaused, setPropagationComplete } from '../../../../../actions';
+import { keepFluxesBlinking } from '../../../../../utils';
 
 const SkyToAtmosphereFlux = ({ energy, fill }) => {
   const dispatch = useDispatch();
-  const { intervalCount, propagationComplete } = useSelector(({ lab }) => lab);
+  const { intervalCount, propagationComplete, simulationMode } = useSelector(
+    ({ lab }) => lab,
+  );
   const { skyToAtmosphere } = useContext(FluxesWavesContext);
   const {
     beginsX,
@@ -25,6 +32,12 @@ const SkyToAtmosphereFlux = ({ energy, fill }) => {
     if (!propagationComplete && intervalCount >= endsAfterInterval.flux) {
       dispatch(setPropagationComplete(true));
       dispatch(setIsPaused(true));
+      if (simulationMode === SIMULATION_MODES.TODAY.name) {
+        keepFluxesBlinking(
+          [GROUND_TO_SKY, SKY_TO_GROUND, SKY_TO_ATMOSPHERE],
+          dispatch,
+        );
+      }
     }
   }, [intervalCount]);
 

@@ -8,14 +8,23 @@ import { useDispatch, useSelector } from 'react-redux';
 import FormLabel from '@material-ui/core/FormLabel';
 import { makeStyles } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
-import { SIMULATION_MODES } from '../../../constants';
+import {
+  CARBON_DIOXIDE_FOR_15_C,
+  GROUND_TO_SKY,
+  RADIATION_MODES,
+  SIMULATION_MODES,
+  SKY_TO_ATMOSPHERE,
+  SKY_TO_GROUND,
+  THERMOMETER,
+} from '../../../constants';
 import {
   resetFluxesFills,
   setFeedbackValues,
   setSimulationMode,
+  setVariable,
   toggleZoom,
 } from '../../../actions';
-import { stopFluxesBlinking } from '../../../utils';
+import { keepFluxesBlinking, stopFluxesBlinking } from '../../../utils';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -48,7 +57,9 @@ function SimulationMode() {
   const isPaused = useSelector(({ lab }) => lab.isPaused);
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const simulationMode = useSelector(({ lab }) => lab.simulationMode);
+  const { simulationMode, propagationComplete, radiationMode } = useSelector(
+    ({ lab }) => lab,
+  );
 
   const handleChange = (e) => {
     const values = Object.values(SIMULATION_MODES).find(
@@ -64,6 +75,17 @@ function SimulationMode() {
       }),
     );
     dispatch(toggleZoom(false));
+    if (e.target.value === SIMULATION_MODES.TODAY.name) {
+      dispatch(
+        setVariable([{ carbonDioxide: CARBON_DIOXIDE_FOR_15_C }, THERMOMETER]),
+      );
+      if (propagationComplete && radiationMode === RADIATION_MODES.FLUXES) {
+        keepFluxesBlinking(
+          [GROUND_TO_SKY, SKY_TO_GROUND, SKY_TO_ATMOSPHERE],
+          dispatch,
+        );
+      }
+    }
   };
 
   return (

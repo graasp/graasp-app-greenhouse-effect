@@ -32,6 +32,7 @@ const PlayButton = ({ className, settingsUnchanged }) => {
     thermometer,
     animationPlaying,
     iceCoverTemporary,
+    propagationComplete,
   } = useSelector(({ lab }) => lab);
   const { waterVaporFeedbackOn, iceCoverFeedbackOn } = feedback;
   const { temperature: impliedTemperature } = sliders;
@@ -42,6 +43,11 @@ const PlayButton = ({ className, settingsUnchanged }) => {
     stopFluxesBlinking();
     dispatch(resetFluxesFills());
     dispatch(showRunawayWarning(false));
+
+    // used to cover the starting case in 2020, where system is initially out of equilibrium
+    if (!propagationComplete) {
+      return;
+    }
 
     if (thermometerTemperature !== impliedTemperature) {
       dispatch(setPreviousSettings({ sliders, thermometer, feedback }));

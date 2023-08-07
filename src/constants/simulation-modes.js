@@ -87,6 +87,9 @@ export const SIMULATION_MODES = {
   },
 };
 
+// we use this to generate a 15 C disequilibrium temperature in 2020
+export const CARBON_DIOXIDE_FOR_15_C = 378;
+
 export const INITIAL_SIMULATION_MODE = SIMULATION_MODES.PRE_INDUSTRIAL;
 const INITIAL_ICE_COVER = INITIAL_SIMULATION_MODE.iceCover;
 const INITIAL_CLOUD_COVER = INITIAL_SIMULATION_MODE.cloudCover;

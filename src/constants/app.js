@@ -14,7 +14,7 @@ export const GRADUAL_UPDATE_INTERVAL = 500;
 export const FLUX_BLINKING_INTERVAL = 500;
 
 // constants for sine curves/waves
-export const Y_SHIFT_PER_INTERVAL = Math.PI;
+export const Y_SHIFT_PER_INTERVAL = 1.25 * Math.PI;
 export const VISIBLE_LIGHT_PERIOD = 1 / 6;
 export const INFRARED_RADIATION_PERIOD = 1 / 12;
 export const Y_INCREMENT = Math.PI / 8;

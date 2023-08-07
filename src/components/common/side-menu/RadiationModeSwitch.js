@@ -1,8 +1,13 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { reset, setRadiationMode } from '../../../actions';
-import { RADIATION_MODES, SIMULATION_MODES } from '../../../constants';
+import { reset, setRadiationMode, setVariable } from '../../../actions';
+import {
+  CARBON_DIOXIDE_FOR_15_C,
+  RADIATION_MODES,
+  SIMULATION_MODES,
+  THERMOMETER,
+} from '../../../constants';
 import SwitchWithTwoLabels from './shared-components/SwitchWithTwoLabels';
 
 const RadiationModeSwitch = () => {
@@ -26,6 +31,11 @@ const RadiationModeSwitch = () => {
       ({ name }) => name === simulationMode,
     );
     dispatch(reset(originalMode));
+    if (originalMode.name === SIMULATION_MODES.TODAY.name) {
+      dispatch(
+        setVariable([{ carbonDioxide: CARBON_DIOXIDE_FOR_15_C }, THERMOMETER]),
+      );
+    }
     const { checked } = e.target;
     const mode = checked ? RADIATION_MODES.FLUXES : RADIATION_MODES.WAVES;
     dispatch(setRadiationMode(mode));

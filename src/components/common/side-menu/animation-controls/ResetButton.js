@@ -5,8 +5,13 @@ import { useTranslation } from 'react-i18next';
 import RotateLeftIcon from '@material-ui/icons/RotateLeft';
 import { orange } from '@material-ui/core/colors';
 import CustomButton from '../shared-components/CustomButton';
-import { reset, toggleZoom } from '../../../../actions';
-import { EMPTY_STRING, SIMULATION_MODES } from '../../../../constants';
+import { reset, setVariable, toggleZoom } from '../../../../actions';
+import {
+  CARBON_DIOXIDE_FOR_15_C,
+  EMPTY_STRING,
+  SIMULATION_MODES,
+  THERMOMETER,
+} from '../../../../constants';
 
 const ResetButton = ({ className }) => {
   const { t } = useTranslation();
@@ -18,6 +23,11 @@ const ResetButton = ({ className }) => {
       ({ name }) => name === simulationMode,
     );
     dispatch(reset(originalMode));
+    if (originalMode.name === SIMULATION_MODES.TODAY.name) {
+      dispatch(
+        setVariable([{ carbonDioxide: CARBON_DIOXIDE_FOR_15_C }, THERMOMETER]),
+      );
+    }
     dispatch(toggleZoom(false));
   };
 
