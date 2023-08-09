@@ -2,6 +2,34 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.3.0](https://github.com/graasp/graasp-app-greenhouse-effect/compare/v0.2.0...v0.3.0) (2023-08-07)
+
+
+### Features
+
+* add cloud-to-ground radiation on Venus ([ed4ed7e](https://github.com/graasp/graasp-app-greenhouse-effect/commit/ed4ed7e71f4c7f439f407c157720fa388c47a4e1)), closes [#135](https://github.com/graasp/graasp-app-greenhouse-effect/issues/135)
+* add net flux ([1189aec](https://github.com/graasp/graasp-app-greenhouse-effect/commit/1189aec02f9ea4d7a46c422aec55d99b75d1ea98)), closes [#151](https://github.com/graasp/graasp-app-greenhouse-effect/issues/151)
+* add trees ([04f2725](https://github.com/graasp/graasp-app-greenhouse-effect/commit/04f27254290cbe840b175c8e46f9ada211473ae8)), closes [#130](https://github.com/graasp/graasp-app-greenhouse-effect/issues/130)
+* adjust landscape ([7c63724](https://github.com/graasp/graasp-app-greenhouse-effect/commit/7c63724dd76b12fc54a72bd016a961fc1805cdc5)), closes [#111](https://github.com/graasp/graasp-app-greenhouse-effect/issues/111)
+* adjust landscape ice response to ice-cover change ([60dfffc](https://github.com/graasp/graasp-app-greenhouse-effect/commit/60dfffc42acec3185ae1f8ee332a4429eaa9b1c4)), closes [#139](https://github.com/graasp/graasp-app-greenhouse-effect/issues/139)
+* adjust response to reset, mode switch ([a4c0333](https://github.com/graasp/graasp-app-greenhouse-effect/commit/a4c03335167f7f065fc929ba91ff0c1e634c9f3a)), closes [#138](https://github.com/graasp/graasp-app-greenhouse-effect/issues/138)
+* adjust wave/flux starting/ending points ([e822c43](https://github.com/graasp/graasp-app-greenhouse-effect/commit/e822c43225ab4b1cf146ba3b70a4daa90b1ba801)), closes [#143](https://github.com/graasp/graasp-app-greenhouse-effect/issues/143)
+* amplify amplitude adjustments for Earth waves ([72148d3](https://github.com/graasp/graasp-app-greenhouse-effect/commit/72148d335b32e3c4ba123cb29917dec16ee60846)), closes [#126](https://github.com/graasp/graasp-app-greenhouse-effect/issues/126)
+* change 1900 to 1850, begin sim in 1850 ([a2abefb](https://github.com/graasp/graasp-app-greenhouse-effect/commit/a2abefb778db85bdf4258a3d858f354a2d6bde0d))
+* disable input variables until propagation completes ([662c1c6](https://github.com/graasp/graasp-app-greenhouse-effect/commit/662c1c656fb14d55a57998575cc82a127343cfec)), closes [#150](https://github.com/graasp/graasp-app-greenhouse-effect/issues/150)
+* update 2020 to be in disequilibrium initially ([a3a0731](https://github.com/graasp/graasp-app-greenhouse-effect/commit/a3a073144d3e9c96880e1dbab0d4e6873e18d664)), closes [#147](https://github.com/graasp/graasp-app-greenhouse-effect/issues/147)
+* update function parameters, other constants ([3aa6285](https://github.com/graasp/graasp-app-greenhouse-effect/commit/3aa6285b0769681ed79df2f5660f21d3d1d1915a)), closes [#146](https://github.com/graasp/graasp-app-greenhouse-effect/issues/146)
+
+
+### Bug Fixes
+
+* adjust color of grass ([7a64ecb](https://github.com/graasp/graasp-app-greenhouse-effect/commit/7a64ecbd9f4e925fdf14019b9b9b38ba0a0aca92)), closes [#133](https://github.com/graasp/graasp-app-greenhouse-effect/issues/133)
+* change undo button to rewind ([bce8614](https://github.com/graasp/graasp-app-greenhouse-effect/commit/bce8614ee9ddaebce800e1bc5b1efc806e0ec986)), closes [#129](https://github.com/graasp/graasp-app-greenhouse-effect/issues/129)
+* correctly run simultaneous feedback and free variable change ([e571e04](https://github.com/graasp/graasp-app-greenhouse-effect/commit/e571e04b802aa87c654214d53720cdb63a79960f))
+* fix lag due to canvas trees ([b4b3a98](https://github.com/graasp/graasp-app-greenhouse-effect/commit/b4b3a98b871520a238e7348444324c886b1227c3)), closes [#149](https://github.com/graasp/graasp-app-greenhouse-effect/issues/149)
+* remove lower bounds on CH4 and CO2 ([3808031](https://github.com/graasp/graasp-app-greenhouse-effect/commit/38080316739d0ff8df52efebc28bbd285ea4c4b2)), closes [#128](https://github.com/graasp/graasp-app-greenhouse-effect/issues/128)
+* widen flux label to contain text of smaller fluxes ([72a2d6b](https://github.com/graasp/graasp-app-greenhouse-effect/commit/72a2d6b9d39a2997a55285714dd1155545998690)), closes [#127](https://github.com/graasp/graasp-app-greenhouse-effect/issues/127)
+
 ## [0.2.0](https://github.com/graasp/graasp-app-greenhouse-effect/compare/v0.1.0...v0.2.0) (2023-04-27)
 
 
