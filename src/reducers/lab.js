@@ -52,13 +52,17 @@ const INITIAL_STATE = {
   showRunawayWarning: false,
   iceCoverTemporary: false,
   propagationComplete: false,
-  showNetFlux: true,
+  showNetFlux: false,
 };
 
 export default (state = INITIAL_STATE, { type, payload }) => {
   switch (type) {
     case SET_RADIATION_MODE:
-      return { ...state, radiationMode: payload };
+      return {
+        ...state,
+        radiationMode: payload,
+        showNetFlux: payload === RADIATION_MODES.FLUXES,
+      };
     case SET_SCALE_UNIT:
       return { ...state, scaleUnit: payload };
     case SET_FEEDBACK_VALUES:
