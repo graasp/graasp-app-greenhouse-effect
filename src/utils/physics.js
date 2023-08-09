@@ -62,7 +62,7 @@ export const computeAlbedo = (iceCover, cloudCover, simulationMode) => {
   // if either Venus or Mars are selected, albedo value is hard-coded
   switch (simulationMode) {
     case VENUS:
-      return { totalAlbedo: 0.77, cloudAlbedo: 1 };
+      return { totalAlbedo: 0.769, cloudAlbedo: 1 };
     case MARS:
       return { totalAlbedo: 0.25, cloudAlbedo: 0 };
     default:
