@@ -5,6 +5,7 @@ import { Checkbox, Tooltip, makeStyles } from '@material-ui/core';
 import { RadioButtonChecked, RadioButtonUnchecked } from '@material-ui/icons';
 import { orange } from '@material-ui/core/colors';
 import { setShowNetFlux } from '../../../actions';
+import { RADIATION_MODES } from '../../../constants';
 
 const useStyles = makeStyles(() => ({
   active: { color: orange[900] },
@@ -14,7 +15,9 @@ const useStyles = makeStyles(() => ({
 const NetFluxToggle = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { showNetFlux, propagationComplete } = useSelector(({ lab }) => lab);
+  const { showNetFlux, propagationComplete, radiationMode } = useSelector(
+    ({ lab }) => lab,
+  );
   const { t } = useTranslation();
 
   const onChange = (event) => {
@@ -23,7 +26,8 @@ const NetFluxToggle = () => {
       : dispatch(setShowNetFlux(false));
   };
 
-  const disabled = !propagationComplete;
+  const disabled =
+    !propagationComplete || radiationMode === RADIATION_MODES.WAVES;
   const className = disabled ? classes.inactive : classes.active;
 
   return (

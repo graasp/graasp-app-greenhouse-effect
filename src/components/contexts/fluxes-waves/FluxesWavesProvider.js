@@ -7,7 +7,6 @@ import { SeaDimensionsContext } from '../canvas-dimensions/SeaDimensionsProvider
 import { GroundDimensionsContext } from '../canvas-dimensions/GroundDimensionsProvider';
 import {
   GROUND_TO_SKY_EARTH_FLUX_ADJUSTMENT,
-  NET_FLUX_FIXED_HEIGHT,
   SIMULATION_MODES,
   SKY_TO_ATMOSPHERE_EARTH_FLUX_ADJUSTMENT,
   SKY_TO_GROUND_EARTH_FLUX_ADJUSTMENT,
@@ -160,10 +159,8 @@ const FluxesWavesProvider = ({ children }) => {
     beginsX:
       sunToCloud.beginsX + (skyToAtmosphere.beginsX - sunToCloud.beginsX) / 2,
     beginsY: skyBeginsY,
-    height: NET_FLUX_FIXED_HEIGHT,
     startsAfterInterval: {
       flux: skyToAtmosphere.endsAfterInterval.flux - 1,
-      wave: skyToAtmosphere.endsAfterInterval.wave - 1,
     },
   };
 

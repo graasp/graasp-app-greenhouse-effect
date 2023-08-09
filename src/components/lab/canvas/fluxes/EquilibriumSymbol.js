@@ -12,7 +12,7 @@ const EquilibriumSymbol = ({ bodyWidth, bodyHeight }) => {
   const bottomHalfY = verticalSpace * 3;
 
   return (
-    <Group x={symbolBegins} draggable>
+    <Group x={symbolBegins}>
       <EquilibriumSymbolLine points={[0, 0, symbolWidth, 0]} y={upperHalfY} />
       <EquilibriumSymbolLine
         points={[0, 0, -verticalSpace, -verticalSpace]}
