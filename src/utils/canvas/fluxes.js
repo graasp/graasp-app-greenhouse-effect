@@ -57,10 +57,14 @@ export const keepFluxesBlinking = (fluxes, dispatch) => {
 };
 
 export const computeEarthEnergies = (temperature, greenhouseEffect) => {
-  const groundToSky = Math.round(STEFAN_BOLTZMANN_CONSTANT * temperature ** 4);
+  const groundToSky = STEFAN_BOLTZMANN_CONSTANT * temperature ** 4;
   const skyToGround = greenhouseEffect * groundToSky;
   const skyToAtmosphere = groundToSky - skyToGround;
-  return { groundToSky, skyToGround, skyToAtmosphere };
+  return {
+    groundToSky: Math.round(groundToSky),
+    skyToGround: Math.round(skyToGround),
+    skyToAtmosphere: Math.round(skyToAtmosphere),
+  };
 };
 
 export const computeSunEnergies = (
@@ -78,5 +82,10 @@ export const computeSunEnergies = (
   if (simulationMode === SIMULATION_MODES.VENUS.name) {
     groundToAtmosphere = 0;
   }
-  return { sunToCloud, cloudToAtmosphere, cloudToGround, groundToAtmosphere };
+  return {
+    sunToCloud: Math.round(sunToCloud),
+    cloudToAtmosphere: Math.round(cloudToAtmosphere),
+    cloudToGround: Math.round(cloudToGround),
+    groundToAtmosphere: Math.round(groundToAtmosphere),
+  };
 };

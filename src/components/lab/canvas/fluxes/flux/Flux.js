@@ -12,6 +12,7 @@ import {
   MINIMUM_FLUX_POINTER_HEIGHT,
   NET_FLUX_LABEL_COLOR,
   TOTAL_INTERVALS_TO_COMPLETE_FLUX,
+  UP_STRING,
 } from '../../../../../constants';
 
 const Flux = ({
@@ -29,10 +30,13 @@ const Flux = ({
   const { width: stageWidth } = useSelector(
     ({ layout }) => layout.lab.stageDimensions,
   );
-  const { intervalCount } = useSelector(({ lab }) => lab);
+  const { intervalCount, thermometer, sliders } = useSelector(({ lab }) => lab);
+  const { temperature: thermometerTemperature } = thermometer;
+  const { temperature: impliedTemperature } = sliders;
+  const atEquilibrium = thermometerTemperature === impliedTemperature;
 
   const totalWidth = calculateEnergyWidth(energy, stageWidth, netFlux);
-  const showPointer = (netFlux && energy !== 0) || !netFlux;
+  const showPointer = (netFlux && !atEquilibrium) || !netFlux;
 
   const pointerWidth = totalWidth;
   // because some flux values are small, use Math.max() to ensure pointer has a minimal size that can accomodate its label
@@ -54,7 +58,9 @@ const Flux = ({
   let adjustedY = y;
   if (netFlux) {
     // eslint-disable-next-line no-unused-expressions
-    energy < 0 ? (adjustedY += bodyHeight / 2) : (adjustedY -= bodyHeight / 2);
+    direction === UP_STRING
+      ? (adjustedY += bodyHeight / 2)
+      : (adjustedY -= bodyHeight / 2);
   }
 
   if (energy <= 0 && !netFlux) {
@@ -69,7 +75,7 @@ const Flux = ({
           bodyHeight={bodyHeight}
           fill={fill}
           direction={direction}
-          showEquilibriumSign={netFlux && energy === 0}
+          showEquilibriumSign={netFlux && atEquilibrium}
         />
         {showPointer && (
           <FluxPointer

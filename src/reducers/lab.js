@@ -187,6 +187,7 @@ export default (state = INITIAL_STATE, { type, payload }) => {
         sliders: updatedValues,
         thermometer: updatedValues,
         radiationMode: state.radiationMode,
+        showNetFlux: state.radiationMode === RADIATION_MODES.FLUXES,
       };
     }
     case TOGGLE_FLUXES_FILLS:

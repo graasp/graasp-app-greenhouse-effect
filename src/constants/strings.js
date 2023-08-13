@@ -24,3 +24,4 @@ export const SLIDERS = 'sliders';
 export const EMPTY_STRING = '';
 export const POINTER_CURSOR = 'pointer';
 export const TOUR_TAKEN = 'TOUR_TAKEN';
+export const ALMOST_ZERO = '~0';

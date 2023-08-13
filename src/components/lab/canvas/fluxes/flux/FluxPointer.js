@@ -4,12 +4,11 @@ import PropTypes from 'prop-types';
 import { Group, Line, Text } from 'react-konva';
 import { generateFluxPointerPoints } from '../../../../../utils';
 import {
+  ALMOST_ZERO,
   BOTTOM_STRING,
-  EMPTY_STRING,
   FLUX_LABEL_LARGE_FONT_SIZE,
   FLUX_LABEL_MARGIN,
   FLUX_LABEL_SMALL_FONT_SIZE,
-  RADIATION_MODES,
   TOP_STRING,
   UP_STRING,
   WIDE_FLUX_MINIMUM_WIDTH,
@@ -23,9 +22,10 @@ const FluxPointer = ({
   fill,
   energy,
   fontColor,
-  netFlux,
 }) => {
-  const { radiationMode } = useSelector(({ lab }) => lab);
+  const { thermometer, sliders } = useSelector(({ lab }) => lab);
+  const { temperature: thermometerTemperature } = thermometer;
+  const { temperature: impliedTemperature } = sliders;
   const y = direction === UP_STRING ? -bodyHeight - pointerHeight : bodyHeight;
   const verticalAlign = direction === UP_STRING ? BOTTOM_STRING : TOP_STRING;
 
@@ -35,8 +35,8 @@ const FluxPointer = ({
     pointerHeight,
   );
 
-  const showLabel =
-    !netFlux || (netFlux && radiationMode === RADIATION_MODES.FLUXES);
+  const atEquilibrium = thermometerTemperature === impliedTemperature;
+  const labelText = energy === 0 && !atEquilibrium ? ALMOST_ZERO : energy;
 
   return (
     <Group y={y}>
@@ -51,7 +51,7 @@ const FluxPointer = ({
       />
       <Text
         x={-(pointerWidth + FLUX_LABEL_MARGIN) / 2}
-        text={showLabel ? energy && energy.toFixed(0) : EMPTY_STRING}
+        text={labelText}
         width={pointerWidth + FLUX_LABEL_MARGIN}
         align="center"
         height={pointerHeight}
@@ -75,7 +75,6 @@ FluxPointer.propTypes = {
   fill: PropTypes.string.isRequired,
   energy: PropTypes.number.isRequired,
   fontColor: PropTypes.string.isRequired,
-  netFlux: PropTypes.bool.isRequired,
 };
 
 export default FluxPointer;

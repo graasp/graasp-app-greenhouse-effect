@@ -7,9 +7,11 @@ import SkyToAtmosphereFlux from './SkyToAtmosphereFlux';
 import SkyToGroundFlux from './SkyToGroundFlux';
 import { FluxesWavesContext } from '../../../../contexts/fluxes-waves/FluxesWavesProvider';
 
-const EarthFluxes = ({ earthEnergies }) => {
+const EarthFluxes = ({ earthEnergies, sunEnergies }) => {
   const { isMars } = useContext(FluxesWavesContext);
-  const { fluxesFills } = useSelector(({ lab }) => lab);
+  const { fluxesFills, thermometer, sliders } = useSelector(({ lab }) => lab);
+  const { temperature: thermometerTemperature } = thermometer;
+  const { temperature: impliedTemperature } = sliders;
   const { groundToSky, skyToAtmosphere, skyToGround } = fluxesFills;
 
   const {
@@ -17,6 +19,15 @@ const EarthFluxes = ({ earthEnergies }) => {
     skyToGround: skyToGroundEnergy,
     skyToAtmosphere: skyToAtmosphereEnergy,
   } = earthEnergies;
+
+  const { sunToCloud, cloudToAtmosphere, groundToAtmosphere } = sunEnergies;
+
+  // due to rounding, there are cases where the sum of the emitted fluxes does not equal the original incoming flux, violating equilibrium
+  // to correct these cases, at equilibrium always calculate the skyToAtmosphere energy via the other fluxes
+  const atEquilibrium = thermometerTemperature === impliedTemperature;
+  const skyToAtmosphereDisplayedEnergy = atEquilibrium
+    ? sunToCloud - (cloudToAtmosphere + groundToAtmosphere)
+    : skyToAtmosphereEnergy;
 
   return (
     <Group>
@@ -26,7 +37,7 @@ const EarthFluxes = ({ earthEnergies }) => {
       )}
       {!isMars && (
         <SkyToAtmosphereFlux
-          energy={skyToAtmosphereEnergy}
+          energy={skyToAtmosphereDisplayedEnergy}
           fill={skyToAtmosphere}
         />
       )}
@@ -36,6 +47,7 @@ const EarthFluxes = ({ earthEnergies }) => {
 
 EarthFluxes.propTypes = {
   earthEnergies: PropTypes.objectOf(PropTypes.number).isRequired,
+  sunEnergies: PropTypes.objectOf(PropTypes.number).isRequired,
 };
 
 export default EarthFluxes;
