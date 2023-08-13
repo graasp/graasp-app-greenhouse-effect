@@ -8,7 +8,7 @@ const Fluxes = ({ sunEnergies, earthEnergies }) => {
   return (
     <Group>
       <SunFluxes sunEnergies={sunEnergies} />
-      <EarthFluxes earthEnergies={earthEnergies} />
+      <EarthFluxes earthEnergies={earthEnergies} sunEnergies={sunEnergies} />
     </Group>
   );
 };

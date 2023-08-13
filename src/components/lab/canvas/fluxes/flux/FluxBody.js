@@ -17,7 +17,11 @@ const FluxBody = ({
     <Group x={-bodyWidth / 2}>
       <Rect width={bodyWidth} height={directedHeight} fill={fill} />
       {showEquilibriumSign && (
-        <EquilibriumSymbol bodyWidth={bodyWidth} bodyHeight={directedHeight} />
+        <EquilibriumSymbol
+          bodyWidth={bodyWidth}
+          bodyHeight={bodyHeight}
+          direction={direction}
+        />
       )}
     </Group>
   );

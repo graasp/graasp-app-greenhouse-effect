@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import Flux from './flux/Flux';
 import {
@@ -10,14 +11,28 @@ import {
 import { FluxesWavesContext } from '../../../contexts/fluxes-waves/FluxesWavesProvider';
 
 const NetFlux = ({ sunEnergies, earthEnergies }) => {
+  const { thermometer, sliders } = useSelector(({ lab }) => lab);
+  const { temperature: thermometerTemperature } = thermometer;
+  const { temperature: impliedTemperature } = sliders;
   const { netFlux } = useContext(FluxesWavesContext);
   const { beginsX, beginsY, startsAfterInterval } = netFlux;
-  const { skyToAtmosphere } = earthEnergies;
+  const { skyToAtmosphere: skyToAtmosphereCurrent } = earthEnergies;
   const { sunToCloud, cloudToAtmosphere, groundToAtmosphere } = sunEnergies;
 
-  const netEnergy = Math.round(
-    sunToCloud - (cloudToAtmosphere + groundToAtmosphere + skyToAtmosphere),
-  );
+  // this re-assignment handles edge cases having to do with 'overshooting' due to flux rounding
+  // e.g. in 2020 equilibrium, move cloudCover from 0.45 to 0.46 then to 0.47 w/skyToAtmosphereCurrent rather than logic below
+  // in the move between 0.46 to 0.47, on its way from -1 to 0 the Net Flux will briefly show +1, which we don't want
+  let skyToAtmosphere;
+  const skyToAtmosphereFinal =
+    sunToCloud - (cloudToAtmosphere + groundToAtmosphere);
+  if (impliedTemperature < thermometerTemperature) {
+    skyToAtmosphere = Math.max(skyToAtmosphereCurrent, skyToAtmosphereFinal);
+  } else if (impliedTemperature > thermometerTemperature) {
+    skyToAtmosphere = Math.min(skyToAtmosphereCurrent, skyToAtmosphereFinal);
+  }
+
+  const netEnergy =
+    sunToCloud - (cloudToAtmosphere + groundToAtmosphere + skyToAtmosphere);
 
   return (
     <Flux
@@ -25,7 +40,9 @@ const NetFlux = ({ sunEnergies, earthEnergies }) => {
       y={beginsY}
       totalHeight={NET_FLUX_FIXED_HEIGHT}
       fill={NET_FLUX_FILL}
-      direction={netEnergy < 0 ? UP_STRING : DOWN_STRING}
+      direction={
+        thermometerTemperature > impliedTemperature ? UP_STRING : DOWN_STRING
+      }
       energy={netEnergy}
       startsAfterInterval={startsAfterInterval.flux}
       animateFlux={false}
