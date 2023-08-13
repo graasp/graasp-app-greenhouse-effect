@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.4.0](https://github.com/graasp/graasp-app-greenhouse-effect/compare/v0.3.0...v0.4.0) (2023-08-13)
+
+
+### Features
+
+* remove Net Flux from Waves mode ([6b0d531](https://github.com/graasp/graasp-app-greenhouse-effect/commit/6b0d5313cbae3f3542e82d8fd5c7ca7b06399f1e)), closes [#156](https://github.com/graasp/graasp-app-greenhouse-effect/issues/156)
+
+
+### Bug Fixes
+
+* address rounding issues in flux energy displays ([f737763](https://github.com/graasp/graasp-app-greenhouse-effect/commit/f737763670636f9cba266f02347905843d6d406a)), closes [#157](https://github.com/graasp/graasp-app-greenhouse-effect/issues/157)
+
+
+### Documentation
+
+* update readme, including deployed app link ([9362929](https://github.com/graasp/graasp-app-greenhouse-effect/commit/9362929a076bce3da3b5b4f5f302c8c15a6391c7)), closes [#137](https://github.com/graasp/graasp-app-greenhouse-effect/issues/137)
+
 ## [0.3.0](https://github.com/graasp/graasp-app-greenhouse-effect/compare/v0.2.0...v0.3.0) (2023-08-07)
 
 
