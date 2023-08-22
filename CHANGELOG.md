@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.4.1](https://github.com/graasp/graasp-app-greenhouse-effect/compare/v0.4.0...v0.4.1) (2023-08-22)
+
+
+### Bug Fixes
+
+* trigger propagationComplete when sim is initially played on Mars ([724fd60](https://github.com/graasp/graasp-app-greenhouse-effect/commit/724fd60db1a6a5c912f5df6f53dae6a28cc93f47)), closes [#162](https://github.com/graasp/graasp-app-greenhouse-effect/issues/162)
+
 ## [0.4.0](https://github.com/graasp/graasp-app-greenhouse-effect/compare/v0.3.0...v0.4.0) (2023-08-13)
 
 
