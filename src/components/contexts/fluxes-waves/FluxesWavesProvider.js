@@ -115,6 +115,13 @@ const FluxesWavesProvider = ({ children }) => {
         ? cloudToGround.startsAfterInterval.wave
         : groundToAtmosphere.startsAfterInterval.wave,
     },
+    endsAfterInterval: {
+      flux: TOTAL_INTERVALS_TO_COMPLETE_FLUX * 4,
+      wave:
+        cloudToGround.startsAfterInterval.wave +
+        Math.abs(groundBeginsY - (groundBeginsY - skyHeight)) /
+          Y_SHIFT_PER_INTERVAL,
+    },
   };
 
   const skyToGround = {

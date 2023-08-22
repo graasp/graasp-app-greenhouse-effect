@@ -1,12 +1,35 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { UP_STRING } from '../../../../../constants';
+import { SIMULATION_MODES, UP_STRING } from '../../../../../constants';
 import { FluxesWavesContext } from '../../../../contexts/fluxes-waves/FluxesWavesProvider';
 import Flux from '../flux/Flux';
+import { setIsPaused, setPropagationComplete } from '../../../../../actions';
 
 const GroundToSkyFlux = ({ energy, fill }) => {
   const { groundToSky } = useContext(FluxesWavesContext);
-  const { beginsX, beginsY, height, startsAfterInterval } = groundToSky;
+  const dispatch = useDispatch();
+  const { intervalCount, propagationComplete, simulationMode } = useSelector(
+    ({ lab }) => lab,
+  );
+  const {
+    beginsX,
+    beginsY,
+    height,
+    startsAfterInterval,
+    endsAfterInterval,
+  } = groundToSky;
+
+  useEffect(() => {
+    if (
+      !propagationComplete &&
+      intervalCount >= endsAfterInterval.flux &&
+      simulationMode === SIMULATION_MODES.MARS.name
+    ) {
+      dispatch(setPropagationComplete(true));
+      dispatch(setIsPaused(true));
+    }
+  }, [intervalCount]);
 
   return (
     <Flux

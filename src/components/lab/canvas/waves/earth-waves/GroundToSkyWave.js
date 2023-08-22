@@ -1,12 +1,38 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { EARTH_FLUXES_DEFAULT_COLOR, INFRARED } from '../../../../../constants';
+import {
+  EARTH_FLUXES_DEFAULT_COLOR,
+  INFRARED,
+  SIMULATION_MODES,
+} from '../../../../../constants';
 import Wave from '../wave/Wave';
 import { FluxesWavesContext } from '../../../../contexts/fluxes-waves/FluxesWavesProvider';
+import { setPropagationComplete } from '../../../../../actions';
 
 const GroundToSkyWave = ({ energy, initial, amplify }) => {
   const { groundToSky } = useContext(FluxesWavesContext);
-  const { beginsX, beginsY, endsY, startsAfterInterval } = groundToSky;
+  const dispatch = useDispatch();
+  const { propagationComplete, intervalCount, simulationMode } = useSelector(
+    ({ lab }) => lab,
+  );
+  const {
+    beginsX,
+    beginsY,
+    endsY,
+    startsAfterInterval,
+    endsAfterInterval,
+  } = groundToSky;
+
+  useEffect(() => {
+    if (
+      !propagationComplete &&
+      intervalCount >= endsAfterInterval.wave &&
+      simulationMode === SIMULATION_MODES.MARS.name
+    ) {
+      dispatch(setPropagationComplete(true));
+    }
+  }, [intervalCount]);
 
   return (
     <Wave
