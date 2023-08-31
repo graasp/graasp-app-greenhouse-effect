@@ -101,7 +101,7 @@ export const computeIceCover = (temperatureInCelsius) => {
 };
 
 export const computeCTerm = (temperature) => {
-  return temperature * 0.00454 + 0.163;
+  return temperature * 0.00454 + 0.164;
 };
 
 export const roundToNearestHundred = (num) => {
