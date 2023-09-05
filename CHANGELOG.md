@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.5.0](https://github.com/graasp/graasp-app-greenhouse-effect/compare/v0.4.1...v0.5.0) (2023-09-05)
+
+
+### Features
+
+* adjust initial c terms ([c167451](https://github.com/graasp/graasp-app-greenhouse-effect/commit/c167451265239d4f9f1c8ac8208cca9094985b50)), closes [#165](https://github.com/graasp/graasp-app-greenhouse-effect/issues/165)
+
+
+### Bug Fixes
+
+* fix bug causing issues w simultaneous feedback effects ([8508a34](https://github.com/graasp/graasp-app-greenhouse-effect/commit/8508a343a0407acf72bcb2102aceea35561a8e9e)), closes [#166](https://github.com/graasp/graasp-app-greenhouse-effect/issues/166)
+
 ## [0.4.1](https://github.com/graasp/graasp-app-greenhouse-effect/compare/v0.4.0...v0.4.1) (2023-08-22)
 
 
