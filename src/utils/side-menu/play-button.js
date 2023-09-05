@@ -20,14 +20,12 @@ export const handleWaterVaporFeedback = (
   dispatch,
   simulationMode,
 ) => {
-  const { carbonDioxide, methane, albedo } = sliders;
+  const { carbonDioxide, methane, iceCover, cloudCover } = sliders;
   const fluxesToBlink = [GROUND_TO_SKY, SKY_TO_GROUND, SKY_TO_ATMOSPHERE];
   dispatch(setPreviousSettings({ fluxesToBlink }));
 
   const { cTerms, runawayGreenhouseEffect } = computeWaterVaporFeedbackCTerms(
-    carbonDioxide,
-    methane,
-    albedo.totalAlbedo,
+    { carbonDioxide, methane, iceCover, cloudCover },
     targetTemperature,
     simulationMode,
   );
@@ -49,7 +47,7 @@ export const handleIceCoverFeedback = (
   dispatch,
   simulationMode,
 ) => {
-  const { greenhouseEffect, cloudCover } = sliders;
+  const { carbonDioxide, methane, iceCover, cloudCover, cTerm } = sliders;
   const fluxesToBlink = [
     GROUND_TO_SKY,
     SKY_TO_GROUND,
@@ -62,9 +60,8 @@ export const handleIceCoverFeedback = (
     iceCoverTerms,
     runawayGreenhouseEffect,
   } = computeIceCoverFeedbackTerms(
+    { carbonDioxide, methane, iceCover, cloudCover, cTerm },
     targetTemperature,
-    greenhouseEffect,
-    cloudCover,
     simulationMode,
   );
 

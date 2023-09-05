@@ -18,7 +18,7 @@ import {
   kelvinToCelsius,
 } from '../../../utils';
 import {
-  FEEDBACK_EFFECTS_DEFAULT_EPSILON,
+  FIRST_ITERATION_EPSILON,
   GROUND_TO_ATMOSPHERE,
   GROUND_TO_SKY,
   SKY_TO_ATMOSPHERE,
@@ -71,7 +71,7 @@ const IceCoverFeedback = ({ disabled }) => {
   // (2) to update the values on a number of fluxes, and the ice cover slider
   const significantTemperatureChangeProjected =
     Math.abs(projectedTemperature - thermometerTemperature) >
-    FEEDBACK_EFFECTS_DEFAULT_EPSILON;
+    FIRST_ITERATION_EPSILON;
 
   const onToggle = (checked) => {
     dispatch(setFeedbackValues({ iceCoverFeedbackOn: checked }));

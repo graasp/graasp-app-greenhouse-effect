@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core';
 import SliderWithLabel from '../shared-components/SliderWithLabel';
 import {
-  GREENHOUSE_TOTAL_EFFECT_MAX_VALUE,
+  MAX_TOTAL_GHE,
   ON_STRING,
   SIMULATION_MODES,
 } from '../../../../constants';
@@ -42,7 +42,7 @@ const GreenhouseEffect = ({ settingsUnchanged }) => {
       <SliderWithLabel
         disabled
         text={t('Greenhouse Effect (%)')}
-        max={GREENHOUSE_TOTAL_EFFECT_MAX_VALUE}
+        max={MAX_TOTAL_GHE}
         value={+(greenhouseEffect * 100).toFixed(1)}
         valueLabelDisplay={ON_STRING}
         labelClassName={classes.title}

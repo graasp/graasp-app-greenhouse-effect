@@ -8,12 +8,11 @@ export const MAX_TEMPERATURE_DISPLAYED_ON_EARTH_CELSIUS = 30;
 
 // these constants are used (1) in the feedback effects, to break the iterative loop if it exceeds/falls below these values
 // (2) in sliders
-export const ICE_COVER_MAX_VALUE = 100;
-export const ICE_COVER_MIN_VALUE = 0;
-export const GREENHOUSE_EFFECT_MAX_VALUE = 1;
-export const GREENHOUSE_EFFECT_MIN_VALUE = 0;
-export const GREENHOUSE_TOTAL_EFFECT_MAX_VALUE =
-  GREENHOUSE_EFFECT_MAX_VALUE * 100;
+export const MAX_ICE_COVER = 100;
+export const MIN_ICE_COVER = 0;
+export const MAX_GHE = 1;
+export const MIN_GHE = 0;
+export const MAX_TOTAL_GHE = MAX_GHE * 100;
 export const ALBEDO_MAX_VALUE = 100;
 export const CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE_DEFAULT = 1000;
 export const CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE_ON_MARS_OR_VENUS = 1e6;
