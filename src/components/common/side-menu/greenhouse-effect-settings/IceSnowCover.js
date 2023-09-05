@@ -9,7 +9,7 @@ import {
   setVariable,
 } from '../../../../actions';
 import {
-  ICE_COVER_MAX_VALUE,
+  MAX_ICE_COVER,
   GROUND_TO_ATMOSPHERE,
   GROUND_TO_SKY,
   SKY_TO_GROUND,
@@ -49,7 +49,7 @@ const IceSnowCover = ({ disabled, settingsUnchanged }) => {
   return (
     <SliderWithLabel
       text={t('Ice and Snow (%)')}
-      max={ICE_COVER_MAX_VALUE}
+      max={MAX_ICE_COVER}
       value={Math.round(sliderIceCover)}
       onChange={onChange}
       onRelease={onRelease}

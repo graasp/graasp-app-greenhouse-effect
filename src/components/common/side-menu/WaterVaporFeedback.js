@@ -18,7 +18,7 @@ import {
   kelvinToCelsius,
 } from '../../../utils';
 import {
-  FEEDBACK_EFFECTS_DEFAULT_EPSILON,
+  FIRST_ITERATION_EPSILON,
   GROUND_TO_SKY,
   SKY_TO_ATMOSPHERE,
   SKY_TO_GROUND,
@@ -69,7 +69,7 @@ const WaterVaporFeedback = ({ disabled }) => {
   // (2) to update the reflected infrared fluxes and the level of water vapor
   const significantTemperatureChangeProjected =
     Math.abs(projectedTemperature - thermometerTemperature) >
-    FEEDBACK_EFFECTS_DEFAULT_EPSILON;
+    FIRST_ITERATION_EPSILON;
 
   const onToggle = (checked) => {
     dispatch(setFeedbackValues({ waterVaporFeedbackOn: checked }));

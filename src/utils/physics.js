@@ -1,10 +1,10 @@
 import {
   STEFAN_BOLTZMANN_CONSTANT,
   ZERO_KELVIN_IN_CELISUS,
-  ICE_COVER_MAX_VALUE,
-  ICE_COVER_MIN_VALUE,
-  GREENHOUSE_EFFECT_MIN_VALUE,
-  GREENHOUSE_EFFECT_MAX_VALUE,
+  MAX_ICE_COVER,
+  MIN_ICE_COVER,
+  MIN_GHE,
+  MAX_GHE,
   SOLAR_FLUXES,
   CRYOSPHERE_ALBEDO,
   SOIL_ALBEDO_TODAY,
@@ -31,11 +31,11 @@ export const computeGreenhouseEffect = (
 
   const greenhouseEffect =
     0.0499 * carbonDioxide ** 0.157 + 0.0242 * methane ** 0.191 + cTerm;
-  if (greenhouseEffect <= GREENHOUSE_EFFECT_MIN_VALUE) {
-    return GREENHOUSE_EFFECT_MIN_VALUE;
+  if (greenhouseEffect <= MIN_GHE) {
+    return MIN_GHE;
   }
-  if (greenhouseEffect >= GREENHOUSE_EFFECT_MAX_VALUE) {
-    return GREENHOUSE_EFFECT_MAX_VALUE;
+  if (greenhouseEffect >= MAX_GHE) {
+    return MAX_GHE;
   }
 
   return greenhouseEffect;
@@ -90,12 +90,12 @@ export const computeWaterVapor = (temperatureInCelsius) => {
 };
 
 export const computeIceCover = (temperatureInCelsius) => {
-  const iceCover = -1.67 * temperatureInCelsius + 35;
-  if (iceCover <= ICE_COVER_MIN_VALUE) {
-    return ICE_COVER_MIN_VALUE;
+  const iceCover = -1.59 * temperatureInCelsius + 34.3;
+  if (iceCover <= MIN_ICE_COVER) {
+    return MIN_ICE_COVER;
   }
-  if (iceCover >= ICE_COVER_MAX_VALUE) {
-    return ICE_COVER_MAX_VALUE;
+  if (iceCover >= MAX_ICE_COVER) {
+    return MAX_ICE_COVER;
   }
   return iceCover;
 };

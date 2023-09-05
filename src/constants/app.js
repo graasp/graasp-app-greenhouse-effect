@@ -20,4 +20,5 @@ export const INFRARED_RADIATION_PERIOD = 1 / 12;
 export const Y_INCREMENT = Math.PI / 8;
 
 // in the feedback effects, when temperature changes become smaller than this number, exit the loop
-export const FEEDBACK_EFFECTS_DEFAULT_EPSILON = 0.01;
+export const FIRST_ITERATION_EPSILON = 0.125;
+export const DEFAULT_EPSILON = 0.01;

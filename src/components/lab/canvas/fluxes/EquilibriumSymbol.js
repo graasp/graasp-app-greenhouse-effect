@@ -31,7 +31,7 @@ const EquilibriumSymbol = ({ bodyWidth, bodyHeight, direction }) => {
 EquilibriumSymbol.propTypes = {
   bodyWidth: PropTypes.number.isRequired,
   bodyHeight: PropTypes.number.isRequired,
-  direction: PropTypes.number.isRequired,
+  direction: PropTypes.string.isRequired,
 };
 
 export default EquilibriumSymbol;
