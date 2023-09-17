@@ -59,7 +59,7 @@ export const SIMULATION_MODES = {
   },
   MARS: {
     name: MARS,
-    carbonDioxide: 965000,
+    carbonDioxide: 950000,
     methane: 0,
     waterVapor: 210,
     iceCover: 2,
