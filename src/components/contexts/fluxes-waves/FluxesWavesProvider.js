@@ -56,7 +56,7 @@ const FluxesWavesProvider = ({ children }) => {
       ? groundBeginsY
       : firstCloudCentralCircleY - firstCloudCentralCircleRadiusY,
     height: isMars
-      ? groundBeginsY - sunBottomY
+      ? 0.75 * (groundBeginsY - sunBottomY)
       : firstCloudCentralCircleY - sunBottomY,
     startsAfterInterval: { flux: 0, wave: 0 },
   };
@@ -106,7 +106,7 @@ const FluxesWavesProvider = ({ children }) => {
     beginsX: GROUND_TO_SKY_EARTH_FLUX_ADJUSTMENT * (stageWidth - seaWidth),
     beginsY: groundBeginsY,
     endsY: isMars ? groundBeginsY - skyHeight : groundBeginsY - skyHeight / 2,
-    height: isMars ? skyHeight : skyHeight / 2,
+    height: isMars ? skyHeight + iceCapHeight * 1.5 : skyHeight / 2,
     startsAfterInterval: {
       flux: isMars
         ? TOTAL_INTERVALS_TO_COMPLETE_FLUX
