@@ -1,122 +1,86 @@
-import { setPreviousSettings } from '../../actions';
+import { storeSettings, setVariable } from '../../actions';
 import {
+  EARTH_FLUXES,
   GROUND_TO_ATMOSPHERE,
-  GROUND_TO_SKY,
-  SKY_TO_ATMOSPHERE,
-  SKY_TO_GROUND,
   SLIDERS,
   THERMOMETER,
 } from '../../constants';
 import {
-  computeIceCoverFeedbackTerms,
+  computeIceCovers,
   computeIncrements,
-  computeWaterVaporFeedbackCTerms,
-  graduallyDispatchTerms,
+  computeCTerms,
+  graduallyDispatch,
 } from './feedback-effects';
 
-export const handleWaterVaporFeedback = (
+const handleWaterFeedback = (
   sliders,
-  targetTemperature,
   dispatch,
   simulationMode,
+  settingsUnchanged,
 ) => {
-  const { carbonDioxide, methane, iceCover, cloudCover } = sliders;
-  const fluxesToBlink = [GROUND_TO_SKY, SKY_TO_GROUND, SKY_TO_ATMOSPHERE];
-  dispatch(setPreviousSettings({ fluxesToBlink }));
+  dispatch(storeSettings({ fluxesToBlink: EARTH_FLUXES }));
+  if (!settingsUnchanged) {
+    dispatch(setVariable([{}, SLIDERS, true]));
+  }
 
-  const { cTerms, runawayGreenhouseEffect } = computeWaterVaporFeedbackCTerms(
-    { carbonDioxide, methane, iceCover, cloudCover },
-    targetTemperature,
+  const { cTerms, runawayGHE } = computeCTerms(
+    sliders,
     simulationMode,
+    settingsUnchanged,
   );
 
-  graduallyDispatchTerms(
+  graduallyDispatch(
     cTerms,
     dispatch,
     [SLIDERS, THERMOMETER],
-    fluxesToBlink,
+    EARTH_FLUXES,
     () => {},
-    runawayGreenhouseEffect,
+    runawayGHE,
     true,
   );
 };
 
-export const handleIceCoverFeedback = (
-  sliders,
-  targetTemperature,
-  dispatch,
-  simulationMode,
-) => {
-  const { carbonDioxide, methane, iceCover, cloudCover, cTerm } = sliders;
-  const fluxesToBlink = [
-    GROUND_TO_SKY,
-    SKY_TO_GROUND,
-    SKY_TO_ATMOSPHERE,
-    GROUND_TO_ATMOSPHERE,
-  ];
-  dispatch(setPreviousSettings({ fluxesToBlink }));
+const handleIceFeedback = (sliders, dispatch, simulationMode) => {
+  const fluxesToBlink = [...EARTH_FLUXES, GROUND_TO_ATMOSPHERE];
+  dispatch(storeSettings({ fluxesToBlink }));
+  const { iceCovers, runawayGHE } = computeIceCovers(sliders, simulationMode);
 
-  const {
-    iceCoverTerms,
-    runawayGreenhouseEffect,
-  } = computeIceCoverFeedbackTerms(
-    { carbonDioxide, methane, iceCover, cloudCover, cTerm },
-    targetTemperature,
-    simulationMode,
-  );
-
-  graduallyDispatchTerms(
-    iceCoverTerms,
+  graduallyDispatch(
+    iceCovers,
     dispatch,
     [SLIDERS, THERMOMETER],
     fluxesToBlink,
     () => {},
-    runawayGreenhouseEffect,
+    runawayGHE,
   );
 };
 
-export const handleStandardCase = (
-  sliders,
-  thermometer,
-  dispatch,
-  callback = () => {},
-) => {
+// eslint-disable-next-line import/prefer-default-export
+export const handleDisequilibrium = (settings, dispatch, settingsUnchanged) => {
   const {
-    iceCover: sliderIceCover,
-    cloudCover: sliderCloudCover,
-    methane: sliderMethane,
-    carbonDioxide: sliderCarbonDioxide,
-  } = sliders;
-  const {
-    iceCover: thermometerIceCover,
-    cloudCover: thermometerCloudCover,
-    methane: thermometerMethane,
-    carbonDioxide: thermometerCarbonDioxide,
-  } = thermometer;
+    sliders,
+    thermometer,
+    simulationMode,
+    waterFeedback,
+    iceFeedback,
+  } = settings;
+  let callback = () => {};
 
-  const fluxesToBlink = [GROUND_TO_SKY, SKY_TO_GROUND, SKY_TO_ATMOSPHERE];
-  dispatch(setPreviousSettings({ fluxesToBlink }));
+  dispatch(storeSettings({ fluxesToBlink: EARTH_FLUXES }));
 
-  const valuesToDispatch = computeIncrements(
-    {
-      sliderIceCover,
-      sliderCloudCover,
-      sliderMethane,
-      sliderCarbonDioxide,
-    },
-    {
-      thermometerIceCover,
-      thermometerCloudCover,
-      thermometerMethane,
-      thermometerCarbonDioxide,
-    },
-  );
+  const terms = settingsUnchanged
+    ? []
+    : computeIncrements(sliders, thermometer);
 
-  graduallyDispatchTerms(
-    valuesToDispatch,
-    dispatch,
-    [THERMOMETER],
-    fluxesToBlink,
-    callback,
-  );
+  if (waterFeedback) {
+    callback = () => {
+      handleWaterFeedback(sliders, dispatch, simulationMode, settingsUnchanged);
+    };
+  } else if (iceFeedback) {
+    callback = () => {
+      handleIceFeedback(sliders, dispatch, simulationMode);
+    };
+  }
+
+  graduallyDispatch(terms, dispatch, [THERMOMETER], EARTH_FLUXES, callback);
 };

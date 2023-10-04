@@ -9,17 +9,15 @@ import {
   setVariable,
 } from '../../../../actions';
 import {
-  CLOUD_COVER_MAX_VALUE,
-  CLOUD_COVER_MIN_VALUE,
+  MAX_CLOUD_COVER,
+  MIN_CLOUD_COVER,
   GROUND_TO_ATMOSPHERE,
   CLOUD_TO_ATMOSPHERE,
   CLOUD_TO_GROUND,
-  GROUND_TO_SKY,
-  SKY_TO_GROUND,
-  SKY_TO_ATMOSPHERE,
   SLIDERS,
+  EARTH_FLUXES,
 } from '../../../../constants';
-import { keepFluxesBlinking, stopFluxesBlinking } from '../../../../utils';
+import { blinkFluxes, stopFluxesBlinking } from '../../../../utils';
 
 const CloudCover = ({ disabled, settingsUnchanged }) => {
   const { t } = useTranslation();
@@ -42,10 +40,7 @@ const CloudCover = ({ disabled, settingsUnchanged }) => {
   const onRelease = () => {
     dispatch(resetFluxesFills());
     if (sliderCloudCover !== thermometerCloudCover) {
-      keepFluxesBlinking(
-        [GROUND_TO_SKY, SKY_TO_GROUND, SKY_TO_ATMOSPHERE],
-        dispatch,
-      );
+      blinkFluxes(EARTH_FLUXES, dispatch);
     }
     if (settingsUnchanged) {
       stopFluxesBlinking();
@@ -55,8 +50,8 @@ const CloudCover = ({ disabled, settingsUnchanged }) => {
   return (
     <SliderWithLabel
       text={t('Cloud (%)')}
-      min={CLOUD_COVER_MIN_VALUE}
-      max={CLOUD_COVER_MAX_VALUE}
+      min={MIN_CLOUD_COVER}
+      max={MAX_CLOUD_COVER}
       value={sliderCloudCover}
       onChange={onChange}
       onRelease={onRelease}

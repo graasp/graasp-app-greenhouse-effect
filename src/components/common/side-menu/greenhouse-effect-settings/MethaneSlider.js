@@ -9,17 +9,17 @@ import {
   setVariable,
 } from '../../../../actions';
 import {
-  METHANE_CONCENTRATION_MAX_VALUE,
+  MAX_METHANE,
   SIMULATION_MODES,
   ON_STRING,
   AUTO_STRING,
   METHANE_SLIDER_STEP,
-  GROUND_TO_SKY,
   SKY_TO_GROUND,
   SKY_TO_ATMOSPHERE,
   SLIDERS,
+  EARTH_FLUXES,
 } from '../../../../constants';
-import { keepFluxesBlinking, stopFluxesBlinking } from '../../../../utils';
+import { blinkFluxes, stopFluxesBlinking } from '../../../../utils';
 
 const MethaneSlider = ({ disabled, settingsUnchanged }) => {
   const { t } = useTranslation();
@@ -43,10 +43,7 @@ const MethaneSlider = ({ disabled, settingsUnchanged }) => {
   const onRelease = () => {
     dispatch(resetFluxesFills());
     if (sliderMethane !== thermometerMethane) {
-      keepFluxesBlinking(
-        [GROUND_TO_SKY, SKY_TO_GROUND, SKY_TO_ATMOSPHERE],
-        dispatch,
-      );
+      blinkFluxes(EARTH_FLUXES, dispatch);
     }
     if (settingsUnchanged) {
       stopFluxesBlinking();
@@ -56,7 +53,7 @@ const MethaneSlider = ({ disabled, settingsUnchanged }) => {
   return (
     <SliderWithLabel
       text={t('CH_4 (ppm)', { escapeInterpolation: true })}
-      max={METHANE_CONCENTRATION_MAX_VALUE}
+      max={MAX_METHANE}
       value={sliderMethane}
       onChange={onChange}
       onRelease={onRelease}

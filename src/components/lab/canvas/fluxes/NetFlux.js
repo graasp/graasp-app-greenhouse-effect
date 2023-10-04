@@ -12,8 +12,8 @@ import { FluxesWavesContext } from '../../../contexts/fluxes-waves/FluxesWavesPr
 
 const NetFlux = ({ sunEnergies, earthEnergies }) => {
   const { thermometer, sliders } = useSelector(({ lab }) => lab);
-  const { temperature: thermometerTemperature } = thermometer;
-  const { temperature: impliedTemperature } = sliders;
+  const { temperature: thermoTemp } = thermometer;
+  const { temperature: impliedTemp } = sliders;
   const { netFlux } = useContext(FluxesWavesContext);
   const { beginsX, beginsY, startsAfterInterval } = netFlux;
   const { skyToAtmosphere: skyToAtmosphereCurrent } = earthEnergies;
@@ -25,9 +25,9 @@ const NetFlux = ({ sunEnergies, earthEnergies }) => {
   let skyToAtmosphere;
   const skyToAtmosphereFinal =
     sunToCloud - (cloudToAtmosphere + groundToAtmosphere);
-  if (impliedTemperature < thermometerTemperature) {
+  if (impliedTemp < thermoTemp) {
     skyToAtmosphere = Math.max(skyToAtmosphereCurrent, skyToAtmosphereFinal);
-  } else if (impliedTemperature > thermometerTemperature) {
+  } else if (impliedTemp > thermoTemp) {
     skyToAtmosphere = Math.min(skyToAtmosphereCurrent, skyToAtmosphereFinal);
   }
 
@@ -40,9 +40,7 @@ const NetFlux = ({ sunEnergies, earthEnergies }) => {
       y={beginsY}
       totalHeight={NET_FLUX_FIXED_HEIGHT}
       fill={NET_FLUX_FILL}
-      direction={
-        thermometerTemperature > impliedTemperature ? UP_STRING : DOWN_STRING
-      }
+      direction={thermoTemp > impliedTemp ? UP_STRING : DOWN_STRING}
       energy={netEnergy}
       startsAfterInterval={startsAfterInterval.flux}
       animateFlux={false}

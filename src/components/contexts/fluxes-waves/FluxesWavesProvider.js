@@ -105,7 +105,7 @@ const FluxesWavesProvider = ({ children }) => {
   const groundToSky = {
     beginsX: GROUND_TO_SKY_EARTH_FLUX_ADJUSTMENT * (stageWidth - seaWidth),
     beginsY: groundBeginsY,
-    endsY: isMars ? groundBeginsY - skyHeight : groundBeginsY - skyHeight / 2,
+    endsY: isMars ? 0 : groundBeginsY - skyHeight / 2,
     height: isMars ? skyHeight + iceCapHeight * 1.5 : skyHeight / 2,
     startsAfterInterval: {
       flux: isMars

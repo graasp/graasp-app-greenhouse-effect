@@ -6,11 +6,11 @@ import FastRewind from '@material-ui/icons/FastRewind';
 import { red } from '@material-ui/core/colors';
 import CustomButton from '../shared-components/CustomButton';
 import {
-  clearPreviousSettings,
-  restorePreviousSettings,
+  clearStoredSettings,
+  restoreSettings,
   setIsPaused,
 } from '../../../../actions';
-import { keepFluxesBlinking } from '../../../../utils';
+import { blinkFluxes } from '../../../../utils';
 import { EMPTY_STRING } from '../../../../constants';
 
 const RewindButton = ({ className }) => {
@@ -21,9 +21,9 @@ const RewindButton = ({ className }) => {
 
   const onRewind = () => {
     dispatch(setIsPaused(true));
-    dispatch(restorePreviousSettings(previousSettings));
-    keepFluxesBlinking(previousSettings.fluxesToBlink, dispatch);
-    dispatch(clearPreviousSettings({}));
+    dispatch(restoreSettings(previousSettings));
+    blinkFluxes(previousSettings.fluxesToBlink, dispatch);
+    dispatch(clearStoredSettings({}));
   };
 
   const rewindImpossible = !Object.keys(previousSettings).length;

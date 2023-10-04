@@ -4,11 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core';
 import SliderWithLabel from '../shared-components/SliderWithLabel';
-import {
-  ALBEDO_MAX_VALUE,
-  ON_STRING,
-  SIMULATION_MODES,
-} from '../../../../constants';
+import { MAX_ALBEDO, ON_STRING, SIMULATION_MODES } from '../../../../constants';
 import IceSnowCover from './IceSnowCover';
 import CloudCover from './CloudCover';
 
@@ -42,7 +38,7 @@ const Albedo = ({ settingsUnchanged }) => {
     <>
       <SliderWithLabel
         text={t('Albedo (%)')}
-        max={ALBEDO_MAX_VALUE}
+        max={MAX_ALBEDO}
         value={parseFloat((albedo.totalAlbedo * 100).toFixed(1))}
         labelClassName={classes.title}
         valueLabelDisplay={ON_STRING}

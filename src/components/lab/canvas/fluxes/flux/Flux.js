@@ -31,9 +31,9 @@ const Flux = ({
     ({ layout }) => layout.lab.stageDimensions,
   );
   const { intervalCount, thermometer, sliders } = useSelector(({ lab }) => lab);
-  const { temperature: thermometerTemperature } = thermometer;
-  const { temperature: impliedTemperature } = sliders;
-  const atEquilibrium = thermometerTemperature === impliedTemperature;
+  const { temperature: thermoTemp } = thermometer;
+  const { temperature: impliedTemp } = sliders;
+  const atEquilibrium = thermoTemp === impliedTemp;
 
   const totalWidth = calculateEnergyWidth(energy, stageWidth, netFlux);
   const showPointer = (netFlux && !atEquilibrium) || !netFlux;
@@ -88,7 +88,7 @@ const Flux = ({
             fontColor={
               netFlux ? NET_FLUX_LABEL_COLOR : FLUX_LABEL_DEFAULT_COLOR
             }
-            netFlux
+            atEquilibrium={atEquilibrium}
           />
         )}
       </Group>

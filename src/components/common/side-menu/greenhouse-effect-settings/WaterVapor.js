@@ -3,10 +3,10 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import SliderWithLabel from '../shared-components/SliderWithLabel';
 import {
-  WATER_CONCENTRATION_MAX_VALUE,
-  WATER_CONCENTRATION_MIN_VALUE_DEFAULT,
+  MAX_WATER,
+  MIN_WATER_DEFAULT,
   SIMULATION_MODES,
-  WATER_CONCENTRATION_MIN_VALUE_ON_MARS_OR_VENUS,
+  MIN_WATER_MARS_VENUS,
   ON_STRING,
 } from '../../../../constants';
 import { roundToNearestHundred } from '../../../../utils';
@@ -20,16 +20,14 @@ const WaterVapor = () => {
     simulationMode === SIMULATION_MODES.MARS.name ||
     simulationMode === SIMULATION_MODES.VENUS.name;
 
-  const WATER_CONCENTRATION_MIN_VALUE = isMarsOrVenus
-    ? WATER_CONCENTRATION_MIN_VALUE_ON_MARS_OR_VENUS
-    : WATER_CONCENTRATION_MIN_VALUE_DEFAULT;
+  const MIN_WATER = isMarsOrVenus ? MIN_WATER_MARS_VENUS : MIN_WATER_DEFAULT;
 
   return (
     <SliderWithLabel
       disabled
       text={t('H_2O (ppm)', { escapeInterpolation: true })}
-      max={WATER_CONCENTRATION_MAX_VALUE}
-      min={WATER_CONCENTRATION_MIN_VALUE}
+      max={MAX_WATER}
+      min={MIN_WATER}
       value={roundToNearestHundred(waterVapor)}
       valueLabelDisplay={ON_STRING}
     />

@@ -10,8 +10,8 @@ import { FluxesWavesContext } from '../../../../contexts/fluxes-waves/FluxesWave
 const EarthFluxes = ({ earthEnergies, sunEnergies }) => {
   const { isMars } = useContext(FluxesWavesContext);
   const { fluxesFills, thermometer, sliders } = useSelector(({ lab }) => lab);
-  const { temperature: thermometerTemperature } = thermometer;
-  const { temperature: impliedTemperature } = sliders;
+  const { temperature: thermoTemp } = thermometer;
+  const { temperature: impliedTemp } = sliders;
   const { groundToSky, skyToAtmosphere, skyToGround } = fluxesFills;
 
   const {
@@ -24,7 +24,7 @@ const EarthFluxes = ({ earthEnergies, sunEnergies }) => {
 
   // due to rounding, there are cases where the sum of the emitted fluxes does not equal the original incoming flux, violating equilibrium
   // to correct these cases, at equilibrium always calculate the skyToAtmosphere energy via the other fluxes
-  const atEquilibrium = thermometerTemperature === impliedTemperature;
+  const atEquilibrium = thermoTemp === impliedTemp;
   const skyToAtmosphereDisplayedEnergy = atEquilibrium
     ? sunToCloud - (cloudToAtmosphere + groundToAtmosphere)
     : skyToAtmosphereEnergy;

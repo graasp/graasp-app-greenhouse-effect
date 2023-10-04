@@ -23,9 +23,7 @@ import ThermometerScale from './ThermometerScale';
 import ThermometerFill from './ThermometerFill';
 
 const Thermometer = ({ cursorBecomesDefault, cursorBecomesZoomIn }) => {
-  const { temperature: thermometerTemperature } = useSelector(
-    ({ lab }) => lab.thermometer,
-  );
+  const { temperature } = useSelector(({ lab }) => lab.thermometer);
   const { skyHeight, skyWidth, skyBeginsX, skyBeginsY } = useContext(
     SkyDimensionsContext,
   );
@@ -76,14 +74,14 @@ const Thermometer = ({ cursorBecomesDefault, cursorBecomesZoomIn }) => {
       <CurrentTemperature
         thermometerBodyHeight={thermometerBodyHeight}
         thermometerBaseWidth={thermometerBaseWidth}
-        temperature={thermometerTemperature}
+        temperature={temperature}
         scaleName={scaleName}
         scaleLabel={scaleLabel}
       />
       <ThermometerFill
         thermometerBodyHeight={thermometerBodyHeight}
         thermometerBaseWidth={thermometerBaseWidth}
-        temperature={thermometerTemperature}
+        temperature={temperature}
         scaleName={scaleName}
         labels={theremometerScaleLabels}
       />

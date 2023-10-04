@@ -1,6 +1,6 @@
-export const CARBON_DIOXIDE_STRING = 'carbonDioxide';
-export const METHANE_STRING = 'methane';
-export const WATER_STRING = 'water';
+export const CARBON_DIOXIDE = 'carbonDioxide';
+export const METHANE = 'methane';
+export const WATER = 'water';
 export const ON_STRING = 'on';
 export const AUTO_STRING = 'auto';
 export const UP_STRING = 'up';
@@ -25,3 +25,5 @@ export const EMPTY_STRING = '';
 export const POINTER_CURSOR = 'pointer';
 export const TOUR_TAKEN = 'TOUR_TAKEN';
 export const ALMOST_ZERO = '~0';
+export const ICE_COVER = 'iceCover';
+export const CLOUD_COVER = 'cloudCover';

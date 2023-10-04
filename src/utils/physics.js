@@ -108,7 +108,7 @@ export const roundToNearestHundred = (num) => {
   return Math.round(num / 100) * 100;
 };
 
-export const computeAllOutputs = (values, simulationMode) => {
+export const computeOutputs = (values, simulationMode) => {
   const { iceCover, cloudCover, carbonDioxide, methane, cTerm } = values;
   const albedo = computeAlbedo(iceCover, cloudCover, simulationMode);
   const greenhouseEffect = computeGreenhouseEffect(

@@ -1,5 +1,4 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Group, Line, Text } from 'react-konva';
 import { generateFluxPointerPoints } from '../../../../../utils';
@@ -22,10 +21,8 @@ const FluxPointer = ({
   fill,
   energy,
   fontColor,
+  atEquilibrium,
 }) => {
-  const { thermometer, sliders } = useSelector(({ lab }) => lab);
-  const { temperature: thermometerTemperature } = thermometer;
-  const { temperature: impliedTemperature } = sliders;
   const y = direction === UP_STRING ? -bodyHeight - pointerHeight : bodyHeight;
   const verticalAlign = direction === UP_STRING ? BOTTOM_STRING : TOP_STRING;
 
@@ -35,7 +32,6 @@ const FluxPointer = ({
     pointerHeight,
   );
 
-  const atEquilibrium = thermometerTemperature === impliedTemperature;
   const labelText = energy === 0 && !atEquilibrium ? ALMOST_ZERO : energy;
 
   return (
@@ -75,6 +71,7 @@ FluxPointer.propTypes = {
   fill: PropTypes.string.isRequired,
   energy: PropTypes.number.isRequired,
   fontColor: PropTypes.string.isRequired,
+  atEquilibrium: PropTypes.bool.isRequired,
 };
 
 export default FluxPointer;
