@@ -49,7 +49,7 @@ export const stopFluxesBlinking = () => {
   clearInterval(window.fluxBlinkingInterval);
 };
 
-export const keepFluxesBlinking = (fluxes, dispatch) => {
+export const blinkFluxes = (fluxes, dispatch) => {
   stopFluxesBlinking();
   window.fluxBlinkingInterval = setInterval(() => {
     dispatch(toggleFluxesFills(fluxes));

@@ -10,21 +10,18 @@ import { makeStyles } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import {
   CARBON_DIOXIDE_FOR_15_C,
-  GROUND_TO_SKY,
+  EARTH_FLUXES,
   RADIATION_MODES,
   SIMULATION_MODES,
-  SKY_TO_ATMOSPHERE,
-  SKY_TO_GROUND,
   THERMOMETER,
 } from '../../../constants';
 import {
   resetFluxesFills,
-  setFeedbackValues,
   setSimulationMode,
   setVariable,
   toggleZoom,
 } from '../../../actions';
-import { keepFluxesBlinking, stopFluxesBlinking } from '../../../utils';
+import { blinkFluxes, stopFluxesBlinking } from '../../../utils';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -68,22 +65,13 @@ function SimulationMode() {
     dispatch(setSimulationMode(values));
     stopFluxesBlinking();
     dispatch(resetFluxesFills());
-    dispatch(
-      setFeedbackValues({
-        waterVaporFeedbackOn: false,
-        iceCoverFeedbackOn: false,
-      }),
-    );
     dispatch(toggleZoom(false));
     if (e.target.value === SIMULATION_MODES.TODAY.name) {
       dispatch(
         setVariable([{ carbonDioxide: CARBON_DIOXIDE_FOR_15_C }, THERMOMETER]),
       );
       if (propagationComplete && radiationMode === RADIATION_MODES.FLUXES) {
-        keepFluxesBlinking(
-          [GROUND_TO_SKY, SKY_TO_GROUND, SKY_TO_ATMOSPHERE],
-          dispatch,
-        );
+        blinkFluxes(EARTH_FLUXES, dispatch);
       }
     }
   };

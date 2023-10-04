@@ -9,17 +9,17 @@ import {
   setVariable,
 } from '../../../../actions';
 import {
-  CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE_DEFAULT,
+  MAX_CARBON_DIOXIDE_DEFAULT,
   SIMULATION_MODES,
-  CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE_ON_MARS_OR_VENUS,
+  MAX_CARBON_DIOXIDE_MARS_VENUS,
   ON_STRING,
   AUTO_STRING,
-  GROUND_TO_SKY,
   SKY_TO_ATMOSPHERE,
   SKY_TO_GROUND,
   SLIDERS,
+  EARTH_FLUXES,
 } from '../../../../constants';
-import { keepFluxesBlinking, stopFluxesBlinking } from '../../../../utils';
+import { blinkFluxes, stopFluxesBlinking } from '../../../../utils';
 
 const CarbonDioxideSlider = ({ disabled, settingsUnchanged }) => {
   const { t } = useTranslation();
@@ -34,10 +34,9 @@ const CarbonDioxideSlider = ({ disabled, settingsUnchanged }) => {
     simulationMode === SIMULATION_MODES.MARS.name ||
     simulationMode === SIMULATION_MODES.VENUS.name;
 
-  // adjust CO2 and H2O concentration sliders max/min points if planet other than earth is selected
-  const CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE = isMarsOrVenus
-    ? CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE_ON_MARS_OR_VENUS
-    : CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE_DEFAULT;
+  const MAX_CARBON_DIOXIDE = isMarsOrVenus
+    ? MAX_CARBON_DIOXIDE_MARS_VENUS
+    : MAX_CARBON_DIOXIDE_DEFAULT;
 
   // transform the label on the CO2 slider when either Mars or Venus are selected
   // by default '965000' would be shown; this adds a comma separator so that it's 965,000
@@ -58,10 +57,7 @@ const CarbonDioxideSlider = ({ disabled, settingsUnchanged }) => {
   const onRelease = () => {
     dispatch(resetFluxesFills());
     if (sliderCarbonDioxide !== thermometerCarbonDioxide) {
-      keepFluxesBlinking(
-        [GROUND_TO_SKY, SKY_TO_GROUND, SKY_TO_ATMOSPHERE],
-        dispatch,
-      );
+      blinkFluxes(EARTH_FLUXES, dispatch);
     }
     if (settingsUnchanged) {
       stopFluxesBlinking();
@@ -71,7 +67,7 @@ const CarbonDioxideSlider = ({ disabled, settingsUnchanged }) => {
   return (
     <SliderWithLabel
       text={t('CO_2 (ppm)', { escapeInterpolation: true })}
-      max={CARBON_DIOXIDE_CONCENTRATION_MAX_VALUE}
+      max={MAX_CARBON_DIOXIDE}
       value={sliderCarbonDioxide}
       onChange={onChange}
       onRelease={onRelease}

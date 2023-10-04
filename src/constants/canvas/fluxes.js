@@ -19,7 +19,6 @@ export const WIDE_FLUX_MINIMUM_WIDTH = 25;
 export const FLUX_LABEL_LARGE_FONT_SIZE = 16;
 export const FLUX_LABEL_SMALL_FONT_SIZE = 13;
 
-// constants used in the creation of waves and flux arrows
 export const ENERGY_WIDTH_AS_PERCENTAGE_OF_ENERGY_VALUE = 0.575;
 export const ENERGY_WIDTH_AS_PERCENTAGE_OF_STAGE_WIDTH = 1 / 1100;
 export const LARGE_ENERGY_WIDTH_AS_PERCENTAGE_OF_STAGE_WIDTH = 0.275;
@@ -69,6 +68,7 @@ export const SKY_TO_ATMOSPHERE = {
   defaultFill: EARTH_FLUXES_DEFAULT_COLOR,
   darkFill: EARTH_FLUXES_DARK_COLOR,
 };
+export const EARTH_FLUXES = [GROUND_TO_SKY, SKY_TO_GROUND, SKY_TO_ATMOSPHERE];
 
 export const INITIAL_FLUX_FILLS = {};
 INITIAL_FLUX_FILLS[SUN_TO_CLOUD.name] = SUN_TO_CLOUD.defaultFill;

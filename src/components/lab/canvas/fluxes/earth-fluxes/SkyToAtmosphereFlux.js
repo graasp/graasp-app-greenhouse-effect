@@ -2,17 +2,15 @@ import React, { useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
-  GROUND_TO_SKY,
+  EARTH_FLUXES,
   SIMULATION_MODES,
-  SKY_TO_ATMOSPHERE,
   SKY_TO_ATMOSPHERE_FLUX_ROTATION,
-  SKY_TO_GROUND,
   UP_STRING,
 } from '../../../../../constants';
 import { FluxesWavesContext } from '../../../../contexts/fluxes-waves/FluxesWavesProvider';
 import Flux from '../flux/Flux';
 import { setIsPaused, setPropagationComplete } from '../../../../../actions';
-import { keepFluxesBlinking } from '../../../../../utils';
+import { blinkFluxes } from '../../../../../utils';
 
 const SkyToAtmosphereFlux = ({ energy, fill }) => {
   const dispatch = useDispatch();
@@ -33,10 +31,7 @@ const SkyToAtmosphereFlux = ({ energy, fill }) => {
       dispatch(setPropagationComplete(true));
       dispatch(setIsPaused(true));
       if (simulationMode === SIMULATION_MODES.TODAY.name) {
-        keepFluxesBlinking(
-          [GROUND_TO_SKY, SKY_TO_GROUND, SKY_TO_ATMOSPHERE],
-          dispatch,
-        );
+        blinkFluxes(EARTH_FLUXES, dispatch);
       }
     }
   }, [intervalCount]);

@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import {
   INITIAL_FLUX_FILLS,
   RADIATION_MODES,
@@ -8,7 +7,6 @@ import {
   THERMOMETER,
 } from '../constants';
 import {
-  SET_FEEDBACK_VALUES,
   SET_RADIATION_MODE,
   SET_IS_PAUSED,
   SET_SCALE_UNIT,
@@ -17,42 +15,43 @@ import {
   INCREMENT_INTERVAL_COUNT,
   TOGGLE_FLUXES_FILLS,
   RESET_FLUXES_FILLS,
-  SET_VALUES_TEMPORARILY,
   SET_VARIABLE,
-  SET_PREVIOUS_SETTINGS,
-  RESTORE_PREVIOUS_SETTINGS,
-  CLEAR_PREVIOUS_SETTINGS,
+  STORE_SETTINGS,
+  RESTORE_SETTINGS,
+  CLEAR_STORED_SETTINGS,
   SET_ANIMATION_PLAYING,
   SHOW_RUNAWAY_WARNING,
   SET_PROPAGATION_COMPLETE,
   SET_SHOW_NET_FLUX,
+  SET_WATER_FEEDBACK,
+  SET_ICE_FEEDBACK,
+  TOGGLE_WATER_FEEDBACK,
+  TOGGLE_ICE_FEEDBACK,
 } from '../types';
-import { adjustFluxesFills, computeAllOutputs } from '../utils';
+import {
+  adjustFluxesFills,
+  computeOutputs,
+  computeWaterVapor,
+  kelvinToCelsius,
+} from '../utils';
 
 const INITIAL_STATE = {
   isPaused: true,
-  settings: {
-    open: false,
-  },
   radiationMode: RADIATION_MODES.WAVES,
   simulationMode: INITIAL_SIMULATION_MODE.name,
   sliders: INITIAL_VARIABLES,
   thermometer: INITIAL_VARIABLES,
-  feedback: {
-    waterVaporFeedbackOn: false,
-    iceCoverFeedbackOn: false,
-  },
-  showLoader: true,
-  showSideMenu: true,
+  waterFeedback: false,
+  iceFeedback: false,
   scaleUnit: SCALE_UNITS.CELSIUS,
   intervalCount: 0,
   fluxesFills: INITIAL_FLUX_FILLS,
   previousSettings: {},
   animationPlaying: false,
   showRunawayWarning: false,
-  iceCoverTemporary: false,
   propagationComplete: false,
   showNetFlux: false,
+  iceCoverChangedFromFeedback: false,
 };
 
 export default (state = INITIAL_STATE, { type, payload }) => {
@@ -62,18 +61,21 @@ export default (state = INITIAL_STATE, { type, payload }) => {
         ...state,
         radiationMode: payload,
         showNetFlux: payload === RADIATION_MODES.FLUXES,
+        isPaused: true,
       };
     case SET_SCALE_UNIT:
       return { ...state, scaleUnit: payload };
-    case SET_FEEDBACK_VALUES:
-      return { ...state, feedback: _.merge({}, state.feedback, payload) };
+    case TOGGLE_WATER_FEEDBACK:
+      return { ...state, waterFeedback: payload };
+    case TOGGLE_ICE_FEEDBACK:
+      return { ...state, iceFeedback: payload };
     case SET_IS_PAUSED:
       return {
         ...state,
         isPaused: payload,
       };
     case SET_SIMULATION_MODE: {
-      const { greenhouseEffect, albedo, temperature } = computeAllOutputs(
+      const { greenhouseEffect, albedo, temperature } = computeOutputs(
         payload,
         payload.name,
       );
@@ -108,7 +110,7 @@ export default (state = INITIAL_STATE, { type, payload }) => {
         albedo,
         temperature,
         waterVapor: newWaterVapor,
-      } = computeAllOutputs(updatedValues, state.simulationMode);
+      } = computeOutputs(updatedValues, state.simulationMode);
       updatedValues = {
         ...updatedValues,
         greenhouseEffect,
@@ -120,53 +122,68 @@ export default (state = INITIAL_STATE, { type, payload }) => {
       finalState[section] = updatedValues;
       return finalState;
     }
-    case SET_VALUES_TEMPORARILY: {
+    case SET_WATER_FEEDBACK: {
+      const { cTerm, checked } = payload;
       const {
-        albedo,
-        temperature,
-        greenhouseEffect,
-        waterVapor: newWaterVapor,
-      } = computeAllOutputs(
-        { ...state.sliders, ...payload },
+        temperature: thermoTemp,
+        waterVapor: initialWaterVapor,
+      } = state.thermometer;
+      const { temperature, greenhouseEffect } = computeOutputs(
+        { ...state.sliders, cTerm },
+        state.simulationMode,
+      );
+      const waterVapor = checked
+        ? computeWaterVapor(kelvinToCelsius(thermoTemp))
+        : initialWaterVapor;
+      return {
+        ...state,
+        sliders: {
+          ...state.sliders,
+          greenhouseEffect,
+          temperature,
+          waterVapor,
+          cTerm,
+        },
+      };
+    }
+    case SET_ICE_FEEDBACK: {
+      const { iceCover, checked } = payload;
+      const { temperature, greenhouseEffect, albedo } = computeOutputs(
+        { ...state.sliders, iceCover },
         state.simulationMode,
       );
       return {
         ...state,
         sliders: {
           ...state.sliders,
-          albedo,
-          greenhouseEffect,
+          iceCover,
           temperature,
-          iceCover: payload.iceCover
-            ? payload.iceCover
-            : state.sliders.iceCover,
-          waterVapor:
-            payload.cTerm && payload.checked
-              ? newWaterVapor
-              : state.thermometer.waterVapor,
+          greenhouseEffect,
+          albedo,
         },
-        iceCoverTemporary: payload.iceCoverTemporary || false,
+        iceCoverChangedFromFeedback: checked,
       };
     }
-    case SET_PREVIOUS_SETTINGS:
+    case STORE_SETTINGS:
       return {
         ...state,
         previousSettings: { ...state.previousSettings, ...payload },
       };
-    case RESTORE_PREVIOUS_SETTINGS:
+    case RESTORE_SETTINGS:
       return {
         ...state,
         sliders: payload.sliders,
         thermometer: payload.thermometer,
-        feedback: payload.feedback,
+        waterFeedback: payload.waterFeedback,
+        iceFeedback: payload.iceFeedback,
         showRunawayWarning: false,
       };
-    case CLEAR_PREVIOUS_SETTINGS:
+    case CLEAR_STORED_SETTINGS:
       return { ...state, previousSettings: {} };
     case INCREMENT_INTERVAL_COUNT:
       return { ...state, intervalCount: state.intervalCount + 1 };
     case RESET: {
-      const { greenhouseEffect, albedo, temperature } = computeAllOutputs(
+      const { greenhouseEffect, albedo, temperature } = computeOutputs(
         payload,
         payload.name,
       );

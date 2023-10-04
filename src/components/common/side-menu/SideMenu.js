@@ -27,7 +27,9 @@ const useStyles = makeStyles((theme) => ({
 const SideMenu = () => {
   const classes = useStyles();
   const { showSideMenu } = useSelector(({ layout }) => layout);
-  const { sliders, thermometer } = useSelector(({ lab }) => lab);
+  const { sliders, thermometer, iceCoverChangedFromFeedback } = useSelector(
+    ({ lab }) => lab,
+  );
 
   const {
     iceCover: sliderIceCover,
@@ -43,8 +45,12 @@ const SideMenu = () => {
     carbonDioxide: thermometerCarbonDioxide,
   } = thermometer;
 
+  const iceCoverUnchanged =
+    sliderIceCover === thermometerIceCover ||
+    (sliderIceCover !== thermometerIceCover && iceCoverChangedFromFeedback);
+
   const settingsUnchanged =
-    sliderIceCover === thermometerIceCover &&
+    iceCoverUnchanged &&
     sliderCloudCover === thermometerCloudCover &&
     sliderCarbonDioxide === thermometerCarbonDioxide &&
     sliderMethane === thermometerMethane;
@@ -74,7 +80,7 @@ const SideMenu = () => {
             <GreenhouseEffectSettings settingsUnchanged={settingsUnchanged} />
           </div>
           <Divider className={classes.divider} />
-          <FeedbackToggles />
+          <FeedbackToggles settingsUnchanged={settingsUnchanged} />
         </div>
       </Drawer>
     </>

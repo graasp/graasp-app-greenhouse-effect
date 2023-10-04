@@ -1,7 +1,7 @@
 /* eslint-disable import/prefer-default-export */
-export const adjustFluxesFills = (originalFluxesFills, fluxesToToggle) => {
+export const adjustFluxesFills = (originalFluxesFills, fluxesToBlink) => {
   const modifiedFills = { ...originalFluxesFills };
-  fluxesToToggle.forEach((flux) => {
+  fluxesToBlink.forEach((flux) => {
     if (modifiedFills[flux.name] === flux.defaultFill) {
       modifiedFills[flux.name] = flux.darkFill;
     } else {

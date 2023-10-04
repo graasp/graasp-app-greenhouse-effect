@@ -1,5 +1,6 @@
 import {
-  SET_FEEDBACK_VALUES,
+  TOGGLE_WATER_FEEDBACK,
+  TOGGLE_ICE_FEEDBACK,
   SET_RADIATION_MODE,
   SET_IS_PAUSED,
   SET_SCALE_UNIT,
@@ -8,24 +9,28 @@ import {
   INCREMENT_INTERVAL_COUNT,
   TOGGLE_FLUXES_FILLS,
   RESET_FLUXES_FILLS,
-  SET_VALUES_TEMPORARILY,
   SET_VARIABLE,
-  SET_PREVIOUS_SETTINGS,
-  RESTORE_PREVIOUS_SETTINGS,
-  CLEAR_PREVIOUS_SETTINGS,
+  STORE_SETTINGS,
+  RESTORE_SETTINGS,
+  CLEAR_STORED_SETTINGS,
   SET_ANIMATION_PLAYING,
   SHOW_RUNAWAY_WARNING,
   SET_PROPAGATION_COMPLETE,
   SET_SHOW_NET_FLUX,
+  SET_WATER_FEEDBACK,
+  SET_ICE_FEEDBACK,
 } from '../types';
 
-export const setFeedbackValues = (payload) => (dispatch) => {
-  dispatch({ type: SET_FEEDBACK_VALUES, payload });
+export const toggleWaterFeedback = (payload) => (dispatch) => {
+  dispatch({ type: TOGGLE_WATER_FEEDBACK, payload });
+};
+
+export const toggleIceFeedback = (payload) => (dispatch) => {
+  dispatch({ type: TOGGLE_ICE_FEEDBACK, payload });
 };
 
 export const setRadiationMode = (payload) => (dispatch) => {
   dispatch({ type: SET_RADIATION_MODE, payload });
-  dispatch({ type: SET_IS_PAUSED, payload: true });
 };
 
 export const setScaleUnit = (payload) => (dispatch) => {
@@ -58,17 +63,14 @@ export const resetFluxesFills = () => (dispatch) =>
 export const setVariable = (payload) => (dispatch) =>
   dispatch({ type: SET_VARIABLE, payload });
 
-export const setValuesTemporarily = (payload) => (dispatch) =>
-  dispatch({ type: SET_VALUES_TEMPORARILY, payload });
+export const storeSettings = (payload) => (dispatch) =>
+  dispatch({ type: STORE_SETTINGS, payload });
 
-export const setPreviousSettings = (payload) => (dispatch) =>
-  dispatch({ type: SET_PREVIOUS_SETTINGS, payload });
+export const restoreSettings = (payload) => (dispatch) =>
+  dispatch({ type: RESTORE_SETTINGS, payload });
 
-export const restorePreviousSettings = (payload) => (dispatch) =>
-  dispatch({ type: RESTORE_PREVIOUS_SETTINGS, payload });
-
-export const clearPreviousSettings = () => (dispatch) =>
-  dispatch({ type: CLEAR_PREVIOUS_SETTINGS });
+export const clearStoredSettings = () => (dispatch) =>
+  dispatch({ type: CLEAR_STORED_SETTINGS });
 
 export const setAnimationPlaying = (payload) => (dispatch) =>
   dispatch({ type: SET_ANIMATION_PLAYING, payload });
@@ -81,3 +83,9 @@ export const setPropagationComplete = (payload) => (dispatch) =>
 
 export const setShowNetFlux = (payload) => (dispatch) =>
   dispatch({ type: SET_SHOW_NET_FLUX, payload });
+
+export const setWaterFeedback = (payload) => (dispatch) =>
+  dispatch({ type: SET_WATER_FEEDBACK, payload });
+
+export const setIceFeedback = (payload) => (dispatch) =>
+  dispatch({ type: SET_ICE_FEEDBACK, payload });

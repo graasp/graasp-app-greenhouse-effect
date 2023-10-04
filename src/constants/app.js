@@ -13,12 +13,11 @@ export const GRADUAL_UPDATE_NUM_INCREMENTS = 10;
 export const GRADUAL_UPDATE_INTERVAL = 500;
 export const FLUX_BLINKING_INTERVAL = 500;
 
-// constants for sine curves/waves
 export const Y_SHIFT_PER_INTERVAL = 1.25 * Math.PI;
 export const VISIBLE_LIGHT_PERIOD = 1 / 6;
 export const INFRARED_RADIATION_PERIOD = 1 / 12;
 export const Y_INCREMENT = Math.PI / 8;
 
 // in the feedback effects, when temperature changes become smaller than this number, exit the loop
-export const FIRST_ITERATION_EPSILON = 0.125;
+export const FIRST_EPSILON = 0.125;
 export const DEFAULT_EPSILON = 0.01;
