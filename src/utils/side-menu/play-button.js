@@ -2,6 +2,7 @@ import { storeSettings, setVariable } from '../../actions';
 import {
   EARTH_FLUXES,
   GROUND_TO_ATMOSPHERE,
+  RADIATION_MODES,
   SLIDERS,
   THERMOMETER,
 } from '../../constants';
@@ -28,6 +29,8 @@ const handleWaterFeedback = (
     simulationMode,
     settingsUnchanged,
   );
+  const pauseAfterPlaying = true;
+  const updateWaterVapor = true;
 
   graduallyDispatch(
     cTerms,
@@ -35,8 +38,9 @@ const handleWaterFeedback = (
     [SLIDERS, THERMOMETER],
     EARTH_FLUXES,
     () => {},
+    pauseAfterPlaying,
     runawayGHE,
-    true,
+    updateWaterVapor,
   );
 };
 
@@ -44,6 +48,7 @@ const handleIceFeedback = (sliders, dispatch, simulationMode) => {
   const fluxesToBlink = [...EARTH_FLUXES, GROUND_TO_ATMOSPHERE];
   dispatch(storeSettings({ fluxesToBlink }));
   const { iceCovers, runawayGHE } = computeIceCovers(sliders, simulationMode);
+  const pauseAfterPlaying = true;
 
   graduallyDispatch(
     iceCovers,
@@ -51,6 +56,7 @@ const handleIceFeedback = (sliders, dispatch, simulationMode) => {
     [SLIDERS, THERMOMETER],
     fluxesToBlink,
     () => {},
+    pauseAfterPlaying,
     runawayGHE,
   );
 };
@@ -63,8 +69,11 @@ export const handleDisequilibrium = (settings, dispatch, settingsUnchanged) => {
     simulationMode,
     waterFeedback,
     iceFeedback,
+    radiationMode,
   } = settings;
   let callback = () => {};
+  const pauseAfterPlaying =
+    radiationMode === RADIATION_MODES.FLUXES && !waterFeedback && !iceFeedback;
 
   dispatch(storeSettings({ fluxesToBlink: EARTH_FLUXES }));
 
@@ -82,5 +91,12 @@ export const handleDisequilibrium = (settings, dispatch, settingsUnchanged) => {
     };
   }
 
-  graduallyDispatch(terms, dispatch, [THERMOMETER], EARTH_FLUXES, callback);
+  graduallyDispatch(
+    terms,
+    dispatch,
+    [THERMOMETER],
+    EARTH_FLUXES,
+    callback,
+    pauseAfterPlaying,
+  );
 };

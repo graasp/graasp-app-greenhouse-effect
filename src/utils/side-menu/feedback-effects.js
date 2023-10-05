@@ -1,6 +1,7 @@
 import {
   resetFluxesFills,
   setAnimationPlaying,
+  setIsPaused,
   setVariable,
   showRunawayWarning,
   toggleFluxesFills,
@@ -135,6 +136,7 @@ export const graduallyDispatch = (
   sections,
   fluxesToBlink,
   callback,
+  pauseAfterPlaying = false,
   runawayGHE = false,
   updateWaterVapor = false,
 ) => {
@@ -151,6 +153,9 @@ export const graduallyDispatch = (
         callback();
         if (runawayGHE) {
           dispatch(showRunawayWarning(true));
+        }
+        if (pauseAfterPlaying) {
+          dispatch(setIsPaused(true));
         }
       }
     }, GRADUAL_UPDATE_INTERVAL * (i + 1));
