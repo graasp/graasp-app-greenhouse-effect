@@ -25,11 +25,9 @@ const Molecules = ({
   cursorBecomesZoomOut,
   maxDistribution,
 }) => {
-  const { sliders } = useSelector(({ lab }) => lab);
-
+  const { sliders, simulationMode } = useSelector(({ lab }) => lab);
   const { carbonDioxide, methane, waterVapor } = sliders;
-
-  const moleculeDistribution = distributeMolecules(maxDistribution, [
+  const currentDistribution = [
     {
       name: CARBON_DIOXIDE,
       count: Math.min(carbonDioxide, MAX_CARBON_DIOXIDE_DEFAULT),
@@ -42,8 +40,17 @@ const Molecules = ({
       name: WATER,
       count: Math.min(waterVapor, MAX_WATER),
     },
-  ]);
-  const chunkedDistribution = chunkMolecules(moleculeDistribution);
+  ];
+
+  const moleculeDistribution = distributeMolecules(
+    maxDistribution,
+    currentDistribution,
+    simulationMode,
+  );
+  const chunkedDistribution = chunkMolecules(
+    moleculeDistribution,
+    simulationMode,
+  );
   const yPoints = determineMoleculeRowsCenterYs();
 
   // map each molecule id to the corresponding React component

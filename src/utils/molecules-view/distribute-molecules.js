@@ -5,7 +5,11 @@ import {
   OXYGEN,
   MOLECULE_DISTRIBUTION_MAX_X,
   MOLECULE_DISTRIBUTION_MIN_X,
-  GREENHOUSE_GAS_DISTRIBUTION_SCALE_FACTORS,
+  DISTRIBUTION_SCALARS,
+  CARBON_DIOXIDE,
+  SIMULATION_MODES,
+  MARS_ZOOM_CARBON_DIOXIDE,
+  VENUS_ZOOM_CARBON_DIOXIDE,
 } from '../../constants';
 
 // this function determines: (1) How many CO2 molecules can be veritcally placed on the sky,
@@ -32,7 +36,7 @@ export const determineMoleculeRowsCenterYs = () => {
 };
 
 // given flat array of the form [{CO2}, {H2O}, {CO2}, ...], return chunked array where molecules are distributed on numberOfRows
-export const chunkMolecules = (moleculeDistribution) => {
+export const chunkMolecules = (moleculeDistribution, simulationMode) => {
   const centerYs = determineMoleculeRowsCenterYs();
   const numberOfRows = centerYs.length;
 
@@ -47,7 +51,9 @@ export const chunkMolecules = (moleculeDistribution) => {
     );
   }
 
-  return chunkedDistribution;
+  return simulationMode === SIMULATION_MODES.MARS.name
+    ? _.shuffle(chunkedDistribution)
+    : chunkedDistribution;
 };
 
 // when zoomed in on the canvas, we want to see randomly scattered CO2/H2O/CH4 molecules
@@ -59,7 +65,7 @@ export const chunkMolecules = (moleculeDistribution) => {
 // (and this would look odd, with molecules jumping around)
 export const createMaxDistribution = (
   maxMoleculeCounts,
-  scaleFactors = GREENHOUSE_GAS_DISTRIBUTION_SCALE_FACTORS,
+  scaleFactors = DISTRIBUTION_SCALARS,
 ) => {
   // in order to prevent the screen from being over-crowded with a particular molecule, we scale down the count of some molecules
   // for example, the app's upper limit for CO2 is 1000 ppm, but we scale this number down by 10
@@ -91,12 +97,34 @@ export const createMaxDistribution = (
   return _.shuffle(allMolecules);
 };
 
+const createCustomDistribution = (simulationMode) => {
+  const carbonDioxideCount =
+    simulationMode === SIMULATION_MODES.MARS.name
+      ? MARS_ZOOM_CARBON_DIOXIDE
+      : VENUS_ZOOM_CARBON_DIOXIDE;
+
+  return new Array(carbonDioxideCount).fill().map(() => ({
+    name: CARBON_DIOXIDE,
+    switchedOn: true,
+    centerX: Math.random(),
+    rotation: Math.random() * 180,
+  }));
+};
+
 // given a maximum distribution and the current levels of CO2/H2O/CH4, switch on/off CO2/H2O/CH4 molecules to match these levels
 export const distributeMolecules = (
   maxDistribution,
   newDistribution,
-  scaleFactors = GREENHOUSE_GAS_DISTRIBUTION_SCALE_FACTORS,
+  simulationMode,
+  scaleFactors = DISTRIBUTION_SCALARS,
 ) => {
+  if (
+    simulationMode === SIMULATION_MODES.MARS.name ||
+    simulationMode === SIMULATION_MODES.VENUS.name
+  ) {
+    return createCustomDistribution(simulationMode);
+  }
+
   const distributionCopy = [...maxDistribution];
 
   newDistribution.forEach(({ name, count: newCount }) => {
