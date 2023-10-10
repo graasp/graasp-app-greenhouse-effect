@@ -49,7 +49,7 @@ const SideMenu = () => {
     sliderIceCover === thermometerIceCover ||
     (sliderIceCover !== thermometerIceCover && iceCoverChangedFromFeedback);
 
-  const settingsUnchanged =
+  const slidersUnchanged =
     iceCoverUnchanged &&
     sliderCloudCover === thermometerCloudCover &&
     sliderCarbonDioxide === thermometerCarbonDioxide &&
@@ -67,7 +67,7 @@ const SideMenu = () => {
         }}
       >
         <div className={classes.contentWrapper}>
-          <AnimationControls settingsUnchanged={settingsUnchanged} />
+          <AnimationControls slidersUnchanged={slidersUnchanged} />
           <div className="radiation-mode">
             <RadiationModeSwitch />
           </div>
@@ -77,10 +77,10 @@ const SideMenu = () => {
             <SimulationMode />
           </div>
           <div className="settings">
-            <GreenhouseEffectSettings settingsUnchanged={settingsUnchanged} />
+            <GreenhouseEffectSettings slidersUnchanged={slidersUnchanged} />
           </div>
           <Divider className={classes.divider} />
-          <FeedbackToggles settingsUnchanged={settingsUnchanged} />
+          <FeedbackToggles slidersUnchanged={slidersUnchanged} />
         </div>
       </Drawer>
     </>

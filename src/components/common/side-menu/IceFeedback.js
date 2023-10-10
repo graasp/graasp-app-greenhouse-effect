@@ -22,7 +22,7 @@ import {
   GROUND_TO_ATMOSPHERE,
 } from '../../../constants';
 
-const IceFeedback = ({ disabled, settingsUnchanged }) => {
+const IceFeedback = ({ disabled, slidersUnchanged }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { iceFeedback, thermometer, simulationMode } = useSelector(
@@ -41,10 +41,10 @@ const IceFeedback = ({ disabled, settingsUnchanged }) => {
   const largeTempChange = Math.abs(temperature - thermoTemp) > FIRST_EPSILON;
 
   useEffect(() => {
-    if (iceFeedback && (largeTempChange || !settingsUnchanged)) {
+    if (iceFeedback && (largeTempChange || !slidersUnchanged)) {
       blinkFluxes([...EARTH_FLUXES, GROUND_TO_ATMOSPHERE], dispatch);
     }
-    if (!iceFeedback && !settingsUnchanged) {
+    if (!iceFeedback && !slidersUnchanged) {
       blinkFluxes(EARTH_FLUXES, dispatch);
     }
   }, [iceFeedback]);
@@ -76,7 +76,7 @@ const IceFeedback = ({ disabled, settingsUnchanged }) => {
 
 IceFeedback.propTypes = {
   disabled: PropTypes.bool.isRequired,
-  settingsUnchanged: PropTypes.bool.isRequired,
+  slidersUnchanged: PropTypes.bool.isRequired,
 };
 
 export default IceFeedback;

@@ -12,10 +12,10 @@ import {
   showRunawayWarning,
 } from '../../../../actions';
 import { stopFluxesBlinking } from '../../../../utils';
-import { handleDisequilibrium } from '../../../../utils/side-menu/play-button';
+import { handleDisequilibrium } from '../../../../utils/side-menu/handle-disequilibrium';
 import { EMPTY_STRING } from '../../../../constants';
 
-const PlayButton = ({ className, settingsUnchanged }) => {
+const PlayButton = ({ className, slidersUnchanged }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { zoomedIn } = useSelector(({ layout }) => layout);
@@ -59,7 +59,7 @@ const PlayButton = ({ className, settingsUnchanged }) => {
 
     if (thermoTemp !== impliedTemp) {
       saveSettings();
-      handleDisequilibrium(settings, dispatch, settingsUnchanged);
+      handleDisequilibrium(settings, dispatch, slidersUnchanged);
     }
   };
 
@@ -78,7 +78,7 @@ const PlayButton = ({ className, settingsUnchanged }) => {
 
 PlayButton.propTypes = {
   className: PropTypes.string.isRequired,
-  settingsUnchanged: PropTypes.bool.isRequired,
+  slidersUnchanged: PropTypes.bool.isRequired,
 };
 
 export default PlayButton;

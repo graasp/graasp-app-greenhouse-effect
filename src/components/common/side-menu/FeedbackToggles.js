@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const FeedbackToggles = ({ settingsUnchanged }) => {
+const FeedbackToggles = ({ slidersUnchanged }) => {
   const { t } = useTranslation();
   const classes = useStyles();
   const {
@@ -43,18 +43,18 @@ const FeedbackToggles = ({ settingsUnchanged }) => {
       </Typography>
       <WaterFeedback
         disabled={toggleDisabled || iceFeedback}
-        settingsUnchanged={settingsUnchanged}
+        slidersUnchanged={slidersUnchanged}
       />
       <IceFeedback
         disabled={toggleDisabled || waterFeedback}
-        settingsUnchanged={settingsUnchanged}
+        slidersUnchanged={slidersUnchanged}
       />
     </>
   );
 };
 
 FeedbackToggles.propTypes = {
-  settingsUnchanged: PropTypes.bool.isRequired,
+  slidersUnchanged: PropTypes.bool.isRequired,
 };
 
 export default FeedbackToggles;
