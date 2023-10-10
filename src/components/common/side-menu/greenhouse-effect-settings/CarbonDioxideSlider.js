@@ -21,7 +21,7 @@ import {
 } from '../../../../constants';
 import { blinkFluxes, stopFluxesBlinking } from '../../../../utils';
 
-const CarbonDioxideSlider = ({ disabled, settingsUnchanged }) => {
+const CarbonDioxideSlider = ({ disabled, slidersUnchanged }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { simulationMode, sliders, thermometer } = useSelector(
@@ -59,7 +59,7 @@ const CarbonDioxideSlider = ({ disabled, settingsUnchanged }) => {
     if (sliderCarbonDioxide !== thermometerCarbonDioxide) {
       blinkFluxes(EARTH_FLUXES, dispatch);
     }
-    if (settingsUnchanged) {
+    if (slidersUnchanged) {
       stopFluxesBlinking();
     }
   };
@@ -81,7 +81,7 @@ const CarbonDioxideSlider = ({ disabled, settingsUnchanged }) => {
 
 CarbonDioxideSlider.propTypes = {
   disabled: PropTypes.bool.isRequired,
-  settingsUnchanged: PropTypes.bool.isRequired,
+  slidersUnchanged: PropTypes.bool.isRequired,
 };
 
 export default CarbonDioxideSlider;

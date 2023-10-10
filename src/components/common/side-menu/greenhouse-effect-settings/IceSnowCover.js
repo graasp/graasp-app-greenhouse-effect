@@ -18,7 +18,7 @@ import {
 } from '../../../../constants';
 import { blinkFluxes, stopFluxesBlinking } from '../../../../utils';
 
-const IceSnowCover = ({ disabled, settingsUnchanged }) => {
+const IceSnowCover = ({ disabled, slidersUnchanged }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { sliders, thermometer, iceFeedback } = useSelector(({ lab }) => lab);
@@ -35,7 +35,7 @@ const IceSnowCover = ({ disabled, settingsUnchanged }) => {
     if (sliderIceCover !== thermometerIceCover) {
       blinkFluxes(EARTH_FLUXES, dispatch);
     }
-    if (settingsUnchanged) {
+    if (slidersUnchanged) {
       stopFluxesBlinking();
     }
   };
@@ -55,7 +55,7 @@ const IceSnowCover = ({ disabled, settingsUnchanged }) => {
 
 IceSnowCover.propTypes = {
   disabled: PropTypes.bool.isRequired,
-  settingsUnchanged: PropTypes.bool.isRequired,
+  slidersUnchanged: PropTypes.bool.isRequired,
 };
 
 export default IceSnowCover;

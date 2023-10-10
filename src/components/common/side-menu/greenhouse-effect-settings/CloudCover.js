@@ -19,7 +19,7 @@ import {
 } from '../../../../constants';
 import { blinkFluxes, stopFluxesBlinking } from '../../../../utils';
 
-const CloudCover = ({ disabled, settingsUnchanged }) => {
+const CloudCover = ({ disabled, slidersUnchanged }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { sliders, thermometer } = useSelector(({ lab }) => lab);
@@ -42,7 +42,7 @@ const CloudCover = ({ disabled, settingsUnchanged }) => {
     if (sliderCloudCover !== thermometerCloudCover) {
       blinkFluxes(EARTH_FLUXES, dispatch);
     }
-    if (settingsUnchanged) {
+    if (slidersUnchanged) {
       stopFluxesBlinking();
     }
   };
@@ -62,7 +62,7 @@ const CloudCover = ({ disabled, settingsUnchanged }) => {
 
 CloudCover.propTypes = {
   disabled: PropTypes.bool.isRequired,
-  settingsUnchanged: PropTypes.bool.isRequired,
+  slidersUnchanged: PropTypes.bool.isRequired,
 };
 
 export default CloudCover;

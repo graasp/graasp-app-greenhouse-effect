@@ -20,7 +20,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const GreenhouseEffect = ({ settingsUnchanged }) => {
+const GreenhouseEffect = ({ slidersUnchanged }) => {
   const { t } = useTranslation();
   const classes = useStyles();
   const {
@@ -49,19 +49,16 @@ const GreenhouseEffect = ({ settingsUnchanged }) => {
       />
       <CarbonDioxideSlider
         disabled={disabled}
-        settingsUnchanged={settingsUnchanged}
+        slidersUnchanged={slidersUnchanged}
       />
-      <MethaneSlider
-        disabled={disabled}
-        settingsUnchanged={settingsUnchanged}
-      />
+      <MethaneSlider disabled={disabled} slidersUnchanged={slidersUnchanged} />
       <WaterVapor />
     </>
   );
 };
 
 GreenhouseEffect.propTypes = {
-  settingsUnchanged: PropTypes.bool.isRequired,
+  slidersUnchanged: PropTypes.bool.isRequired,
 };
 
 export default GreenhouseEffect;

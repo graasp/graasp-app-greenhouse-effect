@@ -18,7 +18,7 @@ import {
 } from '../../../utils';
 import { EARTH_FLUXES, FIRST_EPSILON } from '../../../constants';
 
-const WaterFeedback = ({ settingsUnchanged, disabled }) => {
+const WaterFeedback = ({ slidersUnchanged, disabled }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { waterFeedback, simulationMode, thermometer } = useSelector(
@@ -37,7 +37,7 @@ const WaterFeedback = ({ settingsUnchanged, disabled }) => {
   const largeTempChange = Math.abs(temperature - thermoTemp) > FIRST_EPSILON;
 
   useEffect(() => {
-    if (!settingsUnchanged || (waterFeedback && largeTempChange)) {
+    if (!slidersUnchanged || (waterFeedback && largeTempChange)) {
       blinkFluxes(EARTH_FLUXES, dispatch);
     }
   }, [waterFeedback]);
@@ -69,7 +69,7 @@ const WaterFeedback = ({ settingsUnchanged, disabled }) => {
 
 WaterFeedback.propTypes = {
   disabled: PropTypes.bool.isRequired,
-  settingsUnchanged: PropTypes.bool.isRequired,
+  slidersUnchanged: PropTypes.bool.isRequired,
 };
 
 export default WaterFeedback;

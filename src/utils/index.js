@@ -10,4 +10,4 @@ export * from './canvas/thermometer';
 export * from './canvas/waves';
 export * from './molecules-view/distribute-molecules';
 export * from './molecules-view/draw-molecules';
-export * from './side-menu/feedback-effects';
+export * from './side-menu/dispatch-terms';

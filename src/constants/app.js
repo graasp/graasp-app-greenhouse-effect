@@ -9,7 +9,7 @@ export const BACKGROUND_COLOR = 'lightgrey';
 
 export const APPLICATION_INTERVAL = 50;
 export const TOTAL_INTERVALS_TO_COMPLETE_FLUX = 25;
-export const GRADUAL_UPDATE_NUM_INCREMENTS = 10;
+export const NUM_INCREMENTS = 10;
 export const GRADUAL_UPDATE_INTERVAL = 500;
 export const FLUX_BLINKING_INTERVAL = 500;
 

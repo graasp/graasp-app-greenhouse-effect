@@ -33,7 +33,7 @@ const useStyles = makeStyles(() => ({
   button: { fontSize: '1.75em' },
 }));
 
-const AnimationControls = ({ settingsUnchanged }) => {
+const AnimationControls = ({ slidersUnchanged }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { isPaused } = useSelector(({ lab }) => lab);
@@ -74,7 +74,7 @@ const AnimationControls = ({ settingsUnchanged }) => {
         {isPaused ? (
           <PlayButton
             className={classes.button}
-            settingsUnchanged={settingsUnchanged}
+            slidersUnchanged={slidersUnchanged}
           />
         ) : (
           <PauseButton className={classes.button} />
@@ -96,7 +96,7 @@ const AnimationControls = ({ settingsUnchanged }) => {
 };
 
 AnimationControls.propTypes = {
-  settingsUnchanged: PropTypes.bool.isRequired,
+  slidersUnchanged: PropTypes.bool.isRequired,
 };
 
 export default AnimationControls;

@@ -21,7 +21,7 @@ import {
 } from '../../../../constants';
 import { blinkFluxes, stopFluxesBlinking } from '../../../../utils';
 
-const MethaneSlider = ({ disabled, settingsUnchanged }) => {
+const MethaneSlider = ({ disabled, slidersUnchanged }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { simulationMode, sliders, thermometer } = useSelector(
@@ -45,7 +45,7 @@ const MethaneSlider = ({ disabled, settingsUnchanged }) => {
     if (sliderMethane !== thermometerMethane) {
       blinkFluxes(EARTH_FLUXES, dispatch);
     }
-    if (settingsUnchanged) {
+    if (slidersUnchanged) {
       stopFluxesBlinking();
     }
   };
@@ -66,7 +66,7 @@ const MethaneSlider = ({ disabled, settingsUnchanged }) => {
 
 MethaneSlider.propTypes = {
   disabled: PropTypes.bool.isRequired,
-  settingsUnchanged: PropTypes.bool.isRequired,
+  slidersUnchanged: PropTypes.bool.isRequired,
 };
 
 export default MethaneSlider;

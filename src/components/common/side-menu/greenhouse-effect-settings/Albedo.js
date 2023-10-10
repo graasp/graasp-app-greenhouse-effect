@@ -15,7 +15,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const Albedo = ({ settingsUnchanged }) => {
+const Albedo = ({ slidersUnchanged }) => {
   const { t } = useTranslation();
   const classes = useStyles();
   const {
@@ -44,14 +44,14 @@ const Albedo = ({ settingsUnchanged }) => {
         valueLabelDisplay={ON_STRING}
         disabled
       />
-      <IceSnowCover disabled={disabled} settingsUnchanged={settingsUnchanged} />
-      <CloudCover disabled={disabled} settingsUnchanged={settingsUnchanged} />
+      <IceSnowCover disabled={disabled} slidersUnchanged={slidersUnchanged} />
+      <CloudCover disabled={disabled} slidersUnchanged={slidersUnchanged} />
     </>
   );
 };
 
 Albedo.propTypes = {
-  settingsUnchanged: PropTypes.bool.isRequired,
+  slidersUnchanged: PropTypes.bool.isRequired,
 };
 
 export default Albedo;
