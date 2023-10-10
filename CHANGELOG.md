@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.6.0](https://github.com/graasp/graasp-app-greenhouse-effect/compare/v0.5.0...v0.6.0) (2023-10-10)
+
+
+### Features
+
+* auto pause animation after reaching equilibrium in fluxes ([47866ea](https://github.com/graasp/graasp-app-greenhouse-effect/commit/47866ea07b496fb6c971c17bfd5957b102e13659)), closes [#173](https://github.com/graasp/graasp-app-greenhouse-effect/issues/173)
+* fix net flux response to feedback ([43d7b90](https://github.com/graasp/graasp-app-greenhouse-effect/commit/43d7b9019db1fb31099bfcda16fdccf56c5c2297)), closes [#175](https://github.com/graasp/graasp-app-greenhouse-effect/issues/175)
+* update CO2 and flux heights on Mars ([c3363bb](https://github.com/graasp/graasp-app-greenhouse-effect/commit/c3363bb21e786b39214538ebd54a286f68b22b53)), closes [#172](https://github.com/graasp/graasp-app-greenhouse-effect/issues/172)
+* update molecule distribution on Mars and Venus ([e9e44b7](https://github.com/graasp/graasp-app-greenhouse-effect/commit/e9e44b7be5f3cd3b384796cafbbad9bd770be7f4)), closes [#174](https://github.com/graasp/graasp-app-greenhouse-effect/issues/174)
+
+
+### Bug Fixes
+
+* recongfigure feedback logic ([3132645](https://github.com/graasp/graasp-app-greenhouse-effect/commit/31326452036e60565ebc7f9cf9caf0493ffec6e3)), closes [#172](https://github.com/graasp/graasp-app-greenhouse-effect/issues/172)
+
 ## [0.5.0](https://github.com/graasp/graasp-app-greenhouse-effect/compare/v0.4.1...v0.5.0) (2023-09-05)
 
 
