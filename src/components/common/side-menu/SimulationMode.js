@@ -103,7 +103,7 @@ function SimulationMode() {
               />
             }
             label={
-              <Typography className={classes.radioText}>{name}</Typography>
+              <Typography className={classes.radioText}>{t(name)}</Typography>
             }
             disabled={!isPaused}
           />
