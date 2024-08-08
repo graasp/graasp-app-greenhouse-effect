@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.8.0](https://github.com/graasp/graasp-app-greenhouse-effect/compare/v0.7.0...v0.8.0) (2024-08-08)
+
+
+### Features
+
+* make app responsive ([3fdbe62](https://github.com/graasp/graasp-app-greenhouse-effect/commit/3fdbe6219f43759a0610107dee3475d12223416e)), closes [#181](https://github.com/graasp/graasp-app-greenhouse-effect/issues/181)
+
 ## [0.7.0](https://github.com/graasp/graasp-app-greenhouse-effect/compare/v0.6.0...v0.7.0) (2024-06-13)
 
 
