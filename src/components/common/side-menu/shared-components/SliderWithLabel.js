@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
   slider: {
     width: '50%',
+    fontSize: '0.9rem',
   },
 }));
 

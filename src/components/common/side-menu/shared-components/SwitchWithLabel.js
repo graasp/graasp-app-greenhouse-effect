@@ -14,7 +14,6 @@ const useStyles = makeStyles((theme) => ({
   },
   label: {
     display: 'block',
-    fontSize: '0.9em',
   },
 }));
 
@@ -36,7 +35,9 @@ const SwitchWithLabel = ({ isChecked, onToggle, switchLabel, disabled }) => {
   );
 
   const Label = (
-    <Typography className={classes.label}>{switchLabel}</Typography>
+    <Typography variant="body2" className={classes.label}>
+      {switchLabel}
+    </Typography>
   );
 
   return (

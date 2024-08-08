@@ -1,11 +1,16 @@
-import React, { Component } from 'react';
-import { ReactReduxContext, Provider, connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import React, { useEffect, useRef } from 'react';
+import { makeStyles } from '@material-ui/core';
+import {
+  ReactReduxContext,
+  Provider,
+  useSelector,
+  useDispatch,
+} from 'react-redux';
 import { Stage, Layer } from 'react-konva';
 import {
   BACKGROUND_COLOR,
   DEFAULT_CURSOR,
+  CANVAS_WIDTH,
   GREENHOUSE_GASES_MAX_COUNTS,
   ZOOM_IN_CURSOR,
   ZOOM_OUT_CURSOR,
@@ -15,131 +20,97 @@ import CanvasLayout from './canvas/CanvasLayout';
 import MoleculesView from './canvas/MoleculesView';
 import { createMaxDistribution } from '../../utils';
 
-const styles = () => ({
+const useStyles = makeStyles(() => ({
   container: {
-    position: 'relative',
     width: '100%',
     height: '100%',
+    position: 'relative',
     background: BACKGROUND_COLOR,
   },
-  stage: {
-    position: 'absolute',
-  },
-});
+}));
 
-class Lab extends Component {
-  static propTypes = {
-    classes: PropTypes.shape({
-      container: PropTypes.string.isRequired,
-      stage: PropTypes.string.isRequired,
-    }).isRequired,
-    dispatchSetStageDimensions: PropTypes.func.isRequired,
-    stageDimensions: PropTypes.shape({
-      width: PropTypes.number.isRequired,
-      height: PropTypes.number.isRequired,
-    }).isRequired,
-    zoomedIn: PropTypes.bool.isRequired,
-  };
+const Lab = () => {
+  const classes = useStyles();
+  const dispatch = useDispatch();
+  const { zoomedIn, showSideMenu } = useSelector(({ layout }) => layout);
+  const { height, width } = useSelector(
+    ({ layout }) => layout.lab.stageDimensions,
+  );
+  const divRef = useRef(null);
 
-  componentDidMount() {
-    this.checkSize();
-    const ro = new ResizeObserver(() => {
-      this.checkSize();
-    });
-    ro.observe(document.querySelector(`#container`));
-  }
-
-  checkSize = () => {
-    const { dispatchSetStageDimensions, stageDimensions } = this.props;
-    const stageWidth = this.container?.offsetWidth || stageDimensions.width;
-    const stageHeight = this.container?.offsetHeight || stageDimensions.height;
-    dispatchSetStageDimensions({
-      width: stageWidth,
-      height: stageHeight,
-    });
-  };
-
-  // callbacks used to transition mouse cursor when moving from/to zoom-in/zoom-out views
-  // see Sky.js for notes on/explanation of approach
-  cursorBecomesDefault = (event) => {
+  const cursorBecomesDefault = (event) => {
     const container = event.target.getStage().container();
     container.style.cursor = DEFAULT_CURSOR;
   };
 
-  cursorBecomesZoomIn = (event) => {
+  const cursorBecomesZoomIn = (event) => {
     const container = event.target.getStage().container();
     container.style.cursor = ZOOM_IN_CURSOR;
   };
 
-  cursorBecomesZoomOut = (event) => {
+  const cursorBecomesZoomOut = (event) => {
     const container = event.target.getStage().container();
     container.style.cursor = ZOOM_OUT_CURSOR;
   };
 
-  render() {
-    const { classes, stageDimensions, zoomedIn } = this.props;
-    const { height: stageHeight, width: stageWidth } = stageDimensions;
+  useEffect(() => {
+    const checkSize = () => {
+      const stageWidth = divRef.current?.offsetWidth || 0;
+      const stageHeight = divRef.current?.offsetHeight || 0;
+      dispatch(
+        setStageDimensions({
+          width: showSideMenu ? stageWidth * CANVAS_WIDTH : stageWidth,
+          height: stageHeight,
+        }),
+      );
+    };
+    const resizeObserver = new ResizeObserver(() => {
+      checkSize();
+    });
+    const mainContainer = document.querySelector('#container');
+    if (mainContainer) {
+      resizeObserver.observe(mainContainer);
+    }
+    checkSize();
+  }, [showSideMenu]);
 
-    return (
-      <div
-        className={`${classes.container}`}
-        id="container"
-        ref={(node) => {
-          this.container = node;
-        }}
-      >
-        {/* below is necessary for redux store to be accessible by konva children */}
-        {/* see https://github.com/konvajs/react-konva/issues/311 */}
-        <ReactReduxContext.Consumer>
-          {({ store }) => (
-            <Stage
-              className={classes.stage}
-              width={stageWidth}
-              height={stageHeight}
-              style={{ cursor: zoomedIn ? 'zoom-out' : 'zoom-in' }}
-            >
-              <Provider store={store}>
-                <>
-                  <Layer>
-                    {!zoomedIn && (
-                      <CanvasLayout
-                        cursorBecomesDefault={this.cursorBecomesDefault}
-                        cursorBecomesZoomIn={this.cursorBecomesZoomIn}
-                      />
-                    )}
-                  </Layer>
-                  {zoomedIn && (
-                    <MoleculesView
-                      stageWidth={stageWidth}
-                      stageHeight={stageHeight}
-                      cursorBecomesDefault={this.cursorBecomesDefault}
-                      cursorBecomesZoomOut={this.cursorBecomesZoomOut}
-                      maxDistribution={createMaxDistribution(
-                        GREENHOUSE_GASES_MAX_COUNTS,
-                      )}
+  return (
+    <div id="container" ref={divRef} className={classes.container}>
+      <ReactReduxContext.Consumer>
+        {({ store }) => (
+          <Stage
+            width={width}
+            height={height}
+            style={{ cursor: zoomedIn ? 'zoom-out' : 'zoom-in' }}
+          >
+            <Provider store={store}>
+              <>
+                <Layer>
+                  {!zoomedIn && (
+                    <CanvasLayout
+                      cursorBecomesDefault={cursorBecomesDefault}
+                      cursorBecomesZoomIn={cursorBecomesZoomIn}
                     />
                   )}
-                </>
-              </Provider>
-            </Stage>
-          )}
-        </ReactReduxContext.Consumer>
-      </div>
-    );
-  }
-}
+                </Layer>
+                {zoomedIn && (
+                  <MoleculesView
+                    stageWidth={width}
+                    stageHeight={height}
+                    cursorBecomesDefault={cursorBecomesDefault}
+                    cursorBecomesZoomOut={cursorBecomesZoomOut}
+                    maxDistribution={createMaxDistribution(
+                      GREENHOUSE_GASES_MAX_COUNTS,
+                    )}
+                  />
+                )}
+              </>
+            </Provider>
+          </Stage>
+        )}
+      </ReactReduxContext.Consumer>
+    </div>
+  );
+};
 
-const mapStateToProps = ({ layout }) => ({
-  stageDimensions: layout.lab.stageDimensions,
-  zoomedIn: layout.zoomedIn,
-});
-
-const mapDispatchToProps = { dispatchSetStageDimensions: setStageDimensions };
-
-const ConnectedComponent = connect(mapStateToProps, mapDispatchToProps)(Lab);
-
-const StyledComponent = withStyles(styles, { withTheme: true })(
-  ConnectedComponent,
-);
-
-export default StyledComponent;
+export default Lab;

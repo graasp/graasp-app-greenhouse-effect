@@ -10,6 +10,7 @@ import { RADIATION_MODES } from '../../../constants';
 const useStyles = makeStyles(() => ({
   active: { color: orange[900] },
   inactive: { color: '' },
+  container: { display: 'flex' },
 }));
 
 const NetFluxToggle = () => {
@@ -31,16 +32,21 @@ const NetFluxToggle = () => {
   const className = disabled ? classes.inactive : classes.active;
 
   return (
-    <Tooltip title={showNetFlux ? t('Hide net flux') : t('Show net flux')}>
-      <Checkbox
-        checked={showNetFlux}
-        icon={<RadioButtonUnchecked fontSize="small" className={className} />}
-        checkedIcon={
-          <RadioButtonChecked fontSize="small" className={className} />
-        }
-        onChange={onChange}
-        disabled={disabled}
-      />
+    <Tooltip
+      title={showNetFlux ? t('Hide net flux') : t('Show net flux')}
+      className={classes.container}
+    >
+      <span>
+        <Checkbox
+          checked={showNetFlux}
+          icon={<RadioButtonUnchecked fontSize="small" className={className} />}
+          checkedIcon={
+            <RadioButtonChecked fontSize="small" className={className} />
+          }
+          onChange={onChange}
+          disabled={disabled}
+        />
+      </span>
     </Tooltip>
   );
 };

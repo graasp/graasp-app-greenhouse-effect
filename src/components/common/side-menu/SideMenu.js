@@ -4,18 +4,15 @@ import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { Divider } from '@material-ui/core';
-import { DRAWER_WIDTH } from '../../../constants';
 import RadiationModeSwitch from './RadiationModeSwitch';
 import FeedbackToggles from './FeedbackToggles';
 import GreenhouseEffectSettings from './GreenhouseEffectSettings';
 import SimulationMode from './SimulationMode';
 import AnimationControls from './AnimationControls';
 import ScaleUnitSwitch from './ScaleUnitSwitch';
+import { CANVAS_WIDTH } from '../../../constants';
 
 const useStyles = makeStyles((theme) => ({
-  drawerPaper: {
-    width: DRAWER_WIDTH,
-  },
   contentWrapper: {
     margin: theme.spacing(1.5, 2),
   },
@@ -62,9 +59,7 @@ const SideMenu = () => {
         variant="persistent"
         anchor="right"
         open={showSideMenu}
-        classes={{
-          paper: classes.drawerPaper,
-        }}
+        PaperProps={{ style: { width: `${(1 - CANVAS_WIDTH) * 100}vw` } }}
       >
         <div className={classes.contentWrapper}>
           <AnimationControls slidersUnchanged={slidersUnchanged} />
