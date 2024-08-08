@@ -37,9 +37,6 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 'bold',
     marginBottom: theme.spacing(1),
   },
-  radioText: {
-    fontSize: '0.8em',
-  },
   radioButton: {
     paddingRight: 5,
     '& svg': {
@@ -102,9 +99,7 @@ function SimulationMode() {
                 className={classes.radioButton}
               />
             }
-            label={
-              <Typography className={classes.radioText}>{t(name)}</Typography>
-            }
+            label={<Typography variant="caption">{t(name)}</Typography>}
             disabled={!isPaused}
           />
         ))}

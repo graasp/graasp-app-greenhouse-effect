@@ -11,7 +11,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { withTranslation } from 'react-i18next';
 import { ReactComponent as Logo } from '../../resources/logo.svg';
 import { toggleSideMenu } from '../../actions';
-import { DRAWER_WIDTH, LOGO_SIZE } from '../../constants';
+import { CANVAS_WIDTH, LOGO_SIZE } from '../../constants';
 import { addQueryParamsToUrl } from '../../utils';
 
 const styles = (theme) => ({
@@ -29,8 +29,6 @@ const styles = (theme) => ({
     }),
   },
   appBarShift: {
-    width: `calc(100% - ${DRAWER_WIDTH}px)`,
-    marginRight: DRAWER_WIDTH,
     transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
@@ -64,6 +62,10 @@ class Header extends Component {
     showSideMenu: PropTypes.bool.isRequired,
     appInstanceId: PropTypes.string,
     spaceId: PropTypes.string,
+    stageDimensions: PropTypes.shape({
+      width: PropTypes.number.isRequired,
+      height: PropTypes.number.isRequired,
+    }).isRequired,
   };
 
   static defaultProps = {
@@ -109,13 +111,23 @@ class Header extends Component {
   };
 
   render() {
-    const { t, classes, showSideMenu } = this.props;
+    const { t, classes, showSideMenu, stageDimensions } = this.props;
+    const { width: stageWidth } = stageDimensions;
+    const drawerWidth = 1 - CANVAS_WIDTH;
+    const drawerWidthPx = drawerWidth * stageWidth;
+
+    const customStyle = {
+      width: `calc(100% - ${drawerWidthPx}px)`,
+      marginRight: drawerWidthPx,
+    };
+
     return (
       <AppBar
         position="fixed"
         className={clsx(classes.appBar, {
           [classes.appBarShift]: showSideMenu,
         })}
+        style={showSideMenu && customStyle}
       >
         <Toolbar>
           <Logo className={classes.logo} />
@@ -146,6 +158,7 @@ const mapStateToProps = ({ layout, context }) => ({
   showSideMenu: layout.showSideMenu,
   appInstanceId: context.appInstanceId,
   spaceId: context.spaceId,
+  stageDimensions: layout.lab.stageDimensions,
 });
 
 const mapDispatchToProps = {

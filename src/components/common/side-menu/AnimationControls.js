@@ -17,20 +17,29 @@ import Tour from './Tour';
 import NetFluxToggle from './NetFluxToggle';
 
 const useStyles = makeStyles(() => ({
-  buttonContainer: {
-    display: 'flex',
-  },
+  buttonContainer: { display: 'flex' },
   sideContainer: {
-    width: '20%',
+    width: '10%',
     display: 'flex',
     alignItems: 'center',
   },
   centerContainer: {
-    width: '60%',
+    width: '80%',
     display: 'flex',
     justifyContent: 'center',
   },
-  button: { fontSize: '1.75em' },
+  button: {
+    fontSize: '2.2rem',
+    '@media (min-width:1100px)': {
+      fontSize: '2.35rem',
+    },
+    '@media (min-width:1200px)': {
+      fontSize: '2.5rem',
+    },
+    '@media (min-width:1300px)': {
+      fontSize: '2.65rem',
+    },
+  },
 }));
 
 const AnimationControls = ({ slidersUnchanged }) => {
@@ -81,9 +90,9 @@ const AnimationControls = ({ slidersUnchanged }) => {
         )}
         <RewindButton className={classes.button} />
         <ResetButton className={classes.button} />
+        <NetFluxToggle />
       </div>
       <div className={classes.sideContainer}>
-        <NetFluxToggle />
         <Tour tourState={tourState} setTourState={setTourState} />
         <Tooltip title={t('Start tour')} placement="left">
           <IconButton onClick={startTour}>

@@ -38,6 +38,24 @@ const theme = createMuiTheme({
   },
   typography: {
     useNextVariants: true,
+    body2: {
+      fontSize: '0.8rem',
+      '@media (min-width:1300px)': {
+        fontSize: '0.85rem',
+      },
+      '@media (min-width:1400px)': {
+        fontSize: '0.875rem',
+      },
+    },
+    caption: {
+      fontSize: '0.75rem',
+      '@media (min-width:1300px)': {
+        fontSize: '0.8rem',
+      },
+      '@media (min-width:1400px)': {
+        fontSize: '0.825rem',
+      },
+    },
   },
 });
 
