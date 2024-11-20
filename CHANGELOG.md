@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.9.0](https://github.com/graasp/graasp-app-greenhouse-effect/compare/v0.8.1...v0.9.0) (2024-11-20)
+
+
+### Features
+
+* set radiation mode via query param ([31d9446](https://github.com/graasp/graasp-app-greenhouse-effect/commit/31d9446acb788868bfdc111019366d504fdd3a86)), closes [#188](https://github.com/graasp/graasp-app-greenhouse-effect/issues/188)
+
 ## [0.8.1](https://github.com/graasp/graasp-app-greenhouse-effect/compare/v0.8.0...v0.8.1) (2024-08-08)
 
 
