@@ -1,6 +1,5 @@
 import TOUR_STEPS from '../config/tour-steps';
 
-// eslint-disable-next-line import/prefer-default-export
 export const INITIAL_TOUR_STATE = {
   run: false,
   continuous: true,

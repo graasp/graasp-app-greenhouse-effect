@@ -4,7 +4,6 @@ import { computeIceCover, kelvinToCelsius } from '../physics';
 import { computeIceCovers } from './compute-ice-covers';
 import { dispatchFeedbackTerms } from './dispatch-terms';
 
-// eslint-disable-next-line import/prefer-default-export
 export const handleIceFeedback = (settings, dispatch, slidersUnchanged) => {
   const { sliders, simulationMode } = settings;
   const fluxesToBlink = [...EARTH_FLUXES, GROUND_TO_ATMOSPHERE];

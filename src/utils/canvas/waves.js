@@ -11,7 +11,7 @@ import {
 // i.e. y point is given, x point is determined
 // hence we can create a loop: start at a given y, increment y by yIncrement
 // the choice of increment is relevant: the more y points are input, the more the line is 'filled out'
-/* eslint-disable import/prefer-default-export */
+
 export const generateSineCurve = (
   currentInterval,
   startingPoint,

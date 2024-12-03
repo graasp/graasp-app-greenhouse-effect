@@ -7,7 +7,6 @@ import {
   projectOutputs,
 } from './helpers';
 
-// eslint-disable-next-line import/prefer-default-export
 export const computeIceCovers = (sliders, simMode) => {
   const { temperature: currentTemp } = sliders;
   const iceCovers = [{ iceCover: sliders.iceCover }];

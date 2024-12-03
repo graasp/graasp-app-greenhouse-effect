@@ -2,7 +2,6 @@ import { DEFAULT_EPSILON, FIRST_EPSILON } from '../../constants';
 import { computeCTerm, kelvinToCelsius } from '../physics';
 import { exceedsMaxTemp, isOutOfBounds, projectOutputs } from './helpers';
 
-// eslint-disable-next-line import/prefer-default-export
 export const computeCTerms = (settings, slidersUnchanged) => {
   const { sliders, simulationMode: simMode } = settings;
   const { temperature: currentTemp } = sliders;

@@ -6,7 +6,6 @@ import {
   UNEXPECTED_ERROR_MESSAGE,
 } from '../constants/messages';
 
-// eslint-disable-next-line import/prefer-default-export
 export const showErrorToast = (payload) => {
   let message = UNEXPECTED_ERROR_MESSAGE;
   if (_.isString(payload)) {

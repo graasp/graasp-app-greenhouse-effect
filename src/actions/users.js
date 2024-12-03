@@ -54,6 +54,6 @@ const getUsers = async () => async (dispatch, getState) => {
 
 export {
   // todo: remove when more exports are here
-  // eslint-disable-next-line import/prefer-default-export
+
   getUsers,
 };

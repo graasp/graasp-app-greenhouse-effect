@@ -5,7 +5,6 @@ import { handleIceFeedback } from './handle-ice-feedback';
 import { handleWaterFeedback } from './handle-water-feedback';
 import { storeBlinkingFluxes } from './helpers';
 
-// eslint-disable-next-line import/prefer-default-export
 export const handleDisequilibrium = (settings, dispatch, slidersUnchanged) => {
   const { waterFeedback, iceFeedback, radiationMode } = settings;
   storeBlinkingFluxes(dispatch);
