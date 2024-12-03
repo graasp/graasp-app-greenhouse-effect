@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.10.0](https://github.com/graasp/graasp-app-greenhouse-effect/compare/v0.9.0...v0.10.0) (2024-12-03)
+
+
+### Features
+
+* update dependencies ([#191](https://github.com/graasp/graasp-app-greenhouse-effect/issues/191)) ([b83b174](https://github.com/graasp/graasp-app-greenhouse-effect/commit/b83b1743d743ee1a9ef0a9ab55ab4bafa939b736))
+
 ## [0.9.0](https://github.com/graasp/graasp-app-greenhouse-effect/compare/v0.8.1...v0.9.0) (2024-11-20)
 
 
