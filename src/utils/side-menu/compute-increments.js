@@ -6,7 +6,6 @@ import {
   METHANE,
 } from '../../constants';
 
-// eslint-disable-next-line import/prefer-default-export
 export const computeIncrements = (settings) => {
   const { sliders, thermometer } = settings;
   const afterIncrement = (key, i) =>

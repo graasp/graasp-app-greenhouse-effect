@@ -3,7 +3,6 @@ import {
   CLOUD_PERIPHERAL_CIRCLE_RADIUS,
 } from '../../constants';
 
-/* eslint-disable import/prefer-default-export */
 export const generateCloudCircles = (
   centralCircleRadiusX,
   centralCircleRadiusY,

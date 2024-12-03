@@ -3,7 +3,6 @@ import { computeCTerms } from './compute-c-terms';
 import { dispatchFeedbackTerms } from './dispatch-terms';
 import { setInSlider, storeBlinkingFluxes, updateWaterVapor } from './helpers';
 
-// eslint-disable-next-line import/prefer-default-export
 export const handleWaterFeedback = (settings, dispatch, slidersUnchanged) => {
   storeBlinkingFluxes(dispatch);
 

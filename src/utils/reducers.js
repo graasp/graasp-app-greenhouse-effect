@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 export const adjustFluxesFills = (originalFluxesFills, fluxesToBlink) => {
   const modifiedFills = { ...originalFluxesFills };
   fluxesToBlink.forEach((flux) => {
