@@ -23,24 +23,15 @@ const EarthWaves = ({ earthEnergies }) => {
 
   return (
     <Group>
-      <GroundToSkyWave
-        energy={groundToSky}
-        initial={groundToSkyInitial}
-        amplify={!isVenus}
-      />
+      <GroundToSkyWave energy={groundToSky} initial={groundToSkyInitial} />
       {!isMars && (
         <SkyToAtmosphereWave
           energy={skyToAtmosphere}
           initial={skyToAtmosphereInitial}
-          amplify={!isVenus}
         />
       )}
       {!isMars && (
-        <SkyToGroundWave
-          energy={skyToGround}
-          initial={skyToGroundInitial}
-          amplify={!isVenus}
-        />
+        <SkyToGroundWave energy={skyToGround} initial={skyToGroundInitial} />
       )}
     </Group>
   );
