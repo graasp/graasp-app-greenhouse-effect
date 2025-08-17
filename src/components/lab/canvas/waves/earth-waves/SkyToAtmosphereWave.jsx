@@ -10,7 +10,7 @@ import { FluxesWavesContext } from '../../../../contexts/fluxes-waves/FluxesWave
 import Wave from '../wave/Wave';
 import { setPropagationComplete } from '../../../../../actions';
 
-const SkyToAtmosphereWave = ({ energy, initial, amplify }) => {
+const SkyToAtmosphereWave = ({ energy, initial }) => {
   const dispatch = useDispatch();
   const { propagationComplete, intervalCount } = useSelector(({ lab }) => lab);
   const { skyToAtmosphere } = useContext(FluxesWavesContext);
@@ -36,7 +36,6 @@ const SkyToAtmosphereWave = ({ energy, initial, amplify }) => {
       waveColor={EARTH_FLUXES_DEFAULT_COLOR}
       energy={energy}
       initial={initial}
-      amplify={amplify}
       startsAfterInterval={startsAfterInterval.wave}
       waveRotation={SKY_TO_ATMOSPHERE_FLUX_ROTATION}
       type={INFRARED}
@@ -47,11 +46,6 @@ const SkyToAtmosphereWave = ({ energy, initial, amplify }) => {
 SkyToAtmosphereWave.propTypes = {
   energy: PropTypes.number.isRequired,
   initial: PropTypes.number.isRequired,
-  amplify: PropTypes.bool,
-};
-
-SkyToAtmosphereWave.defaultProps = {
-  amplify: false,
 };
 
 export default SkyToAtmosphereWave;

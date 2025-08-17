@@ -9,7 +9,6 @@ import {
   MINIMUM_WAVE_AMPLITUDE,
   VISIBLE_LIGHT,
   VISIBLE_LIGHT_PERIOD,
-  WAVE_AMPLIFICATION_FACTOR,
 } from '../../../../../constants';
 
 const Wave = ({
@@ -20,7 +19,6 @@ const Wave = ({
   waveRotation,
   energy,
   initial,
-  amplify,
   startsAfterInterval,
   type,
 }) => {
@@ -33,11 +31,8 @@ const Wave = ({
     type === VISIBLE_LIGHT ? VISIBLE_LIGHT_PERIOD : INFRARED_RADIATION_PERIOD;
   const initialWidth = calculateEnergyWidth(initial, stageWidth);
   const currentWidth = calculateEnergyWidth(energy, stageWidth);
-  const adjustedWidth = amplify
-    ? initialWidth + WAVE_AMPLIFICATION_FACTOR * (currentWidth - initialWidth)
-    : currentWidth;
   const amplitude = Math.max(
-    (adjustedWidth / 2) * FLUX_BODY_WIDTH_AS_PERCENTAGE_OF_TOTAL_WIDTH,
+    (currentWidth / 2) * FLUX_BODY_WIDTH_AS_PERCENTAGE_OF_TOTAL_WIDTH,
     MINIMUM_WAVE_AMPLITUDE,
   );
 
@@ -71,14 +66,12 @@ Wave.propTypes = {
   waveRotation: PropTypes.number,
   energy: PropTypes.number.isRequired,
   initial: PropTypes.number.isRequired,
-  amplify: PropTypes.bool,
   startsAfterInterval: PropTypes.number.isRequired,
   type: PropTypes.string.isRequired,
 };
 
 Wave.defaultProps = {
   waveRotation: 0,
-  amplify: false,
 };
 
 export default Wave;
