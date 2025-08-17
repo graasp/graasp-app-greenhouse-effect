@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.11.0](https://github.com/graasp/graasp-app-greenhouse-effect/compare/v0.10.0...v0.11.0) (2025-08-17)
+
+
+### Features
+
+* if slider values change, deselect period ([0ff319e](https://github.com/graasp/graasp-app-greenhouse-effect/commit/0ff319e728b47bd06f2dee476cd7f62216d38241)), closes [#194](https://github.com/graasp/graasp-app-greenhouse-effect/issues/194)
+* remove amplify factor in waves mode ([29dbc73](https://github.com/graasp/graasp-app-greenhouse-effect/commit/29dbc73847bb3725a4d169af0f372cd1c1b7d951)), closes [#193](https://github.com/graasp/graasp-app-greenhouse-effect/issues/193)
+
 ## [0.10.0](https://github.com/graasp/graasp-app-greenhouse-effect/compare/v0.9.0...v0.10.0) (2024-12-03)
 
 
