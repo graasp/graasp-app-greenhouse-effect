@@ -51,9 +51,12 @@ function SimulationMode() {
   const isPaused = useSelector(({ lab }) => lab.isPaused);
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const { simulationMode, propagationComplete, radiationMode } = useSelector(
-    ({ lab }) => lab,
-  );
+  const {
+    simulationMode,
+    sliders,
+    propagationComplete,
+    radiationMode,
+  } = useSelector(({ lab }) => lab);
 
   const handleChange = (e) => {
     const values = Object.values(SIMULATION_MODES).find(
@@ -73,6 +76,16 @@ function SimulationMode() {
     }
   };
 
+  const originalMode = Object.values(SIMULATION_MODES).find(
+    ({ name }) => name === simulationMode,
+  );
+
+  const someValueHasChanged =
+    sliders.iceCover !== originalMode.iceCover ||
+    sliders.cloudCover !== originalMode.cloudCover ||
+    sliders.methane !== originalMode.methane ||
+    sliders.carbonDioxide !== originalMode.carbonDioxide;
+
   return (
     <FormControl component="fieldset" className={classes.formControl}>
       <FormLabel component="legend">
@@ -84,7 +97,7 @@ function SimulationMode() {
         onChange={handleChange}
         defaultValue={SIMULATION_MODES.TODAY.name}
         aria-label={t('Simulation mode')}
-        value={simulationMode}
+        value={someValueHasChanged ? null : simulationMode}
         className={classes.radioGroup}
       >
         {Object.values(SIMULATION_MODES).map(({ name }) => (
